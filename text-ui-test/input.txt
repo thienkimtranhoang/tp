@@ -1,1 +1,4 @@
-James Gosling
+add category/Salary amt/1000.00 d/2025-03-06
+log-expense desc/Coffee amt/3.50 d/2025-03-06
+list income
+exit
