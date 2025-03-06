@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FinanceTracker {
-    private List<Income> incomes;
-    private List<Expense> expenses;
-    private Scanner scanner;
 
     // Command constants
     public static final String COMMAND_ADD_INCOME = "add category/";
@@ -19,13 +16,19 @@ public class FinanceTracker {
     private static final String ADD_COMMAND_PREFIX = "add ";
     private static final int ADD_COMMAND_PREFIX_LENGTH = ADD_COMMAND_PREFIX.length();
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
-    private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH = LOG_EXPENSE_COMMAND_PREFIX.length();
+    private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH =
+            LOG_EXPENSE_COMMAND_PREFIX.length();
 
     // Field prefixes for income and expense commands
     private static final String PREFIX_CATEGORY = "category/";
     private static final String PREFIX_AMOUNT = "amt/";
     private static final String PREFIX_DATE = "d/";
     private static final String PREFIX_DESCRIPTION = "desc/";
+
+    // Instance fields
+    private List<Income> incomes;
+    private List<Expense> expenses;
+    private Scanner scanner;
 
     public FinanceTracker(Scanner scanner) {
         this.incomes = new ArrayList<>();
@@ -76,7 +79,8 @@ public class FinanceTracker {
                 try {
                     amount = Double.parseDouble(part.substring(PREFIX_AMOUNT.length()));
                 } catch (NumberFormatException e) {
-                    System.out.println("Error: Invalid amount format. Please enter a valid number.");
+                    System.out.println(
+                            "Error: Invalid amount format. Please enter a valid number.");
                     return;
                 }
             } else if (part.startsWith(PREFIX_DATE)) {
@@ -99,7 +103,8 @@ public class FinanceTracker {
 
         Income income = new Income(category, amount, date);
         incomes.add(income);
-        System.out.println("Income added: " + category + ", Amount: $" + String.format("%.2f", amount) + ", Date: " + date);
+        System.out.println("Income added: " + category + ", Amount: $" +
+                String.format("%.2f", amount) + ", Date: " + date);
     }
 
     /**
@@ -127,7 +132,8 @@ public class FinanceTracker {
                 try {
                     amount = Double.parseDouble(part.substring(PREFIX_AMOUNT.length()));
                 } catch (NumberFormatException e) {
-                    System.out.println("Error: Invalid amount format. Please enter a valid number.");
+                    System.out.println(
+                            "Error: Invalid amount format. Please enter a valid number.");
                     return;
                 }
             } else if (part.startsWith(PREFIX_DATE)) {
@@ -150,7 +156,8 @@ public class FinanceTracker {
 
         Expense expense = new Expense(description, amount, date);
         expenses.add(expense);
-        System.out.println("Expense logged: " + description + ", Amount: $" + String.format("%.2f", amount) + ", Date: " + date);
+        System.out.println("Expense logged: " + description + ", Amount: $" +
+                String.format("%.2f", amount) + ", Date: " + date);
     }
 
     /**
@@ -166,9 +173,12 @@ public class FinanceTracker {
         double totalIncome = 0.0;
         System.out.println("Income Log:");
         for (Income income : incomes) {
-            System.out.println(income.getCategory() + " | $" + String.format("%.2f", income.getAmount()) + " | " + income.getDate());
+            System.out.println(income.getCategory() + " | $" +
+                    String.format("%.2f", income.getAmount()) + " | " +
+                    income.getDate());
             totalIncome += income.getAmount();
         }
         System.out.println("Total Income: $" + String.format("%.2f", totalIncome));
     }
 }
+
