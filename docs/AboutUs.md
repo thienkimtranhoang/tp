@@ -1,9 +1,17 @@
 # About us
+Hello, it's me
 
-Display | Name | Github Profile | Portfolio 
---------|:----:|:--------------:|:---------:
-![](https://via.placeholder.com/100.png?text=Photo) | John Doe | [Github](https://github.com/) | [Portfolio](docs/team/johndoe.md)
-![](https://via.placeholder.com/100.png?text=Photo) | Don Joe | [Github](https://github.com/) | [Portfolio](docs/team/johndoe.md)
-![](https://via.placeholder.com/100.png?text=Photo) | Ron John | [Github](https://github.com/) | [Portfolio](docs/team/johndoe.md)
-![](https://via.placeholder.com/100.png?text=Photo) | John Roe | [Github](https://github.com/) | [Portfolio](docs/team/johndoe.md)
-![](https://via.placeholder.com/100.png?text=Photo) | Don Roe | [Github](https://github.com/) | [Portfolio](docs/team/johndoe.md)
+[//]: # ()
+[//]: # (Display | Name | Github Profile | Portfolio )
+
+[//]: # (--------|:----:|:--------------:|:---------:)
+
+[//]: # (![]&#40;https://via.placeholder.com/100.png?text=Photo&#41; | John Doe | [Github]&#40;https://github.com/&#41; | [Portfolio]&#40;docs/team/johndoe.md&#41;)
+
+[//]: # (![]&#40;https://via.placeholder.com/100.png?text=Photo&#41; | Don Joe | [Github]&#40;https://github.com/&#41; | [Portfolio]&#40;docs/team/johndoe.md&#41;)
+
+[//]: # (![]&#40;https://via.placeholder.com/100.png?text=Photo&#41; | Ron John | [Github]&#40;https://github.com/&#41; | [Portfolio]&#40;docs/team/johndoe.md&#41;)
+
+[//]: # (![]&#40;https://via.placeholder.com/100.png?text=Photo&#41; | John Roe | [Github]&#40;https://github.com/&#41; | [Portfolio]&#40;docs/team/johndoe.md&#41;)
+
+[//]: # (![]&#40;https://via.placeholder.com/100.png?text=Photo&#41; | Don Roe | [Github]&#40;https://github.com/&#41; | [Portfolio]&#40;docs/team/johndoe.md&#41;)
