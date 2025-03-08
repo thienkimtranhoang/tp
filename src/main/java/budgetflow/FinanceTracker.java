@@ -11,6 +11,8 @@ public class FinanceTracker {
     public static final String COMMAND_LOG_EXPENSE = "log-expense ";
     public static final String COMMAND_LIST_INCOME = "list income";
     public static final String COMMAND_EXIT = "exit";
+    public static final String COMMAND_DELETE_INCOME = "delete-income ";
+
 
     // Command prefixes and their lengths (avoiding magic numbers)
     private static final String ADD_COMMAND_PREFIX = "add ";
@@ -47,6 +49,8 @@ public class FinanceTracker {
             addIncome(input);
         } else if (input.startsWith(COMMAND_LOG_EXPENSE)) {
             logExpense(input);
+        } else if (input.startsWith(COMMAND_DELETE_INCOME)) {
+            deleteIncome(input);
         } else if (COMMAND_LIST_INCOME.equals(input)) {
             listIncome();
         } else {
@@ -179,6 +183,33 @@ public class FinanceTracker {
             totalIncome += income.getAmount();
         }
         System.out.println("Total Income: $" + String.format("%.2f", totalIncome));
+    }
+
+    /**
+     * Deletes an income from the finance tracker based on its description.
+     * If multiple incomes have the same description, only the first occurrence is removed.
+     *
+     * @param income the description of the income to be deleted
+     */
+
+    public void deleteIncome(String income) {
+        if (income.startsWith(COMMAND_DELETE_INCOME)) {
+            income = income.substring(COMMAND_DELETE_INCOME.length()).trim();
+        }
+
+        boolean found = false;
+        for (int i = 0; i < incomes.size(); i++) {
+            if (incomes.get(i).getCategory().equalsIgnoreCase(income)) {
+                incomes.remove(i);
+                System.out.println("Income deleted: " + income);
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Income not found: " + income);
+        }
     }
 }
 
