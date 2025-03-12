@@ -5,6 +5,8 @@ public class Expense {
     private double amount;
     private String date;
 
+    public Expense() {};
+
     public Expense(String description, double amount, String date) {
         this.description = description;
         this.amount = amount;
