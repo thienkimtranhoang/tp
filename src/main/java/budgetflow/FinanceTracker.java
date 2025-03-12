@@ -12,6 +12,7 @@ public class FinanceTracker {
     public static final String COMMAND_LIST_INCOME = "list income";
     public static final String COMMAND_EXIT = "exit";
     public static final String COMMAND_DELETE_EXPENSE = "delete-expense ";
+    public static final String COMMAND_VIEW_EXPENSES = "view";
 
     // Command prefixes and their lengths (avoiding magic numbers)
     private static final String ADD_COMMAND_PREFIX = "add ";
@@ -29,6 +30,7 @@ public class FinanceTracker {
     // Instance fields
     private List<Income> incomes;
     private List<Expense> expenses;
+    private ExpenseList expenseList;
     private Scanner scanner;
 
     public FinanceTracker(Scanner scanner) {
