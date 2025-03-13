@@ -1,6 +1,7 @@
 package budgetflow;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,6 +14,8 @@ public class FinanceTracker {
     public static final String COMMAND_EXIT = "exit";
     public static final String COMMAND_DELETE_INCOME = "delete-income ";
     public static final String COMMAND_DELETE_EXPENSE = "delete-expense ";
+    public static final String COMMAND_VIEW_ALL_EXPENSES = "view-all-expense";
+    public static final String COMMAND_FIND_EXPENSE = "find-expense";
 
     // Command prefixes and their lengths (avoiding magic numbers)
     private static final String ADD_COMMAND_PREFIX = "add ";
@@ -30,12 +33,19 @@ public class FinanceTracker {
     // Instance fields
     private List<Income> incomes;
     private List<Expense> expenses;
+    private ExpenseList expenseList;
     private Scanner scanner;
+
+    public FinanceTracker(Collection<Expense> expenseList, Scanner scanner) {
+        this.incomes = new ArrayList<>();
+        this.scanner = scanner;
+        this.expenseList = new ExpenseList(expenseList);
+    }
 
     public FinanceTracker(Scanner scanner) {
         this.incomes = new ArrayList<>();
-        this.expenses = new ArrayList<>();
         this.scanner = scanner;
+        this.expenseList = new ExpenseList();
     }
 
     /**
@@ -55,6 +65,10 @@ public class FinanceTracker {
             listIncome();
         } else if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
             deleteExpense(input);
+        } else if (input.equals(COMMAND_VIEW_ALL_EXPENSES)) {
+            viewAllExpenses();
+        } else if (input.startsWith(COMMAND_FIND_EXPENSE)) {
+            findExpense(input);
         } else {
             System.out.println("I don't understand that command. Try again.");
         }
@@ -161,7 +175,7 @@ public class FinanceTracker {
         }
 
         Expense expense = new Expense(description, amount, date);
-        expenses.add(expense);
+        expenseList.add(expense);
         System.out.println("Expense logged: " + description + ", Amount: $" +
                 String.format("%.2f", amount) + ", Date: " + date);
     }
@@ -187,6 +201,39 @@ public class FinanceTracker {
         System.out.println("Total Income: $" + String.format("%.2f", totalIncome));
     }
 
+    /**
+     * Lists all expenses and prints the total sum.
+     * Command: view-all-expenses
+     */
+    public void viewAllExpenses() {
+        System.out.println("Expenses log: ");
+        System.out.println(expenseList);
+        System.out.println("Total Expenses: $" + String.format("%.2f", expenseList.getTotalExpenses()));
+    }
+    /**
+     * Lists all expenses with descriptions containing the keyword.
+     * Command: find-expense KEYWORD
+     *
+     * @param input the keyword used to query expenses
+     */
+    public void findExpense(String input) {
+        String keyword = "";
+        if (input.startsWith(COMMAND_FIND_EXPENSE)) {
+            keyword += input.substring(COMMAND_FIND_EXPENSE.length()).trim();
+        }
+        if (keyword.isEmpty()) {
+            System.out.println("Error: Missing keyword");
+            return;
+        }
+
+        ExpenseList matchingExpenses = expenseList.get(keyword);
+        if (matchingExpenses.getSize() == 0) {
+            System.out.println("Sorry, I cannot find any expenses matching your keyword: " + keyword);
+        } else {
+            System.out.println("Here are all matching expenses: ");
+            System.out.print(matchingExpenses);
+        }
+    }
     /**
      * Deletes an income from the finance tracker based on its description.
      * If multiple incomes have the same description, only the first occurrence is removed.
@@ -219,8 +266,7 @@ public class FinanceTracker {
 
 
     }
-
-
+  
     /**
      * Deletes an expense from the finance tracker based on its description.
      * If multiple expenses have the same description, only the first occurrence is removed.
@@ -235,9 +281,9 @@ public class FinanceTracker {
         }
 
         boolean found = false;
-        for (int i = 0; i < expenses.size(); i++) {
-            if (expenses.get(i).getDescription().equalsIgnoreCase(input)) {
-                expenses.remove(i);
+        for (int i = 0; i < expenseList.getSize(); i++) {
+            if (expenseList.get(i).getDescription().equalsIgnoreCase(input)) {
+                expenseList.delete(i);
                 System.out.println("Expense deleted: " + input);
                 found = true;
                 break;
