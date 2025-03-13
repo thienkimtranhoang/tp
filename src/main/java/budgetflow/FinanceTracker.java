@@ -65,7 +65,7 @@ public class FinanceTracker {
             listIncome();
         } else if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
             deleteExpense(input);
-        } else if (input.startsWith(COMMAND_VIEW_ALL_EXPENSES)) {
+        } else if (input.equals(COMMAND_VIEW_ALL_EXPENSES)) {
             viewAllExpenses();
         } else if (input.startsWith(COMMAND_FIND_EXPENSE)) {
             findExpense(input);
