@@ -190,6 +190,8 @@ public class FinanceTracker {
     /**
      * Deletes an income from the finance tracker based on its description.
      * If multiple incomes have the same description, only the first occurrence is removed.
+     * Expected format: delete-income DESCRIPTION
+     * Example: delete-income Part-timeJob
      *
      * @param income the description of the income to be deleted
      */
@@ -204,9 +206,26 @@ public class FinanceTracker {
             if (incomes.get(i).getCategory().equalsIgnoreCase(income)) {
                 incomes.remove(i);
                 System.out.println("Income deleted: " + income);
-/**
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+
+            System.out.println("Income not found: " + income);
+
+        }
+
+
+    }
+
+
+    /**
      * Deletes an expense from the finance tracker based on its description.
      * If multiple expenses have the same description, only the first occurrence is removed.
+     * Expected format: delete-expense DESCRIPTION
+     * Example: delete-expense LunchAtCafe
      *
      * @param input the description of the expense to be deleted
      */
@@ -226,8 +245,9 @@ public class FinanceTracker {
         }
 
         if (!found) {
-            System.out.println("Income not found: " + income);
+
             System.out.println("Expense not found: " + input);
+
         }
     }
 }
