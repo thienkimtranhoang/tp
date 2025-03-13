@@ -37,7 +37,6 @@ public class ExpenseList {
 
     /**
      * Finding an expense from the finance tracker based on its description.
-     * If multiple expenses have the same description, only the first occurrence is shown.
      *
      * @param keyword the description of the expense to be queries
      * @return all expenses matching description if found, null otherwise

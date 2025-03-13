@@ -1,6 +1,7 @@
 package budgetflow;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,6 +34,12 @@ public class FinanceTracker {
     private List<Expense> expenses;
     private ExpenseList expenseList;
     private Scanner scanner;
+
+    public FinanceTracker(Collection<Expense> expenseList, Scanner scanner) {
+        this.incomes = new ArrayList<>();
+        this.scanner = scanner;
+        this.expenseList = new ExpenseList(expenseList);
+    }
 
     public FinanceTracker(Scanner scanner) {
         this.incomes = new ArrayList<>();
@@ -226,7 +233,7 @@ public class FinanceTracker {
             System.out.println(matchingExpenses);
         }
     }
-    
+
     /**
      * Deletes an expense from the finance tracker based on its description.
      * If multiple expenses have the same description, only the first occurrence is removed.
