@@ -234,7 +234,7 @@ public class FinanceTracker {
             System.out.print(matchingExpenses);
         }
     }
-
+    /**
      * Deletes an income from the finance tracker based on its description.
      * If multiple incomes have the same description, only the first occurrence is removed.
      * Expected format: delete-income DESCRIPTION
