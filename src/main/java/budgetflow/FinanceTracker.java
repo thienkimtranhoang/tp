@@ -43,7 +43,6 @@ public class FinanceTracker {
 
     public FinanceTracker(Scanner scanner) {
         this.incomes = new ArrayList<>();
-//        this.expenses = new ArrayList<>();
         this.scanner = scanner;
         this.expenseList = new ExpenseList();
     }
@@ -173,7 +172,6 @@ public class FinanceTracker {
         }
 
         Expense expense = new Expense(description, amount, date);
-//        expenses.add(expense);
         expenseList.add(expense);
         System.out.println("Expense logged: " + description + ", Amount: $" +
                 String.format("%.2f", amount) + ", Date: " + date);

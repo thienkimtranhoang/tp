@@ -9,7 +9,8 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FinanceTrackerTest {
-    public static final String EMPTY_EXPENSE_LIST_MESSAGE = "There is currently no expense in your list right now. Please add more expenses to continue";
+    public static final String EMPTY_EXPENSE_LIST_MESSAGE =
+            "There is currently no expense in your list right now. Please add more expenses to continue";
 
     @Test
     void viewAllExpenses_normalTest() {
@@ -61,4 +62,5 @@ class FinanceTrackerTest {
 
         assertEquals(expectedOutput, outContent.toString());
     }
+
 }

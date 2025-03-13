@@ -6,7 +6,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class ExpenseList {
-    public static final String EMPTY_EXPENSE_LIST_MESSAGE = "There is currently no expense in your list right now. Please add more expenses to continue";
+    public static final String EMPTY_EXPENSE_LIST_MESSAGE =
+            "There is currently no expense in your list right now. Please add more expenses to continue";
     private ArrayList<Expense> innerList = new ArrayList<>();
     private double totalExpenses;
 
