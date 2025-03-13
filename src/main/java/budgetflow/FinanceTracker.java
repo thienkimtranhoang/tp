@@ -228,7 +228,7 @@ public class FinanceTracker {
             System.out.println("Sorry, I cannot find any expenses matching your keyword: " + keyword);
         } else {
             System.out.println("Here are all matching expenses: ");
-            System.out.println(matchingExpenses);
+            System.out.print(matchingExpenses);
         }
     }
 
