@@ -6,6 +6,8 @@ public class Expense {
     private String date;
     private String category;
 
+    public Expense() {};
+
     public Expense(String description, double amount, String date) {
         this.description = description;
         this.amount = amount;
