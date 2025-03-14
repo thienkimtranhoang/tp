@@ -83,9 +83,9 @@ class FinanceTrackerTest {
 
     private static FinanceTracker getFinanceTracker3Expenses() {
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
-        financeTracker.logExpense("log-expense desc/Lunch amt/12.5 d/2025-03-13");
-        financeTracker.logExpense("log-expense desc/Transport amt/3.2 d/2025-03-12");
-        financeTracker.logExpense("log-expense desc/Groceries amt/25.0 d/2025-03-11");
+        financeTracker.logExpense("log-expense category/food desc/Lunch  amt/12.5 d/2025-03-13");
+        financeTracker.logExpense("log-expense category/transport desc/Transport amt/3.2 d/2025-03-12");
+        financeTracker.logExpense("log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
         return financeTracker;
     }
 
@@ -122,11 +122,11 @@ class FinanceTrackerTest {
 
     private static FinanceTracker getFinanceTracker5Expenses() {
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
-        financeTracker.logExpense("log-expense desc/Lunch amt/12.5 d/2025-03-13");
-        financeTracker.logExpense("log-expense desc/Transport amt/3.2 d/2025-03-12");
-        financeTracker.logExpense("log-expense desc/LateLunch amt/13.5 d/2025-03-14");
-        financeTracker.logExpense("log-expense desc/Groceries amt/25.0 d/2025-03-11");
-        financeTracker.logExpense("log-expense desc/ExpensiveLunch amt/30.0 d/2025-03-15");
+        financeTracker.logExpense("log-expense category/food desc/Lunch amt/12.5 d/2025-03-13");
+        financeTracker.logExpense("log-expense category/transport desc/Transport  amt/3.2 d/2025-03-12");
+        financeTracker.logExpense("log-expense category/food desc/LateLunch amt/13.5 d/2025-03-14");
+        financeTracker.logExpense("log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
+        financeTracker.logExpense("log-expense category/food desc/ExpensiveLunch amt/30.0 d/2025-03-15");
         return financeTracker;
     }
 
