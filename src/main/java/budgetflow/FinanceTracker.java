@@ -1,5 +1,6 @@
 package budgetflow;
 
+import java.nio.channels.ScatteringByteChannel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,6 +13,7 @@ public class FinanceTracker {
     public static final String COMMAND_LOG_EXPENSE = "log-expense ";
     public static final String COMMAND_LIST_INCOME = "list income";
     public static final String COMMAND_EXIT = "exit";
+    private static final String COMMAND_CATEGORIZE = "categorize ";
     public static final String COMMAND_DELETE_INCOME = "delete-income ";
     public static final String COMMAND_DELETE_EXPENSE = "delete-expense ";
     public static final String COMMAND_VIEW_ALL_EXPENSES = "view-all-expense";
@@ -63,6 +65,8 @@ public class FinanceTracker {
             deleteIncome(input);
         } else if (COMMAND_LIST_INCOME.equals(input)) {
             listIncome();
+        } else if (input.startsWith(COMMAND_CATEGORIZE)) {
+            categorizeExpense(input);
         } else if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
             deleteExpense(input);
         } else if (input.equals(COMMAND_VIEW_ALL_EXPENSES)) {
@@ -227,6 +231,36 @@ public class FinanceTracker {
     }
 
     /**
+     * Categorizes an expense entry in the finance tracker.
+     * Expected format: categorize INDEX category/CATEGORY
+     * Example: categorize 2 category/Food
+     *
+     * @param input the full command string
+     */
+    public void categorizeExpense(String input) {
+        // Expected format: categorize INDEX category/CATEGORY
+        String[] parts = input.split(" ");
+
+        if (parts.length < 3 || !parts[1].matches("\\d+") || !parts[2].startsWith("category/")) {
+            System.out.println("Error: Expense category is required.");
+            return;
+        }
+
+        int index = Integer.parseInt(parts[1]); // Extract index
+        String category = parts[2].substring("category/".length()); // Extract category
+
+        // Validate index
+        if (index < 1 || index > expenses.size()) {
+            System.out.println("Error: Invalid expense index.");
+            return;
+        }
+
+        Expense expense = expenses.get(index - 1); // Convert 1-based index to 0-based
+        expense.setCategory(category);
+
+        System.out.println("Expense entry " + index + " classified as " + category);
+    }
+  
      * Lists all expenses and prints the total sum.
      * Command: view-all-expenses
      */
