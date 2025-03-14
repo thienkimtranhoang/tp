@@ -185,6 +185,13 @@ public class FinanceTracker {
         System.out.println("Total Income: $" + String.format("%.2f", totalIncome));
     }
 
+    /**
+     * Categorizes an expense entry in the finance tracker.
+     * Expected format: categorize INDEX category/CATEGORY
+     * Example: categorize 2 category/Food
+     *
+     * @param input the full command string
+     */
     public void categorizeExpense(String input) {
         // Expected format: categorize INDEX category/CATEGORY
         String[] parts = input.split(" ");
@@ -203,11 +210,9 @@ public class FinanceTracker {
             return;
         }
 
-        // Assign category
         Expense expense = expenses.get(index - 1); // Convert 1-based index to 0-based
         expense.setCategory(category);
 
-        // Confirmation message
         System.out.println("Expense entry " + index + " classified as " + category);
     }
 }
