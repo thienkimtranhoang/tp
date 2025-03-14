@@ -1,5 +1,6 @@
 package budgetflow;
 
+import java.nio.channels.ScatteringByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ public class FinanceTracker {
     public static final String COMMAND_LOG_EXPENSE = "log-expense ";
     public static final String COMMAND_LIST_INCOME = "list income";
     public static final String COMMAND_EXIT = "exit";
+    private static final String COMMAND_CATEGORIZE = "categorize ";
 
     // Command prefixes and their lengths (avoiding magic numbers)
     private static final String ADD_COMMAND_PREFIX = "add ";
@@ -49,6 +51,8 @@ public class FinanceTracker {
             logExpense(input);
         } else if (COMMAND_LIST_INCOME.equals(input)) {
             listIncome();
+        } else if (input.startsWith(COMMAND_CATEGORIZE)) {
+            categorizeExpense(input);
         } else {
             System.out.println("I don't understand that command. Try again.");
         }
@@ -179,6 +183,32 @@ public class FinanceTracker {
             totalIncome += income.getAmount();
         }
         System.out.println("Total Income: $" + String.format("%.2f", totalIncome));
+    }
+
+    public void categorizeExpense(String input) {
+        // Expected format: categorize INDEX category/CATEGORY
+        String[] parts = input.split(" ");
+
+        if (parts.length < 3 || !parts[1].matches("\\d+") || !parts[2].startsWith("category/")) {
+            System.out.println("Error: Expense category is required.");
+            return;
+        }
+
+        int index = Integer.parseInt(parts[1]); // Extract index
+        String category = parts[2].substring("category/".length()); // Extract category
+
+        // Validate index
+        if (index < 1 || index > expenses.size()) {
+            System.out.println("Error: Invalid expense index.");
+            return;
+        }
+
+        // Assign category
+        Expense expense = expenses.get(index - 1); // Convert 1-based index to 0-based
+        expense.setCategory(category);
+
+        // Confirmation message
+        System.out.println("Expense entry " + index + " classified as " + category);
     }
 }
 
