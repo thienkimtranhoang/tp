@@ -260,7 +260,7 @@ public class FinanceTracker {
 
         System.out.println("Expense entry " + index + " classified as " + category);
     }
-  
+  /*
      * Lists all expenses and prints the total sum.
      * Command: view-all-expenses
      */
