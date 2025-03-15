@@ -13,7 +13,6 @@ public class FinanceTracker {
     public static final String COMMAND_LOG_EXPENSE = "log-expense ";
     public static final String COMMAND_LIST_INCOME = "list income";
     public static final String COMMAND_EXIT = "exit";
-    private static final String COMMAND_CATEGORIZE = "categorize ";
     public static final String COMMAND_DELETE_INCOME = "delete-income ";
     public static final String COMMAND_DELETE_EXPENSE = "delete-expense ";
     public static final String COMMAND_VIEW_ALL_EXPENSES = "view-all-expense";
@@ -65,8 +64,6 @@ public class FinanceTracker {
             deleteIncome(input);
         } else if (COMMAND_LIST_INCOME.equals(input)) {
             listIncome();
-        } else if (input.startsWith(COMMAND_CATEGORIZE)) {
-            categorizeExpense(input);
         } else if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
             deleteExpense(input);
         } else if (input.equals(COMMAND_VIEW_ALL_EXPENSES)) {
@@ -147,7 +144,7 @@ public class FinanceTracker {
     /**
      * Logs an expense in the finance tracker.
      * Expected format: log-expense desc/DESCRIPTION amt/AMOUNT d/DATE
-     * Example: log-expense desc/LunchAtCafe amt/12.00 d/Feb18
+     * Example: log-expense category/Food desc/LunchAtCafe amt/12.00 d/Feb18
      *
      * @param input the full command string
      */
@@ -155,18 +152,30 @@ public class FinanceTracker {
         // Remove the "log-expense " prefix.
         input = input.substring(LOG_EXPENSE_COMMAND_PREFIX_LENGTH).trim();
 
+        String category = null;
         String description = null;
         Double amount = null;
         String date = null;
 
         // Regular expressions to extract values
+        String categoryPattern = "category/(.*?) (desc/|amt/|d/|$)";
         String descPattern = "desc/(.*?) (amt/|d/|$)";
         String amtPattern = "amt/([0-9]+(\\.[0-9]*)?)";
         String datePattern = "d/([^ ]+)";
 
+        java.util.regex.Pattern pattern;
+        java.util.regex.Matcher matcher;
+
+        // Match category
+        pattern = java.util.regex.Pattern.compile(categoryPattern);
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            category = matcher.group(1).trim();
+        }
+
         // Match description
-        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(descPattern);
-        java.util.regex.Matcher matcher = pattern.matcher(input);
+        pattern = java.util.regex.Pattern.compile(descPattern);
+        matcher = pattern.matcher(input);
         if (matcher.find()) {
             description = matcher.group(1).trim();
         }
@@ -190,6 +199,10 @@ public class FinanceTracker {
             date = matcher.group(1).trim();
         }
 
+        if (category == null || category.isEmpty()) {
+            System.out.println("Error: Expense category is required.");
+            return;
+        }
         if (description == null || description.isEmpty()) {
             System.out.println("Error: Expense description is required.");
             return;
@@ -203,10 +216,10 @@ public class FinanceTracker {
             return;
         }
 
-        Expense expense = new Expense(description, amount, date);
+        Expense expense = new Expense(category, description, amount, date);
         expenseList.add(expense);
-        System.out.println("Expense logged: " + description + ", Amount: $" +
-                String.format("%.2f", amount) + ", Date: " + date);
+        System.out.println("Expense logged: " + category + " | " + description +
+                " | $" + String.format("%.2f", amount) + " | " + date);
     }
 
     /**
@@ -231,44 +244,26 @@ public class FinanceTracker {
     }
 
     /**
-     * Categorizes an expense entry in the finance tracker.
-     * Expected format: categorize INDEX category/CATEGORY
-     * Example: categorize 2 category/Food
-     *
-     * @param input the full command string
-     */
-    public void categorizeExpense(String input) {
-        // Expected format: categorize INDEX category/CATEGORY
-        String[] parts = input.split(" ");
-
-        if (parts.length < 3 || !parts[1].matches("\\d+") || !parts[2].startsWith("category/")) {
-            System.out.println("Error: Expense category is required.");
-            return;
-        }
-
-        int index = Integer.parseInt(parts[1]); // Extract index
-        String category = parts[2].substring("category/".length()); // Extract category
-
-        // Validate index
-        if (index < 1 || index > expenses.size()) {
-            System.out.println("Error: Invalid expense index.");
-            return;
-        }
-
-        Expense expense = expenses.get(index - 1); // Convert 1-based index to 0-based
-        expense.setCategory(category);
-
-        System.out.println("Expense entry " + index + " classified as " + category);
-    }
-  /*
-     * Lists all expenses and prints the total sum.
-     * Command: view-all-expenses
+     * Lists all expenses with an index and prints the total sum.
+     * Command: view-all-expense
      */
     public void viewAllExpenses() {
-        System.out.println("Expenses log: ");
-        System.out.println(expenseList);
+        if (expenseList.getSize() == 0) {
+            System.out.println("No expenses have been logged yet.");
+            return;
+        }
+
+        System.out.println("Expenses log:");
+        for (int i = 0; i < expenseList.getSize(); i++) {
+            Expense expense = expenseList.get(i);
+            System.out.println((i + 1) + " | " + expense.getCategory() + " | " +
+                    expense.getDescription() + " | " +
+                    String.format("%.2f", expense.getAmount()) + " | " +
+                    expense.getDate());
+        }
         System.out.println("Total Expenses: $" + String.format("%.2f", expenseList.getTotalExpenses()));
     }
+
     /**
      * Lists all expenses with descriptions containing the keyword.
      * Command: find-expense KEYWORD
@@ -325,7 +320,7 @@ public class FinanceTracker {
 
 
     }
-  
+
     /**
      * Deletes an expense from the finance tracker based on its description.
      * If multiple expenses have the same description, only the first occurrence is removed.
@@ -356,4 +351,3 @@ public class FinanceTracker {
         }
     }
 }
-
