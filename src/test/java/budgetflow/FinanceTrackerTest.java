@@ -83,9 +83,17 @@ class FinanceTrackerTest {
 
     private static FinanceTracker getFinanceTracker3Expenses() {
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
-        financeTracker.logExpense("log-expense desc/Lunch amt/12.5 d/2025-03-13");
-        financeTracker.logExpense("log-expense desc/Transport amt/3.2 d/2025-03-12");
-        financeTracker.logExpense("log-expense desc/Groceries amt/25.0 d/2025-03-11");
+        financeTracker.logExpense("log-expense category/food desc/Lunch  amt/12.5 d/2025-03-13");
+        financeTracker.logExpense("log-expense category/transport desc/Transport amt/3.2 d/2025-03-12");
+        financeTracker.logExpense("log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
+        return financeTracker;
+    }
+
+    private static FinanceTracker getFinanceTracker3Income() {
+        FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
+        financeTracker.addIncome("add category/Part-timeJob amt/300.00 d/June12");
+        financeTracker.addIncome("add category/freelance amt/100.00 d/May29");
+        financeTracker.addIncome("add category/fulltime-job amt/5000.00 d/Jan1");
         return financeTracker;
     }
 
@@ -114,11 +122,11 @@ class FinanceTrackerTest {
 
     private static FinanceTracker getFinanceTracker5Expenses() {
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
-        financeTracker.logExpense("log-expense desc/Lunch amt/12.5 d/2025-03-13");
-        financeTracker.logExpense("log-expense desc/Transport amt/3.2 d/2025-03-12");
-        financeTracker.logExpense("log-expense desc/LateLunch amt/13.5 d/2025-03-14");
-        financeTracker.logExpense("log-expense desc/Groceries amt/25.0 d/2025-03-11");
-        financeTracker.logExpense("log-expense desc/ExpensiveLunch amt/30.0 d/2025-03-15");
+        financeTracker.logExpense("log-expense category/food desc/Lunch amt/12.5 d/2025-03-13");
+        financeTracker.logExpense("log-expense category/transport desc/Transport  amt/3.2 d/2025-03-12");
+        financeTracker.logExpense("log-expense category/food desc/LateLunch amt/13.5 d/2025-03-14");
+        financeTracker.logExpense("log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
+        financeTracker.logExpense("log-expense category/food desc/ExpensiveLunch amt/30.0 d/2025-03-15");
         return financeTracker;
     }
 
@@ -163,4 +171,77 @@ class FinanceTrackerTest {
         assertEquals(expectedOutput, outContent.toString());
     }
 
+    @Test
+    void deleteIncome_validIncome_expectIncomeFound() {
+
+        FinanceTracker financeTracker = getFinanceTracker3Income();
+
+        // Capture system output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        financeTracker.deleteIncome("Part-timeJob");
+
+        // Reset System.out
+        System.setOut(originalOut);
+
+        String expectedOutput = "Income deleted: Part-timeJob";
+        assertEquals(expectedOutput, outContent.toString().trim());
+    }
+
+    @Test
+    void deleteIncome_invalidIncome_expectNoIncomeFound() {
+        FinanceTracker financeTracker = getFinanceTracker3Income();
+
+        // Capture system output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        financeTracker.deleteIncome("Housework");
+
+        // Reset System.out
+        System.setOut(originalOut);
+
+        String expectedOutput = "Income not found: Housework";
+        assertEquals(expectedOutput, outContent.toString().trim());
+
+    }
+
+    @Test
+    void deleteExpense_validExpense_expectExpenseFound() {
+        FinanceTracker financeTracker = getFinanceTracker3Expenses();
+
+        // Capture system output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        financeTracker.deleteExpense("Lunch");
+
+        // Reset System.out
+        System.setOut(originalOut);
+
+        String expectedOutput = "Expense deleted: Lunch";
+        assertEquals(expectedOutput, outContent.toString().trim());
+    }
+
+    @Test
+    void deleteExpense_invalidExpense_expectExpenseNotFound() {
+        FinanceTracker financeTracker = getFinanceTracker3Expenses();
+
+        // Capture system output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        financeTracker.deleteExpense("Dinner");
+
+        // Reset System.out
+        System.setOut(originalOut);
+
+        String expectedOutput = "Expense not found: Dinner";
+        assertEquals(expectedOutput, outContent.toString().trim());
+    }
 }
