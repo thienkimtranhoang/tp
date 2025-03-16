@@ -8,7 +8,7 @@ import java.util.List;
 public class ExpenseList {
     public static final String EMPTY_EXPENSE_LIST_MESSAGE =
             "There is currently no expense in your list right now. Please add more expenses to continue";
-    private ArrayList<Expense> innerList = new ArrayList<>();
+    private final ArrayList<Expense> innerList = new ArrayList<>();
     private double totalExpenses;
 
     public ExpenseList() {}
@@ -69,6 +69,11 @@ public class ExpenseList {
         innerList.remove(index);
     }
 
+    /**
+     * Showing the list of expenses and its information regarding category, description, amount and date
+     *
+     * @return out string of expense list
+     */
     @Override
     public String toString() {
         if (innerList.isEmpty()) {
@@ -79,7 +84,8 @@ public class ExpenseList {
             if (expense == null) {
                 break;
             }
-            outString = outString + expense.getDescription() + " | $" +
+            outString = outString + expense.getCategory() + " | " +
+                    expense.getDescription() + " | $" +
                     String.format("%.2f", expense.getAmount()) + " | " +
                     expense.getDate() + System.lineSeparator();
         }
