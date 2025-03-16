@@ -14,19 +14,27 @@ class FinanceTrackerTest {
 
     private static FinanceTracker getFinanceTracker5Expenses() {
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
-        financeTracker.logExpense("log-expense category/food desc/Lunch amt/12.5 d/2025-03-13");
-        financeTracker.logExpense("log-expense category/transport desc/Transport  amt/3.2 d/2025-03-12");
-        financeTracker.logExpense("log-expense category/food desc/LateLunch amt/13.5 d/2025-03-14");
-        financeTracker.logExpense("log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
-        financeTracker.logExpense("log-expense category/food desc/ExpensiveLunch amt/30.0 d/2025-03-15");
+        financeTracker.logExpense(
+                "log-expense category/food desc/Lunch amt/12.5 d/2025-03-13");
+        financeTracker.logExpense(
+                "log-expense category/transport desc/Transport  amt/3.2 d/2025-03-12");
+        financeTracker.logExpense(
+                "log-expense category/food desc/LateLunch amt/13.5 d/2025-03-14");
+        financeTracker.logExpense(
+                "log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
+        financeTracker.logExpense(
+                "log-expense category/food desc/ExpensiveLunch amt/30.0 d/2025-03-15");
         return financeTracker;
     }
 
     private static FinanceTracker getFinanceTracker3Expenses() {
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
-        financeTracker.logExpense("log-expense category/food desc/Lunch  amt/12.5 d/2025-03-13");
-        financeTracker.logExpense("log-expense category/transport desc/Transport amt/3.2 d/2025-03-12");
-        financeTracker.logExpense("log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
+        financeTracker.logExpense(
+                "log-expense category/food desc/Lunch  amt/12.5 d/2025-03-13");
+        financeTracker.logExpense(
+                "log-expense category/transport desc/Transport amt/3.2 d/2025-03-12");
+        financeTracker.logExpense(
+                "log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
         return financeTracker;
     }
 
@@ -46,11 +54,11 @@ class FinanceTrackerTest {
         System.setOut(new PrintStream(outContent));
         financeTracker.viewAllExpenses();
         System.setOut(originalOut);
-        String expectedOutput = "Expenses log:" + System.lineSeparator() +
-                "1 | food | Lunch | $12.50 | 2025-03-13" + System.lineSeparator() +
-                "2 | transport | Transport | $3.20 | 2025-03-12" + System.lineSeparator() +
-                "3 | food | Groceries | $25.00 | 2025-03-11" + System.lineSeparator() +
-                "Total Expenses: $40.70" + System.lineSeparator();
+        String expectedOutput = "Expenses log:" + System.lineSeparator()
+                + "1 | food | Lunch | $12.50 | 2025-03-13" + System.lineSeparator()
+                + "2 | transport | Transport | $3.20 | 2025-03-12" + System.lineSeparator()
+                + "3 | food | Groceries | $25.00 | 2025-03-11" + System.lineSeparator()
+                + "Total Expenses: $40.70" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
 
@@ -74,8 +82,8 @@ class FinanceTrackerTest {
         System.setOut(new PrintStream(outContent));
         financeTracker.findExpense("find-expense Lunch");
         System.setOut(originalOut);
-        String expectedOutput = "Here are all matching expenses: " + System.lineSeparator() +
-                "food | Lunch | $12.50 | 2025-03-13" + System.lineSeparator();
+        String expectedOutput = "Here are all matching expenses: " + System.lineSeparator()
+                + "food | Lunch | $12.50 | 2025-03-13" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
 
@@ -87,10 +95,10 @@ class FinanceTrackerTest {
         System.setOut(new PrintStream(outContent));
         financeTracker.findExpense("find-expense Lunch");
         System.setOut(originalOut);
-        String expectedOutput = "Here are all matching expenses: " + System.lineSeparator() +
-                "food | Lunch | $12.50 | 2025-03-13" + System.lineSeparator() +
-                "food | LateLunch | $13.50 | 2025-03-14" + System.lineSeparator() +
-                "food | ExpensiveLunch | $30.00 | 2025-03-15" + System.lineSeparator();
+        String expectedOutput = "Here are all matching expenses: " + System.lineSeparator()
+                + "food | Lunch | $12.50 | 2025-03-13" + System.lineSeparator()
+                + "food | LateLunch | $13.50 | 2025-03-14" + System.lineSeparator()
+                + "food | ExpensiveLunch | $30.00 | 2025-03-15" + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
 
@@ -102,7 +110,8 @@ class FinanceTrackerTest {
         System.setOut(new PrintStream(outContent));
         financeTracker.findExpense("find-expense IAmDummy");
         System.setOut(originalOut);
-        String expectedOutput = "Sorry, I cannot find any expenses matching your keyword: IAmDummy" + System.lineSeparator();
+        String expectedOutput = "Sorry, I cannot find any expenses matching your keyword: IAmDummy"
+                + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
 
@@ -232,7 +241,8 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense("log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
+        financeTracker.logExpense(
+                "log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
         System.setOut(originalOut);
         String expectedOutput = "Expense logged: Dining | DinnerWithFriends | $45.75 | 2025-03-15";
         assertEquals(expectedOutput, outContent.toString().trim());
@@ -244,7 +254,8 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense("log-expense desc/DinnerWithFriends amt/45.75 d/2025-03-15");
+        financeTracker.logExpense(
+                "log-expense desc/DinnerWithFriends amt/45.75 d/2025-03-15");
         System.setOut(originalOut);
         String expectedOutput = "Error: Expense category is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
@@ -256,7 +267,8 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense("log-expense category/Dining amt/45.75 d/2025-03-15");
+        financeTracker.logExpense(
+                "log-expense category/Dining amt/45.75 d/2025-03-15");
         System.setOut(originalOut);
         String expectedOutput = "Error: Expense description is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
@@ -268,7 +280,8 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense("log-expense category/Dining desc/DinnerWithFriends d/2025-03-15");
+        financeTracker.logExpense(
+                "log-expense category/Dining desc/DinnerWithFriends d/2025-03-15");
         System.setOut(originalOut);
         String expectedOutput = "Error: Expense amount is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
@@ -280,7 +293,8 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense("log-expense category/Dining desc/DinnerWithFriends amt/45.75");
+        financeTracker.logExpense(
+                "log-expense category/Dining desc/DinnerWithFriends amt/45.75");
         System.setOut(originalOut);
         String expectedOutput = "Error: Expense date is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
@@ -292,7 +306,8 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense("log-expense category/Dining desc/DinnerWithFriends amt/invalid d/2025-03-15");
+        financeTracker.logExpense(
+                "log-expense category/Dining desc/DinnerWithFriends amt/invalid d/2025-03-15");
         System.setOut(originalOut);
         String expectedOutput = "Error: Expense amount is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
