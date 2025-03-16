@@ -1,4 +1,5 @@
 package budgetflow;
+import budgetflow.storage.Storage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,31 +21,34 @@ public class FinanceTracker {
     private static final String ADD_COMMAND_PREFIX = "add ";
     private static final int ADD_COMMAND_PREFIX_LENGTH = ADD_COMMAND_PREFIX.length();
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
-    private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH =
-            LOG_EXPENSE_COMMAND_PREFIX.length();
+    private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH = LOG_EXPENSE_COMMAND_PREFIX.length();
 
-    // Field prefixes for income and expense commands
     private static final String PREFIX_CATEGORY = "category/";
     private static final String PREFIX_AMOUNT = "amt/";
     private static final String PREFIX_DATE = "d/";
     private static final String PREFIX_DESCRIPTION = "desc/";
 
     // Instance fields
-    private final List<Income> incomes;
+    private List<Income> incomes;
     private List<Expense> expenses;
-    private final ExpenseList expenseList;
-    private final Scanner scanner;
+    private ExpenseList expenseList;
+    private Scanner scanner;
+    private Storage storage;
 
     public FinanceTracker(Collection<Expense> expenseList, Scanner scanner) {
         this.incomes = new ArrayList<>();
         this.scanner = scanner;
         this.expenseList = new ExpenseList(expenseList);
+        this.storage = new Storage();
+        this.storage.loadData(incomes, this.expenseList);
     }
 
     public FinanceTracker(Scanner scanner) {
         this.incomes = new ArrayList<>();
         this.scanner = scanner;
         this.expenseList = new ExpenseList();
+        this.storage = new Storage();
+        this.storage.loadData(incomes, this.expenseList);
     }
 
     /**
@@ -136,12 +140,13 @@ public class FinanceTracker {
         incomes.add(income);
         System.out.println("Income added: " + category + ", Amount: $" +
                 String.format("%.2f", amount) + ", Date: " + date);
-    }
 
+        storage.saveData(incomes, expenseList);
+    }
 
     /**
      * Logs an expense in the finance tracker.
-     * Expected format: log-expense category/CATEGORY desc/DESCRIPTION amt/AMOUNT d/DATE
+     * Expected format: log-expense desc/DESCRIPTION amt/AMOUNT d/DATE
      * Example: log-expense category/Food desc/LunchAtCafe amt/12.00 d/Feb18
      *
      * @param input the full command string
@@ -218,6 +223,8 @@ public class FinanceTracker {
         expenseList.add(expense);
         System.out.println("Expense logged: " + category + " | " + description +
                 " | $" + String.format("%.2f", amount) + " | " + date);
+
+        storage.saveData(incomes, expenseList);
     }
 
     /**
@@ -311,12 +318,10 @@ public class FinanceTracker {
         }
 
         if (!found) {
-
             System.out.println("Income not found: " + income);
-
+        } else {
+            storage.saveData(incomes, expenseList);
         }
-
-
     }
 
     /**
@@ -343,9 +348,9 @@ public class FinanceTracker {
         }
 
         if (!found) {
-
             System.out.println("Expense not found: " + input);
-
+        } else {
+            storage.saveData(incomes, expenseList);
         }
     }
 
