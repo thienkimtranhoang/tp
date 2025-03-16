@@ -18,6 +18,7 @@ dependencies {
 test {
     useJUnitPlatform()
     workingDir = projectDir
+    systemProperty "skipPersistentLoad", "true"
 
     testLogging {
         events "passed", "skipped", "failed"

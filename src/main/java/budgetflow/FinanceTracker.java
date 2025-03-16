@@ -35,7 +35,7 @@ public class FinanceTracker {
         this.expenseList = new ExpenseList(expenseList);
         this.storage = new Storage();
         if (!Boolean.getBoolean("skipPersistentLoad")) {
-            this.storage.loadData(incomes, this.expenseList);
+            storage.loadData(incomes, this.expenseList);
         }
     }
 
