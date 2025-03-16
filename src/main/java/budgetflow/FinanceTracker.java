@@ -1,5 +1,6 @@
 package budgetflow;
 
+import java.io.*;
 import java.nio.channels.ScatteringByteChannel;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,8 +8,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FinanceTracker {
-
-    // Command constants
     public static final String COMMAND_ADD_INCOME = "add category/";
     public static final String COMMAND_LOG_EXPENSE = "log-expense ";
     public static final String COMMAND_LIST_INCOME = "list income";
@@ -18,20 +17,18 @@ public class FinanceTracker {
     public static final String COMMAND_VIEW_ALL_EXPENSES = "view-all-expense";
     public static final String COMMAND_FIND_EXPENSE = "find-expense";
 
-    // Command prefixes and their lengths (avoiding magic numbers)
     private static final String ADD_COMMAND_PREFIX = "add ";
     private static final int ADD_COMMAND_PREFIX_LENGTH = ADD_COMMAND_PREFIX.length();
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
-    private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH =
-            LOG_EXPENSE_COMMAND_PREFIX.length();
+    private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH = LOG_EXPENSE_COMMAND_PREFIX.length();
 
-    // Field prefixes for income and expense commands
     private static final String PREFIX_CATEGORY = "category/";
     private static final String PREFIX_AMOUNT = "amt/";
     private static final String PREFIX_DATE = "d/";
     private static final String PREFIX_DESCRIPTION = "desc/";
 
-    // Instance fields
+    private static final String DATA_FILE_PATH = "./data/budgetflow.txt";
+
     private List<Income> incomes;
     private List<Expense> expenses;
     private ExpenseList expenseList;
@@ -41,12 +38,14 @@ public class FinanceTracker {
         this.incomes = new ArrayList<>();
         this.scanner = scanner;
         this.expenseList = new ExpenseList(expenseList);
+        loadData();
     }
 
     public FinanceTracker(Scanner scanner) {
         this.incomes = new ArrayList<>();
         this.scanner = scanner;
         this.expenseList = new ExpenseList();
+        loadData();
     }
 
     /**
@@ -83,26 +82,22 @@ public class FinanceTracker {
      * @param input the full command string
      */
     public void addIncome(String input) {
-        // Remove the "add " prefix using the constant's length.
         input = input.substring(ADD_COMMAND_PREFIX_LENGTH).trim();
 
         String category = null;
         Double amount = null;
         String date = null;
 
-        // Regular expressions to extract values
         String categoryPattern = "category/(.*?) (amt/|d/|$)";
         String amtPattern = "amt/([0-9]+(\\.[0-9]*)?)";
         String datePattern = "d/([^ ]+)";
 
-        // Match category
         java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(categoryPattern);
         java.util.regex.Matcher matcher = pattern.matcher(input);
         if (matcher.find()) {
             category = matcher.group(1).trim();
         }
 
-        // Match amount
         pattern = java.util.regex.Pattern.compile(amtPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -114,7 +109,6 @@ public class FinanceTracker {
             }
         }
 
-        // Match date
         pattern = java.util.regex.Pattern.compile(datePattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -138,18 +132,18 @@ public class FinanceTracker {
         incomes.add(income);
         System.out.println("Income added: " + category + ", Amount: $" +
                 String.format("%.2f", amount) + ", Date: " + date);
-    }
 
+        saveData();
+    }
 
     /**
      * Logs an expense in the finance tracker.
-     * Expected format: log-expense category/CATEGORY desc/DESCRIPTION amt/AMOUNT d/DATE
+     * Expected format: log-expense desc/DESCRIPTION amt/AMOUNT d/DATE
      * Example: log-expense category/Food desc/LunchAtCafe amt/12.00 d/Feb18
      *
      * @param input the full command string
      */
     public void logExpense(String input) {
-        // Remove the "log-expense " prefix.
         input = input.substring(LOG_EXPENSE_COMMAND_PREFIX_LENGTH).trim();
 
         String category = null;
@@ -157,7 +151,6 @@ public class FinanceTracker {
         Double amount = null;
         String date = null;
 
-        // Regular expressions to extract values
         String categoryPattern = "category/(.*?) (desc/|amt/|d/|$)";
         String descPattern = "desc/(.*?) (amt/|d/|$)";
         String amtPattern = "amt/([0-9]+(\\.[0-9]*)?)";
@@ -166,21 +159,18 @@ public class FinanceTracker {
         java.util.regex.Pattern pattern;
         java.util.regex.Matcher matcher;
 
-        // Match category
         pattern = java.util.regex.Pattern.compile(categoryPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             category = matcher.group(1).trim();
         }
 
-        // Match description
         pattern = java.util.regex.Pattern.compile(descPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             description = matcher.group(1).trim();
         }
 
-        // Match amount
         pattern = java.util.regex.Pattern.compile(amtPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -192,7 +182,6 @@ public class FinanceTracker {
             }
         }
 
-        // Match date
         pattern = java.util.regex.Pattern.compile(datePattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -220,6 +209,8 @@ public class FinanceTracker {
         expenseList.add(expense);
         System.out.println("Expense logged: " + category + " | " + description +
                 " | $" + String.format("%.2f", amount) + " | " + date);
+
+        saveData();
     }
 
     /**
@@ -296,7 +287,6 @@ public class FinanceTracker {
      *
      * @param income the description of the income to be deleted
      */
-
     public void deleteIncome(String income) {
         if (income.startsWith(COMMAND_DELETE_INCOME)) {
             income = income.substring(COMMAND_DELETE_INCOME.length()).trim();
@@ -313,12 +303,10 @@ public class FinanceTracker {
         }
 
         if (!found) {
-
             System.out.println("Income not found: " + income);
-
+        } else {
+            saveData();
         }
-
-
     }
 
     /**
@@ -345,9 +333,82 @@ public class FinanceTracker {
         }
 
         if (!found) {
-
             System.out.println("Expense not found: " + input);
+        } else {
+            saveData();
+        }
+    }
 
+    private void saveData() {
+        try {
+            File directory = new File("./data");
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            FileWriter fileWriter = new FileWriter(DATA_FILE_PATH);
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+
+            for (Income income : incomes) {
+                writer.write("INCOME|" +
+                        income.getCategory() + "|" +
+                        income.getAmount() + "|" +
+                        income.getDate());
+                writer.newLine();
+            }
+
+            for (int i = 0; i < expenseList.getSize(); i++) {
+                Expense expense = expenseList.get(i);
+                writer.write("EXPENSE|" +
+                        expense.getCategory() + "|" +
+                        expense.getDescription() + "|" +
+                        expense.getAmount() + "|" +
+                        expense.getDate());
+                writer.newLine();
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error saving data: " + e.getMessage());
+        }
+    }
+
+    private void loadData() {
+        File file = new File(DATA_FILE_PATH);
+        if (!file.exists()) {
+            return;
+        }
+
+        try {
+            FileReader fileReader = new FileReader(file);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+
+                if (parts[0].equals("INCOME") && parts.length == 4) {
+                    String category = parts[1];
+                    double amount = Double.parseDouble(parts[2]);
+                    String date = parts[3];
+
+                    Income income = new Income(category, amount, date);
+                    incomes.add(income);
+                } else if (parts[0].equals("EXPENSE") && parts.length == 5) {
+                    String category = parts[1];
+                    String description = parts[2];
+                    double amount = Double.parseDouble(parts[3]);
+                    String date = parts[4];
+
+                    Expense expense = new Expense(category, description, amount, date);
+                    expenseList.add(expense);
+                }
+            }
+
+            reader.close();
+            System.out.println("Data loaded successfully from " + DATA_FILE_PATH);
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("Error loading data: " + e.getMessage());
         }
     }
 }
