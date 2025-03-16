@@ -29,10 +29,10 @@ class FinanceTrackerTest {
         System.setOut(originalOut);
 
         // Assert
-        String expectedOutput = "Expenses log: " + System.lineSeparator() +
-                "Lunch | $12.50 | 2025-03-13" + System.lineSeparator() +
-                "Transport | $3.20 | 2025-03-12" + System.lineSeparator() +
-                "Groceries | $25.00 | 2025-03-11" + System.lineSeparator() + System.lineSeparator() +
+        String expectedOutput = "Expenses log:" + System.lineSeparator() +
+                "1 | food | Lunch | 12.50 | 2025-03-13" + System.lineSeparator() +
+                "2 | transport | Transport | 3.20 | 2025-03-12" + System.lineSeparator() +
+                "3 | food | Groceries | 25.00 | 2025-03-11" + System.lineSeparator() +
                 "Total Expenses: $40.70" + System.lineSeparator();
 
         assertEquals(expectedOutput, outContent.toString());
@@ -53,9 +53,7 @@ class FinanceTrackerTest {
         System.setOut(originalOut);
 
         // Assert
-        String expectedOutput = "Expenses log: " + System.lineSeparator() +
-                EMPTY_EXPENSE_LIST_MESSAGE + System.lineSeparator() +
-                "Total Expenses: $0.00" + System.lineSeparator();
+        String expectedOutput = "No expenses have been logged yet." + System.lineSeparator();
 
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -474,4 +472,47 @@ class FinanceTrackerTest {
         String expectedOutput = "Error: Expense amount is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
     }
+
+    @Test
+    void addSalaryTest() {
+        // Create an instance of FinanceTracker with a Scanner (input can be simulated)
+        FinanceTracker tracker = new FinanceTracker(new Scanner(System.in));
+
+        // Capture the System.out output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        // Call the addIncome method with a salary input
+        tracker.addIncome("add category/Salary amt/3000.00 d/2025-03-16");
+
+        // Reset System.out back to original
+        System.setOut(originalOut);
+
+        // Expected output as per the addIncome method in FinanceTracker
+        String expectedOutput = "Income added: Salary, Amount: $3000.00, Date: 2025-03-16";
+        assertEquals(expectedOutput, outContent.toString().trim());
+    }
+
+    @Test
+    void logExpenseTest() {
+        // Create an instance of FinanceTracker with a Scanner
+        FinanceTracker tracker = new FinanceTracker(new Scanner(System.in));
+
+        // Capture the System.out output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        // Call the logExpense method with an expense input
+        tracker.logExpense("log-expense category/Travel desc/Flight amt/200.00 d/2025-03-20");
+
+        // Reset System.out back to original
+        System.setOut(originalOut);
+
+        // Expected output based on logExpense in FinanceTracker
+        String expectedOutput = "Expense logged: Travel | Flight | $200.00 | 2025-03-20";
+        assertEquals(expectedOutput, outContent.toString().trim());
+    }
+
 }
