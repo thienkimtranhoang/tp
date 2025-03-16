@@ -1,3 +1,4 @@
+Data loaded successfully from ./data/budgetflow.txt
 Welcome to Finance Tracker!
 You can track incomes and expenses here.
 What would you like to do?

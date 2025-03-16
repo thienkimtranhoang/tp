@@ -14,8 +14,8 @@ public class ExpenseList {
     public ExpenseList() {}
 
     public ExpenseList(Expense... expenses) {
-        final List<Expense> initialTags = Arrays.asList(expenses);
-        innerList.addAll(initialTags);
+        final List<Expense> initialExpenses = Arrays.asList(expenses);
+        innerList.addAll(initialExpenses);
     }
 
     public ExpenseList(Collection<Expense> expenses) {
@@ -26,22 +26,10 @@ public class ExpenseList {
         return innerList.size();
     }
 
-    /**
-     * Finding an expense from the finance tracker based on its index.
-     *
-     * @param index the index of the expense to be queries
-     * @return Expense matching description if found, null if no expenses is found
-     */
-    public Expense get (int index) {
+    public Expense get(int index) {
         return innerList.get(index);
     }
 
-    /**
-     * Finding an expense from the finance tracker based on its description.
-     *
-     * @param keyword the description of the expense to be queries
-     * @return all expenses matching description if found, null otherwise
-     */
     public ExpenseList get(String keyword) {
         ExpenseList outExpenses = new ExpenseList();
         for (int i = 0; i < this.getSize(); i++) {
@@ -69,27 +57,16 @@ public class ExpenseList {
         innerList.remove(index);
     }
 
-    /**
-     * Showing the list of expenses and its information regarding category, description, amount and date
-     *
-     * @return out string of expense list
-     */
     @Override
     public String toString() {
         if (innerList.isEmpty()) {
             return EMPTY_EXPENSE_LIST_MESSAGE;
         }
-        String outString = "";
-        for (Expense expense: innerList) {
-            if (expense == null) {
-                break;
-            }
-            outString = outString + expense.getCategory() + " | " +
-                    expense.getDescription() + " | $" +
-                    String.format("%.2f", expense.getAmount()) + " | " +
-                    expense.getDate() + System.lineSeparator();
+        StringBuilder sb = new StringBuilder();
+        for (Expense expense : innerList) {
+            sb.append(expense.toString()).append(System.lineSeparator());
         }
-        return outString;
+        return sb.toString();
     }
 
     public double getTotalExpenses() {

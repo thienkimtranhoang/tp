@@ -1,8 +1,3 @@
-INCOME|food|12.0|12
-INCOME|sleep|12.0|12
-INCOME|sleep|12.0|12
-INCOME|Part-timeJob|300.0|June12
-EXPENSE|food|mi tom|12.0|12
-EXPENSE|s d|sd|12.0|12
-EXPENSE|sss|dance|12.0|19
-EXPENSE|Food|LunchAtCafe|12.0|Feb18
+EXPENSE|food|Lunch|12.5|2025-03-13
+EXPENSE|transport|Transport|3.2|2025-03-12
+EXPENSE|food|Groceries|25.0|2025-03-11
