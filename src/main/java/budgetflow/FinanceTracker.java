@@ -1,6 +1,4 @@
 package budgetflow;
-
-import java.nio.channels.ScatteringByteChannel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,10 +30,10 @@ public class FinanceTracker {
     private static final String PREFIX_DESCRIPTION = "desc/";
 
     // Instance fields
-    private List<Income> incomes;
+    private final List<Income> incomes;
     private List<Expense> expenses;
-    private ExpenseList expenseList;
-    private Scanner scanner;
+    private final ExpenseList expenseList;
+    private final Scanner scanner;
 
     public FinanceTracker(Collection<Expense> expenseList, Scanner scanner) {
         this.incomes = new ArrayList<>();
@@ -257,7 +255,7 @@ public class FinanceTracker {
         for (int i = 0; i < expenseList.getSize(); i++) {
             Expense expense = expenseList.get(i);
             System.out.println((i + 1) + " | " + expense.getCategory() + " | " +
-                    expense.getDescription() + " | " +
+                    expense.getDescription() + " | $" +
                     String.format("%.2f", expense.getAmount()) + " | " +
                     expense.getDate());
         }
@@ -350,4 +348,5 @@ public class FinanceTracker {
 
         }
     }
+
 }
