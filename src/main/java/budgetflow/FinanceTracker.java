@@ -1,7 +1,11 @@
 package budgetflow;
 
-import java.io.*;
-import java.nio.channels.ScatteringByteChannel;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -339,6 +343,18 @@ public class FinanceTracker {
         }
     }
 
+    /**
+     * Saves all income and expense data to a file.
+     *
+     * This method writes all income and expense records to the file specified by DATA_FILE_PATH.
+     * Each record is written on a separate line with fields separated by the '|' character.
+     * Income records begin with "INCOME" and expense records begin with "EXPENSE".
+     * The method creates the data directory if it doesn't exist.
+     * Income format: INCOME|category|amount|date
+     * Expense format: EXPENSE|category|description|amount|date
+     * @throws IOException if an error occurs during file writing, which is caught
+     *                     and logged to the console
+     */
     private void saveData() {
         try {
             File directory = new File("./data");
@@ -373,6 +389,20 @@ public class FinanceTracker {
         }
     }
 
+    /**
+     * Loads income and expense data from a file.
+     *
+     * This method reads records from the file specified by DATA_FILE_PATH and populates
+     * the incomes list and expenseList with the data. The method expects each record to be
+     * on a separate line with fields separated by the '|' character.
+     * The method recognizes two types of records:
+     * - Income records: start with "INCOME" and have 4 parts (type|category|amount|date)
+     * - Expense records: start with "EXPENSE" and have 5 parts (type|category|description|amount|date)
+     * If the data file doesn't exist, the method returns without taking any action.
+     * @throws IOException if an error occurs while reading the file
+     * @throws NumberFormatException if amount values cannot be parsed as doubles
+     * Both exceptions are caught and logged to the console
+     */
     private void loadData() {
         File file = new File(DATA_FILE_PATH);
         if (!file.exists()) {

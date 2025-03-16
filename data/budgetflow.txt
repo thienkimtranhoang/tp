@@ -1,2 +1,4 @@
 INCOME|food|12.0|12
+INCOME|sleep|12.0|12
 EXPENSE|food|mi tom|12.0|12
+EXPENSE|s d|sd|12.0|12
