@@ -1,12 +1,14 @@
 package budgetflow;
+import java.util.Collection;
 
 import budgetflow.storage.Storage;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
 public class FinanceTracker {
+
+    // Command constants
     public static final String COMMAND_ADD_INCOME = "add category/";
     public static final String COMMAND_LOG_EXPENSE = "log-expense ";
     public static final String COMMAND_LIST_INCOME = "list income";
@@ -21,15 +23,8 @@ public class FinanceTracker {
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
     private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH = LOG_EXPENSE_COMMAND_PREFIX.length();
 
-    private static final String PREFIX_CATEGORY = "category/";
-    private static final String PREFIX_AMOUNT = "amt/";
-    private static final String PREFIX_DATE = "d/";
-    private static final String PREFIX_DESCRIPTION = "desc/";
-
-    private static final String DATA_FILE_PATH = "./data/budgetflow.txt";
-
     private List<Income> incomes;
-    private List<Expense> expenses;
+    private List<Expense> expenses; // (Not directly used, since we use ExpenseList)
     private ExpenseList expenseList;
     private Scanner scanner;
     private Storage storage;
@@ -39,7 +34,9 @@ public class FinanceTracker {
         this.scanner = scanner;
         this.expenseList = new ExpenseList(expenseList);
         this.storage = new Storage();
-        this.storage.loadData(incomes, this.expenseList);
+        if (!Boolean.getBoolean("skipPersistentLoad")) {
+            storage.loadData(incomes, this.expenseList);
+        }
     }
 
     public FinanceTracker(Scanner scanner) {
@@ -47,15 +44,11 @@ public class FinanceTracker {
         this.scanner = scanner;
         this.expenseList = new ExpenseList();
         this.storage = new Storage();
-        this.storage.loadData(incomes, this.expenseList);
+        if (!Boolean.getBoolean("skipPersistentLoad")) {
+            this.storage.loadData(incomes, this.expenseList);
+        }
     }
 
-    /**
-     * Processes the given command input.
-     * Delegates to the appropriate method based on the command.
-     *
-     * @param input the command input from the user
-     */
     public void processCommand(String input) {
         if (input.startsWith(COMMAND_ADD_INCOME)) {
             addIncome(input);
@@ -76,13 +69,6 @@ public class FinanceTracker {
         }
     }
 
-    /**
-     * Adds income to the finance tracker.
-     * Expected format: add category/CATEGORY amt/AMOUNT d/DATE
-     * Example: add category/Part-timeJob amt/300.00 d/June12
-     *
-     * @param input the full command string
-     */
     public void addIncome(String input) {
         input = input.substring(ADD_COMMAND_PREFIX_LENGTH).trim();
 
@@ -99,7 +85,6 @@ public class FinanceTracker {
         if (matcher.find()) {
             category = matcher.group(1).trim();
         }
-
         pattern = java.util.regex.Pattern.compile(amtPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -110,7 +95,6 @@ public class FinanceTracker {
                 return;
             }
         }
-
         pattern = java.util.regex.Pattern.compile(datePattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -134,17 +118,9 @@ public class FinanceTracker {
         incomes.add(income);
         System.out.println("Income added: " + category + ", Amount: $" +
                 String.format("%.2f", amount) + ", Date: " + date);
-
         storage.saveData(incomes, expenseList);
     }
 
-    /**
-     * Logs an expense in the finance tracker.
-     * Expected format: log-expense desc/DESCRIPTION amt/AMOUNT d/DATE
-     * Example: log-expense category/Food desc/LunchAtCafe amt/12.00 d/Feb18
-     *
-     * @param input the full command string
-     */
     public void logExpense(String input) {
         input = input.substring(LOG_EXPENSE_COMMAND_PREFIX_LENGTH).trim();
 
@@ -166,13 +142,11 @@ public class FinanceTracker {
         if (matcher.find()) {
             category = matcher.group(1).trim();
         }
-
         pattern = java.util.regex.Pattern.compile(descPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             description = matcher.group(1).trim();
         }
-
         pattern = java.util.regex.Pattern.compile(amtPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -183,7 +157,6 @@ public class FinanceTracker {
                 return;
             }
         }
-
         pattern = java.util.regex.Pattern.compile(datePattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -211,20 +184,14 @@ public class FinanceTracker {
         expenseList.add(expense);
         System.out.println("Expense logged: " + category + " | " + description +
                 " | $" + String.format("%.2f", amount) + " | " + date);
-
         storage.saveData(incomes, expenseList);
     }
 
-    /**
-     * Lists all incomes and prints the total sum.
-     * Command: list income
-     */
     public void listIncome() {
         if (incomes.isEmpty()) {
             System.out.println("No incomes have been added yet.");
             return;
         }
-
         double totalIncome = 0.0;
         System.out.println("Income Log:");
         for (Income income : incomes) {
@@ -236,33 +203,22 @@ public class FinanceTracker {
         System.out.println("Total Income: $" + String.format("%.2f", totalIncome));
     }
 
-    /**
-     * Lists all expenses with an index and prints the total sum.
-     * Command: view-all-expense
-     */
     public void viewAllExpenses() {
         if (expenseList.getSize() == 0) {
             System.out.println("No expenses have been logged yet.");
             return;
         }
-
         System.out.println("Expenses log:");
         for (int i = 0; i < expenseList.getSize(); i++) {
             Expense expense = expenseList.get(i);
             System.out.println((i + 1) + " | " + expense.getCategory() + " | " +
-                    expense.getDescription() + " | " +
+                    expense.getDescription() + " | $" +
                     String.format("%.2f", expense.getAmount()) + " | " +
                     expense.getDate());
         }
         System.out.println("Total Expenses: $" + String.format("%.2f", expenseList.getTotalExpenses()));
     }
 
-    /**
-     * Lists all expenses with descriptions containing the keyword.
-     * Command: find-expense KEYWORD
-     *
-     * @param input the keyword used to query expenses
-     */
     public void findExpense(String input) {
         String keyword = "";
         if (input.startsWith(COMMAND_FIND_EXPENSE)) {
@@ -272,7 +228,6 @@ public class FinanceTracker {
             System.out.println("Error: Missing keyword");
             return;
         }
-
         ExpenseList matchingExpenses = expenseList.get(keyword);
         if (matchingExpenses.getSize() == 0) {
             System.out.println("Sorry, I cannot find any expenses matching your keyword: " + keyword);
@@ -281,19 +236,11 @@ public class FinanceTracker {
             System.out.print(matchingExpenses);
         }
     }
-    /**
-     * Deletes an income from the finance tracker based on its description.
-     * If multiple incomes have the same description, only the first occurrence is removed.
-     * Expected format: delete-income DESCRIPTION
-     * Example: delete-income Part-timeJob
-     *
-     * @param income the description of the income to be deleted
-     */
+
     public void deleteIncome(String income) {
         if (income.startsWith(COMMAND_DELETE_INCOME)) {
             income = income.substring(COMMAND_DELETE_INCOME.length()).trim();
         }
-
         boolean found = false;
         for (int i = 0; i < incomes.size(); i++) {
             if (incomes.get(i).getCategory().equalsIgnoreCase(income)) {
@@ -303,7 +250,6 @@ public class FinanceTracker {
                 break;
             }
         }
-
         if (!found) {
             System.out.println("Income not found: " + income);
         } else {
@@ -311,19 +257,10 @@ public class FinanceTracker {
         }
     }
 
-    /**
-     * Deletes an expense from the finance tracker based on its description.
-     * If multiple expenses have the same description, only the first occurrence is removed.
-     * Expected format: delete-expense DESCRIPTION
-     * Example: delete-expense LunchAtCafe
-     *
-     * @param input the description of the expense to be deleted
-     */
     public void deleteExpense(String input) {
         if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
             input = input.substring(COMMAND_DELETE_EXPENSE.length()).trim();
         }
-
         boolean found = false;
         for (int i = 0; i < expenseList.getSize(); i++) {
             if (expenseList.get(i).getDescription().equalsIgnoreCase(input)) {
@@ -333,7 +270,6 @@ public class FinanceTracker {
                 break;
             }
         }
-
         if (!found) {
             System.out.println("Expense not found: " + input);
         } else {

@@ -19,22 +19,6 @@ import java.util.List;
 public class Storage {
     private static final String DATA_FILE_PATH = "./data/budgetflow.txt";
 
-    /**
-     * Saves all income and expense data to a file.
-     *
-     * This method writes all income and expense records to the file specified by DATA_FILE_PATH.
-     * Each record is written on a separate line with fields separated by the '|' character.
-     * Income records begin with "INCOME" and expense records begin with "EXPENSE".
-     * The method creates the data directory if it doesn't exist.
-     *
-     * Income format: INCOME|category|amount|date
-     * Expense format: EXPENSE|category|description|amount|date
-     *
-     * @param incomes List of income records to save
-     * @param expenseList List of expense records to save
-     * @throws IOException if an error occurs during file writing, which is caught
-     *                     and logged to the console
-     */
     public void saveData(List<Income> incomes, ExpenseList expenseList) {
         try {
             File directory = new File("./data");
@@ -69,25 +53,6 @@ public class Storage {
         }
     }
 
-    /**
-     * Loads income and expense data from a file.
-     *
-     * This method reads records from the file specified by DATA_FILE_PATH and populates
-     * the incomes list and expenseList with the data. The method expects each record to be
-     * on a separate line with fields separated by the '|' character.
-     *
-     * The method recognizes two types of records:
-     * - Income records: start with "INCOME" and have 4 parts (type|category|amount|date)
-     * - Expense records: start with "EXPENSE" and have 5 parts (type|category|description|amount|date)
-     *
-     * If the data file doesn't exist, the method returns without taking any action.
-     *
-     * @param incomes List where loaded income records will be added
-     * @param expenseList List where loaded expense records will be added
-     * @throws IOException if an error occurs while reading the file
-     * @throws NumberFormatException if amount values cannot be parsed as doubles
-     * Both exceptions are caught and logged to the console
-     */
     public void loadData(List<Income> incomes, ExpenseList expenseList) {
         File file = new File(DATA_FILE_PATH);
         if (!file.exists()) {
