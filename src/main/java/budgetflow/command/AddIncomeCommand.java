@@ -10,13 +10,25 @@ import java.util.List;
 public class AddIncomeCommand extends Command {
     private static final String ADD_COMMAND_PREFIX = "add ";
     private static final int ADD_COMMAND_PREFIX_LENGTH = ADD_COMMAND_PREFIX.length();
-    public static final String ERROR_MISSING_INCOME_CATEGORY = "Error: Income category is required.";
-    public static final String ERROR_MISSING_INCOME_AMOUNT = "Error: Income amount is required.";
-    public static final String ERROR_MISSING_INCOME_DATE = "Error: Income date is required.";
+
+    private static final String ERROR_MISSING_INCOME_CATEGORY = "Error: Income category is required.";
+    private static final String ERROR_MISSING_INCOME_AMOUNT = "Error: Income amount is required.";
+    private static final String ERROR_MISSING_INCOME_DATE = "Error: Income date is required.";
 
     public AddIncomeCommand(String input) {
         super(input);
     }
+
+    /**
+     * Add the user income and save it to the income lists
+     *
+     * @param input user string input
+     * @param incomes list of incomes
+     * @throws MissingDateException if user did not provide the date for income, or when use miss the date tag
+     * @throws InvalidNumberFormatException if user enter income value in incorrect number format
+     * @throws MissingAmountException if user did not provide any amount for income or use miss the amount tag
+     * @throws MissingCategoryException if user did not provide category or miss tag for category
+     */
     public void execute(String input, List<Income> incomes) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException {
         Income income = extractIncome(input);
         incomes.add(income);
@@ -25,6 +37,8 @@ public class AddIncomeCommand extends Command {
 //                String.format("%.2f", amount) + ", Date: " + date);
 //        storage.saveData(incomes, expenseList);
     }
+
+
     private Income extractIncome(String input) throws InvalidNumberFormatException, MissingCategoryException, MissingAmountException, MissingDateException {
         input = input.substring(ADD_COMMAND_PREFIX_LENGTH).trim();
 

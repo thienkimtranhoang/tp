@@ -1,6 +1,8 @@
 package budgetflow.parser;
 
 import budgetflow.command.AddIncomeCommand;
+import budgetflow.command.Command;
+import budgetflow.command.LogExpenseCommand;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -21,10 +23,7 @@ public class Parser {
     public static final String COMMAND_VIEW_ALL_EXPENSES = "view-all-expense";
     public static final String COMMAND_FIND_EXPENSE = "find-expense";
 
-    private static final String ADD_COMMAND_PREFIX = "add ";
-    private static final int ADD_COMMAND_PREFIX_LENGTH = ADD_COMMAND_PREFIX.length();
-    private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
-    private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH = LOG_EXPENSE_COMMAND_PREFIX.length();
+
 
     private List<Income> incomes;
     private List<Expense> expenses; // (Not directly used, since we use ExpenseList)
@@ -33,11 +32,11 @@ public class Parser {
     private Storage storage;
 
 
-    public AddIncomeCommand processCommand(String input) {
+    public Command getCommandFromInput(String input) {
         if (input.startsWith(COMMAND_ADD_INCOME)) {
             return new AddIncomeCommand(input);
         } else if (input.startsWith(COMMAND_LOG_EXPENSE)) {
-            logExpense(input);
+            return new LogExpenseCommand(input);
         } else if (input.startsWith(COMMAND_DELETE_INCOME)) {
             deleteIncome(input);
         } else if (COMMAND_LIST_INCOME.equals(input)) {
@@ -52,72 +51,6 @@ public class Parser {
             System.out.println("I don't understand that command. Try again.");
         }
         return null;
-    }
-
-    public void logExpense(String input) {
-        input = input.substring(LOG_EXPENSE_COMMAND_PREFIX_LENGTH).trim();
-
-        String category = null;
-        String description = null;
-        Double amount = null;
-        String date = null;
-
-        String categoryPattern = "category/(.*?) (desc/|amt/|d/|$)";
-        String descPattern = "desc/(.*?) (amt/|d/|$)";
-        String amtPattern = "amt/([0-9]+(\\.[0-9]*)?)";
-        String datePattern = "d/([^ ]+)";
-
-        java.util.regex.Pattern pattern;
-        java.util.regex.Matcher matcher;
-
-        pattern = java.util.regex.Pattern.compile(categoryPattern);
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            category = matcher.group(1).trim();
-        }
-        pattern = java.util.regex.Pattern.compile(descPattern);
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            description = matcher.group(1).trim();
-        }
-        pattern = java.util.regex.Pattern.compile(amtPattern);
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            try {
-                amount = Double.parseDouble(matcher.group(1));
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Invalid amount format. Please enter a valid number.");
-                return;
-            }
-        }
-        pattern = java.util.regex.Pattern.compile(datePattern);
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            date = matcher.group(1).trim();
-        }
-
-        if (category == null || category.isEmpty()) {
-            System.out.println("Error: Expense category is required.");
-            return;
-        }
-        if (description == null || description.isEmpty()) {
-            System.out.println("Error: Expense description is required.");
-            return;
-        }
-        if (amount == null) {
-            System.out.println("Error: Expense amount is required.");
-            return;
-        }
-        if (date == null) {
-            System.out.println("Error: Expense date is required.");
-            return;
-        }
-
-        Expense expense = new Expense(category, description, amount, date);
-        expenseList.add(expense);
-        System.out.println("Expense logged: " + category + " | " + description +
-                " | $" + String.format("%.2f", amount) + " | " + date);
-        storage.saveData(incomes, expenseList);
     }
 
     public void listIncome() {
