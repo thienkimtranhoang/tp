@@ -19,7 +19,7 @@ public class DeleteIncomeCommand extends Command {
         for (int i = 0; i < incomes.size(); i++) {
             if (incomes.get(i).getCategory().equalsIgnoreCase(input)) {
                 incomes.remove(i);
-                System.out.println("Income deleted: " + input);
+                this.outputMessage = "Income deleted: " + input;
                 found = true;
                 break;
             }
@@ -27,9 +27,6 @@ public class DeleteIncomeCommand extends Command {
         if (!found) {
             throw new UnfoundIncomeException("Income not found: " + input);
         }
-        //Deal with Storage and UI. Take notes of saving data as well
-//        if (!found) {
-//            System.out.println("Income not found: " + income);
 //        } else {
 //            storage.saveData(incomes, expenseList);
 //        }

@@ -14,17 +14,18 @@ public class ListIncomeCommand extends Command {
 
     public void execute(List<Income> incomes) {
         if (incomes.isEmpty()) {
-            System.out.println(EMPTY_INCOME_LIST_MESSAGE);
+            this.outputMessage = EMPTY_INCOME_LIST_MESSAGE;
             return;
         }
         double totalIncome = 0.0;
-        System.out.println("Income Log:");
+        String message = "Income Log:" + System.lineSeparator();
         for (Income income : incomes) {
-            System.out.println(income.getCategory() + " | $" +
+            message += income.getCategory() + " | $" +
                     String.format("%.2f", income.getAmount()) + " | " +
-                    income.getDate());
+                    income.getDate() + System.lineSeparator();
             totalIncome += income.getAmount();
         }
-        System.out.println("Total Income: $" + String.format("%.2f", totalIncome));
+        message += "Total Income: $" + String.format("%.2f", totalIncome) + System.lineSeparator();
+        this.outputMessage = message;
     }
 }

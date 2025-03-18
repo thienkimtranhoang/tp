@@ -14,19 +14,22 @@ public class FindExpenseCommand extends Command {
     }
 
     public void execute(ExpenseList expenseList) throws UnfoundExpenseException, MissingKeywordException {
+
         String keyword = "";
+
         if (input.startsWith(COMMAND_FIND_EXPENSE)) {
             keyword += input.substring(COMMAND_FIND_EXPENSE.length()).trim();
         }
         if (keyword.isEmpty()) {
             throw new MissingKeywordException("Error: Missing keyword");
         }
+
         ExpenseList matchingExpenses = expenseList.get(keyword);
         if (matchingExpenses.getSize() == 0) {
             throw new UnfoundExpenseException("Sorry, I cannot find any expenses matching your keyword: " + keyword);
         } else {
-            System.out.println("Here are all matching expenses: ");
-            System.out.print(matchingExpenses);
+            this.outputMessage = "Here are all matching expenses: " + System.lineSeparator() +
+                                matchingExpenses;
         }
     }
 }

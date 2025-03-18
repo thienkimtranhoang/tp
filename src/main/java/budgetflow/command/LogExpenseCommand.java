@@ -19,7 +19,6 @@ public class LogExpenseCommand extends Command{
 
     /**
      * Log new user expense into the expense list
-     * @param input user input of new expense
      * @param expenseList the list storing all expenses
      * @throws MissingDateException if user miss the date of expense or date tag
      * @throws InvalidNumberFormatException if amount does not follow valid number format
@@ -30,9 +29,8 @@ public class LogExpenseCommand extends Command{
     public void execute(ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException {
         Expense expense = extractExpense(input);
         expenseList.add(expense);
-        // Storage and UI work
-//        System.out.println("Expense logged: " + category + " | " + description +
-//                " | $" + String.format("%.2f", amount) + " | " + date);
+        this.outputMessage = "Expense logged: " + expense.getCategory() + " | " + expense.getDescription() +
+                " | $" + String.format("%.2f", expense.getAmount()) + " | " + expense.getDate();
 //        storage.saveData(incomes, expenseList);
     }
 

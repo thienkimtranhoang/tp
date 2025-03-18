@@ -22,7 +22,6 @@ public class AddIncomeCommand extends Command {
     /**
      * Add the user income and save it to the income lists
      *
-     * @param input user string input
      * @param incomes list of incomes
      * @throws MissingDateException if user did not provide the date for income, or when use miss the date tag
      * @throws InvalidNumberFormatException if user enter income value in incorrect number format
@@ -32,9 +31,8 @@ public class AddIncomeCommand extends Command {
     public void execute(List<Income> incomes) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException {
         Income income = extractIncome(input);
         incomes.add(income);
-        // This is for UI and Storage, which will be dealt later
-//        System.out.println("Income added: " + category + ", Amount: $" +
-//                String.format("%.2f", amount) + ", Date: " + date);
+        this.outputMessage = "Income added: " + income.getCategory() + ", Amount: $" +
+                String.format("%.2f", income.getAmount()) + ", Date: " + income.getDate();
 //        storage.saveData(incomes, expenseList);
     }
 

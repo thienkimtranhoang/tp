@@ -13,17 +13,18 @@ public class ViewAllExpensesCommand extends Command {
 
     public void execute(ExpenseList expenseList) {
         if (expenseList.getSize() == 0) {
-            System.out.println(EMPTY_EXPENSE_LIST_MESSAGE);
+            this.outputMessage = EMPTY_EXPENSE_LIST_MESSAGE;
             return;
         }
-        System.out.println("Expenses log:");
+        String message = "Expenses log:" + System.lineSeparator();
         for (int i = 0; i < expenseList.getSize(); i++) {
             Expense expense = expenseList.get(i);
-            System.out.println((i + 1) + " | " + expense.getCategory() + " | " +
+            message += (i + 1) + " | " + expense.getCategory() + " | " +
                     expense.getDescription() + " | $" +
                     String.format("%.2f", expense.getAmount()) + " | " +
-                    expense.getDate());
+                    expense.getDate() + System.lineSeparator();
         }
-        System.out.println("Total Expenses: $" + String.format("%.2f", expenseList.getTotalExpenses()));
+        message += "Total Expenses: $" + String.format("%.2f", expenseList.getTotalExpenses()) + System.lineSeparator();
+        this.outputMessage = message;
     }
 }

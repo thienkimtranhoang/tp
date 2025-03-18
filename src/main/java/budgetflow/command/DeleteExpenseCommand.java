@@ -19,7 +19,7 @@ public class DeleteExpenseCommand extends Command{
         for (int i = 0; i < expenseList.getSize(); i++) {
             if (expenseList.get(i).getDescription().equalsIgnoreCase(input)) {
                 expenseList.delete(i);
-                System.out.println("Expense deleted: " + input);
+                this.outputMessage = "Expense deleted: " + input;
                 found = true;
                 break;
             }
@@ -27,8 +27,6 @@ public class DeleteExpenseCommand extends Command{
         if (!found) {
             throw new UnfoundExpenseException("Expense not found: " + input);
         }
-//        if (!found) {
-//            System.out.println("Expense not found: " + input);
 //        } else {
 //            storage.saveData(incomes, expenseList);
 //        }

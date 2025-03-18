@@ -16,4 +16,11 @@ public class Command {
     public void executeCommand() throws FinanceException {
         throw new FinanceException("This method is operated by child classes");
     }
+    public boolean isExit() {
+        return isExit;
+    }
+
+    public String getOutputMessage() {
+        return outputMessage;
+    }
 }
