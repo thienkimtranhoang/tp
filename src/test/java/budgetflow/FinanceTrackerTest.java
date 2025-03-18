@@ -1,5 +1,7 @@
 package budgetflow;
 
+import budgetflow.expense.Expense;
+import budgetflow.expense.ExpenseList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

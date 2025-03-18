@@ -1,4 +1,4 @@
-package budgetflow;
+package budgetflow.expense;
 
 import java.util.ArrayList;
 import java.util.Arrays;

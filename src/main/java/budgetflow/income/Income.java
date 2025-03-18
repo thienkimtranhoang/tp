@@ -1,4 +1,4 @@
-package budgetflow;
+package budgetflow.income;
 
 public class Income {
     private String category;

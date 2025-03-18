@@ -1,8 +1,8 @@
 package budgetflow.storage;
 
-import budgetflow.Expense;
-import budgetflow.ExpenseList;
-import budgetflow.Income;
+import budgetflow.expense.Expense;
+import budgetflow.expense.ExpenseList;
+import budgetflow.income.Income;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

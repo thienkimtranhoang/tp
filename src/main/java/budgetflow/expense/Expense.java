@@ -1,4 +1,4 @@
-package budgetflow;
+package budgetflow.expense;
 
 public class Expense {
     private String description;

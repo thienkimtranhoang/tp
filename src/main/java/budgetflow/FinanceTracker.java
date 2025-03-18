@@ -1,6 +1,9 @@
 package budgetflow;
 import java.util.Collection;
 
+import budgetflow.expense.Expense;
+import budgetflow.expense.ExpenseList;
+import budgetflow.income.Income;
 import budgetflow.storage.Storage;
 import java.util.ArrayList;
 import java.util.List;
