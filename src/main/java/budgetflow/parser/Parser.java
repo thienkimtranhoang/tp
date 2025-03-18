@@ -1,9 +1,6 @@
 package budgetflow.parser;
 
-import budgetflow.command.AddIncomeCommand;
-import budgetflow.command.Command;
-import budgetflow.command.DeleteIncomeCommand;
-import budgetflow.command.LogExpenseCommand;
+import budgetflow.command.*;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -43,7 +40,7 @@ public class Parser {
         } else if (COMMAND_LIST_INCOME.equals(input)) {
             listIncome();
         } else if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
-            deleteExpense(input);
+            return new DeleteExpenseCommand(input);
         } else if (input.equals(COMMAND_VIEW_ALL_EXPENSES)) {
             viewAllExpenses();
         } else if (input.startsWith(COMMAND_FIND_EXPENSE)) {
@@ -101,26 +98,6 @@ public class Parser {
         } else {
             System.out.println("Here are all matching expenses: ");
             System.out.print(matchingExpenses);
-        }
-    }
-
-    public void deleteExpense(String input) {
-        if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
-            input = input.substring(COMMAND_DELETE_EXPENSE.length()).trim();
-        }
-        boolean found = false;
-        for (int i = 0; i < expenseList.getSize(); i++) {
-            if (expenseList.get(i).getDescription().equalsIgnoreCase(input)) {
-                expenseList.delete(i);
-                System.out.println("Expense deleted: " + input);
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            System.out.println("Expense not found: " + input);
-        } else {
-            storage.saveData(incomes, expenseList);
         }
     }
 }
