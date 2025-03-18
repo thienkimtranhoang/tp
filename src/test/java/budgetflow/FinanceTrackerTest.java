@@ -249,6 +249,7 @@ class FinanceTrackerTest {
         // Create an empty FinanceTracker
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
 
+        assert financeTracker != null : "FinanceTracker instance should not be null";
         // Capture system output
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
@@ -263,12 +264,16 @@ class FinanceTrackerTest {
         // Assert
         String expectedOutput = "Income added: Salary, Amount: $2500.00, Date: 2025-03-15";
         assertEquals(expectedOutput, outContent.toString().trim());
+
+        // Assert: Output should not be empty
+        assert !outContent.toString().trim().isEmpty() : "Expected output should not be empty";
     }
 
     @Test
     void addIncome_missingCategory_showsError() {
         // Create an empty FinanceTracker
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
+        assert financeTracker != null : "FinanceTracker instance should not be null";
 
         // Capture system output
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -284,6 +289,9 @@ class FinanceTrackerTest {
         // Assert
         String expectedOutput = "Error: Income category is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
+
+        // Assert: Ensure the error message is not empty
+        assert !outContent.toString().trim().isEmpty() : "Error message should not be empty";
     }
 
     @Test
@@ -458,6 +466,7 @@ class FinanceTrackerTest {
     void logExpense_invalidAmountFormat_showsError() {
         // Create an empty FinanceTracker
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
+        assert financeTracker != null : "FinanceTracker instance should not be null";
 
         // Capture system output
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -473,5 +482,8 @@ class FinanceTrackerTest {
         // Assert
         String expectedOutput = "Error: Expense amount is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
+
+        // Assert: Ensure the log is not empty
+        assert !outContent.toString().trim().isEmpty() : "Expense log should not be empty";
     }
 }
