@@ -1,9 +1,16 @@
 package budgetflow;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,29 +19,60 @@ class FinanceTrackerTest {
     public static final String EMPTY_EXPENSE_LIST_MESSAGE =
             "There is currently no expense in your list right now. Please add more expenses to continue";
 
+    /**
+     * Empties the persistent file "data/budgetflow.txt" and resets any static fields before each test.
+     */
+    @BeforeEach
+    void setUp() throws Exception {
+        // Set the persistent file path relative to the project root.
+        Path dataDir = Paths.get("data");
+        if (!Files.exists(dataDir)) {
+            Files.createDirectories(dataDir);
+        }
+        Path filePath = dataDir.resolve("budgetflow.txt");
+        if (Files.exists(filePath)) {
+            Files.write(filePath, new byte[0]);
+        } else {
+            Files.createFile(filePath);
+        }
+        System.out.println("Cleared file: " + filePath.toAbsolutePath());
+
+        // Reset static fields in ExpenseList, if they exist.
+        try {
+            Field innerListField = ExpenseList.class.getDeclaredField("innerList");
+            innerListField.setAccessible(true);
+            if (Modifier.isStatic(innerListField.getModifiers())) {
+                innerListField.set(null, new ArrayList<Expense>());
+            }
+        } catch (NoSuchFieldException e) {
+            // No static innerList found.
+        }
+        try {
+            Field totalExpensesField = ExpenseList.class.getDeclaredField("totalExpenses");
+            totalExpensesField.setAccessible(true);
+            if (Modifier.isStatic(totalExpensesField.getModifiers())) {
+                totalExpensesField.set(null, 0.0);
+            }
+        } catch (NoSuchFieldException e) {
+            // No static totalExpenses found.
+        }
+    }
+
     private static FinanceTracker getFinanceTracker5Expenses() {
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
-        financeTracker.logExpense(
-                "log-expense category/food desc/Lunch amt/12.5 d/2025-03-13");
-        financeTracker.logExpense(
-                "log-expense category/transport desc/Transport  amt/3.2 d/2025-03-12");
-        financeTracker.logExpense(
-                "log-expense category/food desc/LateLunch amt/13.5 d/2025-03-14");
-        financeTracker.logExpense(
-                "log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
-        financeTracker.logExpense(
-                "log-expense category/food desc/ExpensiveLunch amt/30.0 d/2025-03-15");
+        financeTracker.logExpense("log-expense category/food desc/Lunch amt/12.5 d/2025-03-13");
+        financeTracker.logExpense("log-expense category/transport desc/Transport  amt/3.2 d/2025-03-12");
+        financeTracker.logExpense("log-expense category/food desc/LateLunch amt/13.5 d/2025-03-14");
+        financeTracker.logExpense("log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
+        financeTracker.logExpense("log-expense category/food desc/ExpensiveLunch amt/30.0 d/2025-03-15");
         return financeTracker;
     }
 
     private static FinanceTracker getFinanceTracker3Expenses() {
         FinanceTracker financeTracker = new FinanceTracker(new Scanner(System.in));
-        financeTracker.logExpense(
-                "log-expense category/food desc/Lunch  amt/12.5 d/2025-03-13");
-        financeTracker.logExpense(
-                "log-expense category/transport desc/Transport amt/3.2 d/2025-03-12");
-        financeTracker.logExpense(
-                "log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
+        financeTracker.logExpense("log-expense category/food desc/Lunch  amt/12.5 d/2025-03-13");
+        financeTracker.logExpense("log-expense category/transport desc/Transport amt/3.2 d/2025-03-12");
+        financeTracker.logExpense("log-expense category/food desc/Groceries amt/25.0 d/2025-03-11");
         return financeTracker;
     }
 
@@ -241,8 +279,7 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense(
-                "log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
+        financeTracker.logExpense("log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
         System.setOut(originalOut);
         String expectedOutput = "Expense logged: Dining | DinnerWithFriends | $45.75 | 2025-03-15";
         assertEquals(expectedOutput, outContent.toString().trim());
@@ -254,8 +291,7 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense(
-                "log-expense desc/DinnerWithFriends amt/45.75 d/2025-03-15");
+        financeTracker.logExpense("log-expense desc/DinnerWithFriends amt/45.75 d/2025-03-15");
         System.setOut(originalOut);
         String expectedOutput = "Error: Expense category is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
@@ -267,8 +303,7 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense(
-                "log-expense category/Dining amt/45.75 d/2025-03-15");
+        financeTracker.logExpense("log-expense category/Dining amt/45.75 d/2025-03-15");
         System.setOut(originalOut);
         String expectedOutput = "Error: Expense description is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
@@ -280,8 +315,7 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense(
-                "log-expense category/Dining desc/DinnerWithFriends d/2025-03-15");
+        financeTracker.logExpense("log-expense category/Dining desc/DinnerWithFriends d/2025-03-15");
         System.setOut(originalOut);
         String expectedOutput = "Error: Expense amount is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
@@ -293,8 +327,7 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense(
-                "log-expense category/Dining desc/DinnerWithFriends amt/45.75");
+        financeTracker.logExpense("log-expense category/Dining desc/DinnerWithFriends amt/45.75");
         System.setOut(originalOut);
         String expectedOutput = "Error: Expense date is required.";
         assertEquals(expectedOutput, outContent.toString().trim());
@@ -306,8 +339,7 @@ class FinanceTrackerTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        financeTracker.logExpense(
-                "log-expense category/Dining desc/DinnerWithFriends amt/invalid d/2025-03-15");
+        financeTracker.logExpense("log-expense category/Dining desc/DinnerWithFriends amt/invalid d/2025-03-15");
         System.setOut(originalOut);
         String expectedOutput = "Error: Expense amount is required.";
         assertEquals(expectedOutput, outContent.toString().trim());

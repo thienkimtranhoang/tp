@@ -37,7 +37,6 @@ public class Expense {
 
     @Override
     public String toString() {
-        return "[Category: " + category + ", Description: " + description + ", Amount: $" +
-                String.format("%.2f", amount) + ", Date: " + date + "]";
+        return category + " | " + description + " | $" + String.format("%.2f", amount) + " | " + date;
     }
 }
