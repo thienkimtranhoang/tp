@@ -4,6 +4,7 @@ import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.MissingAmountException;
 import budgetflow.exception.MissingCategoryException;
 import budgetflow.exception.MissingDateException;
+import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class AddIncomeCommand extends Command {
 
     public AddIncomeCommand(String input) {
         super(input);
+        this.commandType = CommandType.CREATE;
     }
 
     /**
@@ -28,7 +30,8 @@ public class AddIncomeCommand extends Command {
      * @throws MissingAmountException if user did not provide any amount for income or use miss the amount tag
      * @throws MissingCategoryException if user did not provide category or miss tag for category
      */
-    public void execute(List<Income> incomes) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException {
+    @Override
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException {
         Income income = extractIncome(input);
         incomes.add(income);
         this.outputMessage = "Income added: " + income.getCategory() + ", Amount: $" +

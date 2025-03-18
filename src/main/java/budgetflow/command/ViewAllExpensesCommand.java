@@ -2,6 +2,9 @@ package budgetflow.command;
 
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
+import budgetflow.income.Income;
+
+import java.util.List;
 
 public class ViewAllExpensesCommand extends Command {
 
@@ -9,9 +12,11 @@ public class ViewAllExpensesCommand extends Command {
 
     public ViewAllExpensesCommand() {
         super();
+        this.commandType = CommandType.READ;
     }
 
-    public void execute(ExpenseList expenseList) {
+    @Override
+    public void execute(List<Income> incomes, ExpenseList expenseList) {
         if (expenseList.getSize() == 0) {
             this.outputMessage = EMPTY_EXPENSE_LIST_MESSAGE;
             return;

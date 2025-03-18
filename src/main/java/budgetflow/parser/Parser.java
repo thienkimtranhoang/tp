@@ -16,7 +16,7 @@ public class Parser {
     public static final String COMMAND_FIND_EXPENSE = "find-expense";
 
 
-    public Command getCommandFromInput(String input) throws UnknownCommandException {
+    public static Command getCommandFromInput(String input) throws UnknownCommandException {
         if (input.startsWith(COMMAND_ADD_INCOME)) {
             return new AddIncomeCommand(input);
         } else if (input.startsWith(COMMAND_LOG_EXPENSE)) {

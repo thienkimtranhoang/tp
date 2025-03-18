@@ -1,5 +1,6 @@
 package budgetflow.command;
 
+import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 
 import java.util.List;
@@ -10,9 +11,11 @@ public class ListIncomeCommand extends Command {
 
     public ListIncomeCommand() {
         super();
+        this.commandType = CommandType.READ;
     }
 
-    public void execute(List<Income> incomes) {
+    @Override
+    public void execute(List<Income> incomes, ExpenseList expenseList) {
         if (incomes.isEmpty()) {
             this.outputMessage = EMPTY_INCOME_LIST_MESSAGE;
             return;

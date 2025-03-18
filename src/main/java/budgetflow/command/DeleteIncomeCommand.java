@@ -1,6 +1,7 @@
 package budgetflow.command;
 
 import budgetflow.exception.UnfoundIncomeException;
+import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 
 import java.util.List;
@@ -9,9 +10,11 @@ public class DeleteIncomeCommand extends Command {
     public static final String COMMAND_DELETE_INCOME = "delete-income ";
     public DeleteIncomeCommand(String input) {
         super(input);
+        this.commandType = CommandType.DELETE;
     }
 
-    public void execute(List<Income> incomes) throws UnfoundIncomeException {
+    @Override
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundIncomeException {
         if (input.startsWith(COMMAND_DELETE_INCOME)) {
             input = input.substring(COMMAND_DELETE_INCOME.length()).trim();
         }

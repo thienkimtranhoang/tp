@@ -3,6 +3,9 @@ package budgetflow.command;
 import budgetflow.exception.*;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
+import budgetflow.income.Income;
+
+import java.util.List;
 
 public class LogExpenseCommand extends Command{
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
@@ -15,6 +18,7 @@ public class LogExpenseCommand extends Command{
 
     public LogExpenseCommand(String input) {
         super(input);
+        this.commandType = CommandType.CREATE;
     }
 
     /**
@@ -26,7 +30,8 @@ public class LogExpenseCommand extends Command{
      * @throws MissingCategoryException if user miss the category of expense or expense tag
      * @throws MissingDescriptionException if user miss description of expense or expense tag
      */
-    public void execute(ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException {
+    @Override
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException {
         Expense expense = extractExpense(input);
         expenseList.add(expense);
         this.outputMessage = "Expense logged: " + expense.getCategory() + " | " + expense.getDescription() +

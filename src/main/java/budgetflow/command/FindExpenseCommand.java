@@ -4,6 +4,9 @@ import budgetflow.exception.MissingAmountException;
 import budgetflow.exception.MissingKeywordException;
 import budgetflow.exception.UnfoundExpenseException;
 import budgetflow.expense.ExpenseList;
+import budgetflow.income.Income;
+
+import java.util.List;
 
 public class FindExpenseCommand extends Command {
 
@@ -11,9 +14,11 @@ public class FindExpenseCommand extends Command {
 
     public FindExpenseCommand(String input) {
         super(input);
+        this.commandType = CommandType.READ;
     }
 
-    public void execute(ExpenseList expenseList) throws UnfoundExpenseException, MissingKeywordException {
+    @Override
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundExpenseException, MissingKeywordException {
 
         String keyword = "";
 
