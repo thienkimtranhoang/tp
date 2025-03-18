@@ -1,6 +1,4 @@
 package budgetflow.command;
-
-import budgetflow.exception.MissingAmountException;
 import budgetflow.exception.MissingKeywordException;
 import budgetflow.exception.UnfoundExpenseException;
 import budgetflow.expense.ExpenseList;
@@ -11,6 +9,7 @@ import java.util.List;
 public class FindExpenseCommand extends Command {
 
     private static final String COMMAND_FIND_EXPENSE = "find-expense";
+    private static final String ERROR_MISSING_KEYWORD = "Error: Missing keyword";
 
     public FindExpenseCommand(String input) {
         super(input);
@@ -26,7 +25,7 @@ public class FindExpenseCommand extends Command {
             keyword += input.substring(COMMAND_FIND_EXPENSE.length()).trim();
         }
         if (keyword.isEmpty()) {
-            throw new MissingKeywordException("Error: Missing keyword");
+            throw new MissingKeywordException(ERROR_MISSING_KEYWORD);
         }
 
         ExpenseList matchingExpenses = expenseList.get(keyword);

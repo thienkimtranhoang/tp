@@ -1,6 +1,10 @@
 package budgetflow.command;
 
-import budgetflow.exception.*;
+import budgetflow.exception.InvalidNumberFormatException;
+import budgetflow.exception.MissingCategoryException;
+import budgetflow.exception.MissingDateException;
+import budgetflow.exception.MissingAmountException;
+import budgetflow.exception.MissingDescriptionException;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -36,7 +40,6 @@ public class LogExpenseCommand extends Command{
         expenseList.add(expense);
         this.outputMessage = "Expense logged: " + expense.getCategory() + " | " + expense.getDescription() +
                 " | $" + String.format("%.2f", expense.getAmount()) + " | " + expense.getDate();
-//        storage.saveData(incomes, expenseList);
     }
 
     private Expense extractExpense (String input) throws InvalidNumberFormatException, MissingCategoryException, MissingAmountException, MissingDateException, MissingDescriptionException {

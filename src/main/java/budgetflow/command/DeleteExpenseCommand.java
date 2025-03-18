@@ -10,6 +10,7 @@ import java.util.List;
 
 public class DeleteExpenseCommand extends Command{
     private static final String COMMAND_DELETE_EXPENSE = "delete-expense ";
+    private static final String ERROR_EXPENSE_NOT_FOUND = "Expense not found: ";
 
     public DeleteExpenseCommand(String input) {
         super(input);
@@ -31,10 +32,7 @@ public class DeleteExpenseCommand extends Command{
             }
         }
         if (!found) {
-            throw new UnfoundExpenseException("Expense not found: " + input);
+            throw new UnfoundExpenseException(ERROR_EXPENSE_NOT_FOUND + input);
         }
-//        } else {
-//            storage.saveData(incomes, expenseList);
-//        }
     }
 }

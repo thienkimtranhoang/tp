@@ -7,7 +7,9 @@ import budgetflow.income.Income;
 import java.util.List;
 
 public class DeleteIncomeCommand extends Command {
-    public static final String COMMAND_DELETE_INCOME = "delete-income ";
+    private static final String COMMAND_DELETE_INCOME = "delete-income ";
+    private static final String ERROR_INCOME_NOT_FOUND = "Income not found: ";
+
     public DeleteIncomeCommand(String input) {
         super(input);
         this.commandType = CommandType.DELETE;
@@ -28,10 +30,7 @@ public class DeleteIncomeCommand extends Command {
             }
         }
         if (!found) {
-            throw new UnfoundIncomeException("Income not found: " + input);
+            throw new UnfoundIncomeException(ERROR_INCOME_NOT_FOUND + input);
         }
-//        } else {
-//            storage.saveData(incomes, expenseList);
-//        }
     }
 }

@@ -3,8 +3,6 @@ package budgetflow.ui;
 import java.util.Scanner;
 
 public class Ui {
-    private static final String LINE = "=============================";
-    private static final String LINE_DIVIDER = "___________________________";
     private static final Scanner SCANNER = new Scanner(System.in);
 
     /** Generates and print out the program message at the beginning of application */
@@ -23,17 +21,15 @@ public class Ui {
         return input;
     }
 
-    public void printLine() {
-        System.out.println(LINE_DIVIDER);
-    }
-
     /** Show error to user after failing to execute the command*/
     public void printError (String error) {
+
         System.out.println(error);
     }
 
     /** Print out the result/ message to use after successfully executing the command */
     public void printCommandMessage (String message) {
+
         System.out.println(message);
     }
 }

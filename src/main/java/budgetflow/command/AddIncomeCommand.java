@@ -36,7 +36,6 @@ public class AddIncomeCommand extends Command {
         incomes.add(income);
         this.outputMessage = "Income added: " + income.getCategory() + ", Amount: $" +
                 String.format("%.2f", income.getAmount()) + ", Date: " + income.getDate();
-//        storage.saveData(incomes, expenseList);
     }
 
 
