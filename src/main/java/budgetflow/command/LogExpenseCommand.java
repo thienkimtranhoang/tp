@@ -7,7 +7,7 @@ import budgetflow.expense.ExpenseList;
 public class LogExpenseCommand extends Command{
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
     private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH = LOG_EXPENSE_COMMAND_PREFIX.length();
-    
+
     private static final String ERROR_MISSING_EXPENSE_CATEGORY = "Error: Expense category is required.";
     private static final String ERROR_MISSING_EXPENSE_DESCRIPTION = "Error: Expense description is required.";
     private static final String ERROR_MISSING_EXPENSE_AMOUNT = "Error: Expense amount is required.";
@@ -27,7 +27,7 @@ public class LogExpenseCommand extends Command{
      * @throws MissingCategoryException if user miss the category of expense or expense tag
      * @throws MissingDescriptionException if user miss description of expense or expense tag
      */
-    public void execute(String input, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException {
+    public void execute(ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException {
         Expense expense = extractExpense(input);
         expenseList.add(expense);
         // Storage and UI work

@@ -4,7 +4,7 @@ import budgetflow.exception.FinanceException;
 
 public class Command {
     protected String input;
-    protected String commandMessage;
+    protected String outputMessage;
     protected boolean isExit = false;
 
     public Command() {}

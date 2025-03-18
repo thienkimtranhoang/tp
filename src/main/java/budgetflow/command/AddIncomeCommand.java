@@ -29,7 +29,7 @@ public class AddIncomeCommand extends Command {
      * @throws MissingAmountException if user did not provide any amount for income or use miss the amount tag
      * @throws MissingCategoryException if user did not provide category or miss tag for category
      */
-    public void execute(String input, List<Income> incomes) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException {
+    public void execute(List<Income> incomes) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException {
         Income income = extractIncome(input);
         incomes.add(income);
         // This is for UI and Storage, which will be dealt later
