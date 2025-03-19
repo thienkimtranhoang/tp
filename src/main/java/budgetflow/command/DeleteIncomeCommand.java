@@ -23,6 +23,8 @@ public class DeleteIncomeCommand extends Command {
         String incomeCategory = input.substring(COMMAND_DELETE_INCOME.length()).trim();
         boolean found = false;
         for (int i = 0; i < incomes.size(); i++) {
+            assert incomes.get(i) != null : "Income list contains a null entry";
+            assert incomes.get(i).getCategory() != null : "Income entry has a null category";
             if (incomes.get(i).getCategory().equalsIgnoreCase(incomeCategory)) {
                 incomes.remove(i);
                 this.outputMessage = "Income deleted: " + incomeCategory;
