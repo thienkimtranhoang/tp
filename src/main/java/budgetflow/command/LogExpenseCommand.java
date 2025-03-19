@@ -1,15 +1,13 @@
 package budgetflow.command;
 
-import budgetflow.exception.InvalidNumberFormatException;
-import budgetflow.exception.MissingCategoryException;
-import budgetflow.exception.MissingDateException;
-import budgetflow.exception.MissingAmountException;
-import budgetflow.exception.MissingDescriptionException;
+import budgetflow.exception.*;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LogExpenseCommand extends Command{
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
@@ -19,6 +17,7 @@ public class LogExpenseCommand extends Command{
     private static final String ERROR_MISSING_EXPENSE_DESCRIPTION = "Error: Expense description is required.";
     private static final String ERROR_MISSING_EXPENSE_AMOUNT = "Error: Expense amount is required.";
     private static final String ERROR_MISSING_EXPENSE_DATE = "Error: Expense date is required.";
+    public static final String ERROR_EMPTY_EXPENSE = "Expense should not be empty";
 
     public LogExpenseCommand(String input) {
         super(input);
@@ -35,15 +34,23 @@ public class LogExpenseCommand extends Command{
      * @throws MissingDescriptionException if user miss description of expense or expense tag
      */
     @Override
-    public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException {
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException, MissingExpenseException {
         Expense expense = extractExpense(input);
         expenseList.add(expense);
         this.outputMessage = "Expense logged: " + expense.getCategory() + " | " + expense.getDescription() +
                 " | $" + String.format("%.2f", expense.getAmount()) + " | " + expense.getDate();
     }
 
-    private Expense extractExpense (String input) throws InvalidNumberFormatException, MissingCategoryException, MissingAmountException, MissingDateException, MissingDescriptionException {
+    private Expense extractExpense (String input) throws InvalidNumberFormatException, MissingCategoryException, MissingAmountException,
+            MissingDateException, MissingDescriptionException, MissingExpenseException {
+        assert input != null && !input.isEmpty() : "Expense input should not be empty";
+        assert input.startsWith(LOG_EXPENSE_COMMAND_PREFIX) : "Invalid log expense command format";
+
         input = input.substring(LOG_EXPENSE_COMMAND_PREFIX_LENGTH).trim();
+
+        if (input.isEmpty()) {
+            throw new MissingExpenseException(ERROR_EMPTY_EXPENSE);
+        }
 
         String category = null;
         String description = null;
@@ -96,5 +103,11 @@ public class LogExpenseCommand extends Command{
             throw new MissingDateException(ERROR_MISSING_EXPENSE_DATE);
         }
         return new Expense(category, description, amount, date);
+    }
+
+    private String extractPattern(String input, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.find() ? matcher.group(1).trim() : null;
     }
 }

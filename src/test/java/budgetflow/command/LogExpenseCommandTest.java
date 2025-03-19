@@ -33,7 +33,7 @@ class LogExpenseCommandTest {
         try {
             c.execute(incomes, expenseList);
         } catch (FinanceException e) {
-            String expectedError = "Error: Expense category is required.";
+            String expectedError = "Expense should not be empty";
             assertEquals(expectedError, e.getMessage());
         }
     }

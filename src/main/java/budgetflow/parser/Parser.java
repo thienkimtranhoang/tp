@@ -11,7 +11,10 @@ import budgetflow.command.FindExpenseCommand;
 import budgetflow.command.ExitCommand;
 import budgetflow.exception.UnknownCommandException;
 
+import java.util.logging.Logger;
+
 public class Parser {
+    private static final Logger logger = Logger.getLogger(Parser.class.getName());
 
     // Command constants
     public static final String COMMAND_ADD_INCOME = "add category/";
@@ -25,6 +28,7 @@ public class Parser {
 
 
     public static Command getCommandFromInput(String input) throws UnknownCommandException {
+        logger.info("Processing command: " + input);
         if (input.startsWith(COMMAND_ADD_INCOME)) {
             return new AddIncomeCommand(input);
         } else if (input.startsWith(COMMAND_LOG_EXPENSE)) {
@@ -42,6 +46,7 @@ public class Parser {
         } else if (input.equals(COMMAND_EXIT)) {
             return new ExitCommand();
         } else {
+            logger.warning("Unknown command received: " + input);
             throw new UnknownCommandException();
         }
     }

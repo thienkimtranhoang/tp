@@ -5,8 +5,10 @@ import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ViewAllExpensesCommand extends Command {
+    private static final Logger logger = Logger.getLogger(ViewAllExpensesCommand.class.getName());
 
     private static final String EMPTY_EXPENSE_LIST_MESSAGE = "No expenses have been logged yet.";
 
@@ -18,6 +20,7 @@ public class ViewAllExpensesCommand extends Command {
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
         if (expenseList.getSize() == 0) {
+            logger.info("Viewing empty expense list");
             this.outputMessage = EMPTY_EXPENSE_LIST_MESSAGE + System.lineSeparator();
             return;
         }
@@ -31,5 +34,6 @@ public class ViewAllExpensesCommand extends Command {
         }
         message += "Total Expenses: $" + String.format("%.2f", expenseList.getTotalExpenses()) + System.lineSeparator();
         this.outputMessage = message;
+        logger.info("Viewing expense list: " + expenseList);
     }
 }
