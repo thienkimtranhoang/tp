@@ -17,7 +17,7 @@ public class ListIncomeCommand extends Command {
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
         if (incomes.isEmpty()) {
-            this.outputMessage = EMPTY_INCOME_LIST_MESSAGE;
+            this.outputMessage = EMPTY_INCOME_LIST_MESSAGE + System.lineSeparator();
             return;
         }
         double totalIncome = 0.0;

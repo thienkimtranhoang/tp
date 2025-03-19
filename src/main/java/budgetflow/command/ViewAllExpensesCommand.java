@@ -18,7 +18,7 @@ public class ViewAllExpensesCommand extends Command {
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
         if (expenseList.getSize() == 0) {
-            this.outputMessage = EMPTY_EXPENSE_LIST_MESSAGE;
+            this.outputMessage = EMPTY_EXPENSE_LIST_MESSAGE + System.lineSeparator();
             return;
         }
         String message = "Expenses log:" + System.lineSeparator();

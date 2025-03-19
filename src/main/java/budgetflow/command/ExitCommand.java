@@ -12,7 +12,7 @@ public class ExitCommand extends Command {
 
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
-        this.outputMessage = "Goodbye!";
+        this.outputMessage = "Goodbye!" + System.lineSeparator();
         this.isExit = true;
     }
 }
