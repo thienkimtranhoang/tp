@@ -19,13 +19,12 @@ public class Parser {
     // Command constants
     public static final String COMMAND_ADD_INCOME = "add category/";
     public static final String COMMAND_LOG_EXPENSE = "log-expense ";
-    public static final String COMMAND_LIST_INCOME = "list income";
-    public static final String COMMAND_EXIT = "exit";
     public static final String COMMAND_DELETE_INCOME = "delete-income ";
+    public static final String COMMAND_LIST_INCOME = "list income";
     public static final String COMMAND_DELETE_EXPENSE = "delete-expense ";
     public static final String COMMAND_VIEW_ALL_EXPENSES = "view-all-expense";
     public static final String COMMAND_FIND_EXPENSE = "find-expense";
-
+    public static final String COMMAND_EXIT = "exit";
 
     public static Command getCommandFromInput(String input) throws UnknownCommandException {
         logger.info("Processing command: " + input);

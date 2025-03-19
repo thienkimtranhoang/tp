@@ -1,18 +1,15 @@
 package budgetflow.command;
 
-import budgetflow.FinanceTracker;
 import budgetflow.exception.FinanceException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class AddIncomeCommandTest {
     @Test
@@ -32,6 +29,7 @@ class AddIncomeCommandTest {
         Command c = new AddIncomeCommand("add amt/2500.00 d/2025-03-15");
         try {
             c.execute(incomes, expenseList);
+            fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Income category is required.";
             assertEquals(expectedError, e.getMessage());

@@ -1,18 +1,16 @@
 package budgetflow.command;
 
-import budgetflow.FinanceTracker;
 import budgetflow.exception.FinanceException;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class DeleteExpenseCommandTest {
     private static ExpenseList getListWith3Expenses() {
@@ -40,6 +38,7 @@ class DeleteExpenseCommandTest {
         Command c = new DeleteExpenseCommand("delete-expense Dinner");
         try {
             c.execute(incomes, expenseList);
+            fail();
         } catch (FinanceException e) {
             String expectedError = "Expense not found: Dinner";
             assertEquals(expectedError, e.getMessage());

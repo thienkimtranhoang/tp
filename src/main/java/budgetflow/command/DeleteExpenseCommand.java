@@ -1,9 +1,6 @@
 package budgetflow.command;
 
-import budgetflow.FinanceTracker;
-import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.UnfoundExpenseException;
-import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 
