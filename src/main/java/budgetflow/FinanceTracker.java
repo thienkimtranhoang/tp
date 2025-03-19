@@ -116,6 +116,10 @@ public class FinanceTracker {
         logger.info("Income added successfully: " + income);
 
         storage.saveData(incomes, expenseList);
+
+        // Print success message
+        System.out.println("Income added successfully: " + category + " | $" + String.format("%.2f", amount) + " | " + date);
+
     }
 
     public void logExpense(String input) {
@@ -148,6 +152,9 @@ public class FinanceTracker {
         logger.info("Expense logged successfully: " + expense);
 
         storage.saveData(incomes, expenseList);
+
+        // Print success message
+        System.out.println("Expense logged successfully: " + category + " | " + description + " | $" + String.format("%.2f", amount) + " | " + date);
     }
 
     public void listIncome() {
@@ -164,6 +171,7 @@ public class FinanceTracker {
             totalIncome += income.getAmount();
         }
         System.out.println("Total Income: $" + String.format("%.2f", totalIncome));
+
     }
 
     public double viewAllExpenses() {
