@@ -54,4 +54,6 @@ class FinanceTrackerTest {
             // No static totalExpenses found.
         }
     }
+
+    void donothing(){}
 }

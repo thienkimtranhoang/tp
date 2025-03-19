@@ -3,9 +3,9 @@ package budgetflow.ui;
 import java.util.Scanner;
 
 public class Ui {
-    private static final Scanner SCANNER = new Scanner(System.in);
     public static final String WELCOME_MESSAGE = "Welcome to Finance Tracker!" + System.lineSeparator()
             + "You can track incomes and expenses here.";
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     /** Generates and print out the program message at the beginning of application */
     public void showWelcome() {
