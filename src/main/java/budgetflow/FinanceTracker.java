@@ -138,6 +138,7 @@ public class FinanceTracker {
         storage.saveData(incomes, expenseList);
     }
 
+    
     /**
      * Logs an expense in the finance tracker.
      * Expected format: log-expense desc/DESCRIPTION amt/AMOUNT d/DATE
