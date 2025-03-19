@@ -21,6 +21,7 @@ public class DeleteExpenseCommand extends Command{
     public void execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundExpenseException {
         assert input.startsWith(COMMAND_DELETE_EXPENSE) : "Invalid delete expense command format";
         String expenseDesc = input.substring(COMMAND_DELETE_EXPENSE.length()).trim();
+        assert !expenseDesc.isEmpty() : "Expense description cannot be empty";
 
         boolean found = false;
         for (int i = 0; i < expenseList.getSize(); i++) {

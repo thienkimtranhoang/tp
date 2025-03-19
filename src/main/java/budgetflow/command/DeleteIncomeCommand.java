@@ -21,6 +21,7 @@ public class DeleteIncomeCommand extends Command {
     public void execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundIncomeException {
         assert input.startsWith(COMMAND_DELETE_INCOME) : "Invalid delete income command format";
         String incomeCategory = input.substring(COMMAND_DELETE_INCOME.length()).trim();
+        assert !incomeCategory.isEmpty() : "Income category cannot be empty";
         boolean found = false;
         for (int i = 0; i < incomes.size(); i++) {
             if (incomes.get(i).getCategory().equalsIgnoreCase(incomeCategory)) {
