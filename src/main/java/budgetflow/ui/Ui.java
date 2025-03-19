@@ -7,6 +7,9 @@ public class Ui {
     public static final String WELCOME_MESSAGE = "Welcome to Finance Tracker!" + System.lineSeparator()
             + "You can track incomes and expenses here.";
 
+    public Ui() {
+
+    }
     /** Generates and print out the program message at the beginning of application */
     public void showWelcome() {
         System.out.println(WELCOME_MESSAGE);
