@@ -4,11 +4,12 @@ import java.util.Scanner;
 
 public class Ui {
     private static final Scanner SCANNER = new Scanner(System.in);
+    public static final String WELCOME_MESSAGE = "Welcome to Finance Tracker!" + System.lineSeparator()
+            + "You can track incomes and expenses here.";
 
     /** Generates and print out the program message at the beginning of application */
     public void showWelcome() {
-        System.out.println("Welcome to Finance Tracker!");
-        System.out.println("You can track incomes and expenses here.");
+        System.out.println(WELCOME_MESSAGE);
     }
 
     /** Read the text entered by user, ignoring all leading and trailing whitespace */
