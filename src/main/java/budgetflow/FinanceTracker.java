@@ -8,8 +8,13 @@ import budgetflow.storage.Storage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FinanceTracker {
+    private static final Logger logger = Logger.getLogger(FinanceTracker.class.getName());
 
     // Command constants
     public static final String COMMAND_ADD_INCOME = "add category/";
@@ -33,6 +38,9 @@ public class FinanceTracker {
     private Storage storage;
 
     public FinanceTracker(Collection<Expense> expenseList, Scanner scanner) {
+        assert scanner != null : "Scanner cannot be null";
+        assert expenseList != null : "Expense list cannot be null";
+
         this.incomes = new ArrayList<>();
         this.scanner = scanner;
         this.expenseList = new ExpenseList(expenseList);
@@ -53,140 +61,95 @@ public class FinanceTracker {
     }
 
     public void processCommand(String input) {
-        if (input.startsWith(COMMAND_ADD_INCOME)) {
-            addIncome(input);
-        } else if (input.startsWith(COMMAND_LOG_EXPENSE)) {
-            logExpense(input);
-        } else if (input.startsWith(COMMAND_DELETE_INCOME)) {
-            deleteIncome(input);
-        } else if (COMMAND_LIST_INCOME.equals(input)) {
-            listIncome();
-        } else if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
-            deleteExpense(input);
-        } else if (input.equals(COMMAND_VIEW_ALL_EXPENSES)) {
-            viewAllExpenses();
-        } else if (input.startsWith(COMMAND_FIND_EXPENSE)) {
-            findExpense(input);
-        } else {
-            System.out.println("I don't understand that command. Try again.");
+        assert input != null : "Command input cannot be null";
+
+        logger.info("Processing command: " + input);
+
+        try {
+            if (input.startsWith(COMMAND_ADD_INCOME)) {
+                addIncome(input);
+            } else if (input.startsWith(COMMAND_LOG_EXPENSE)) {
+                logExpense(input);
+            } else if (input.startsWith(COMMAND_DELETE_INCOME)) {
+                deleteIncome(input);
+            } else if (COMMAND_LIST_INCOME.equals(input)) {
+                listIncome();
+            } else if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
+                deleteExpense(input);
+            } else if (input.equals(COMMAND_VIEW_ALL_EXPENSES)) {
+                viewAllExpenses();
+            } else if (input.startsWith(COMMAND_FIND_EXPENSE)) {
+                findExpense(input);
+            } else {
+                logger.warning("Unknown command received: " + input);
+                System.out.println("I don't understand that command. Try again.");
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error processing command: " + input, e);
+            System.out.println("An error occurred while processing the command.");
         }
     }
 
+
     public void addIncome(String input) {
+        assert input.startsWith(COMMAND_ADD_INCOME) : "Invalid add income command format";
+
         input = input.substring(ADD_COMMAND_PREFIX_LENGTH).trim();
+        logger.info("Adding income with input: " + input);
 
-        String category = null;
-        Double amount = null;
-        String date = null;
+        String category = extractPattern(input, "category/(.*?) (amt/|d/|$)");
+        String amtStr = extractPattern(input, "amt/([0-9]+(\\.[0-9]*)?)");
+        String date = extractPattern(input, "d/([^ ]+)");
 
-        String categoryPattern = "category/(.*?) (amt/|d/|$)";
-        String amtPattern = "amt/([0-9]+(\\.[0-9]*)?)";
-        String datePattern = "d/([^ ]+)";
-
-        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(categoryPattern);
-        java.util.regex.Matcher matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            category = matcher.group(1).trim();
-        }
-        pattern = java.util.regex.Pattern.compile(amtPattern);
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            try {
-                amount = Double.parseDouble(matcher.group(1));
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Invalid amount format. Please enter a valid number.");
-                return;
-            }
-        }
-        pattern = java.util.regex.Pattern.compile(datePattern);
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            date = matcher.group(1).trim();
+        if (category == null || category.isEmpty() || amtStr == null || date == null) {
+            logger.warning("Invalid income input: " + input);
+            throw new IllegalArgumentException("Error: Income category, amount, and date are required.");
         }
 
-        if (category == null || category.isEmpty()) {
-            System.out.println("Error: Income category is required.");
-            return;
-        }
-        if (amount == null) {
-            System.out.println("Error: Income amount is required.");
-            return;
-        }
-        if (date == null) {
-            System.out.println("Error: Income date is required.");
-            return;
+        double amount;
+        try {
+            amount = Double.parseDouble(amtStr);
+        } catch (NumberFormatException e) {
+            logger.warning("Invalid amount format: " + amtStr);
+            throw new IllegalArgumentException("Error: Invalid amount format.");
         }
 
         Income income = new Income(category, amount, date);
         incomes.add(income);
-        System.out.println("Income added: " + category + ", Amount: $" +
-                String.format("%.2f", amount) + ", Date: " + date);
+        logger.info("Income added successfully: " + income);
+
         storage.saveData(incomes, expenseList);
     }
 
     public void logExpense(String input) {
+        assert input != null && !input.isEmpty() : "Expense input should not be empty";
+        assert input.startsWith(LOG_EXPENSE_COMMAND_PREFIX) : "Invalid log expense command format";
+
         input = input.substring(LOG_EXPENSE_COMMAND_PREFIX_LENGTH).trim();
+        logger.info("Logging expense with input: " + input);
 
-        String category = null;
-        String description = null;
-        Double amount = null;
-        String date = null;
+        String category = extractPattern(input, "category/(.*?) (desc/|amt/|d/|$)");
+        String description = extractPattern(input, "desc/(.*?) (amt/|d/|$)");
+        String amtStr = extractPattern(input, "amt/([0-9]+(\\.[0-9]*)?)");
+        String date = extractPattern(input, "d/([^ ]+)");
 
-        String categoryPattern = "category/(.*?) (desc/|amt/|d/|$)";
-        String descPattern = "desc/(.*?) (amt/|d/|$)";
-        String amtPattern = "amt/([0-9]+(\\.[0-9]*)?)";
-        String datePattern = "d/([^ ]+)";
-
-        java.util.regex.Pattern pattern;
-        java.util.regex.Matcher matcher;
-
-        pattern = java.util.regex.Pattern.compile(categoryPattern);
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            category = matcher.group(1).trim();
-        }
-        pattern = java.util.regex.Pattern.compile(descPattern);
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            description = matcher.group(1).trim();
-        }
-        pattern = java.util.regex.Pattern.compile(amtPattern);
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            try {
-                amount = Double.parseDouble(matcher.group(1));
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Invalid amount format. Please enter a valid number.");
-                return;
-            }
-        }
-        pattern = java.util.regex.Pattern.compile(datePattern);
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            date = matcher.group(1).trim();
+        if (category == null || description == null || amtStr == null || date == null) {
+            logger.warning("Invalid expense input: " + input);
+            throw new IllegalArgumentException("Error: Expense category, description, amount, and date are required.");
         }
 
-        if (category == null || category.isEmpty()) {
-            System.out.println("Error: Expense category is required.");
-            return;
-        }
-        if (description == null || description.isEmpty()) {
-            System.out.println("Error: Expense description is required.");
-            return;
-        }
-        if (amount == null) {
-            System.out.println("Error: Expense amount is required.");
-            return;
-        }
-        if (date == null) {
-            System.out.println("Error: Expense date is required.");
-            return;
+        double amount;
+        try {
+            amount = Double.parseDouble(amtStr);
+        } catch (NumberFormatException e) {
+            logger.warning("Invalid amount format: " + amtStr);
+            throw new IllegalArgumentException("Error: Invalid amount format.");
         }
 
         Expense expense = new Expense(category, description, amount, date);
         expenseList.add(expense);
-        System.out.println("Expense logged: " + category + " | " + description +
-                " | $" + String.format("%.2f", amount) + " | " + date);
+        logger.info("Expense logged successfully: " + expense);
+
         storage.saveData(incomes, expenseList);
     }
 
@@ -206,10 +169,10 @@ public class FinanceTracker {
         System.out.println("Total Income: $" + String.format("%.2f", totalIncome));
     }
 
-    public void viewAllExpenses() {
+    public double viewAllExpenses() {
         if (expenseList.getSize() == 0) {
             System.out.println("No expenses have been logged yet.");
-            return;
+            return 0;
         }
         System.out.println("Expenses log:");
         for (int i = 0; i < expenseList.getSize(); i++) {
@@ -220,6 +183,7 @@ public class FinanceTracker {
                     expense.getDate());
         }
         System.out.println("Total Expenses: $" + String.format("%.2f", expenseList.getTotalExpenses()));
+        return 0;
     }
 
     public void findExpense(String input) {
@@ -240,43 +204,47 @@ public class FinanceTracker {
         }
     }
 
-    public void deleteIncome(String income) {
-        if (income.startsWith(COMMAND_DELETE_INCOME)) {
-            income = income.substring(COMMAND_DELETE_INCOME.length()).trim();
-        }
-        boolean found = false;
-        for (int i = 0; i < incomes.size(); i++) {
-            if (incomes.get(i).getCategory().equalsIgnoreCase(income)) {
-                incomes.remove(i);
-                System.out.println("Income deleted: " + income);
-                found = true;
-                break;
-            }
-        }
+    public void deleteIncome(String input) {
+        assert input.startsWith(COMMAND_DELETE_INCOME) : "Invalid delete income command format";
+
+        String incomeCategory = input.substring(COMMAND_DELETE_INCOME.length()).trim();
+        boolean found = incomes.removeIf(income -> income.getCategory().equalsIgnoreCase(incomeCategory));
+
         if (!found) {
-            System.out.println("Income not found: " + income);
+            logger.warning("Attempted to delete non-existent income: " + incomeCategory);
+            System.out.println("Income not found: " + incomeCategory);
         } else {
+            logger.info("Income deleted: " + incomeCategory);
             storage.saveData(incomes, expenseList);
         }
     }
 
     public void deleteExpense(String input) {
-        if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
-            input = input.substring(COMMAND_DELETE_EXPENSE.length()).trim();
-        }
+        assert input.startsWith(COMMAND_DELETE_EXPENSE) : "Invalid delete expense command format";
+
+        String expenseDesc = input.substring(COMMAND_DELETE_EXPENSE.length()).trim();
         boolean found = false;
+
         for (int i = 0; i < expenseList.getSize(); i++) {
-            if (expenseList.get(i).getDescription().equalsIgnoreCase(input)) {
+            if (expenseList.get(i).getDescription().equalsIgnoreCase(expenseDesc)) {
                 expenseList.delete(i);
-                System.out.println("Expense deleted: " + input);
+                logger.info("Expense deleted: " + expenseDesc);
                 found = true;
                 break;
             }
         }
+
         if (!found) {
-            System.out.println("Expense not found: " + input);
+            logger.warning("Attempted to delete non-existent expense: " + expenseDesc);
+            System.out.println("Expense not found: " + expenseDesc);
         } else {
             storage.saveData(incomes, expenseList);
         }
+    }
+
+    private String extractPattern(String input, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.find() ? matcher.group(1).trim() : null;
     }
 }
