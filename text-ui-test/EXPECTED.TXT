@@ -8,5 +8,6 @@ What would you like to do?
 Income Log:
 Salary | $1000.00 | 2025-03-06
 Total Income: $1000.00
+
 What would you like to do?
 Goodbye!
