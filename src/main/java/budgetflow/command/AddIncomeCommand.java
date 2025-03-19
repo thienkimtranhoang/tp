@@ -1,9 +1,6 @@
 package budgetflow.command;
 
-import budgetflow.exception.InvalidNumberFormatException;
-import budgetflow.exception.MissingAmountException;
-import budgetflow.exception.MissingCategoryException;
-import budgetflow.exception.MissingDateException;
+import budgetflow.exception.*;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import java.util.List;
@@ -34,7 +31,7 @@ public class AddIncomeCommand extends Command {
      * @throws MissingCategoryException if user did not provide category or miss tag for category
      */
     @Override
-    public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException {
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingIncomeException {
         Income income = extractIncome(input);
         incomes.add(income);
         this.outputMessage = "Income added: " + income.getCategory() + ", Amount: $" +
@@ -43,9 +40,13 @@ public class AddIncomeCommand extends Command {
     }
 
 
-    private Income extractIncome(String input) throws InvalidNumberFormatException, MissingCategoryException, MissingAmountException, MissingDateException {
+    private Income extractIncome(String input) throws InvalidNumberFormatException, MissingCategoryException, MissingAmountException,
+            MissingDateException, MissingIncomeException {
         assert input.startsWith(ADD_COMMAND_PREFIX) : "Invalid add income command format";
         input = input.substring(ADD_COMMAND_PREFIX_LENGTH).trim();
+        if (input.isEmpty()) {
+            throw new MissingIncomeException("Income should not be empty");
+        }
 
         String category = null;
         Double amount = null;
