@@ -1,9 +1,9 @@
 Welcome to Finance Tracker!
 You can track incomes and expenses here.
 What would you like to do?
-Income added successfully: Salary | $1000.00 | 2025-03-06
+Income added: Salary, Amount: $1000.00, Date: 2025-03-06
 What would you like to do?
-Expense logged successfully: Coffee | Coffee | $3.50 | 2025-03-06
+Expense logged: Coffee | Coffee | $3.50 | 2025-03-06
 What would you like to do?
 Income Log:
 Salary | $1000.00 | 2025-03-06
