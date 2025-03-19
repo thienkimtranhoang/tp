@@ -25,4 +25,3 @@ public class MainTracker {
         scanner.close();
     }
 }
-

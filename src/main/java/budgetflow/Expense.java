@@ -6,9 +6,9 @@ public class Expense {
     private String date;
     private String category;
 
-    public Expense() {};
+    public Expense() {}
 
-    public Expense(String category,String description, double amount, String date) {
+    public Expense(String category, String description, double amount, String date) {
         this.description = description;
         this.amount = amount;
         this.date = date;
@@ -27,11 +27,16 @@ public class Expense {
         return date;
     }
 
-    public String getCategory() {return category;}
-    public void setCategory(String category) {this.category = category;}
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
-        return "[Category: " + category + ", Description: " + description + ", Amount: $" +
-                String.format("%.2f", amount) + ", Date: " + date + "]";
+        return category + " | " + description + " | $" + String.format("%.2f", amount) + " | " + date;
     }
 }
