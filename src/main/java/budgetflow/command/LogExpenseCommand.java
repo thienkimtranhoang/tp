@@ -18,7 +18,7 @@ public class LogExpenseCommand extends Command{
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
     private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH = LOG_EXPENSE_COMMAND_PREFIX.length();
 
-    public static final String ERROR_EMPTY_EXPENSE = "Expense should not be empty";
+    private static final String ERROR_EMPTY_EXPENSE = "Expense should not be empty";
     private static final String ERROR_MISSING_EXPENSE_CATEGORY = "Error: Expense category is required.";
     private static final String ERROR_MISSING_EXPENSE_DESCRIPTION = "Error: Expense description is required.";
     private static final String ERROR_MISSING_EXPENSE_AMOUNT = "Error: Expense amount is required.";
