@@ -87,12 +87,7 @@ public class FinanceTracker {
         }
     }
 
-    /**
-     * Adds an income entry based on the given input string.
-     *
-     * @param input The input command containing the income details.
-     * @throws IllegalArgumentException if the input is invalid.
-     */
+
     public void addIncome(String input) {
         assert input.startsWith(COMMAND_ADD_INCOME) : "Invalid add income command format";
 
@@ -121,18 +116,8 @@ public class FinanceTracker {
         logger.info("Income added successfully: " + income);
 
         storage.saveData(incomes, expenseList);
-
-        // Print success message
-        System.out.println("Income added successfully: " + category + " | $" + String.format("%.2f", amount) + " | " + date);
-
     }
 
-    /**
-     * Logs an expense entry based on the given input string.
-     *
-     * @param input The input command containing the expense details.
-     * @throws IllegalArgumentException if the input is invalid.
-     */
     public void logExpense(String input) {
         assert input != null && !input.isEmpty() : "Expense input should not be empty";
         assert input.startsWith(LOG_EXPENSE_COMMAND_PREFIX) : "Invalid log expense command format";
@@ -163,9 +148,6 @@ public class FinanceTracker {
         logger.info("Expense logged successfully: " + expense);
 
         storage.saveData(incomes, expenseList);
-
-        // Print success message
-        System.out.println("Expense logged successfully: " + category + " | " + description + " | $" + String.format("%.2f", amount) + " | " + date);
     }
 
     public void listIncome() {
@@ -182,7 +164,6 @@ public class FinanceTracker {
             totalIncome += income.getAmount();
         }
         System.out.println("Total Income: $" + String.format("%.2f", totalIncome));
-
     }
 
     public double viewAllExpenses() {
