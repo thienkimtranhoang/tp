@@ -21,7 +21,7 @@ public class FindExpenseCommand extends Command {
 
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundExpenseException,
-            MissingKeywordException {
+                MissingKeywordException {
         assert input.startsWith(COMMAND_FIND_EXPENSE) : "Invalid find expense command format";
         String keyword = input.substring(COMMAND_FIND_EXPENSE.length()).trim();
         if (keyword.isEmpty()) {
