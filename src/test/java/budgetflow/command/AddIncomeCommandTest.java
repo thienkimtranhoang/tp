@@ -74,5 +74,15 @@ class AddIncomeCommandTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
+    
+    @Test
+    void addIncome_extraParameters_ignoresExtraParams() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c = new AddIncomeCommand("add category/Salary amt/2500.00 d/2025-03-15 extra/parameter");
+        c.execute(incomes, expenseList);
+        String expectedOutput = "Income added: Salary, Amount: $2500.00, Date: 2025-03-15";
+        assertEquals(expectedOutput, c.getOutputMessage());
+    }
 
 }

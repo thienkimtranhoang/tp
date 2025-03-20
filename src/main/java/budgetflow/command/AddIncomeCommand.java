@@ -49,7 +49,7 @@ public class AddIncomeCommand extends Command {
     private Income extractIncome(String input) throws InvalidNumberFormatException,
             MissingCategoryException, MissingAmountException,
             MissingDateException, MissingIncomeException {
-        assert input.startsWith(ADD_COMMAND_PREFIX) : "Invalid add income command format";
+        assert input.startsWith(ADD_COMMAND_PREFIX) : "Invalid add income format";
         input = input.substring(ADD_COMMAND_PREFIX_LENGTH).trim();
         if (input.isEmpty()) {
             throw new MissingIncomeException("Income should not be empty");
