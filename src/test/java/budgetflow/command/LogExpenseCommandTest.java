@@ -11,8 +11,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-
+/**
+ * Test class for LogExpenseCommand.
+ * This class tests various scenarios to ensure the correct functionality
+ * and error handling of the LogExpenseCommand class.
+ */
 class LogExpenseCommandTest {
+    /**
+     * Tests if a valid expense input is logged correctly.
+     *
+     * @throws FinanceException if an error occurs while executing the command
+     */
     //@@author dariusyawningwhiz
     @Test
     void logExpense_validInput_logsExpense() throws FinanceException {
@@ -25,6 +34,10 @@ class LogExpenseCommandTest {
         assertEquals(expectedOutput, c.getOutputMessage());
     }
 
+    /**
+     * Tests handling of an empty input command.
+     * Ensures that an appropriate exception is thrown.
+     */
     //@@author dariusyawningwhiz
     @Test
     void logExpense_emptyInputTest() {
@@ -40,6 +53,9 @@ class LogExpenseCommandTest {
         }
     }
 
+    /**
+     * Tests if the absence of a category results in an error message.
+     */
     //@@author dariusyawningwhiz
     @Test
     void logExpense_missingCategory_showsError() {
@@ -56,6 +72,9 @@ class LogExpenseCommandTest {
         }
     }
 
+    /**
+     * Tests if the absence of a description results in an error message.
+     */
     //@@author dariusyawningwhiz
     @Test
     void logExpense_missingDescription_showsError() {
@@ -72,6 +91,9 @@ class LogExpenseCommandTest {
         }
     }
 
+    /**
+     * Tests if the absence of an amount results in an error message.
+     */
     //@@author dariusyawningwhiz
     @Test
     void logExpense_missingAmount_showsError() {
@@ -88,6 +110,9 @@ class LogExpenseCommandTest {
         }
     }
 
+    /**
+     * Tests if the absence of a date results in an error message.
+     */
     //@@author dariusyawningwhiz
     @Test
     void logExpense_missingDate_showsError() {
@@ -104,6 +129,9 @@ class LogExpenseCommandTest {
         }
     }
 
+    /**
+     * Tests if an invalid amount format results in an error message.
+     */
     //@@author dariusyawningwhiz
     @Test
     void logExpense_invalidAmountFormat_showsError() {
