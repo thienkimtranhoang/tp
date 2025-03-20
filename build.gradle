@@ -35,7 +35,7 @@ application {
 }
 
 shadowJar {
-    archiveBaseName.set("duke")
+    archiveBaseName.set("tp")
     archiveClassifier.set("")
 }
 
