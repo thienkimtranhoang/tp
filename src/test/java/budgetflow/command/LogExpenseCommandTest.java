@@ -148,6 +148,7 @@ class LogExpenseCommandTest {
         }
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_extraParameters_ignoresExtraParams() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();

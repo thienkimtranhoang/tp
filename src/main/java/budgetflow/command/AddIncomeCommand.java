@@ -10,6 +10,7 @@ import budgetflow.income.Income;
 import java.util.List;
 import java.util.logging.Logger;
 
+//@@author thienkimtranhoang
 public class AddIncomeCommand extends Command {
     private static final Logger logger = Logger.getLogger(AddIncomeCommand.class.getName());
     private static final String ADD_COMMAND_PREFIX = "add ";
