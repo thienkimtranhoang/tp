@@ -11,6 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+//@@author thienkimtranhoang
 class AddIncomeCommandTest {
     @Test
     void addIncome_validInput_addsIncome() throws FinanceException {

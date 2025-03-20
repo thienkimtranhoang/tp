@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-
+//@@author thienkimtranhoang
 class LogExpenseCommandTest {
     @Test
     void logExpense_validInput_logsExpense() throws FinanceException {
