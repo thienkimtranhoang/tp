@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 
 class LogExpenseCommandTest {
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_validInput_logsExpense() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -24,6 +25,7 @@ class LogExpenseCommandTest {
         assertEquals(expectedOutput, c.getOutputMessage());
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_emptyInputTest() {
         ExpenseList expenseList = new ExpenseList();
@@ -38,6 +40,7 @@ class LogExpenseCommandTest {
         }
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_missingCategory_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -53,6 +56,7 @@ class LogExpenseCommandTest {
         }
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_missingDescription_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -68,6 +72,7 @@ class LogExpenseCommandTest {
         }
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_missingAmount_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -83,6 +88,7 @@ class LogExpenseCommandTest {
         }
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_missingDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -98,6 +104,7 @@ class LogExpenseCommandTest {
         }
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_invalidAmountFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
