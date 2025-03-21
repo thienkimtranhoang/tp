@@ -7,6 +7,7 @@ import budgetflow.income.Income;
 import java.util.List;
 import java.util.logging.Logger;
 
+//@@author QuyDatNguyen
 public class ViewAllExpensesCommand extends Command {
     private static final Logger logger = Logger.getLogger(ViewAllExpensesCommand.class.getName());
 
@@ -17,6 +18,12 @@ public class ViewAllExpensesCommand extends Command {
         this.commandType = CommandType.READ;
     }
 
+    /**
+     * Show the list of all stored expenses to user with details about category, description, amount and date.
+     * Inform user if no expenses have been logged yet.
+     * @param incomes list of all stored incomes.
+     * @param expenseList list of all stored expenses to be shown.
+     */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
         if (expenseList.getSize() == 0) {

@@ -26,6 +26,12 @@ public class Parser {
     private static final String COMMAND_FIND_EXPENSE = "find-expense";
     private static final String COMMAND_EXIT = "exit";
 
+    /**
+     * Parsing the user's input and extract corresponding command
+     * @param input: user's input command
+     * @return corresponding command to user's command
+     * @throws UnknownCommandException if user's command is unrecognizable
+     */
     public static Command getCommandFromInput(String input) throws UnknownCommandException {
         logger.info("Processing command: " + input);
         if (input.startsWith(COMMAND_ADD_INCOME)) {

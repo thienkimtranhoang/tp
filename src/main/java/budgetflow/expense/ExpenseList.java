@@ -26,10 +26,20 @@ public class ExpenseList {
         return innerList.size();
     }
 
+    /**
+     * Get expense object from the list using its index
+     * @param index of the desired expense to get
+     * @return the expense with matching index
+     */
     public Expense get(int index) {
         return innerList.get(index);
     }
 
+    /**
+     * Find expense object with description that contains query keyword
+     * @param keyword: keyword to find expense
+     * @return expense with des description matching keyword or null expense object if not found
+     */
     public ExpenseList get(String keyword) {
         ExpenseList outExpenses = new ExpenseList();
         for (int i = 0; i < this.getSize(); i++) {

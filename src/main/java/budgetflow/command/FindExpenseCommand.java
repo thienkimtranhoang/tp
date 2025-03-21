@@ -7,6 +7,7 @@ import budgetflow.income.Income;
 import java.util.List;
 import java.util.logging.Logger;
 
+//@@author QuyDatNguyen
 public class FindExpenseCommand extends Command {
     private static final Logger logger = Logger.getLogger(FindExpenseCommand.class.getName());
     private static final String COMMAND_FIND_EXPENSE = "find-expense";
@@ -19,6 +20,13 @@ public class FindExpenseCommand extends Command {
         this.commandType = CommandType.READ;
     }
 
+    /**
+     * Find the expense with description that matches user's keyword
+     * @param incomes list containing user's income, which is not accessed here
+     * @param expenseList list of all stored expenses to be queried from
+     * @throws UnfoundExpenseException if expense contains user's keyword does not exist
+     * @throws MissingKeywordException if no keyword about expense is provided
+     */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundExpenseException,
                 MissingKeywordException {
