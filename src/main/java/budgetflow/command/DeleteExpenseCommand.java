@@ -7,16 +7,31 @@ import budgetflow.income.Income;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Represents a command to delete an expense from the expense list.
+ */
 public class DeleteExpenseCommand extends Command{
     private static final Logger logger = Logger.getLogger(DeleteExpenseCommand.class.getName());
     private static final String COMMAND_DELETE_EXPENSE = "delete-expense ";
     private static final String ERROR_EXPENSE_NOT_FOUND = "Expense not found: ";
 
+    /**
+     * Constructs a DeleteExpenseCommand with the specified user input.
+     *
+     * @param input The user input string containing the expense to be deleted.
+     */
     public DeleteExpenseCommand(String input) {
         super(input);
         this.commandType = CommandType.DELETE;
     }
 
+    /**
+     * Executes the command to delete an expense from the expense list.
+     *
+     * @param incomes      The list of incomes (unused in this command).
+     * @param expenseList  The list of expenses from which the specified expense will be deleted.
+     * @throws UnfoundExpenseException If the specified expense is not found in the list.
+     */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundExpenseException {
         assert input.startsWith(COMMAND_DELETE_EXPENSE) : "Invalid delete expense command format";
