@@ -8,21 +8,31 @@ import java.util.List;
 import java.util.logging.Logger;
 
 //@@author QuyDatNguyen
+/**
+ * Represents a command to view all logged expenses.
+ * If no expenses have been recorded, an appropriate message is displayed.
+ */
 public class ViewAllExpensesCommand extends Command {
     private static final Logger logger = Logger.getLogger(ViewAllExpensesCommand.class.getName());
 
     private static final String EMPTY_EXPENSE_LIST_MESSAGE = "No expenses have been logged yet.";
 
+    /**
+     * Constructs a ViewAllExpensesCommand.
+     * This command is used to display all recorded expenses.
+     */
     public ViewAllExpensesCommand() {
         super();
         this.commandType = CommandType.READ;
     }
 
     /**
-     * Show the list of all stored expenses to user with details about category, description, amount and date.
-     * Inform user if no expenses have been logged yet.
-     * @param incomes list of all stored incomes.
-     * @param expenseList list of all stored expenses to be shown.
+     * Executes the command to list all logged expenses.
+     * If the expense list is empty, a message indicating no expenses are recorded is displayed.
+     * Otherwise, all expenses along with their total amount are displayed.
+     *
+     * @param incomes     The list of incomes (not used in this command).
+     * @param expenseList The list of expenses to be displayed.
      */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {

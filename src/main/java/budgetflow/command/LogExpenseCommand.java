@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+//@@author thienkimtranhoang
 public class LogExpenseCommand extends Command{
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
     private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH = LOG_EXPENSE_COMMAND_PREFIX.length();
@@ -52,7 +53,7 @@ public class LogExpenseCommand extends Command{
             MissingCategoryException, MissingAmountException, MissingDateException,
             MissingDescriptionException, MissingExpenseException {
         assert input != null && !input.isEmpty() : "Expense input should not be empty";
-        assert input.startsWith(LOG_EXPENSE_COMMAND_PREFIX) : "Invalid log expense command format";
+        assert input.startsWith(LOG_EXPENSE_COMMAND_PREFIX) : "Invalid log expense format";
 
         input = input.substring(LOG_EXPENSE_COMMAND_PREFIX_LENGTH).trim();
 

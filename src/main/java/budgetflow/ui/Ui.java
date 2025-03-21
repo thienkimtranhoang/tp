@@ -29,7 +29,6 @@ public class Ui {
 
     /** Show error to user after failing to execute the command*/
     public void printError (String error) {
-
         System.out.println(error);
     }
 
