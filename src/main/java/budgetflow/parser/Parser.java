@@ -28,7 +28,7 @@ public class Parser {
 
     /**
      * Parsing the user's input and extract corresponding command
-     * @param input: user's input command
+     * @param input user's input command
      * @return corresponding command to user's command
      * @throws UnknownCommandException if user's command is unrecognizable
      */

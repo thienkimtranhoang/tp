@@ -37,7 +37,7 @@ public class ExpenseList {
 
     /**
      * Find expense object with description that contains query keyword
-     * @param keyword: keyword to find expense
+     * @param keyword keyword to find expense
      * @return expense with des description matching keyword or null expense object if not found
      */
     public ExpenseList get(String keyword) {
