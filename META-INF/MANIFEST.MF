@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 Manifest-Version: 1.0
 Main-Class: budgetflow.MainTracker
 
+=======
+Manifest-Version: 1.0
+Main-Class: budgetflow.MainTracker
+
+>>>>>>> 4f116f2c935c07be4cff5107f8b1bc6673bb11bd
