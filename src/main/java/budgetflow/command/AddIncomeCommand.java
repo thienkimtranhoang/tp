@@ -13,6 +13,8 @@ import budgetflow.parser.DateValidator;
 
 //@@author thienkimtranhoang
 public class AddIncomeCommand extends Command {
+    public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
+    
     private static final Logger logger = Logger.getLogger(AddIncomeCommand.class.getName());
     private static final String ADD_COMMAND_PREFIX = "add ";
     private static final int ADD_COMMAND_PREFIX_LENGTH = ADD_COMMAND_PREFIX.length();
@@ -22,7 +24,7 @@ public class AddIncomeCommand extends Command {
     private static final String ERROR_MISSING_INCOME_DATE = "Error: Income date is required.";
     private static final String ERROR_INCORRECT_INCOME_DATE = "Error: Income date is in wrong format." +
             "please use DD-MM-YYYY format.";
-    public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
+
 
 
     public AddIncomeCommand(String input) {

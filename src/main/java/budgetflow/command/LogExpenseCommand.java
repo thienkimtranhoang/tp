@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 
 //@@author thienkimtranhoang
 public class LogExpenseCommand extends Command{
+    public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
+
     private static final Logger logger = Logger.getLogger(LogExpenseCommand.class.getName());
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
     private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH = LOG_EXPENSE_COMMAND_PREFIX.length();
@@ -27,7 +29,6 @@ public class LogExpenseCommand extends Command{
     private static final String ERROR_MISSING_EXPENSE_DESCRIPTION = "Error: Expense description is required.";
     private static final String ERROR_MISSING_EXPENSE_AMOUNT = "Error: Expense amount is required.";
     private static final String ERROR_MISSING_EXPENSE_DATE = "Error: Expense date is required.";
-    public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
     private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Income date is in wrong format." +
             "please use DD-MM-YYYY format.";
 
