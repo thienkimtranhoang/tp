@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import budgetflow.parser.DateValidator;
 
+//@@author thienkimtranhoang
 public class AddIncomeCommand extends Command {
     private static final Logger logger = Logger.getLogger(AddIncomeCommand.class.getName());
     private static final String ADD_COMMAND_PREFIX = "add ";
@@ -53,7 +54,7 @@ public class AddIncomeCommand extends Command {
     private Income extractIncome(String input) throws InvalidNumberFormatException,
             MissingCategoryException, MissingAmountException,
             MissingDateException, MissingIncomeException {
-        assert input.startsWith(ADD_COMMAND_PREFIX) : "Invalid add income command format";
+        assert input.startsWith(ADD_COMMAND_PREFIX) : "Invalid add income format";
         input = input.substring(ADD_COMMAND_PREFIX_LENGTH).trim();
         if (input.isEmpty()) {
             throw new MissingIncomeException("Income should not be empty");

@@ -2,6 +2,11 @@ package budgetflow.ui;
 
 import java.util.Scanner;
 
+//@@author QuyDatNguyen
+
+/**
+ * Handle basic user interface interaction including reading command from user and printing message
+ */
 public class Ui {
     public static final String WELCOME_MESSAGE = "Welcome to Finance Tracker!" + System.lineSeparator()
             + "You can track incomes and expenses here.";
@@ -24,7 +29,6 @@ public class Ui {
 
     /** Show error to user after failing to execute the command*/
     public void printError (String error) {
-
         System.out.println(error);
     }
 
