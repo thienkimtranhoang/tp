@@ -1,0 +1,6 @@
+INCOME|Salary|2500.0|15-03-2025
+INCOME|Salary|2500.0|15-03-2025
+INCOME|Salary|2500.0|12-12-2020
+EXPENSE|Dining|DinnerWithFriends|45.75|15-03-2025
+EXPENSE|Dining|DinnerWithFriends|45.75|20-05-2010
+EXPENSE|Dining|DinnerWithFriends|45.75|15-03-2020
