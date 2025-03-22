@@ -18,9 +18,9 @@ class LogExpenseCommandTest {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         Command c = new LogExpenseCommand(
-                "log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
+                "log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/15-03-2025");
         c.execute(incomes, expenseList);
-        String expectedOutput = "Expense logged: Dining | DinnerWithFriends | $45.75 | 2025-03-15";
+        String expectedOutput = "Expense logged: Dining | DinnerWithFriends | $45.75 | 15-03-2025";
         assertEquals(expectedOutput, c.getOutputMessage());
     }
 
@@ -43,7 +43,7 @@ class LogExpenseCommandTest {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         Command c = new LogExpenseCommand(
-                "log-expense desc/DinnerWithFriends amt/45.75 d/2025-03-15");
+                "log-expense desc/DinnerWithFriends amt/45.75 d/15-03-2025");
         try {
             c.execute(incomes, expenseList);
             fail();
@@ -58,7 +58,7 @@ class LogExpenseCommandTest {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         Command c = new LogExpenseCommand(
-                "log-expense category/Dining amt/45.75 d/2025-03-15");
+                "log-expense category/Dining amt/45.75 d/15-03-2025");
         try {
             c.execute(incomes, expenseList);
             fail();
@@ -73,7 +73,7 @@ class LogExpenseCommandTest {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         Command c = new LogExpenseCommand(
-                "log-expense category/Dining desc/DinnerWithFriends d/2025-03-15");
+                "log-expense category/Dining desc/DinnerWithFriends d/15-03-2025");
         try {
             c.execute(incomes, expenseList);
             fail();
@@ -103,12 +103,39 @@ class LogExpenseCommandTest {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         Command c = new LogExpenseCommand(
-                "log-expense category/Dining desc/DinnerWithFriends amt/invalid d/2025-03-15");
+                "log-expense category/Dining desc/DinnerWithFriends amt/invalid d/15-03-2025");
         try {
             c.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Expense amount is required.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void logExpense_invalidDateFormat_showsError() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c = new LogExpenseCommand("log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
+        try {
+            c.execute(incomes, expenseList);
+        } catch (FinanceException e) {
+            String expectedError = "Error: Income date is in wrong format." +
+                    "please use DD-MM-YYYY format.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void logExpense_invalidDate_showsError() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c = new LogExpenseCommand("log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/99-99-1234");
+        try {
+            c.execute(incomes, expenseList);
+        } catch (FinanceException e) {
+            String expectedError = "Error: Date is not a valid date";
             assertEquals(expectedError, e.getMessage());
         }
     }

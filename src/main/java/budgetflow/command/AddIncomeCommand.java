@@ -9,6 +9,7 @@ import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import java.util.List;
 import java.util.logging.Logger;
+import budgetflow.parser.DateValidator;
 
 public class AddIncomeCommand extends Command {
     private static final Logger logger = Logger.getLogger(AddIncomeCommand.class.getName());
@@ -18,6 +19,9 @@ public class AddIncomeCommand extends Command {
     private static final String ERROR_MISSING_INCOME_CATEGORY = "Error: Income category is required.";
     private static final String ERROR_MISSING_INCOME_AMOUNT = "Error: Income amount is required.";
     private static final String ERROR_MISSING_INCOME_DATE = "Error: Income date is required.";
+    private static final String ERROR_INCORRECT_INCOME_DATE = "Error: Income date is in wrong format." +
+            "please use DD-MM-YYYY format.";
+    public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
 
 
     public AddIncomeCommand(String input) {
@@ -61,7 +65,7 @@ public class AddIncomeCommand extends Command {
 
         String categoryPattern = "category/(.*?) (amt/|d/|$)";
         String amtPattern = "amt/([0-9]+(\\.[0-9]*)?)";
-        String datePattern = "d/([^ ]+)";
+        String datePattern = "d/(\\d{2}-\\d{2}-\\d{4})";
 
         java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(categoryPattern);
         java.util.regex.Matcher matcher = pattern.matcher(input);
@@ -81,8 +85,13 @@ public class AddIncomeCommand extends Command {
         pattern = java.util.regex.Pattern.compile(datePattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
-            logger.warning("Invalid income input: " + input);
             date = matcher.group(1).trim();
+            if (!DateValidator.isValidDate(date)) {
+                logger.warning("Invalid date input: " + date);
+                throw new MissingDateException(ERROR_INVALID_DATE);
+            }
+        } else {
+            verifyMissingOrIncorrect(input);
         }
 
         if (category == null || category.isEmpty()) {
@@ -93,10 +102,22 @@ public class AddIncomeCommand extends Command {
             logger.warning("Invalid income input: " + input);
             throw new MissingAmountException(ERROR_MISSING_INCOME_AMOUNT);
         }
-        if (date == null) {
-            logger.warning("Invalid income input: " + input);
+        return new Income(category, amount, date);
+    }
+
+    private static void verifyMissingOrIncorrect(String input) throws MissingDateException {
+        java.util.regex.Pattern pattern;
+        java.util.regex.Matcher matcher;
+        String invalidDatePattern = "d/(\\S+)";
+        pattern = java.util.regex.Pattern.compile(invalidDatePattern);
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            String invalidDate = matcher.group(1).trim();
+            logger.warning("Invalid date input: " + invalidDate);
+            throw new MissingDateException(ERROR_INCORRECT_INCOME_DATE);
+        } else {
+            logger.warning("Missing date input");
             throw new MissingDateException(ERROR_MISSING_INCOME_DATE);
         }
-        return new Income(category, amount, date);
     }
 }

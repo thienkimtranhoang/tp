@@ -15,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ListIncomeCommandTest {
     private static List<Income> get3Incomes() {
         List<Income> incomes = new ArrayList<>();
-        incomes.add(new Income("Part-timeJob", 300.00, "June12"));
-        incomes.add(new Income("freelance", 100.00, "May29"));
-        incomes.add(new Income("fulltime-job", 5000.00, "Jan1"));
+        incomes.add(new Income("Part-timeJob", 300.00, "12-06-2025"));
+        incomes.add(new Income("freelance", 100.00, "29-05-2025"));
+        incomes.add(new Income("fulltime-job", 5000.00, "01-01-2025"));
         return incomes;
     }
 
@@ -28,9 +28,9 @@ class ListIncomeCommandTest {
         Command c = new ListIncomeCommand();
         c.execute(incomes, expenseList);
         String expectedOutput = "Income Log:" + System.lineSeparator() +
-                "Part-timeJob | $300.00 | June12" + System.lineSeparator() +
-                "freelance | $100.00 | May29" + System.lineSeparator() +
-                "fulltime-job | $5000.00 | Jan1" + System.lineSeparator() +
+                "Part-timeJob | $300.00 | 12-06-2025" + System.lineSeparator() +
+                "freelance | $100.00 | 29-05-2025" + System.lineSeparator() +
+                "fulltime-job | $5000.00 | 01-01-2025" + System.lineSeparator() +
                 "Total Income: $5400.00" + System.lineSeparator();
         assertEquals(expectedOutput, c.getOutputMessage());
     }

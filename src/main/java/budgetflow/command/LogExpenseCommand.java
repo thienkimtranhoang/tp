@@ -9,12 +9,15 @@ import budgetflow.exception.MissingExpenseException;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
+import budgetflow.parser.DateValidator;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.logging.Logger;
 
 public class LogExpenseCommand extends Command{
+    private static final Logger logger = Logger.getLogger(LogExpenseCommand.class.getName());
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
     private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH = LOG_EXPENSE_COMMAND_PREFIX.length();
 
@@ -23,6 +26,10 @@ public class LogExpenseCommand extends Command{
     private static final String ERROR_MISSING_EXPENSE_DESCRIPTION = "Error: Expense description is required.";
     private static final String ERROR_MISSING_EXPENSE_AMOUNT = "Error: Expense amount is required.";
     private static final String ERROR_MISSING_EXPENSE_DATE = "Error: Expense date is required.";
+    public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
+    private static final String ERROR_MISSING_INCOME_DATE = "Error: Expense date is required.";
+    private static final String ERROR_INCORRECT_INCOME_DATE = "Error: Income date is in wrong format." +
+            "please use DD-MM-YYYY format.";
 
     public LogExpenseCommand(String input) {
         super(input);
@@ -68,7 +75,7 @@ public class LogExpenseCommand extends Command{
         String categoryPattern = "category/(.*?) (desc/|amt/|d/|$)";
         String descPattern = "desc/(.*?) (amt/|d/|$)";
         String amtPattern = "amt/([0-9]+(\\.[0-9]*)?)";
-        String datePattern = "d/([^ ]+)";
+        String datePattern = "d/(\\d{2}-\\d{2}-\\d{4})";
 
         java.util.regex.Pattern pattern;
         java.util.regex.Matcher matcher;
@@ -96,6 +103,12 @@ public class LogExpenseCommand extends Command{
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             date = matcher.group(1).trim();
+            if (!DateValidator.isValidDate(date)) {
+                logger.warning("Invalid date input: " + date);
+                throw new MissingDateException(ERROR_INVALID_DATE);
+            }
+        } else {
+            verifyMissingOrIncorrect(input);
         }
 
         if (category == null || category.isEmpty()) {
@@ -118,4 +131,21 @@ public class LogExpenseCommand extends Command{
         Matcher matcher = pattern.matcher(input);
         return matcher.find() ? matcher.group(1).trim() : null;
     }
+
+    private static void verifyMissingOrIncorrect(String input) throws MissingDateException {
+        java.util.regex.Pattern pattern;
+        java.util.regex.Matcher matcher;
+        String invalidDatePattern = "d/(\\S+)";
+        pattern = java.util.regex.Pattern.compile(invalidDatePattern);
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            String invalidDate = matcher.group(1).trim();
+            logger.warning("Invalid date input: " + invalidDate);
+            throw new MissingDateException(ERROR_INCORRECT_INCOME_DATE);
+        } else {
+            logger.warning("Missing date input");
+            throw new MissingDateException(ERROR_MISSING_INCOME_DATE);
+        }
+    }
+
 }
