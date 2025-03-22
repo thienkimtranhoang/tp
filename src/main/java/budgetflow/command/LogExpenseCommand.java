@@ -56,6 +56,7 @@ public class LogExpenseCommand extends Command{
                 " | $" + String.format("%.2f", expense.getAmount()) + " | " + expense.getDate();
     }
 
+    //@@author dariusyawningwhiz
     private Expense extractExpense (String input) throws InvalidNumberFormatException,
             MissingCategoryException, MissingAmountException, MissingDateException,
             MissingDescriptionException, MissingExpenseException {
