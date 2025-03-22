@@ -12,15 +12,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+//@@author Yikbing
 class DeleteExpenseCommandTest {
     private static ExpenseList getListWith3Expenses() {
         ExpenseList expenseList = new ExpenseList();
-        expenseList.add(new Expense("food", "Lunch", 12.50, "2025-03-13"));
-        expenseList.add(new Expense("transport", "Transport", 3.20, "2025-03-12"));
-        expenseList.add(new Expense("food", "Groceries", 25.0, "2025-03-11"));
+        expenseList.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
+        expenseList.add(new Expense("transport", "Transport", 3.20, "12-03-2025"));
+        expenseList.add(new Expense("food", "Groceries", 25.0, "11-03-2025"));
         return expenseList;
     }
 
+    //@@author Yikbing
     @Test
     void deleteExpense_validExpense_expectExpenseFound() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
@@ -31,6 +33,7 @@ class DeleteExpenseCommandTest {
         assertEquals(expectedOutput, c.getOutputMessage());
     }
 
+    //@@author Yikbing
     @Test
     void deleteExpense_invalidExpense_expectExpenseNotFound() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();

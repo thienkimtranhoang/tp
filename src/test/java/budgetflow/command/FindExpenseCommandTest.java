@@ -18,19 +18,19 @@ class FindExpenseCommandTest {
 
     private static ExpenseList getListWith5Expenses() {
         ExpenseList expenseList = new ExpenseList();
-        expenseList.add(new Expense("food", "Lunch", 12.50, "2025-03-13"));
-        expenseList.add(new Expense("transport", "Transport", 3.20, "2025-03-12"));
-        expenseList.add(new Expense("food", "LateLunch", 13.50, "2025-03-14"));
-        expenseList.add(new Expense("food", "Groceries", 25.0, "2025-03-11"));
-        expenseList.add(new Expense("food", "ExpensiveLunch", 30.00, "2025-03-15"));
+        expenseList.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
+        expenseList.add(new Expense("transport", "Transport", 3.20, "12-03-2025"));
+        expenseList.add(new Expense("food", "LateLunch", 13.50, "14-03-2025"));
+        expenseList.add(new Expense("food", "Groceries", 25.0, "11-03-2025"));
+        expenseList.add(new Expense("food", "ExpensiveLunch", 30.00, "15-03-2025"));
         return expenseList;
     }
 
     private static ExpenseList getListWith3Expenses() {
         ExpenseList expenseList = new ExpenseList();
-        expenseList.add(new Expense("food", "Lunch", 12.50, "2025-03-13"));
-        expenseList.add(new Expense("transport", "Transport", 3.20, "2025-03-12"));
-        expenseList.add(new Expense("food", "Groceries", 25.0, "2025-03-11"));
+        expenseList.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
+        expenseList.add(new Expense("transport", "Transport", 3.20, "12-03-2025"));
+        expenseList.add(new Expense("food", "Groceries", 25.0, "11-03-2025"));
         return expenseList;
     }
 
@@ -41,7 +41,7 @@ class FindExpenseCommandTest {
         Command c = new FindExpenseCommand("find-expense Lunch");
         c.execute(incomes, expenseList);
         String expectedOutput = "Here are all matching expenses: " + System.lineSeparator()
-                + "food | Lunch | $12.50 | 2025-03-13" + System.lineSeparator();
+                + "food | Lunch | $12.50 | 13-03-2025" + System.lineSeparator();
         assertEquals(expectedOutput, c.getOutputMessage());
     }
 
@@ -52,9 +52,9 @@ class FindExpenseCommandTest {
         Command c = new FindExpenseCommand("find-expense Lunch");
         c.execute(incomes, expenseList);
         String expectedOutput = "Here are all matching expenses: " + System.lineSeparator()
-                + "food | Lunch | $12.50 | 2025-03-13" + System.lineSeparator()
-                + "food | LateLunch | $13.50 | 2025-03-14" + System.lineSeparator()
-                + "food | ExpensiveLunch | $30.00 | 2025-03-15" + System.lineSeparator();
+                + "food | Lunch | $12.50 | 13-03-2025" + System.lineSeparator()
+                + "food | LateLunch | $13.50 | 14-03-2025" + System.lineSeparator()
+                + "food | ExpensiveLunch | $30.00 | 15-03-2025" + System.lineSeparator();
         assertEquals(expectedOutput, c.getOutputMessage());
     }
 
@@ -66,7 +66,7 @@ class FindExpenseCommandTest {
         Command c = new FindExpenseCommand("find-expense Groc");
         c.execute(incomes, expenseList);
         String expectedOutput = "Here are all matching expenses: " + System.lineSeparator() +
-                "food | Groceries | $25.00 | 2025-03-11" + System.lineSeparator();
+                "food | Groceries | $25.00 | 11-03-2025" + System.lineSeparator();
         assertEquals(expectedOutput, c.getOutputMessage());
     }
 
