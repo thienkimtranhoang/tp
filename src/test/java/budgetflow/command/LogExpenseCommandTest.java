@@ -173,7 +173,8 @@ class LogExpenseCommandTest {
             String expectedError = "Error: Date is not a valid date";
             assertEquals(expectedError, e.getMessage());
         }
-      
+    }
+
     //@@author thienkimtranhoang
     @Test
     void addIncome_extraParameters_ignoresExtraParams() throws FinanceException {
@@ -184,5 +185,7 @@ class LogExpenseCommandTest {
         String expectedOutput = "Income added: Salary, Amount: $2500.00, Date: 2025-03-15";
         assertEquals(expectedOutput, c.getOutputMessage());
     }
+
+
 
 }

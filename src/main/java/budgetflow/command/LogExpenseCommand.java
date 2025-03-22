@@ -28,8 +28,7 @@ public class LogExpenseCommand extends Command{
     private static final String ERROR_MISSING_EXPENSE_AMOUNT = "Error: Expense amount is required.";
     private static final String ERROR_MISSING_EXPENSE_DATE = "Error: Expense date is required.";
     public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
-    private static final String ERROR_MISSING_INCOME_DATE = "Error: Expense date is required.";
-    private static final String ERROR_INCORRECT_INCOME_DATE = "Error: Income date is in wrong format." +
+    private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Income date is in wrong format." +
             "please use DD-MM-YYYY format.";
 
     public LogExpenseCommand(String input) {
@@ -142,10 +141,10 @@ public class LogExpenseCommand extends Command{
         if (matcher.find()) {
             String invalidDate = matcher.group(1).trim();
             logger.warning("Invalid date input: " + invalidDate);
-            throw new MissingDateException(ERROR_INCORRECT_INCOME_DATE);
+            throw new MissingDateException(ERROR_INCORRECT_EXPENSE_DATE);
         } else {
             logger.warning("Missing date input");
-            throw new MissingDateException(ERROR_MISSING_INCOME_DATE);
+            throw new MissingDateException(ERROR_MISSING_EXPENSE_DATE);
         }
     }
 
