@@ -106,11 +106,9 @@ public class AddIncomeCommand extends Command {
     }
 
     private static void verifyMissingOrIncorrect(String input) throws MissingDateException {
-        java.util.regex.Pattern pattern;
-        java.util.regex.Matcher matcher;
         String invalidDatePattern = "d/(\\S+)";
-        pattern = java.util.regex.Pattern.compile(invalidDatePattern);
-        matcher = pattern.matcher(input);
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(invalidDatePattern);
+        java.util.regex.Matcher matcher = pattern.matcher(input);
         if (matcher.find()) {
             String invalidDate = matcher.group(1).trim();
             logger.warning("Invalid date input: " + invalidDate);
