@@ -7,6 +7,7 @@ import budgetflow.income.Income;
 import java.util.List;
 import java.util.logging.Logger;
 
+//@@author Yikbing
 /**
  * Represents a command to delete an expense from the expense list.
  */
@@ -25,6 +26,7 @@ public class DeleteExpenseCommand extends Command{
         this.commandType = CommandType.DELETE;
     }
 
+    //@@author Yikbing
     /**
      * Executes the command to delete an expense from the expense list.
      *

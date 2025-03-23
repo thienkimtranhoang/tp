@@ -5,5 +5,6 @@ public enum CommandType {
     READ,
     UPDATE,
     DELETE,
-    EXIT
+    EXIT,
+    COMPARE
 }

@@ -7,6 +7,7 @@ import budgetflow.income.Income;
 import java.util.List;
 import java.util.logging.Logger;
 
+//@@author Yikbing
 /**
  * The DeleteIncomeCommand class processes the deletion of an income entry
  * based on its category. If the specified income category is not found,
@@ -17,6 +18,7 @@ public class DeleteIncomeCommand extends Command {
     private static final String COMMAND_DELETE_INCOME = "delete-income ";
     private static final String ERROR_INCOME_NOT_FOUND = "Income not found: ";
 
+    //@@author Yikbing
     /**
      * Constructs a DeleteIncomeCommand with the specified user input.
      *
@@ -27,6 +29,7 @@ public class DeleteIncomeCommand extends Command {
         this.commandType = CommandType.DELETE;
     }
 
+    //@@author Yikbing
     /**
      * Executes the income deletion command by searching for an income entry with the given category.
      * If the income entry is found, it is removed from the list; otherwise, an exception is thrown.
