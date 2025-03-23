@@ -10,6 +10,7 @@ import budgetflow.command.ViewAllExpensesCommand;
 import budgetflow.command.FindExpenseCommand;
 import budgetflow.command.ExitCommand;
 import budgetflow.exception.UnknownCommandException;
+import budgetflow.command.CompareExpenseCommand;
 
 import java.util.logging.Logger;
 
@@ -25,6 +26,7 @@ public class Parser {
     private static final String COMMAND_VIEW_ALL_EXPENSES = "view-all-expense";
     private static final String COMMAND_FIND_EXPENSE = "find-expense";
     private static final String COMMAND_EXIT = "exit";
+    private static final String COMMAND_COMPARE = "compare";
 
     /**
      * Parsing the user's input and extract corresponding command
@@ -50,6 +52,8 @@ public class Parser {
             return new FindExpenseCommand(input);
         } else if (input.equals(COMMAND_EXIT)) {
             return new ExitCommand();
+        } else if (input.startsWith(COMMAND_COMPARE)) {
+            return new CompareExpenseCommand(input);
         } else {
             logger.warning("Unknown command received: " + input);
             throw new UnknownCommandException();
