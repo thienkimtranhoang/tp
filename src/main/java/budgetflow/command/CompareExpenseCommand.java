@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class CompareExpenseCommand extends Command {
-    private static final String ERROR_NO_EXPENSE_IN_RANGE = "No expenses in range";
-    private static final Logger logger = Logger.getLogger(CompareExpenseCommand.class.getName());
     public static final String ERROR_INVALID_MONTH_FORMAT = "Invalid input format. Usage: compare MM-YYYY MM-YYYY";
 
     public static final int EMPTY_EXPENSE_LIST = 0;
@@ -26,6 +24,9 @@ public class CompareExpenseCommand extends Command {
     public static final int SECOND_MONTH_POSITION = 2;
 
     public static final int MINIMUM_PARTS_FOR_COMPARE = 3;
+    private static final String ERROR_NO_EXPENSE_IN_RANGE = "No expenses in range";
+    private static final Logger logger = Logger.getLogger(CompareExpenseCommand.class.getName());
+
 
     public CompareExpenseCommand(String input) {
         super(input);

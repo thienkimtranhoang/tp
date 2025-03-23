@@ -30,7 +30,7 @@ public class CompareExpenseCommandTest {
         assertEquals(expectedOutput, c3.getOutputMessage());
     }
     @Test
-    public void testCompareExpenseCommand_EmptyInputOneMonth() throws FinanceException {
+    public void testCompareExpenseCommand_emptyInputOneMonth() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         Command c1 = new LogExpenseCommand(
@@ -44,7 +44,7 @@ public class CompareExpenseCommandTest {
     }
 
     @Test
-    public void testCompareExpenseCommand_IncorrectMonthFormat() throws FinanceException {
+    public void testCompareExpenseCommand_incorrectMonthFormat() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         Command c1 = new LogExpenseCommand(
