@@ -110,7 +110,8 @@ public class CompareExpenseCommand extends Command {
      * @param totalMonth2 The total expenses for the second month.
      * @return A formatted string displaying the expense comparison.
      */
-    private static String getCompareMessage(String monthYear1, double totalMonth1, String monthYear2, double totalMonth2) {
+    private static String getCompareMessage(String monthYear1, double totalMonth1,
+                                            String monthYear2, double totalMonth2) {
         return "Total expenses for " + monthYear1 + ": $" +
                 String.format("%.2f", totalMonth1) + System.lineSeparator() +
                 "Total expenses for " + monthYear2 + ": $" +
