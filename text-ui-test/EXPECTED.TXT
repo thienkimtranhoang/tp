@@ -19,7 +19,6 @@ Total Expenses: $3.50
 What would you like to do?
 Here are all matching expenses:
 Coffee | Coffee | $3.50 | 06-03-2025
-
 What would you like to do?
 Total expenses for 03-2025: $3.50
 Total expenses for 04-2025: $0.00
