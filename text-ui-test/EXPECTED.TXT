@@ -10,21 +10,4 @@ Salary | $1000.00 | 06-03-2025
 Total Income: $1000.00
 
 What would you like to do?
-Income deleted: Salary
-What would you like to do?
-Expenses log:
-1 | Coffee | Coffee | $3.50 | 06-03-2025
-Total Expenses: $3.50
-
-What would you like to do?
-Here are all matching expenses:
-Coffee | Coffee | $3.50 | 06-03-2025
-
-What would you like to do?
-Total expenses for 03-2025: $3.50
-Total expenses for 04-2025: $0.00
-
-What would you like to do?
-Expense deleted: Coffee
-What would you like to do?
 Goodbye!
