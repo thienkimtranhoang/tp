@@ -1,16 +1,7 @@
 package budgetflow.parser;
 
-import budgetflow.command.AddIncomeCommand;
-import budgetflow.command.Command;
-import budgetflow.command.DeleteIncomeCommand;
-import budgetflow.command.LogExpenseCommand;
-import budgetflow.command.ListIncomeCommand;
-import budgetflow.command.DeleteExpenseCommand;
-import budgetflow.command.ViewAllExpensesCommand;
-import budgetflow.command.FindExpenseCommand;
-import budgetflow.command.ExitCommand;
+import budgetflow.command.*;
 import budgetflow.exception.UnknownCommandException;
-import budgetflow.command.CompareExpenseCommand;
 
 import java.util.logging.Logger;
 
@@ -27,6 +18,7 @@ public class Parser {
     private static final String COMMAND_FIND_EXPENSE = "find-expense";
     private static final String COMMAND_EXIT = "exit";
     private static final String COMMAND_COMPARE = "compare";
+    private static final String COMMAND_UPDATE_EXPENSE = "update-expense";
 
     /**
      * Parsing the user's input and extract corresponding command
@@ -54,6 +46,8 @@ public class Parser {
             return new ExitCommand();
         } else if (input.startsWith(COMMAND_COMPARE)) {
             return new CompareExpenseCommand(input);
+        } else if (input.startsWith(COMMAND_UPDATE_EXPENSE)) {  // Check for update-expense command
+            return new UpdateExpenseCommand(input);
         } else {
             logger.warning("Unknown command received: " + input);
             throw new UnknownCommandException();
