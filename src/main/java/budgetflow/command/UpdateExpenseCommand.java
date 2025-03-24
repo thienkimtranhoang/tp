@@ -1,6 +1,11 @@
 package budgetflow.command;
 
-import budgetflow.exception.*;
+import budgetflow.exception.MissingDateException;
+import budgetflow.exception.InvalidNumberFormatException;
+import budgetflow.exception.MissingAmountException;
+import budgetflow.exception.MissingCategoryException;
+import budgetflow.exception.MissingDescriptionException;
+import budgetflow.exception.MissingExpenseException;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -24,7 +29,8 @@ public class UpdateExpenseCommand extends Command {
     private static final String ERROR_MISSING_EXPENSE_DESCRIPTION = "Error: Expense description is required.";
     private static final String ERROR_MISSING_EXPENSE_AMOUNT = "Error: Expense amount is required.";
     private static final String ERROR_MISSING_EXPENSE_DATE = "Error: Expense date is required.";
-    private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Expense date is in wrong format. Please use DD-MM-YYYY format.";
+    private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Expense date is in wrong format. " +
+            "Please use DD-MM-YYYY format.";
     private static final String ERROR_INVALID_INDEX = "Error: Invalid index. Expense not found.";
 
     public UpdateExpenseCommand(String input) {
@@ -42,8 +48,9 @@ public class UpdateExpenseCommand extends Command {
      * @throws MissingDescriptionException if the description of expense is missing
      */
     @Override
-    public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException,
-            MissingAmountException, MissingCategoryException, MissingDescriptionException, MissingExpenseException {
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
+            InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException,
+            MissingExpenseException {
         int index = extractIndex(input);
         Expense updatedExpense = extractExpense(input);
 
@@ -68,7 +75,8 @@ public class UpdateExpenseCommand extends Command {
 
         this.outputMessage = "Expense updated at index " + (index + 1) + ": " + existingExpense.getCategory() + " | " +
                 existingExpense.getDescription() + " | $" + String.format("%.2f", existingExpense.getAmount()) + " | " +
-                existingExpense.getDate() + ". Total Expenses: $" + String.format("%.2f", expenseList.getTotalExpenses());
+                existingExpense.getDate() + ". Total Expenses: $" + String.format("%.2f",
+                expenseList.getTotalExpenses());
     }
 
     // Extract the updated expense details from the input string
