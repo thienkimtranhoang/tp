@@ -89,4 +89,4 @@ public class ExpenseList {
             totalExpenses += expense.getAmount();
         }
     }
-}
+
