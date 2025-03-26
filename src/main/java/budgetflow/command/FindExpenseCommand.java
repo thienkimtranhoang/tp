@@ -29,6 +29,8 @@ public class FindExpenseCommand extends Command {
     public static final String TAG_DATE = "/d";
     public static final String TAG_AMOUNT = "/amt";
     public static final String TAG_CATEGORY = "/category";
+    public static final String TAG_AMOUNT_RANGE = "/amtrange";
+    public static final String TAG_DATE_RANGE = "/drange";
 
     /**
      * Constructs a FindExpenseCommand with the given input.
@@ -109,8 +111,8 @@ public class FindExpenseCommand extends Command {
             case TAG_DATE -> keyword.matches(datePattern);
             case TAG_AMOUNT -> keyword.matches(amtPattern);
             case TAG_CATEGORY -> keyword.matches(categoryPattern);
-            case "/amtrange" -> isValidAmtRange(keyword);
-            case "/drange" -> isValidDateRange(keyword);
+            case TAG_AMOUNT_RANGE -> isValidAmtRange(keyword);
+            case TAG_DATE_RANGE -> isValidDateRange(keyword);
             default -> throw new InvalidTagException(ERROR_INVALID_TAG);
         };
     }

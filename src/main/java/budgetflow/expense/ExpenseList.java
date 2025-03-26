@@ -16,7 +16,8 @@ public class ExpenseList {
     public static final String EMPTY_EXPENSE_LIST_MESSAGE =
             "There is currently no expense in your list right now. Please add more expenses to continue";
     public static final String ERROR_INVALID_DATE_FORMAT = "Please enter valid date format: dd-MM-yyyy";
-    public static final String ASSERT_FAIL_INCORRECT_DATE_FORMAT = "Date inside the list is at incorrect date format";
+    public static final String ASSERT_FAIL_INCORRECT_DATE_FORMAT =
+            "Date inside the list is at incorrect date format";
     public static final String TAG_DESCRIPTION = "/desc";
     public static final String TAG_CATEGORY = "/category";
     public static final String TAG_AMOUNT = "/amt";
