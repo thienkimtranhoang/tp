@@ -25,6 +25,10 @@ public class FindExpenseCommand extends Command {
     public static final String ERROR_NO_TAG_OR_KEYWORD = "Invalid or missing tag/keyword in find-expense command";
     public static final String ERROR_INVALID_TAG = "Please enter valid tag for query";
     public static final String ASSERTION_FAIL_INVALID_FIND_COMMAND = "Invalid find expense command format";
+    public static final String TAG_DESCRIPTION = "/desc";
+    public static final String TAG_DATE = "/date";
+    public static final String TAG_AMOUNT = "/amount";
+    public static final String TAG_CATEGORY = "/category";
 
     /**
      * Constructs a FindExpenseCommand with the given input.
@@ -101,10 +105,10 @@ public class FindExpenseCommand extends Command {
 
         // Validate keyword format based on the tag
         return switch (tag) {
-            case "/desc" -> keyword.matches(descPattern);
-            case "/date" -> keyword.matches(datePattern);
-            case "/amount" -> keyword.matches(amtPattern);
-            case "/category" -> keyword.matches(categoryPattern);
+            case TAG_DESCRIPTION -> keyword.matches(descPattern);
+            case TAG_DATE -> keyword.matches(datePattern);
+            case TAG_AMOUNT -> keyword.matches(amtPattern);
+            case TAG_CATEGORY -> keyword.matches(categoryPattern);
             default -> throw new InvalidTagException(ERROR_INVALID_TAG);
         };
     }

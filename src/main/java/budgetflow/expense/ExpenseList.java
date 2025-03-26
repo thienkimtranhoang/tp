@@ -15,6 +15,12 @@ import java.util.List;
 public class ExpenseList {
     public static final String EMPTY_EXPENSE_LIST_MESSAGE =
             "There is currently no expense in your list right now. Please add more expenses to continue";
+    public static final String ERROR_INVALID_DATE_FORMAT = "Please enter valid date format: dd-MM-yyyy";
+    public static final String ASSERT_FAIL_INCORRECT_DATE_FORMAT = "Date inside the list is at incorrect date format";
+    public static final String TAG_DESCRIPTION = "/desc";
+    public static final String TAG_CATEGORY = "/category";
+    public static final String TAG_AMOUNT = "/amt";
+    public static final String TAG_DATE = "/d";
     private final ArrayList<Expense> innerList = new ArrayList<>();
     private double totalExpenses;
 
@@ -55,10 +61,10 @@ public class ExpenseList {
     public ExpenseList getByTag(String tag, String keyword) throws InvalidTagException,
             InvalidNumberFormatException, InvalidDateException {
         return switch (tag) {
-            case "/desc" -> getExpenseByDesc(keyword);
-            case "/category" -> getExpenseByCategory(keyword);
-            case "/amt" -> getExpenseByAmount(keyword);
-            case "/d" -> getExpenseByDate(keyword);
+            case TAG_DESCRIPTION -> getExpenseByDesc(keyword);
+            case TAG_CATEGORY -> getExpenseByCategory(keyword);
+            case TAG_AMOUNT -> getExpenseByAmount(keyword);
+            case TAG_DATE -> getExpenseByDate(keyword);
             default -> throw new InvalidTagException("Please enter valid tag: /desc | /amt| /d| /category");
         };
     }
@@ -124,12 +130,12 @@ public class ExpenseList {
 
     public ExpenseList getExpenseByDate(String keyword) throws InvalidDateException {
         if (!DateValidator.isValidDate(keyword)) {
-            throw new InvalidDateException("Please enter valid date format: dd-MM-yyyy");
+            throw new InvalidDateException(ERROR_INVALID_DATE_FORMAT);
         }
         LocalDate keywordDate = parseLocalDateFromString(keyword);
         ExpenseList outExpenses = new ExpenseList();
         for (int i = 0; i < this.getSize(); i++) {
-            assert DateValidator.isValidDate(this.get(i).getDate()) : "Date inside the list is at incorrect date format";
+            assert DateValidator.isValidDate(this.get(i).getDate()) : ASSERT_FAIL_INCORRECT_DATE_FORMAT;
             LocalDate date = parseLocalDateFromString(this.get(i).getDate());
             if (date.isEqual(keywordDate)) {
                 outExpenses.add(this.get(i));
