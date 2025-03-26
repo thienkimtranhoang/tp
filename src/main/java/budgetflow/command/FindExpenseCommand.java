@@ -1,5 +1,11 @@
 package budgetflow.command;
-import budgetflow.exception.*;
+import budgetflow.exception.UnfoundExpenseException;
+import budgetflow.exception.MissingKeywordException;
+import budgetflow.exception.InvalidTagException;
+import budgetflow.exception.InvalidKeywordException;
+import budgetflow.exception.InvalidNumberFormatException;
+import budgetflow.exception.InvalidDateException;
+
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 
@@ -20,17 +26,18 @@ public class FindExpenseCommand extends Command {
     private static final String ERROR_UNFOUNDED_KEYWORD = "Sorry, I cannot find any expenses matching your keyword: ";
     private static final String MATCHING_EXPENSES_MESSAGE = "Here are all matching expenses: ";
 
-    private static final Pattern COMMAND_PATTERN = Pattern.compile("find-expense\s+(/desc|/d|/amt|/category|/amtrange|/drange)\s+(.+)");
+    private static final Pattern COMMAND_PATTERN = Pattern.compile(
+            "find-expense\s+(/desc|/d|/amt|/category|/amtrange|/drange)\s+(.+)");
     private static final String ERROR_INVALID_KEYWORD_FORMAT = "Please enter correct keyword format for tag ";
-    public static final String ERROR_NO_TAG_OR_KEYWORD = "Invalid or missing tag/keyword in find-expense command";
-    public static final String ERROR_INVALID_TAG = "Please enter valid tag for query";
-    public static final String ASSERTION_FAIL_INVALID_FIND_COMMAND = "Invalid find expense command format";
-    public static final String TAG_DESCRIPTION = "/desc";
-    public static final String TAG_DATE = "/d";
-    public static final String TAG_AMOUNT = "/amt";
-    public static final String TAG_CATEGORY = "/category";
-    public static final String TAG_AMOUNT_RANGE = "/amtrange";
-    public static final String TAG_DATE_RANGE = "/drange";
+    private static final String ERROR_NO_TAG_OR_KEYWORD = "Invalid or missing tag/keyword in find-expense command";
+    private static final String ERROR_INVALID_TAG = "Please enter valid tag for query";
+    private static final String ASSERTION_FAIL_INVALID_FIND_COMMAND = "Invalid find expense command format";
+    private static final String TAG_DESCRIPTION = "/desc";
+    private static final String TAG_DATE = "/d";
+    private static final String TAG_AMOUNT = "/amt";
+    private static final String TAG_CATEGORY = "/category";
+    private static final String TAG_AMOUNT_RANGE = "/amtrange";
+    private static final String TAG_DATE_RANGE = "/drange";
 
     /**
      * Constructs a FindExpenseCommand with the given input.
@@ -73,16 +80,19 @@ public class FindExpenseCommand extends Command {
         }
     }
 
-    private ExpenseList getMatchingExpenses(ExpenseList expenseList, String tag, String keyword) throws InvalidTagException, InvalidKeywordException {
+    private ExpenseList getMatchingExpenses(ExpenseList expenseList, String tag, String keyword)
+            throws InvalidTagException, InvalidKeywordException {
         ExpenseList matchingExpenses;
         try {
             matchingExpenses = expenseList.getByTag(tag, keyword);
         } catch (InvalidDateException | InvalidNumberFormatException e) {
             throw new InvalidKeywordException(e.getMessage());
-        } return matchingExpenses;
+        }
+        return matchingExpenses;
     }
 
-    private String[] extractTagAndKeyword() throws MissingKeywordException, InvalidTagException, InvalidKeywordException {
+    private String[] extractTagAndKeyword() throws MissingKeywordException, InvalidTagException,
+            InvalidKeywordException {
         Matcher matcher = COMMAND_PATTERN.matcher(input);
         if (!matcher.matches()) {
             logger.warning(ERROR_NO_TAG_OR_KEYWORD);
@@ -107,13 +117,13 @@ public class FindExpenseCommand extends Command {
 
         // Validate keyword format based on the tag
         return switch (tag) {
-            case TAG_DESCRIPTION -> keyword.matches(descPattern);
-            case TAG_DATE -> keyword.matches(datePattern);
-            case TAG_AMOUNT -> keyword.matches(amtPattern);
-            case TAG_CATEGORY -> keyword.matches(categoryPattern);
-            case TAG_AMOUNT_RANGE -> isValidAmtRange(keyword);
-            case TAG_DATE_RANGE -> isValidDateRange(keyword);
-            default -> throw new InvalidTagException(ERROR_INVALID_TAG);
+        case TAG_DESCRIPTION -> keyword.matches(descPattern);
+        case TAG_DATE -> keyword.matches(datePattern);
+        case TAG_AMOUNT -> keyword.matches(amtPattern);
+        case TAG_CATEGORY -> keyword.matches(categoryPattern);
+        case TAG_AMOUNT_RANGE -> isValidAmtRange(keyword);
+        case TAG_DATE_RANGE -> isValidDateRange(keyword);
+        default -> throw new InvalidTagException(ERROR_INVALID_TAG);
         };
     }
 

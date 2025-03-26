@@ -13,17 +13,17 @@ import java.util.Collection;
 import java.util.List;
 
 public class ExpenseList {
-    public static final String EMPTY_EXPENSE_LIST_MESSAGE =
+    private static final String EMPTY_EXPENSE_LIST_MESSAGE =
             "There is currently no expense in your list right now. Please add more expenses to continue";
-    public static final String ERROR_INVALID_DATE_FORMAT = "Please enter valid date format: dd-MM-yyyy";
-    public static final String ASSERT_FAIL_INCORRECT_DATE_FORMAT =
+    private static final String ERROR_INVALID_DATE_FORMAT = "Please enter valid date format: dd-MM-yyyy";
+    private static final String ASSERT_FAIL_INCORRECT_DATE_FORMAT =
             "Date inside the list is at incorrect date format";
-    public static final String TAG_DESCRIPTION = "/desc";
-    public static final String TAG_CATEGORY = "/category";
-    public static final String TAG_AMOUNT = "/amt";
-    public static final String TAG_DATE = "/d";
-    public static final String TAG_AMOUNT_RANGE = "/amtrange";
-    public static final String TAG_DATE_RANGE = "/drange";
+    private static final String TAG_DESCRIPTION = "/desc";
+    private static final String TAG_CATEGORY = "/category";
+    private static final String TAG_AMOUNT = "/amt";
+    private static final String TAG_DATE = "/d";
+    private static final String TAG_AMOUNT_RANGE = "/amtrange";
+    private static final String TAG_DATE_RANGE = "/drange";
     private final ArrayList<Expense> innerList = new ArrayList<>();
     private double totalExpenses;
 
@@ -66,13 +66,13 @@ public class ExpenseList {
     public ExpenseList getByTag(String tag, String keyword) throws InvalidTagException,
             InvalidNumberFormatException, InvalidDateException {
         return switch (tag) {
-            case TAG_DESCRIPTION -> getExpenseByDesc(keyword);
-            case TAG_CATEGORY -> getExpenseByCategory(keyword);
-            case TAG_AMOUNT -> getExpenseByAmount(keyword);
-            case TAG_DATE -> getExpenseByDate(keyword);
-            case TAG_AMOUNT_RANGE -> getExpenseByAmountRange(keyword);
-            case TAG_DATE_RANGE -> getExpenseByDateRange(keyword);
-            default -> throw new InvalidTagException("Please enter valid tag: /desc | /amt| /d| /category");
+        case TAG_DESCRIPTION -> getExpenseByDesc(keyword);
+        case TAG_CATEGORY -> getExpenseByCategory(keyword);
+        case TAG_AMOUNT -> getExpenseByAmount(keyword);
+        case TAG_DATE -> getExpenseByDate(keyword);
+        case TAG_AMOUNT_RANGE -> getExpenseByAmountRange(keyword);
+        case TAG_DATE_RANGE -> getExpenseByDateRange(keyword);
+        default -> throw new InvalidTagException("Please enter valid tag: /desc | /amt| /d| /category");
         };
     }
 
