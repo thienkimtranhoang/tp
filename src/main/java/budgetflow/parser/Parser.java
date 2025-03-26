@@ -12,6 +12,7 @@ import budgetflow.command.ExitCommand;
 import budgetflow.exception.UnknownCommandException;
 import budgetflow.command.CompareExpenseCommand;
 import budgetflow.command.UpdateExpenseCommand;
+import budgetflow.command.SetSavingGoalCommand;
 
 import java.util.logging.Logger;
 
@@ -29,6 +30,7 @@ public class Parser {
     private static final String COMMAND_EXIT = "exit";
     private static final String COMMAND_COMPARE = "compare";
     private static final String COMMAND_UPDATE_EXPENSE = "update-expense";
+    private static final String COMMAND_SET_SAVING_GOAL = "set-saving-goal";
 
     /**
      * Parsing the user's input and extract corresponding command
@@ -40,6 +42,8 @@ public class Parser {
         logger.info("Processing command: " + input);
         if (input.startsWith(COMMAND_ADD_INCOME)) {
             return new AddIncomeCommand(input);
+        } else if (input.startsWith(COMMAND_SET_SAVING_GOAL)) {
+            return new SetSavingGoalCommand(input);
         } else if (input.startsWith(COMMAND_LOG_EXPENSE)) {
             return new LogExpenseCommand(input);
         } else if (input.startsWith(COMMAND_DELETE_INCOME)) {
