@@ -38,7 +38,7 @@ class FindExpenseCommandTest {
     void findExpense_found1ExpenseTest() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = getListWith3Expenses();
-        Command c = new FindExpenseCommand("find-expense Lunch");
+        Command c = new FindExpenseCommand("find-expense /desc Lunch");
         c.execute(incomes, expenseList);
         String expectedOutput = "Here are all matching expenses: " + System.lineSeparator()
                 + "food | Lunch | $12.50 | 13-03-2025" + System.lineSeparator();
@@ -49,7 +49,7 @@ class FindExpenseCommandTest {
     void findExpense_foundMultipleExpenseTest() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = getListWith5Expenses();
-        Command c = new FindExpenseCommand("find-expense Lunch");
+        Command c = new FindExpenseCommand("find-expense /desc Lunch");
         c.execute(incomes, expenseList);
         String expectedOutput = "Here are all matching expenses: " + System.lineSeparator()
                 + "food | Lunch | $12.50 | 13-03-2025" + System.lineSeparator()
@@ -63,7 +63,7 @@ class FindExpenseCommandTest {
     void findExpense_partialMatch() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = getListWith3Expenses();
-        Command c = new FindExpenseCommand("find-expense Groc");
+        Command c = new FindExpenseCommand("find-expense /desc Groc");
         c.execute(incomes, expenseList);
         String expectedOutput = "Here are all matching expenses: " + System.lineSeparator() +
                 "food | Groceries | $25.00 | 11-03-2025" + System.lineSeparator();
@@ -75,7 +75,7 @@ class FindExpenseCommandTest {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         try {
-            Command c = new FindExpenseCommand("find-expense IAmDummy");
+            Command c = new FindExpenseCommand("find-expense /desc IAmDummy");
             c.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
