@@ -10,8 +10,7 @@ import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import budgetflow.parser.DateValidator;
-import budgetflow.storage.Storage;
-import budgetflow.storage.Storage;  
+import budgetflow.storage.Storage; 
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -67,7 +66,7 @@ public class UpdateExpenseCommand extends Command {
         existingExpense.setDate(updatedExpense.getDate());
 
         // Update the total expenses
-        ExpenseList.updateTotalExpenses();
+        expenseList.updateTotalExpenses();
 
         // Save the updated data to persistent storage
         Storage storage = new Storage();

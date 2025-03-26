@@ -26,4 +26,3 @@ What would you like to do?
 Expense deleted: Coffee
 What would you like to do?
 Goodbye!
-
