@@ -24,7 +24,8 @@ public class ExpenseList {
     private final ArrayList<Expense> innerList = new ArrayList<>();
     private double totalExpenses;
 
-    public ExpenseList() {}
+    public ExpenseList() {
+    }
 
     public ExpenseList(Expense... expenses) {
         final List<Expense> initialExpenses = Arrays.asList(expenses);
@@ -41,6 +42,7 @@ public class ExpenseList {
 
     /**
      * Get expense object from the list using its index
+     *
      * @param index of the desired expense to get
      * @return the expense with matching index
      */
@@ -71,6 +73,7 @@ public class ExpenseList {
 
     /**
      * Find expense object with description that contains query keyword
+     *
      * @param keyword keyword to find expense
      * @return expense with des description matching keyword or null expense object if not found
      */
@@ -181,4 +184,12 @@ public class ExpenseList {
     public double getTotalExpenses() {
         return totalExpenses;
     }
+
+    public void updateTotalExpenses() {
+        totalExpenses = 0.0;
+        for (Expense expense : innerList) {
+            totalExpenses += expense.getAmount();
+        }
+    }
 }
+

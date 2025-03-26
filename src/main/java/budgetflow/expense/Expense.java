@@ -39,4 +39,16 @@ public class Expense {
     public String toString() {
         return category + " | " + description + " | $" + String.format("%.2f", amount) + " | " + date;
     }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 }

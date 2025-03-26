@@ -5,9 +5,24 @@ Income added: Salary, Amount: $1000.00, Date: 06-03-2025
 What would you like to do?
 Expense logged: Coffee | Coffee | $3.50 | 06-03-2025
 What would you like to do?
+Expenses log:
+1 | Coffee | Coffee | $3.50 | 06-03-2025
+Total Expenses: $3.50
+
+What would you like to do?
 Income Log:
 Salary | $1000.00 | 06-03-2025
 Total Income: $1000.00
 
+What would you like to do?
+Income deleted: Salary
+What would you like to do?
+Expense updated at index 1: drink | Coffee | $4.00 | 06-04-2025. Total Expenses: $4.00
+What would you like to do?
+Total expenses for 03-2025: $0.00
+Total expenses for 04-2025: $4.00
+
+What would you like to do?
+Expense deleted: Coffee
 What would you like to do?
 Goodbye!

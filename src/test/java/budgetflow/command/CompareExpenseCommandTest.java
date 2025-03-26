@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class CompareExpenseCommandTest {
+    // Error here
     @Test
     public void testCompareExpenseCommand_validInputBothMonths() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
