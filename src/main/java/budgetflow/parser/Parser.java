@@ -10,7 +10,6 @@ import budgetflow.command.DeleteExpenseCommand;
 import budgetflow.command.ViewAllExpensesCommand;
 import budgetflow.command.FindExpenseCommand;
 import budgetflow.command.ExitCommand;
-import budgetflow.exception.UnknownCommandException;
 import budgetflow.command.CompareExpenseCommand;
 import budgetflow.command.UpdateExpenseCommand;
 import budgetflow.exception.UnknownCommandException;
