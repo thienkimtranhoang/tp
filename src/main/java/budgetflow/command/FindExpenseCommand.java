@@ -26,8 +26,8 @@ public class FindExpenseCommand extends Command {
     public static final String ERROR_INVALID_TAG = "Please enter valid tag for query";
     public static final String ASSERTION_FAIL_INVALID_FIND_COMMAND = "Invalid find expense command format";
     public static final String TAG_DESCRIPTION = "/desc";
-    public static final String TAG_DATE = "/date";
-    public static final String TAG_AMOUNT = "/amount";
+    public static final String TAG_DATE = "/d";
+    public static final String TAG_AMOUNT = "/amt";
     public static final String TAG_CATEGORY = "/category";
 
     /**
@@ -71,7 +71,7 @@ public class FindExpenseCommand extends Command {
         }
     }
 
-    private static ExpenseList getMatchingExpenses(ExpenseList expenseList, String tag, String keyword) throws InvalidTagException, InvalidKeywordException {
+    private ExpenseList getMatchingExpenses(ExpenseList expenseList, String tag, String keyword) throws InvalidTagException, InvalidKeywordException {
         ExpenseList matchingExpenses;
         try {
             matchingExpenses = expenseList.getByTag(tag, keyword);

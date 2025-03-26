@@ -35,7 +35,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_found1ExpenseTest() throws FinanceException {
+    void findExpense_found1ExpenseDescTest() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = getListWith3Expenses();
         Command c = new FindExpenseCommand("find-expense /desc Lunch");
@@ -46,7 +46,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_foundMultipleExpenseTest() throws FinanceException {
+    void findExpense_foundMultipleExpenseDescTest() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = getListWith5Expenses();
         Command c = new FindExpenseCommand("find-expense /desc Lunch");
@@ -60,7 +60,7 @@ class FindExpenseCommandTest {
 
     @Test
 
-    void findExpense_partialMatch() throws FinanceException {
+    void findExpense_partialMatchDesc() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = getListWith3Expenses();
         Command c = new FindExpenseCommand("find-expense /desc Groc");
@@ -71,7 +71,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_foundNoExpenseTest() throws UnfoundExpenseException {
+    void findExpense_foundNoExpenseDescTest() throws UnfoundExpenseException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         try {
@@ -84,6 +84,105 @@ class FindExpenseCommandTest {
         }
     }
 
+    @Test
+    void findExpense_foundMatchingCategory() throws FinanceException {
+        List<Income> incomes = new ArrayList<>();
+        ExpenseList expenseList = getListWith3Expenses();
+        Command c = new FindExpenseCommand("find-expense /category food");
+        c.execute(incomes, expenseList);
+        String expectedOutput = "Here are all matching expenses: " + System.lineSeparator()
+                + "food | Lunch | $12.50 | 13-03-2025" + System.lineSeparator()
+                + "food | Groceries | $25.00 | 11-03-2025" + System.lineSeparator();
+        assertEquals(expectedOutput, c.getOutputMessage());
+    }
+
+    @Test
+    void findExpense_noMatchingCategory() {
+        ExpenseList expenseList = getListWith3Expenses();
+        List<Income> incomes = new ArrayList<>();
+        try {
+            Command c = new FindExpenseCommand("find-expense /category foo");
+            c.execute(incomes, expenseList);
+        } catch (FinanceException e) {
+            String expectedError = "Sorry, I cannot find any expenses matching your keyword: foo";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void findExpense_foundMatchingAmount() throws FinanceException {
+        List<Income> incomes = new ArrayList<>();
+        ExpenseList expenseList = getListWith3Expenses();
+        Command c = new FindExpenseCommand("find-expense /amt 12.5");
+        c.execute(incomes, expenseList);
+        String expectedOutput = "Here are all matching expenses: " + System.lineSeparator()
+                + "food | Lunch | $12.50 | 13-03-2025" + System.lineSeparator();
+        assertEquals(expectedOutput, c.getOutputMessage());
+    }
+
+    @Test
+    void findExpense_noMatchingAmount() {
+        ExpenseList expenseList = getListWith3Expenses();
+        List<Income> incomes = new ArrayList<>();
+        try {
+            Command c = new FindExpenseCommand("find-expense /amt 2.99");
+            c.execute(incomes, expenseList);
+        } catch (FinanceException e) {
+            String expectedError = "Sorry, I cannot find any expenses matching your keyword: 2.99";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void findExpense_invalidAmount() {
+        ExpenseList expenseList = getListWith3Expenses();
+        List<Income> incomes = new ArrayList<>();
+        try {
+            Command c = new FindExpenseCommand("find-expense /amt foo");
+            c.execute(incomes, expenseList);
+        } catch (FinanceException e) {
+            String expectedError = "Please enter correct keyword format for tag /amt";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void findExpense_foundMatchingDate() throws FinanceException {
+        List<Income> incomes = new ArrayList<>();
+        ExpenseList expenseList = getListWith3Expenses();
+        Command c = new FindExpenseCommand("find-expense /d 13-03-2025");
+        c.execute(incomes, expenseList);
+        String expectedOutput = "Here are all matching expenses: " + System.lineSeparator()
+                + "food | Lunch | $12.50 | 13-03-2025" + System.lineSeparator();
+        assertEquals(expectedOutput, c.getOutputMessage());
+    }
+
+    @Test
+    void findExpense_noMatchingDate() {
+        List<Income> incomes = new ArrayList<>();
+        ExpenseList expenseList = getListWith3Expenses();
+        try {
+            Command c = new FindExpenseCommand("find-expense /d 01-01-1000");
+            c.execute(incomes, expenseList);
+        } catch (FinanceException e) {
+            String expectedError = "Sorry, I cannot find any expenses matching your keyword: 01-01-1000";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void findExpense_invalidDate() {
+        ExpenseList expenseList = getListWith3Expenses();
+        List<Income> incomes = new ArrayList<>();
+        try {
+            Command c = new FindExpenseCommand("find-expense /d foo");
+            c.execute(incomes, expenseList);
+        } catch (FinanceException e) {
+            String expectedError = "Please enter correct keyword format for tag /d";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+    
     @Test
     void findExpense_noKeywordsTest() {
         ExpenseList expenseList = getListWith3Expenses();
