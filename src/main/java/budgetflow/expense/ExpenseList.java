@@ -21,6 +21,8 @@ public class ExpenseList {
     public static final String TAG_CATEGORY = "/category";
     public static final String TAG_AMOUNT = "/amt";
     public static final String TAG_DATE = "/d";
+    public static final String TAG_AMOUNT_RANGE = "/amtrange";
+    public static final String TAG_DATE_RANGE = "/drange";
     private final ArrayList<Expense> innerList = new ArrayList<>();
     private double totalExpenses;
 
@@ -67,8 +69,50 @@ public class ExpenseList {
             case TAG_CATEGORY -> getExpenseByCategory(keyword);
             case TAG_AMOUNT -> getExpenseByAmount(keyword);
             case TAG_DATE -> getExpenseByDate(keyword);
+            case TAG_AMOUNT_RANGE -> getExpenseByAmountRange(keyword);
+            case TAG_DATE_RANGE -> getExpenseByDateRange(keyword);
             default -> throw new InvalidTagException("Please enter valid tag: /desc | /amt| /d| /category");
         };
+    }
+
+    private ExpenseList getExpenseByDateRange(String keyword) throws InvalidDateException {
+        String[] dateRange = keyword.split("\\s+");
+        if (!DateValidator.isValidDate(dateRange[0]) || !DateValidator.isValidDate(dateRange[1])) {
+            throw new InvalidDateException(ERROR_INVALID_DATE_FORMAT);
+        }
+        LocalDate startDate = parseLocalDateFromString(dateRange[0]);
+        LocalDate endDate = parseLocalDateFromString(dateRange[1]);
+        ExpenseList outExpenses = new ExpenseList();
+        for (int i = 0; i < this.getSize(); i++) {
+            assert DateValidator.isValidDate(this.get(i).getDate()) : ASSERT_FAIL_INCORRECT_DATE_FORMAT;
+            LocalDate date = parseLocalDateFromString(this.get(i).getDate());
+            if (!date.isBefore(startDate) && !date.isAfter(endDate)) {
+                outExpenses.add(this.get(i));
+            }
+        }
+        return outExpenses;
+    }
+
+    private ExpenseList getExpenseByAmountRange(String keyword) throws InvalidNumberFormatException {
+        ExpenseList outExpenses = new ExpenseList();
+
+        String[] amountRange = keyword.split("\\s+");
+        Double startAmount;
+        Double endAmount;
+        try {
+            startAmount = Double.parseDouble(amountRange[0]);
+            endAmount = Double.parseDouble(amountRange[1]);
+        } catch (NumberFormatException e) {
+            throw new InvalidNumberFormatException("Please enter valid float number after /amt");
+        }
+
+        for (int i = 0; i < this.getSize(); i++) {
+            Double amount = this.get(i).getAmount();
+            if (amount.compareTo(startAmount) >= 0 && amount.compareTo(endAmount) <= 0) {
+                outExpenses.add(this.get(i));
+            }
+        }
+        return outExpenses;
     }
 
     /**
@@ -77,7 +121,7 @@ public class ExpenseList {
      * @param keyword keyword to find expense
      * @return expense with des description matching keyword or null expense object if not found
      */
-    public ExpenseList getExpenseByDesc(String keyword) {
+    private ExpenseList getExpenseByDesc(String keyword) {
         ExpenseList outExpenses = new ExpenseList();
         for (int i = 0; i < this.getSize(); i++) {
             String desc = this.get(i).getDescription();
@@ -93,7 +137,7 @@ public class ExpenseList {
      * @param keyword the category user wishes to find from
      * @return all expenses from the category if found, null otherwise
      */
-    public ExpenseList getExpenseByCategory(String keyword) {
+    private ExpenseList getExpenseByCategory(String keyword) {
         ExpenseList outExpenses = new ExpenseList();
         for (int i = 0; i < this.getSize(); i++) {
             String category = this.get(i).getCategory();
@@ -110,7 +154,7 @@ public class ExpenseList {
      * @return all expenses with matching amount
      * @throws InvalidNumberFormatException if amount keyword is not at valid amount format
      */
-    public ExpenseList getExpenseByAmount(String keyword) throws InvalidNumberFormatException {
+    private ExpenseList getExpenseByAmount(String keyword) throws InvalidNumberFormatException {
         String amtPattern = "[0-9]+(\\.[0-9]*)?";
         if (!keyword.matches(amtPattern)) {
             throw new InvalidNumberFormatException("Please pass valid float number after /amt");
@@ -131,7 +175,7 @@ public class ExpenseList {
         return outExpenses;
     }
 
-    public ExpenseList getExpenseByDate(String keyword) throws InvalidDateException {
+    private ExpenseList getExpenseByDate(String keyword) throws InvalidDateException {
         if (!DateValidator.isValidDate(keyword)) {
             throw new InvalidDateException(ERROR_INVALID_DATE_FORMAT);
         }

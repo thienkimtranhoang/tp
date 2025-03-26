@@ -20,7 +20,7 @@ public class FindExpenseCommand extends Command {
     private static final String ERROR_UNFOUNDED_KEYWORD = "Sorry, I cannot find any expenses matching your keyword: ";
     private static final String MATCHING_EXPENSES_MESSAGE = "Here are all matching expenses: ";
 
-    private static final Pattern COMMAND_PATTERN = Pattern.compile("find-expense\s+(/desc|/d|/amt|/category)\s+(.+)");
+    private static final Pattern COMMAND_PATTERN = Pattern.compile("find-expense\s+(/desc|/d|/amt|/category|/amtrange|/drange)\s+(.+)");
     private static final String ERROR_INVALID_KEYWORD_FORMAT = "Please enter correct keyword format for tag ";
     public static final String ERROR_NO_TAG_OR_KEYWORD = "Invalid or missing tag/keyword in find-expense command";
     public static final String ERROR_INVALID_TAG = "Please enter valid tag for query";
@@ -109,7 +109,21 @@ public class FindExpenseCommand extends Command {
             case TAG_DATE -> keyword.matches(datePattern);
             case TAG_AMOUNT -> keyword.matches(amtPattern);
             case TAG_CATEGORY -> keyword.matches(categoryPattern);
+            case "/amtrange" -> isValidAmtRange(keyword);
+            case "/drange" -> isValidDateRange(keyword);
             default -> throw new InvalidTagException(ERROR_INVALID_TAG);
         };
+    }
+
+    private static boolean isValidAmtRange(String keyword) {
+        String amtPattern = "[0-9]+(\\.[0-9]*)?";
+        String[] parts = keyword.split("\\s+");
+        return parts.length == 2 && parts[0].matches(amtPattern) && parts[1].matches(amtPattern);
+    }
+
+    private static boolean isValidDateRange(String keyword) {
+        String datePattern = "\\d{2}-\\d{2}-\\d{4}";
+        String[] parts = keyword.split("\\s+");
+        return parts.length == 2 && parts[0].matches(datePattern) && parts[1].matches(datePattern);
     }
 }
