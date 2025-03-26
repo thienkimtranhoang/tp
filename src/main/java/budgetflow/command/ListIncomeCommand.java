@@ -70,24 +70,16 @@ public class ListIncomeCommand extends Command {
      */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
-        // Calculate total income
-        double totalIncome = 0.0;
-        String message = "Income Log:" + System.lineSeparator();
-
         if (incomes.isEmpty()) {
             logger.info("Reading empty income list");
-
-            // Include saving goal information if set
-            if (savingGoal > 0) {
-                message += "Saving Goal: $" + String.format("%.2f", savingGoal) +
-                        System.lineSeparator() + "Progress: 0%" + System.lineSeparator();
-            }
-
-            this.outputMessage = message;
+            this.outputMessage = EMPTY_INCOME_LIST_MESSAGE;
             return;
         }
 
         // Calculate total income
+        double totalIncome = 0.0;
+        String message = "Income Log:" + System.lineSeparator();
+
         for (Income income : incomes) {
             message += income.getCategory() + " | $" +
                     String.format("%.2f", income.getAmount()) + " | " +
@@ -99,7 +91,7 @@ public class ListIncomeCommand extends Command {
         double totalExpenses = expenseList.getTotalExpenses();
 
         // Add total income to message
-        message += "Total Income: $" + String.format("%.2f", totalIncome) ;
+        message += "Total Income: $" + String.format("%.2f", totalIncome);
 
         // Add saving goal information if set
         if (savingGoal > 0) {
@@ -110,8 +102,7 @@ public class ListIncomeCommand extends Command {
                     System.lineSeparator() +
                     "Current Savings: $" + String.format("%.2f", savings) +
                     System.lineSeparator() +
-                    "Progress: " + String.format("%.2f", progress) + "%" +
-                    System.lineSeparator();
+                    "Progress: " + String.format("%.2f", progress) + "%";
         }
 
         this.outputMessage = message;

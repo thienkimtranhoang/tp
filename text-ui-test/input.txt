@@ -1,3 +1,4 @@
+set-saving-goal 200000
 add category/Salary amt/1000.00 d/06-03-2025
 log-expense category/Coffee desc/Coffee amt/3.50 d/06-03-2025
 view-all-expense
