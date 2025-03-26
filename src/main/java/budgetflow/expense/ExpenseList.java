@@ -8,8 +8,8 @@ import java.util.List;
 public class ExpenseList {
     public static final String EMPTY_EXPENSE_LIST_MESSAGE =
             "There is currently no expense in your list right now. Please add more expenses to continue";
-    private static final ArrayList<Expense> innerList = new ArrayList<>();
-    private static double totalExpenses;
+    private final ArrayList<Expense> innerList = new ArrayList<>();
+    private double totalExpenses;
 
     public ExpenseList() {
     }
@@ -86,7 +86,7 @@ public class ExpenseList {
         return totalExpenses;
     }
 
-    public static void updateTotalExpenses() {
+    public void updateTotalExpenses() {
         totalExpenses = 0.0;
         for (Expense expense : innerList) {
             totalExpenses += expense.getAmount();
