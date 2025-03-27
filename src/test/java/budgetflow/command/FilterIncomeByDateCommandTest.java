@@ -23,11 +23,12 @@ class FilterIncomeByDateCommandTest {
         ExpenseList expenseList = new ExpenseList();
 
         // Filter incomes with dates between 10-03-2025 and 25-03-2025 should return Salary and Bonus
-        Command command = new FilterIncomeByDateCommand("filter-income date from/10-03-2025 to/25-03-2025");
+        Command command = new FilterIncomeByDateCommand(
+                "filter-income date from/10-03-2025 to/25-03-2025");
         command.execute(incomes, expenseList);
-        String expectedOutput = "Filtered Incomes by Date (10-03-2025 to 25-03-2025):\n" +
-                "Salary | $2500.00 | 15-03-2025\n" +
-                "Bonus | $500.00 | 20-03-2025\n";
+        String expectedOutput = "Filtered Incomes by Date (10-03-2025 to 25-03-2025):\n"
+                + "Salary | $2500.00 | 15-03-2025\n"
+                + "Bonus | $500.00 | 20-03-2025\n";
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
@@ -38,10 +39,11 @@ class FilterIncomeByDateCommandTest {
         ExpenseList expenseList = new ExpenseList();
 
         // Date range does not include the income date
-        Command command = new FilterIncomeByDateCommand("filter-income date from/01-01-2020 to/31-12-2020");
+        Command command = new FilterIncomeByDateCommand(
+                "filter-income date from/01-01-2020 to/31-12-2020");
         command.execute(incomes, expenseList);
-        String expectedOutput = "Filtered Incomes by Date (01-01-2020 to 31-12-2020):\n" +
-                "No incomes found in the specified date range.";
+        String expectedOutput = "Filtered Incomes by Date (01-01-2020 to 31-12-2020):\n"
+                + "No incomes found in the specified date range.";
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
@@ -49,12 +51,14 @@ class FilterIncomeByDateCommandTest {
     void date_invalidFormat_throws() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
-        Command command = new FilterIncomeByDateCommand("filter-income date from/15-03-2025");
+        Command command = new FilterIncomeByDateCommand(
+                "filter-income date from/15-03-2025");
         try {
             command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
-            String expectedError = "Invalid date filter format. Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY";
+            String expectedError = "Invalid date filter format. Usage: filter-income date " +
+                    "from/DD-MM-YYYY to/DD-MM-YYYY";
             assertEquals(expectedError, e.getMessage());
         }
     }
@@ -63,7 +67,8 @@ class FilterIncomeByDateCommandTest {
     void date_rangeInvalid_throws() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
-        Command command = new FilterIncomeByDateCommand("filter-income date from/25-03-2025 to/15-03-2025");
+        Command command = new FilterIncomeByDateCommand(
+                "filter-income date from/25-03-2025 to/15-03-2025");
         try {
             command.execute(incomes, expenseList);
             fail();
@@ -77,7 +82,8 @@ class FilterIncomeByDateCommandTest {
     void date_badFormat_throws() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
-        Command command = new FilterIncomeByDateCommand("filter-income date from/15-03-2025 to/2025-03-15");
+        Command command = new FilterIncomeByDateCommand(
+                "filter-income date from/15-03-2025 to/2025-03-15");
         try {
             command.execute(incomes, expenseList);
             fail();
