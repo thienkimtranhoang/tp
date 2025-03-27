@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.logging.Logger;
 
-//@@author thienkimtranhoang
+
 public class LogExpenseCommand extends Command{
     public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
 
@@ -31,7 +31,7 @@ public class LogExpenseCommand extends Command{
     private static final String ERROR_MISSING_EXPENSE_DATE = "Error: Expense date is required.";
     private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Income date is in wrong format." +
             "please use DD-MM-YYYY format.";
-
+    //@@author thienkimtranhoang
     public LogExpenseCommand(String input) {
         super(input);
         this.commandType = CommandType.CREATE;

@@ -1,8 +1,12 @@
 Welcome to Finance Tracker!
 You can track incomes and expenses here.
 What would you like to do?
+Saving goal set to: $200000.00
+What would you like to do?
+Saving goal retrieved: 200000.0
 Income added: Salary, Amount: $1000.00, Date: 06-03-2025
 What would you like to do?
+Saving goal retrieved: 200000.0
 Expense logged: Coffee | Coffee | $3.50 | 06-03-2025
 What would you like to do?
 Expenses log:
@@ -13,8 +17,11 @@ What would you like to do?
 Income Log:
 Salary | $1000.00 | 06-03-2025
 Total Income: $1000.00
-
+Saving Goal: $200000.00
+Current Savings: $996.50
+Progress: 0.50%
 What would you like to do?
+Saving goal retrieved: 200000.0
 Income deleted: Salary
 What would you like to do?
 Expense updated at index 1: drink | Coffee | $4.00 | 06-04-2025. Total Expenses: $4.00
@@ -23,6 +30,7 @@ Total expenses for 03-2025: $0.00
 Total expenses for 04-2025: $4.00
 
 What would you like to do?
+Saving goal retrieved: 200000.0
 Expense deleted: Coffee
 What would you like to do?
 Goodbye!
