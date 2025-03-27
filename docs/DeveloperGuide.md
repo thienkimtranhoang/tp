@@ -28,7 +28,17 @@ The Finance Tracker App is designed primarily for **students** who need a simple
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+Budgetflow is designed to address financial management challenges faced by students. It
+offers a solution tailored to their needs.This app simplifies personal finance management
+through the following key benefits:
+
+- **Financial Insights**:  
+  Users gain visibility into their spending patterns from comparing monthly expenses.
+
+By combining ease of use, goal-driven features, and actionable insights, Budgetflow empowers students to:
+- Build better financial habits.
+- Reduce stress around money management.
+- Achieve their financial goals with confidence.
 
 ## User Stories
 
