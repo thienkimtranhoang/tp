@@ -35,7 +35,7 @@ class ViewAllExpensesCommandTest {
         assertEquals(expectedOutput, c.getOutputMessage().trim() + System.lineSeparator());
         assertEquals(40.70, expenseList.getTotalExpenses(), 0.01);
     }
-
+    //Something wrong here
     @Test
     void viewAllExpenses_normalTest_correctSum() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
