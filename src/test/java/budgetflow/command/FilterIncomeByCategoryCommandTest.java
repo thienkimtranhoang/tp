@@ -8,13 +8,14 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 //@@author IgoyAI
 class FilterIncomeByCategoryCommandTest {
 
     @Test
-    void filterIncomeByCategory_validCategory_returnsMatchingIncomes() throws FinanceException {
+    void category_valid_returnsMatching() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         incomes.add(new Income("Salary", 2500.00, "15-03-2025"));
         incomes.add(new Income("Bonus", 500.00, "20-03-2025"));
@@ -30,7 +31,7 @@ class FilterIncomeByCategoryCommandTest {
     }
 
     @Test
-    void filterIncomeByCategory_noMatchingCategory_returnsNoIncomesFoundMessage() throws FinanceException {
+    void category_noMatch_returnsNone() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         incomes.add(new Income("Salary", 2500.00, "15-03-2025"));
         ExpenseList expenseList = new ExpenseList();
@@ -43,7 +44,7 @@ class FilterIncomeByCategoryCommandTest {
     }
 
     @Test
-    void filterIncomeByCategory_missingCategory_throwsException() {
+    void category_missing_throws() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
         Command command = new FilterIncomeByCategoryCommand("filter-income category/");

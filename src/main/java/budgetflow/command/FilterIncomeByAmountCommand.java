@@ -43,15 +43,14 @@ public class FilterIncomeByAmountCommand extends Command {
     public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException {
         String params = input.substring(COMMAND_PREFIX.length()).trim();
         // Expected parameters: "from/<minAmount> to/<maxAmount>"
-        String fromRegex = "from/([0-9]+(\\.[0-9]+)?)";
-        String toRegex = "to/([0-9]+(\\.[0-9]+)?)";
-        java.util.regex.Pattern fromPattern = java.util.regex.Pattern.compile(fromRegex);
+        java.util.regex.Pattern fromPattern = java.util.regex.Pattern.compile("from/([0-9]+(\\.[0-9]+)?)");
         java.util.regex.Matcher fromMatcher = fromPattern.matcher(params);
-        java.util.regex.Pattern toPattern = java.util.regex.Pattern.compile(toRegex);
+        java.util.regex.Pattern toPattern = java.util.regex.Pattern.compile("to/([0-9]+(\\.[0-9]+)?)");
         java.util.regex.Matcher toMatcher = toPattern.matcher(params);
 
         if (!fromMatcher.find() || !toMatcher.find()) {
-            throw new FinanceException("Invalid amount filter format. Usage: filter-income amount from/<minAmount> to/<maxAmount>");
+            throw new FinanceException("Invalid amount filter format. Usage: filter-income amount " +
+                    "from/<minAmount> to/<maxAmount>");
         }
 
         double minAmount = Double.parseDouble(fromMatcher.group(1));
@@ -61,7 +60,8 @@ public class FilterIncomeByAmountCommand extends Command {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Filtered Incomes by Amount (").append(minAmount).append(" to ").append(maxAmount).append("):\n");
+        sb.append("Filtered Incomes by Amount (").append(minAmount)
+                .append(" to ").append(maxAmount).append("):\n");
         boolean found = false;
         for (Income income : incomes) {
             double amount = income.getAmount();

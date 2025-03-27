@@ -5,17 +5,17 @@ import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import org.junit.jupiter.api.Test;
 
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 //@@author IgoyAI
 class FilterIncomeByDateCommandTest {
 
     @Test
-    void filterIncomeByDate_validRange_returnsMatchingIncomes() throws FinanceException {
+    void date_valid_returnsMatching() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         incomes.add(new Income("Salary", 2500.00, "15-03-2025"));
         incomes.add(new Income("Bonus", 500.00, "20-03-2025"));
@@ -32,7 +32,7 @@ class FilterIncomeByDateCommandTest {
     }
 
     @Test
-    void filterIncomeByDate_noMatchingIncomes_returnsNoIncomesFoundMessage() throws FinanceException {
+    void date_noMatch_returnsNone() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         incomes.add(new Income("Salary", 2500.00, "15-03-2025"));
         ExpenseList expenseList = new ExpenseList();
@@ -46,7 +46,7 @@ class FilterIncomeByDateCommandTest {
     }
 
     @Test
-    void filterIncomeByDate_invalidFormat_missingTo_throwsException() {
+    void date_invalidFormat_throws() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
         Command command = new FilterIncomeByDateCommand("filter-income date from/15-03-2025");
@@ -60,7 +60,7 @@ class FilterIncomeByDateCommandTest {
     }
 
     @Test
-    void filterIncomeByDate_invalidRange_startAfterEnd_throwsException() {
+    void date_rangeInvalid_throws() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
         Command command = new FilterIncomeByDateCommand("filter-income date from/25-03-2025 to/15-03-2025");
@@ -74,7 +74,7 @@ class FilterIncomeByDateCommandTest {
     }
 
     @Test
-    void filterIncomeByDate_invalidDateFormat_throwsException() {
+    void date_badFormat_throws() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
         Command command = new FilterIncomeByDateCommand("filter-income date from/15-03-2025 to/2025-03-15");

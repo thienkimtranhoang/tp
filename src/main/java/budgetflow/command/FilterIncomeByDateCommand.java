@@ -52,7 +52,8 @@ public class FilterIncomeByDateCommand extends Command {
         java.util.regex.Matcher toMatcher = toPattern.matcher(params);
 
         if (!fromMatcher.find() || !toMatcher.find()) {
-            throw new FinanceException("Invalid date filter format. Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY");
+            throw new FinanceException("Invalid date filter format. Usage: filter-income date " +
+                    "from/DD-MM-YYYY to/DD-MM-YYYY");
         }
 
         String fromDateStr = fromMatcher.group(1);
@@ -69,7 +70,8 @@ public class FilterIncomeByDateCommand extends Command {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Filtered Incomes by Date (").append(fromDateStr).append(" to ").append(toDateStr).append("):\n");
+        sb.append("Filtered Incomes by Date (").append(fromDateStr)
+                .append(" to ").append(toDateStr).append("):\n");
         boolean found = false;
         for (Income income : incomes) {
             String incomeDateStr = income.getDate();

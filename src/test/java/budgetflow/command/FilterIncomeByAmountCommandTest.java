@@ -8,13 +8,14 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 //@@author IgoyAI
 class FilterIncomeByAmountCommandTest {
 
     @Test
-    void filterIncomeByAmount_validRange_returnsMatchingIncomes() throws FinanceException {
+    void amount_valid_returnsMatching() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         incomes.add(new Income("Salary", 2500.00, "15-03-2025"));
         incomes.add(new Income("Bonus", 500.00, "20-03-2025"));
@@ -31,7 +32,7 @@ class FilterIncomeByAmountCommandTest {
     }
 
     @Test
-    void filterIncomeByAmount_noMatchingIncomes_returnsNoIncomesFoundMessage() throws FinanceException {
+    void amount_noMatch_returnsNone() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         incomes.add(new Income("Salary", 2500.00, "15-03-2025"));
         ExpenseList expenseList = new ExpenseList();
@@ -45,7 +46,7 @@ class FilterIncomeByAmountCommandTest {
     }
 
     @Test
-    void filterIncomeByAmount_invalidFormat_missingTo_throwsException() {
+    void amount_invalidFormat_throws() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
         Command command = new FilterIncomeByAmountCommand("filter-income amount from/2500");
@@ -59,7 +60,7 @@ class FilterIncomeByAmountCommandTest {
     }
 
     @Test
-    void filterIncomeByAmount_invalidRange_minGreaterThanMax_throwsException() {
+    void amount_rangeInvalid_throws() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
         Command command = new FilterIncomeByAmountCommand("filter-income amount from/3000 to/2500");
