@@ -30,10 +30,14 @@ else
     echo "dos2unix not found; skipping conversion"
 fi
 
-# Remove the unwanted "Data loaded..." line from ACTUAL.TXT
-sed -i '' '/^Data loaded successfully/d' ACTUAL.TXT
+# Remove unwanted "Data loaded..." line from ACTUAL.TXT
+if [[ "$(uname)" == "Darwin" ]]; then
+    sed -i '' '/^Data loaded successfully/d' ACTUAL.TXT
+else
+    sed -i '/^Data loaded successfully/d' ACTUAL.TXT
+fi
 
-# Disable 'set -e' for the diff command so we can capture its exit code
+# Capture diff exit code without immediate exit
 set +e
 diff EXPECTED-UNIX.TXT ACTUAL.TXT
 diff_exit=$?
