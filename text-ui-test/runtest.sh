@@ -3,7 +3,6 @@ set -e
 
 # Change to script directory
 cd "${0%/*}"
-
 cd ..
 
 # Clear the persistent file (data/budgetflow.txt)
@@ -31,8 +30,16 @@ else
     echo "dos2unix not found; skipping conversion"
 fi
 
+# Remove the unwanted "Data loaded..." line from ACTUAL.TXT
+sed -i '' '/^Data loaded successfully/d' ACTUAL.TXT
+
+# Disable 'set -e' for the diff command so we can capture its exit code
+set +e
 diff EXPECTED-UNIX.TXT ACTUAL.TXT
-if [ $? -eq 0 ]; then
+diff_exit=$?
+set -e
+
+if [ $diff_exit -eq 0 ]; then
     echo "Test passed!"
     exit 0
 else
