@@ -17,7 +17,6 @@ public class AddIncomeCommand extends Command {
     
     private static final Logger logger = Logger.getLogger(AddIncomeCommand.class.getName());
     private static final String ADD_COMMAND_PREFIX = "add ";
-
     private static final int ADD_COMMAND_PREFIX_LENGTH = ADD_COMMAND_PREFIX.length();
 
     private static final String ERROR_MISSING_INCOME_CATEGORY = "Error: Income category is required.";
