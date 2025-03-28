@@ -76,14 +76,15 @@ public class ListIncomeCommand extends Command {
 
         if (incomes.isEmpty()) {
             logger.info("Reading empty income list");
+            this.outputMessage = EMPTY_INCOME_LIST_MESSAGE + System.lineSeparator();
 
-            // Include saving goal information if set
-            if (savingGoal > 0) {
-                message += "Saving Goal: $" + String.format("%.2f", savingGoal) +
-                        System.lineSeparator() + "Progress: 0%" + System.lineSeparator();
-            }
+//            // Include saving goal information if set
+//            if (savingGoal > 0) {
+//                message += "Saving Goal: $" + String.format("%.2f", savingGoal) +
+//                        System.lineSeparator() + "Progress: 0%" + System.lineSeparator();
+//            }
 
-            this.outputMessage = message;
+//            this.outputMessage = message;
             return;
         }
 
