@@ -31,7 +31,6 @@ public class SetSavingGoalCommand extends Command {
             if (this.savingGoalAmount < 0) {
                 throw new IllegalArgumentException("Saving goal amount cannot be negative");
             }
-
             // Set the saving goal in ListIncomeCommand
             ListIncomeCommand.setSavingGoal(this.savingGoalAmount);
         } catch (NumberFormatException e) {
