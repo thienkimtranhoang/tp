@@ -14,6 +14,7 @@ import budgetflow.command.UpdateExpenseCommand;
 import budgetflow.command.FilterIncomeByDateCommand;
 import budgetflow.command.FilterIncomeByAmountCommand;
 import budgetflow.command.FilterIncomeByCategoryCommand;
+import budgetflow.command.SetSavingGoalCommand;
 import budgetflow.exception.UnknownCommandException;
 
 import java.util.logging.Logger;
@@ -43,6 +44,8 @@ public class Parser {
     private static final String COMMAND_FILTER_INCOME_DATE = "filter-income date";
     private static final String COMMAND_FILTER_INCOME_AMOUNT = "filter-income amount";
     private static final String COMMAND_FILTER_INCOME_CATEGORY = "filter-income category";
+    // New command constant for saving goal
+    private static final String COMMAND_SET_SAVING_GOAL = "set-saving-goal";
 
     /**
      * Parses the user's input and extracts the corresponding command.
@@ -55,6 +58,8 @@ public class Parser {
         logger.info("Processing command: " + input);
         if (input.startsWith(COMMAND_ADD_INCOME)) {
             return new AddIncomeCommand(input);
+        } else if (input.startsWith(COMMAND_SET_SAVING_GOAL)) {
+            return new SetSavingGoalCommand(input);
         } else if (input.startsWith(COMMAND_LOG_EXPENSE)) {
             return new LogExpenseCommand(input);
         } else if (input.startsWith(COMMAND_DELETE_INCOME)) {
