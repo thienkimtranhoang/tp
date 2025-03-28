@@ -14,9 +14,6 @@ import budgetflow.command.UpdateExpenseCommand;
 import budgetflow.command.FilterIncomeByDateCommand;
 import budgetflow.command.FilterIncomeByAmountCommand;
 import budgetflow.command.FilterIncomeByCategoryCommand;
-import budgetflow.command.FilterIncomeByDateCommand;
-import budgetflow.command.FilterIncomeByAmountCommand;
-import budgetflow.command.FilterIncomeByCategoryCommand;
 import budgetflow.exception.UnknownCommandException;
 
 import java.util.logging.Logger;
