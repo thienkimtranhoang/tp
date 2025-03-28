@@ -17,7 +17,6 @@ import budgetflow.command.FilterIncomeByCategoryCommand;
 import budgetflow.command.FilterIncomeByDateCommand;
 import budgetflow.command.FilterIncomeByAmountCommand;
 import budgetflow.command.FilterIncomeByCategoryCommand;
-import budgetflow.command.SetSavingGoalCommand;
 import budgetflow.exception.UnknownCommandException;
 
 import java.util.logging.Logger;
@@ -43,10 +42,6 @@ public class Parser {
     private static final String COMMAND_EXIT = "exit";
     private static final String COMMAND_COMPARE = "compare";
     private static final String COMMAND_UPDATE_EXPENSE = "update-expense";
-    // New command constants for filtering incomes
-    private static final String COMMAND_FILTER_INCOME_DATE = "filter-income date";
-    private static final String COMMAND_FILTER_INCOME_AMOUNT = "filter-income amount";
-    private static final String COMMAND_FILTER_INCOME_CATEGORY = "filter-income category";
     // New command constants for filtering incomes
     private static final String COMMAND_FILTER_INCOME_DATE = "filter-income date";
     private static final String COMMAND_FILTER_INCOME_AMOUNT = "filter-income amount";
