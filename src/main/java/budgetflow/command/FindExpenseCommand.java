@@ -24,7 +24,7 @@ public class FindExpenseCommand extends Command {
     private static final String COMMAND_FIND_EXPENSE = "find-expense";
     private static final String ERROR_MISSING_KEYWORD = "Error: Missing keyword";
     private static final String ERROR_UNFOUNDED_KEYWORD = "Sorry, I cannot find any expenses matching your keyword: ";
-    private static final String MATCHING_EXPENSES_MESSAGE = "Here are all matching expenses: ";
+    private static final String MATCHING_EXPENSES_MESSAGE = "Here are all matching expenses:";
 
     private static final Pattern COMMAND_PATTERN = Pattern.compile(
             "find-expense\s+(/desc|/d|/amt|/category|/amtrange|/drange)\s+(.+)");
