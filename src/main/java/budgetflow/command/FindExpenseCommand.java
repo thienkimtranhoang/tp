@@ -117,13 +117,13 @@ public class FindExpenseCommand extends Command {
 
         // Validate keyword format based on the tag
         return switch (tag) {
-            case TAG_DESCRIPTION -> keyword.matches(descPattern);
-            case TAG_DATE -> keyword.matches(datePattern);
-            case TAG_AMOUNT -> keyword.matches(amtPattern);
-            case TAG_CATEGORY -> keyword.matches(categoryPattern);
-            case TAG_AMOUNT_RANGE -> isValidAmtRange(keyword);
-            case TAG_DATE_RANGE -> isValidDateRange(keyword);
-            default -> throw new InvalidTagException(ERROR_INVALID_TAG);
+        case TAG_DESCRIPTION -> keyword.matches(descPattern);
+        case TAG_DATE -> keyword.matches(datePattern);
+        case TAG_AMOUNT -> keyword.matches(amtPattern);
+        case TAG_CATEGORY -> keyword.matches(categoryPattern);
+        case TAG_AMOUNT_RANGE -> isValidAmtRange(keyword);
+        case TAG_DATE_RANGE -> isValidDateRange(keyword);
+        default -> throw new InvalidTagException(ERROR_INVALID_TAG);
         };
     }
 

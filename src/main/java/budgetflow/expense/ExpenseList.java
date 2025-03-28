@@ -66,13 +66,13 @@ public class ExpenseList {
     public ExpenseList getByTag(String tag, String keyword) throws InvalidTagException,
             InvalidNumberFormatException, InvalidDateException {
         return switch (tag) {
-            case TAG_DESCRIPTION -> getExpenseByDesc(keyword);
-            case TAG_CATEGORY -> getExpenseByCategory(keyword);
-            case TAG_AMOUNT -> getExpenseByAmount(keyword);
-            case TAG_DATE -> getExpenseByDate(keyword);
-            case TAG_AMOUNT_RANGE -> getExpenseByAmountRange(keyword);
-            case TAG_DATE_RANGE -> getExpenseByDateRange(keyword);
-            default -> throw new InvalidTagException("Please enter valid tag: /desc | /amt| /d| /category");
+        case TAG_DESCRIPTION -> getExpenseByDesc(keyword);
+        case TAG_CATEGORY -> getExpenseByCategory(keyword);
+        case TAG_AMOUNT -> getExpenseByAmount(keyword);
+        case TAG_DATE -> getExpenseByDate(keyword);
+        case TAG_AMOUNT_RANGE -> getExpenseByAmountRange(keyword);
+        case TAG_DATE_RANGE -> getExpenseByDateRange(keyword);
+        default -> throw new InvalidTagException("Please enter valid tag: /desc | /amt| /d| /category");
         };
     }
 
