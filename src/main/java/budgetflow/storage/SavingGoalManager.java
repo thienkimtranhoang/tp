@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  * Handles the saving and loading of the saving goal for the BudgetFlow application.
- * 
+ *
  */
 public class SavingGoalManager {
     private static final Logger logger = Logger.getLogger(SavingGoalManager.class.getName());
