@@ -59,7 +59,7 @@ class ListIncomeCommandTest {
                 "Total Income: $5400.00" + System.lineSeparator() +
                 "Saving Goal: $10000.00" + System.lineSeparator() +
                 "Current Savings: $5400.00" + System.lineSeparator() +
-                "Progress: 54.00%"; // The progress would now be less than 100%
+                "Progress: 54.00%" + System.lineSeparator(); // The progress would now be less than 100%
         assertEquals(expectedOutput, c.getOutputMessage());
     }
 }
