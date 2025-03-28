@@ -14,6 +14,10 @@ import budgetflow.command.UpdateExpenseCommand;
 import budgetflow.command.FilterIncomeByDateCommand;
 import budgetflow.command.FilterIncomeByAmountCommand;
 import budgetflow.command.FilterIncomeByCategoryCommand;
+import budgetflow.command.FilterIncomeByDateCommand;
+import budgetflow.command.FilterIncomeByAmountCommand;
+import budgetflow.command.FilterIncomeByCategoryCommand;
+import budgetflow.command.SetSavingGoalCommand;
 import budgetflow.exception.UnknownCommandException;
 
 import java.util.logging.Logger;
@@ -43,6 +47,12 @@ public class Parser {
     private static final String COMMAND_FILTER_INCOME_DATE = "filter-income date";
     private static final String COMMAND_FILTER_INCOME_AMOUNT = "filter-income amount";
     private static final String COMMAND_FILTER_INCOME_CATEGORY = "filter-income category";
+    // New command constants for filtering incomes
+    private static final String COMMAND_FILTER_INCOME_DATE = "filter-income date";
+    private static final String COMMAND_FILTER_INCOME_AMOUNT = "filter-income amount";
+    private static final String COMMAND_FILTER_INCOME_CATEGORY = "filter-income category";
+    // New command constant for saving goal
+    private static final String COMMAND_SET_SAVING_GOAL = "set-saving-goal";
 
     /**
      * Parses the user's input and extracts the corresponding command.
