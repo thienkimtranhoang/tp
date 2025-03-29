@@ -110,6 +110,10 @@ public class UpdateExpenseCommand extends Command {
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             category = matcher.group(1).trim();
+
+            if (!category.matches("[a-zA-Z0-9 ]+")) {
+                throw new MissingCategoryException("Error: Invalid category format.");
+            }
         }
 
         // Extract description
