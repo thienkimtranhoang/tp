@@ -42,9 +42,12 @@ By combining ease of use, goal-driven features, and actionable insights, Budgetf
 
 |Version| As a ... | I want to ...  | So that I can ...                                           |
 |--------|----------|----------------|-------------------------------------------------------------|
+| v1.0    | uni student | log my daily expenses     | track where my money is going                                  |
 |v1.0|new user| see usage instructions | refer to them when I forget how to use the application      |
 |v2.0|user| find a to-do item by name | locate a to-do without having to go through the entire list |
 |v2.0|user| filter by date | which allocation to which category                          |
+| v2.0    | user        | update my expenses        | make changes to the expenses I already added                   |
+
 ## Non-Functional Requirements
 
 {Give non-functional requirements}
@@ -56,3 +59,80 @@ By combining ease of use, goal-driven features, and actionable insights, Budgetf
 ## Instructions for manual testing
 
 {Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+### 1. Adding Income
+To add an income entry, use:
+```sh
+add category/Salary amt/1000.00 d/06-03-2025
+```
+This adds an income of **$1000.00** under the "Salary" category on **March 6, 2025**.
+
+### 2. Logging an Expense
+To log an expense, use:
+```sh
+log-expense category/Coffee desc/Coffee amt/3.50 d/06-03-2025
+```
+This logs an expense of **$3.50** for "Coffee" on **March 6, 2025**.
+
+### 3. Viewing Expenses
+To view all recorded expenses, use:
+```sh
+view-all-expense
+```
+This displays all logged expenses.
+
+### 4. Listing All Incomes
+To list all recorded incomes, use:
+```sh
+list income
+```
+This displays all income entries.
+
+### 5. Filtering Income Records
+- **By Date Range:**
+  ```sh
+  filter-income date from/01-03-2025 to/31-03-2025
+  ```
+  This filters income records from **March 1, 2025, to March 31, 2025**.
+
+- **By Amount Range:**
+  ```sh
+  filter-income amount from/500 to/1500
+  ```
+  This filters incomes within the range **$500 to $1500**.
+
+- **By Category:**
+  ```sh
+  filter-income category/Salary
+  ```
+  This filters income records under the **"Salary"** category.
+
+### 6. Deleting an Income Entry
+To delete an income entry with category **"Salary"**, use:
+```sh
+delete-income Salary
+```
+
+### 7. Updating an Expense Entry
+To update an existing expense entry at index **1**, use:
+```sh
+update-expense index/1 category/drink desc/Coffee amt/4.00 d/06-04-2025
+```
+This updates the expense at **index 1** to category **"drink"**, with a description of **"Coffee"**, an amount of **$4.00**, and a date of **April 6, 2025**.
+
+### 8. Comparing Expenses Between Two Months
+To compare expenses between **March 2025 and April 2025**, use:
+```sh
+compare 03-2025 04-2025
+```
+This displays a comparison of expenses for **March 2025** vs. **April 2025**.
+
+### 9. Deleting an Expense Entry
+To delete an expense entry with the **"Coffee"** description, use:
+```sh
+delete-expense Coffee
+```
+
+### 10. Exiting the Application
+To safely exit the application, use:
+```sh
+exit
