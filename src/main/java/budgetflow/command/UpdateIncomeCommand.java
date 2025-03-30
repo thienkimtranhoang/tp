@@ -55,8 +55,8 @@ public class UpdateIncomeCommand extends Command {
 
     /**
      * Executes the income update command by parsing the input,
-     *     validating the index and other parameters,
-     *     and updating the corresponding income in the list.
+     * validating the index and other parameters,
+     * and updating the corresponding income in the list.
      *
      * @param incomes The list of existing incomes.
      * @param expenseList The expense list (not used in this method, but passed to storage).
