@@ -54,8 +54,7 @@ public class UpdateIncomeCommand extends Command {
     }
 
     /**
-     * Executes the income update command by parsing the input,
-     * validating the index and other parameters,
+     * Executes the income update command by parsing the input, validating the index and other parameters,
      * and updating the corresponding income in the list.
      *
      * @param incomes The list of existing incomes.
