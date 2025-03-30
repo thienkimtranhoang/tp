@@ -17,7 +17,8 @@ import java.util.regex.Matcher;
 
 /**
  * The class handles the logic for updating an existing income record in the system.
- * It processes the input command to extract relevant income details (category, amount, date) and updates the
+ * It processes the input command to extract relevant
+ * income details (category, amount, date) and updates the
  * corresponding income entry in the list. It also saves the updated data to storage.
  */
 public class UpdateIncomeCommand extends Command {
@@ -44,7 +45,8 @@ public class UpdateIncomeCommand extends Command {
     /**
      * Constructs an UpdateIncomeCommand with the given input string.
      *
-     * @param input The input command string to be processed, containing the income ID and update details.
+     * @param input The input command string to be processed,
+     * containing the income ID and update details.
      */
     public UpdateIncomeCommand(String input) {
         super(input);
@@ -52,7 +54,8 @@ public class UpdateIncomeCommand extends Command {
     }
 
     /**
-     * Executes the income update command by parsing the input, validating the index and other parameters,
+     * Executes the income update command by parsing the input,
+     * validating the index and other parameters,
      * and updating the corresponding income in the list.
      *
      * @param incomes The list of existing incomes.
@@ -113,7 +116,8 @@ public class UpdateIncomeCommand extends Command {
      * @throws MissingDateException If the date is invalid or missing in the input.
      * @throws MissingCategoryException If the category is missing or invalid in the input.
      */
-    private Income extractUpdatedIncome(String input, Income existingIncome) throws MissingAmountException,
+    private Income extractUpdatedIncome(String input, Income existingIncome)
+            throws MissingAmountException,
              MissingDateException, MissingCategoryException {
         String category = existingIncome.getCategory();
         Double amount = existingIncome.getAmount();
@@ -143,7 +147,8 @@ public class UpdateIncomeCommand extends Command {
      * @return The updated date as a String.
      * @throws MissingDateException If the date is invalid.
      */
-    private static String getUpdatedDate(String input, Pattern datePattern, String date) throws MissingDateException {
+    private static String getUpdatedDate(String input, Pattern datePattern, String date)
+            throws MissingDateException {
         Matcher matcher;
         matcher = datePattern.matcher(input);
         if (matcher.find()) {
@@ -164,7 +169,8 @@ public class UpdateIncomeCommand extends Command {
      * @return The updated amount as a Double.
      * @throws MissingAmountException If the amount is invalid.
      */
-    private static Double getUpdatedAmount(String input, Pattern amtPattern, Double amount) throws MissingAmountException {
+    private static Double getUpdatedAmount(String input, Pattern amtPattern, Double amount)
+            throws MissingAmountException {
         Matcher matcher;
         matcher = amtPattern.matcher(input);
         if (matcher.find()) {
@@ -186,7 +192,8 @@ public class UpdateIncomeCommand extends Command {
      * @return The updated category as a String.
      * @throws MissingCategoryException If the category is missing or invalid.
      */
-    private static String getUpdatedCategory(String input, Pattern categoryPattern, String category) throws MissingCategoryException {
+    private static String getUpdatedCategory(String input, Pattern categoryPattern, String category)
+            throws MissingCategoryException {
         Matcher matcher;
         matcher = categoryPattern.matcher(input);
         if (matcher.find()) {
