@@ -46,7 +46,7 @@ public class UpdateIncomeCommand extends Command {
      * Constructs an UpdateIncomeCommand with the given input string.
      *
      * @param input The input command string to be processed,
-     * containing the income ID and update details.
+     *     containing the income ID and update details../gradlew check
      */
     public UpdateIncomeCommand(String input) {
         super(input);
