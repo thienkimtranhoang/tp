@@ -33,6 +33,9 @@ public class FinanceTracker {
         }
     }
 
+    /**
+     * Handle the main run of the finance tracker program
+     */
     public void run() {
         ui.showWelcome();
         while (true) {

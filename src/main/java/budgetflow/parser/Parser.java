@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 public class Parser {
     private static final Logger logger = Logger.getLogger(Parser.class.getName());
 
-    // Command constants
+    // Command constant
     private static final String COMMAND_ADD_INCOME = "add category/";
     private static final String COMMAND_LOG_EXPENSE = "log-expense ";
     private static final String COMMAND_DELETE_INCOME = "delete-income";
