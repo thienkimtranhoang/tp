@@ -135,11 +135,13 @@ public class FindExpenseCommand extends Command {
 
     private static boolean isValidAmtRange(String keyword) {
         String[] parts = keyword.split("\\s+");
-        return parts.length == AMT_RANGE_LENGTH && parts[START_AMT_PART].matches(AMT_PATTERN) && parts[END_AMT_PART].matches(AMT_PATTERN);
+        return parts.length == AMT_RANGE_LENGTH && parts[START_AMT_PART].matches(AMT_PATTERN)
+                && parts[END_AMT_PART].matches(AMT_PATTERN);
     }
 
     private static boolean isValidDateRange(String keyword) {
         String[] parts = keyword.split("\\s+");
-        return parts.length == DATE_RANGE_LENGTH && parts[START_DATE_PART].matches(DATE_PATTERN) && parts[END_DATE_PART].matches(DATE_PATTERN);
+        return parts.length == DATE_RANGE_LENGTH && parts[START_DATE_PART].matches(DATE_PATTERN)
+                && parts[END_DATE_PART].matches(DATE_PATTERN);
     }
 }
