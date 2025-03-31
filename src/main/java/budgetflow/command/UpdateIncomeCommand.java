@@ -31,11 +31,16 @@ public class UpdateIncomeCommand extends Command {
     private static final String ERROR_MISSING_INDEX = "Error: Index is required.";
     private static final String ERROR_INCOME_ENTRY_NOT_FOUND = "Error: Income entry not found.";
     private static final String ERROR_WRONG_INDEX_FORMAT = "Error: Index must be a number.";
-    private static final String ERROR_INVALID_AMOUNT = "Invalid amount format.";
+    private static final String ERROR_INVALID_AMOUNT = "Error: Invalid amount format.";
+    private static final String ERROR_EMPTY_INCOME_LIST = "Error: No income entries exist to update.";
+    private static final String ASSERT_EMPTY_CATEGORY = "Category cannot be empty.";
+    private static final String ASSERT_POSITIVE_AMOUNT = "Amount must be a positive number.";
+    private static final String ASSERT_VALID_DATE = "Date must be valid.";
 
     private static final String CATEGORY_PATTERN = "category/([^ ]+)";
-    private static final String AMT_PATTERN = "amt/([0-9]+(\\.[0-9]*)?)";
+    private static final String AMT_PATTERN = "amt/([^ ]+)";
     private static final String DATE_PATTERN = "d/(\\d{2}-\\d{2}-\\d{4})";
+    private static final String CORRECT_AMOUNT_PATTERN = "[0-9]+(\\.[0-9]*)?";
 
     private static final int INDEX_POSITION_IN_1_INDEX = 0;
     private static final int MINIMUM_INDEX = 0;
@@ -72,13 +77,16 @@ public class UpdateIncomeCommand extends Command {
             throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
         }
 
+        if (incomes.isEmpty()) {
+            throw new InvalidNumberFormatException(ERROR_EMPTY_INCOME_LIST);
+        }
+
         int index;
         try {
             index = Integer.parseInt(parts[INDEX_POSITION_IN_1_INDEX]) - 1;
         } catch (NumberFormatException e) {
             throw new InvalidNumberFormatException(ERROR_WRONG_INDEX_FORMAT);
         }
-
         if (index < MINIMUM_INDEX || index >= incomes.size()) {
             throw new InvalidNumberFormatException(ERROR_INCOME_ENTRY_NOT_FOUND);
         }
@@ -134,6 +142,10 @@ public class UpdateIncomeCommand extends Command {
 
         date = getUpdatedDate(input, datePattern, date);
 
+        assert !category.isEmpty() : ASSERT_EMPTY_CATEGORY;
+        assert amount > 0 : ASSERT_POSITIVE_AMOUNT;
+        assert DateValidator.isValidDate(date) : ASSERT_VALID_DATE;
+
         return new Income(category, amount, date);
     }
 
@@ -173,9 +185,13 @@ public class UpdateIncomeCommand extends Command {
         Matcher matcher;
         matcher = amtPattern.matcher(input);
         if (matcher.find()) {
-            try {
-                amount = Double.parseDouble(matcher.group(UPDATE_PARAMETER_GROUP));
-            } catch (NumberFormatException e) {
+
+            String extractedAmount = matcher.group(UPDATE_PARAMETER_GROUP).trim();
+            Pattern numericPattern = Pattern.compile(CORRECT_AMOUNT_PATTERN);
+            Matcher numericMatcher = numericPattern.matcher(extractedAmount);
+            if (numericMatcher.matches()) {
+                amount = Double.parseDouble(extractedAmount);
+            } else{
                 throw new MissingAmountException(ERROR_INVALID_AMOUNT);
             }
         }
@@ -191,16 +207,12 @@ public class UpdateIncomeCommand extends Command {
      * @return The updated category as a String.
      * @throws MissingCategoryException If the category is missing or invalid.
      */
-    private static String getUpdatedCategory(String input, Pattern categoryPattern, String category)
-            throws MissingCategoryException {
+    private static String getUpdatedCategory(String input, Pattern categoryPattern, String category) {
+        assert (!(category.isEmpty())) : ASSERT_EMPTY_CATEGORY;
         Matcher matcher;
         matcher = categoryPattern.matcher(input);
         if (matcher.find()) {
-            String updatedCategory = matcher.group(UPDATE_PARAMETER_GROUP).trim();
-            if (updatedCategory.isEmpty()) {
-                throw new MissingCategoryException("Error: Category cannot be empty. Please provide a valid category.");
-            }
-            category = updatedCategory;
+            category = matcher.group(UPDATE_PARAMETER_GROUP).trim();
         }
         return category;
     }

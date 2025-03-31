@@ -16,18 +16,18 @@ import java.util.logging.Logger;
  * It calculates and displays the total expenses for each month.
  */
 public class CompareExpenseCommand extends Command {
-    public static final String ERROR_INVALID_MONTH_FORMAT = "Invalid input format. Usage: compare MM-YYYY MM-YYYY";
+    private static final String ERROR_INVALID_MONTH_FORMAT = "Invalid input format. Usage: compare MM-YYYY MM-YYYY";
 
-    public static final int EMPTY_EXPENSE_LIST = 0;
-    public static final int KEYWORD_POSITION = 0;
-    public static final int MONTH_FIRST_DAY = 0;
+    private static final int EMPTY_EXPENSE_LIST = 0;
+    private static final int KEYWORD_POSITION = 0;
+    private static final int MONTH_FIRST_DAY = 0;
 
-    public static final int FIRST_MONTH_POSITION = 1;
-    public static final int MONTH_LAST_DAY = 1;
+    private static final int FIRST_MONTH_POSITION = 1;
+    private static final int MONTH_LAST_DAY = 1;
 
-    public static final int SECOND_MONTH_POSITION = 2;
+    private static final int SECOND_MONTH_POSITION = 2;
 
-    public static final int MINIMUM_PARTS_FOR_COMPARE = 3;
+    private static final int MINIMUM_PARTS_FOR_COMPARE = 3;
     private static final String ERROR_NO_EXPENSE_IN_RANGE = "No expenses in range";
     private static final Logger logger = Logger.getLogger(CompareExpenseCommand.class.getName());
 
