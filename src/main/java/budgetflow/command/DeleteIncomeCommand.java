@@ -17,9 +17,9 @@ public class DeleteIncomeCommand extends Command {
     private static final Logger logger = Logger.getLogger(DeleteIncomeCommand.class.getName());
     private static final String COMMAND_DELETE_INCOME = "delete-income ";
     private static final String ERROR_INCOME_NOT_FOUND = "Income not found: ";
-    public static final String ASSERT_INVALID_COMMAND = "Invalid delete income command format";
-    public static final String ASSERT_NULL_ENTRY = "Income list contains a null entry";
-    public static final String ASSERT_NULL_CATEGORY = "Income entry has a null category";
+    private static final String ASSERT_INVALID_COMMAND = "Invalid delete income command format";
+    private static final String ASSERT_NULL_ENTRY = "Income list contains a null entry";
+    private static final String ASSERT_NULL_CATEGORY = "Income entry has a null category";
 
     //@@author Yikbing
     /**
