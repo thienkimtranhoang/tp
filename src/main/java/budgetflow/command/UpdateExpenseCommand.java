@@ -28,6 +28,10 @@ public class UpdateExpenseCommand extends Command {
     private static final String ERROR_EMPTY_EXPENSE_LIST = "Error: No expense entries exist to update.";
     private static final String ERROR_WRONG_DATE_FORMAT = "Error: Invalid date format. Usage: DD-MM-YYYY";
     private static final String ERROR_INVALID_AMOUNT = "Error: Invalid amount format.";
+    private static final String ERROR_MISSING_DESCRIPTION = "Error: Missing description.";
+    private static final String ERROR_MISSING_CATEGORY = "Error: Missing category.";
+    private static final String ERROR_MISSING_AMOUNT = "Error: Missing amount.";
+    private static final String ERROR_MISSING_DATE = "Error: Missing date.";
 
     private static final String CATEGORY_PATTERN = "category/([^ ]+)";
     private static final String AMT_PATTERN = "amt/([^ ]+)";
@@ -49,9 +53,11 @@ public class UpdateExpenseCommand extends Command {
 
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
-            InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException
-    {
-        String[] parts = input.substring(UPDATE_EXPENSE_COMMAND_PREFIX_LENGTH).trim().split(EMPTY_SPACE, MINIMUM_PARTS_FOR_UPDATE);
+            InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException {
+
+        String[] parts = input.substring(UPDATE_EXPENSE_COMMAND_PREFIX_LENGTH).trim().split(EMPTY_SPACE,
+                MINIMUM_PARTS_FOR_UPDATE);
+
         if (parts.length < MINIMUM_PARTS_FOR_UPDATE) {
             throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
         }
@@ -90,70 +96,54 @@ public class UpdateExpenseCommand extends Command {
 
     private void extractUpdatedExpense(String input, Expense existingExpense)
             throws MissingAmountException, MissingDateException, MissingCategoryException, MissingDescriptionException {
-        Pattern categoryPattern = Pattern.compile(CATEGORY_PATTERN);
-        Pattern amtPattern = Pattern.compile(AMT_PATTERN);
-        Pattern descPattern = Pattern.compile(DESC_PATTERN);
-        Pattern datePattern = Pattern.compile(DATE_PATTERN);
 
-        existingExpense.setCategory(getUpdatedCategory(input, categoryPattern, existingExpense.getCategory()));
-        existingExpense.setAmount(getUpdatedAmount(input, amtPattern, existingExpense.getAmount()));
-        existingExpense.setDescription(getUpdatedDescription(input, descPattern, existingExpense.getDescription()));
-        existingExpense.setDate(getUpdatedDate(input, datePattern, existingExpense.getDate()));
+        String category = getUpdatedCategory(input);
+        if (category == null) throw new MissingCategoryException(ERROR_MISSING_CATEGORY);
+        existingExpense.setCategory(category);
+
+        Double amount = getUpdatedAmount(input);
+        if (amount == null) throw new MissingAmountException(ERROR_MISSING_AMOUNT);
+        existingExpense.setAmount(amount);
+
+        String description = getUpdatedDescription(input);
+        if (description == null) throw new MissingDescriptionException(ERROR_MISSING_DESCRIPTION);
+        existingExpense.setDescription(description);
+
+        String date = getUpdatedDate(input);
+        if (date == null) throw new MissingDateException(ERROR_MISSING_DATE);
+        existingExpense.setDate(date);
     }
 
-    private static String getUpdatedCategory(String input, Pattern categoryPattern, String category)
-            throws MissingCategoryException {
-        Matcher matcher = categoryPattern.matcher(input);
-        if (matcher.find()) {
-            String extractedCategory = matcher.group(UPDATE_PARAMETER_GROUP).trim();
-            if (extractedCategory.isEmpty()) {
-                throw new MissingCategoryException("Error: Invalid category.");
-            }
-            return extractedCategory;
-        }
-        return category;
+    private static String getUpdatedCategory(String input) {
+        Matcher matcher = Pattern.compile(CATEGORY_PATTERN).matcher(input);
+        return matcher.find() ? matcher.group(UPDATE_PARAMETER_GROUP).trim() : null;
     }
 
-    private static String getUpdatedDescription(String input, Pattern descPattern, String description)
-            throws MissingDescriptionException {
-        Matcher matcher = descPattern.matcher(input);
-        if (matcher.find()) {
-            String extractedDescription = matcher.group(UPDATE_PARAMETER_GROUP).trim();
-            if (extractedDescription.isEmpty()) {
-                throw new MissingDescriptionException("Error: Invalid description.");
-            }
-            return extractedDescription;
-        }
-        return description;
+    private static String getUpdatedDescription(String input) {
+        Matcher matcher = Pattern.compile(DESC_PATTERN).matcher(input);
+        return matcher.find() ? matcher.group(UPDATE_PARAMETER_GROUP).trim() : null;
     }
 
-    private static String getUpdatedDate(String input, Pattern datePattern, String date)
-            throws MissingDateException {
-        Matcher matcher = datePattern.matcher(input);
+    private static String getUpdatedDate(String input) throws MissingDateException {
+        Matcher matcher = Pattern.compile(DATE_PATTERN).matcher(input);
         if (matcher.find()) {
             String extractedDate = matcher.group(UPDATE_PARAMETER_GROUP).trim();
-            if (!extractedDate.matches(CORRECT_DATE_PATTERN)) {
-                throw new MissingDateException(ERROR_WRONG_DATE_FORMAT);
-            }
-            if (!DateValidator.isValidDate(extractedDate)) {
+            if (!extractedDate.matches(CORRECT_DATE_PATTERN) || !DateValidator.isValidDate(extractedDate)) {
                 throw new MissingDateException(ERROR_WRONG_DATE_FORMAT);
             }
             return extractedDate;
         }
-        return date;
+        return null;
     }
 
-    private static Double getUpdatedAmount(String input, Pattern amtPattern, Double amount)
-            throws MissingAmountException {
-        Matcher matcher = amtPattern.matcher(input);
+    private static Double getUpdatedAmount(String input) {
+        Matcher matcher = Pattern.compile(AMT_PATTERN).matcher(input);
         if (matcher.find()) {
             String extractedAmount = matcher.group(UPDATE_PARAMETER_GROUP).trim();
-            if (!extractedAmount.matches(CORRECT_AMOUNT_PATTERN)) {
-                throw new MissingAmountException(ERROR_INVALID_AMOUNT);
+            if (extractedAmount.matches(CORRECT_AMOUNT_PATTERN)) {
+                return Double.parseDouble(extractedAmount);
             }
-            return Double.parseDouble(extractedAmount);
         }
-        return amount;
+        return null;
     }
 }
-
