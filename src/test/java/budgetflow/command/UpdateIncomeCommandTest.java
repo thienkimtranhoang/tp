@@ -116,6 +116,24 @@ public class UpdateIncomeCommandTest {
     }
 
     @Test
+    public void updateIncome_inValidDateFormat_throwsException() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c1 = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025");
+        c1.execute(incomes, expenseList);
+        Command c2 = new UpdateIncomeCommand("update-income 1 d/Mar12");
+
+        try{
+            c2.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Invalid date format. Usage: DD-MM-YYYY";
+            assertEquals(expectedError, e.getMessage());
+        }
+
+    }
+
+    @Test
     public void updateIncome_emptyList_throwsException(){
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();

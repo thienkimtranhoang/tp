@@ -28,6 +28,7 @@ public class UpdateIncomeCommand extends Command {
     private static final int UPDATE_COMMAND_PREFIX_LENGTH = UPDATE_COMMAND_PREFIX.length();
 
     private static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
+    private static final String ERROR_WRONG_DATE_FORMAT = "Error: Invalid date format. Usage: DD-MM-YYYY";
     private static final String ERROR_MISSING_INDEX = "Error: Index is required.";
     private static final String ERROR_INCOME_ENTRY_NOT_FOUND = "Error: Income entry not found.";
     private static final String ERROR_WRONG_INDEX_FORMAT = "Error: Index must be a number.";
@@ -39,7 +40,8 @@ public class UpdateIncomeCommand extends Command {
 
     private static final String CATEGORY_PATTERN = "category/([^ ]+)";
     private static final String AMT_PATTERN = "amt/([^ ]+)";
-    private static final String DATE_PATTERN = "d/(\\d{2}-\\d{2}-\\d{4})";
+    private static final String DATE_PATTERN = "d/([^ ]+)";
+    private static final String CORRECT_DATE_PATTERN = "\\d{2}-\\d{2}-\\d{4}";
     private static final String CORRECT_AMOUNT_PATTERN = "[0-9]+(\\.[0-9]*)?";
 
     private static final int INDEX_POSITION_IN_1_INDEX = 0;
@@ -163,11 +165,16 @@ public class UpdateIncomeCommand extends Command {
         Matcher matcher;
         matcher = datePattern.matcher(input);
         if (matcher.find()) {
-            date = matcher.group(UPDATE_PARAMETER_GROUP).trim();
-            if (!DateValidator.isValidDate(date)) {
+            String extractedDate = matcher.group(UPDATE_PARAMETER_GROUP).trim();
+            if (!extractedDate.matches(CORRECT_DATE_PATTERN)) {
+                throw new MissingDateException(ERROR_WRONG_DATE_FORMAT);
+            }
+            if (!DateValidator.isValidDate(extractedDate)) {
                 throw new MissingDateException(ERROR_INVALID_DATE);
             }
+            date = extractedDate;
         }
+
         return date;
     }
 
