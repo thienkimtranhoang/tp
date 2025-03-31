@@ -20,6 +20,8 @@ import java.util.regex.Pattern;
  * If no matching expenses are found, an exception is thrown.
  */
 public class FindExpenseCommand extends Command {
+    private static final String AMT_PATTERN = "[0-9]+(\\.[0-9]*)?";
+    private static final String DATE_PATTERN = "\\d{2}-\\d{2}-\\d{4}";
     private static final Logger logger = Logger.getLogger(FindExpenseCommand.class.getName());
     private static final String COMMAND_FIND_EXPENSE = "find-expense";
     private static final String ERROR_MISSING_KEYWORD = "Error: Missing keyword";
@@ -38,6 +40,12 @@ public class FindExpenseCommand extends Command {
     private static final String TAG_CATEGORY = "/category";
     private static final String TAG_AMOUNT_RANGE = "/amtrange";
     private static final String TAG_DATE_RANGE = "/drange";
+    private static final int AMT_RANGE_LENGTH = 2;
+    private static final int DATE_RANGE_LENGTH = 2;
+    private static final int START_AMT_PART = 0;
+    private static final int END_AMT_PART = 1;
+    private static final int START_DATE_PART = 0;
+    private static final int END_DATE_PART = 1;
 
     /**
      * Constructs a FindExpenseCommand with the given input.
@@ -66,11 +74,11 @@ public class FindExpenseCommand extends Command {
             MissingKeywordException, InvalidTagException, InvalidKeywordException {
         assert input.startsWith(COMMAND_FIND_EXPENSE) : ASSERTION_FAIL_INVALID_FIND_COMMAND;
         String[] parsedTagAndKeyword = extractTagAndKeyword();
-        String tag = parsedTagAndKeyword[0];
-        String keyword = parsedTagAndKeyword[1];
+        String tag = parsedTagAndKeyword[START_DATE_PART];
+        String keyword = parsedTagAndKeyword[END_DATE_PART];
         ExpenseList matchingExpenses = getMatchingExpenses(expenseList, tag, keyword);
 
-        if (matchingExpenses.getSize() == 0) {
+        if (matchingExpenses.getSize() == START_DATE_PART) {
             logger.warning("No expenses found for " + tag + " with keyword: " + keyword);
             throw new UnfoundExpenseException(ERROR_UNFOUNDED_KEYWORD + keyword);
         } else {
@@ -98,8 +106,8 @@ public class FindExpenseCommand extends Command {
             logger.warning(ERROR_NO_TAG_OR_KEYWORD);
             throw new MissingKeywordException(ERROR_MISSING_KEYWORD);
         }
-        String tag = matcher.group(1);
-        String keyword = matcher.group(2).trim();
+        String tag = matcher.group(END_DATE_PART);
+        String keyword = matcher.group(AMT_RANGE_LENGTH).trim();
         // Define correct patterns for validation
         boolean isValid = isValidKeywordPattern(tag, keyword);
         if (!isValid) {
@@ -112,14 +120,12 @@ public class FindExpenseCommand extends Command {
     private static boolean isValidKeywordPattern(String tag, String keyword) throws InvalidTagException {
         String categoryPattern = ".+";
         String descPattern = ".+";
-        String amtPattern = "[0-9]+(\\.[0-9]*)?";
-        String datePattern = "\\d{2}-\\d{2}-\\d{4}";
 
         // Validate keyword format based on the tag
         return switch (tag) {
         case TAG_DESCRIPTION -> keyword.matches(descPattern);
-        case TAG_DATE -> keyword.matches(datePattern);
-        case TAG_AMOUNT -> keyword.matches(amtPattern);
+        case TAG_DATE -> keyword.matches(DATE_PATTERN);
+        case TAG_AMOUNT -> keyword.matches(AMT_PATTERN);
         case TAG_CATEGORY -> keyword.matches(categoryPattern);
         case TAG_AMOUNT_RANGE -> isValidAmtRange(keyword);
         case TAG_DATE_RANGE -> isValidDateRange(keyword);
@@ -128,14 +134,12 @@ public class FindExpenseCommand extends Command {
     }
 
     private static boolean isValidAmtRange(String keyword) {
-        String amtPattern = "[0-9]+(\\.[0-9]*)?";
         String[] parts = keyword.split("\\s+");
-        return parts.length == 2 && parts[0].matches(amtPattern) && parts[1].matches(amtPattern);
+        return parts.length == AMT_RANGE_LENGTH && parts[START_AMT_PART].matches(AMT_PATTERN) && parts[END_AMT_PART].matches(AMT_PATTERN);
     }
 
     private static boolean isValidDateRange(String keyword) {
-        String datePattern = "\\d{2}-\\d{2}-\\d{4}";
         String[] parts = keyword.split("\\s+");
-        return parts.length == 2 && parts[0].matches(datePattern) && parts[1].matches(datePattern);
+        return parts.length == DATE_RANGE_LENGTH && parts[START_DATE_PART].matches(DATE_PATTERN) && parts[END_DATE_PART].matches(DATE_PATTERN);
     }
 }

@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class ExpenseList {
+    private static final String AMT_PATTERN = "[0-9]+(\\.[0-9]*)?";
+    private static final String DATE_PATTERN = "dd-MM-yyyy";
     private static final String EMPTY_EXPENSE_LIST_MESSAGE =
             "There is currently no expense in your list right now. Please add more expenses to continue";
     private static final String ERROR_INVALID_DATE_FORMAT = "Please enter valid date format: dd-MM-yyyy";
@@ -24,6 +26,8 @@ public class ExpenseList {
     private static final String TAG_DATE = "/d";
     private static final String TAG_AMOUNT_RANGE = "/amtrange";
     private static final String TAG_DATE_RANGE = "/drange";
+    private static final String ERROR_INVALID_TAG = "Please enter valid tag: /desc | /amt| /d| /category";
+    private static final String ERROR_INVALID_AMOUNT_FORMAT = "Please enter valid float number after /amt";
     private final ArrayList<Expense> innerList = new ArrayList<>();
     private double totalExpenses;
 
@@ -72,7 +76,7 @@ public class ExpenseList {
         case TAG_DATE -> getExpenseByDate(keyword);
         case TAG_AMOUNT_RANGE -> getExpenseByAmountRange(keyword);
         case TAG_DATE_RANGE -> getExpenseByDateRange(keyword);
-        default -> throw new InvalidTagException("Please enter valid tag: /desc | /amt| /d| /category");
+        default -> throw new InvalidTagException(ERROR_INVALID_TAG);
         };
     }
 
@@ -104,7 +108,7 @@ public class ExpenseList {
             startAmount = Double.parseDouble(amountRange[0]);
             endAmount = Double.parseDouble(amountRange[1]);
         } catch (NumberFormatException e) {
-            throw new InvalidNumberFormatException("Please enter valid float number after /amt");
+            throw new InvalidNumberFormatException(ERROR_INVALID_AMOUNT_FORMAT);
         }
 
         for (int i = 0; i < this.getSize(); i++) {
@@ -156,8 +160,7 @@ public class ExpenseList {
      * @throws InvalidNumberFormatException if amount keyword is not at valid amount format
      */
     private ExpenseList getExpenseByAmount(String keyword) throws InvalidNumberFormatException {
-        String amtPattern = "[0-9]+(\\.[0-9]*)?";
-        if (!keyword.matches(amtPattern)) {
+        if (!keyword.matches(AMT_PATTERN)) {
             throw new InvalidNumberFormatException("Please pass valid float number after /amt");
         }
         ExpenseList outExpenses = new ExpenseList();
@@ -165,7 +168,7 @@ public class ExpenseList {
         try {
             keywordAmount = Double.parseDouble(keyword);
         } catch (NumberFormatException e) {
-            throw new InvalidNumberFormatException("Please enter valid float number after /amt");
+            throw new InvalidNumberFormatException(ERROR_INVALID_AMOUNT_FORMAT);
         }
         for (int i = 0; i < this.getSize(); i++) {
             Double amount = this.get(i).getAmount();
@@ -193,11 +196,14 @@ public class ExpenseList {
     }
 
     private LocalDate parseLocalDateFromString(String keyword) {
-        String datePattern = "dd-MM-yyyy";
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(datePattern);
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
         return LocalDate.parse(keyword, inputFormatter);
     }
 
+    /**
+     * Adding an expense to the expense list
+     * @param expense the expense object to be added
+     */
     public void add(Expense expense) {
         innerList.add(expense);
         totalExpenses += expense.getAmount();
@@ -208,6 +214,10 @@ public class ExpenseList {
         innerList.remove(expense);
     }
 
+    /**
+     * Remove an expense in a list based on the index
+     * @param index the current index of expense in the list to be deleted
+     */
     public void delete(int index) {
         Expense deleteExpense = this.get(index);
         totalExpenses -= deleteExpense.getAmount();
@@ -230,6 +240,9 @@ public class ExpenseList {
         return totalExpenses;
     }
 
+    /**
+     * Recalculate the total expenses to be up to date
+     */
     public void updateTotalExpenses() {
         totalExpenses = 0.0;
         for (Expense expense : innerList) {
