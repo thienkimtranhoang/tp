@@ -1,15 +1,123 @@
 # Developer Guide
+<br><br>
+![](diagrams/icon.png)<br>
+
+Anak Agung Gde Yogi Pramana<br>
+
+Darius Lee Qi Lun<br>
+
+Goh Yik Bing<br>
+
+Nguyen Quy Dat<br>
+
+Tran Hoang Thien Kim<br>
+
+## Table of Contents
+* [Introduction](#introduction)
+* [Getting Started](#getting-started)<br>
+  * [Prerequisites](#prerequisites)<br>
+  * [Setting Up](#setting-up)<br>
+* [Design](#design) <br>
+  * [Architecture](#architecture) <br>
+  * [UI](#ui) <br>
+  * [Storage](#storage) <br>
+  * [Logic](#logic) <br>
+  * [Model](#model) <br>
+    * [Expense](#expense) <br>
+* [Implementation](#implementation) <br>
+  * [Adding Income](#add) <br>
+  * [Logging an Expense](#log-expense) <br>
+  * [Viewing All Expenses](#view-all-expense) <br>
+  * [Listing All Incomes](#list-income) <br>
+  * [Filtering Incomes by Amount or by Category](#filter-income amount/date) <br>
+  * [Deleting an Income Entry](#delete-income) <br>
+  * [Updating an Expense Entry](#update-expense) <br>
+  * [Comparing Expenses Between Two Months](#compare) <br>
+  * [Deleting an Expense Entry](#delete-expense) <br>
+  * [Exiting the Application](#exit) <br>
+* [Documentation](#documentation) <br>
+* [Testing](#testing)<br>
+* [Appendix A. Product scope](#appendix-a-product-scope)<br>
+* [Appendix B. User stories](#appendix-b-user-stories)<br>
+* [Appendix C. Non-functional requirements](#appendix-c-non-functional-requirements)<br>
+* [Appendix D. Instructions for manual testing](#appendix-d-instructions-for-manual-testing)
+
+## Introduction
+
+## Getting Started
+
+### Prerequisites
+
+### Setting Up
+
+## Design
+This section outlines the various components of the application and explains how they interact to execute the program.
+### Architecture
+
+### Command
+
+### Storage
+__API__:`Storage.java`
+The `Storage` component can save the list of incomes and expenses data in .txt format and read it back.
+
+### Logic
+
+### Model
+
+#### Expense
+__API__: 
 
 ## Acknowledgements
 
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
-## Design & implementation
+## implementation
 
+This section provides an overview of the implementation of key features.
+
+### Adding Income
+
+### Logging an Expense
+
+This feature allows users to add expenses and relevant information about them (category, description, amount and date) to the expense list.
+
+Here is an example of usage scenario:
+
+Step 1: The user launches the application to log a spending to his expense list. The user executes
+`log-expense category/Coffee desc/Coffee amt/3.50 d/06-03-2025` to add a new spending to the list.
+
+Step 2: ...
+
+...
+
+### Viewing All Expenses
+
+### Listing All Incomes
+
+### Filtering Incomes by Amount or by Category
+
+### Deleting an Income Entry
+
+### Updating an Expense Entry
+
+### Comparing Expenses Between Two Months
+
+### Deleting an Expense Entry
+
+### Exiting the Application
+
+## Documentation
+
+## Testing
+JUnit is used for writing tests in this project. You can learn more about JUnit [here](https://se-education.org/guides/tutorials/gradle.html).
+If you're using IntelliJ, you can run all tests by right-clicking the `test/java` folder and selecting `Run 'Tests'`, or by pressing `CRTL` + `SHIFT` + `F10`. 
+Alternatively, you can open a console and run the command `gradelw clean test` (Mac/linus: `.gradlew clean test`).
+
+###
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
 
 
-## Product scope
+## Appendix A: Product scope
 ### Target User Profile
 The Finance Tracker App is designed primarily for **students** who need a simple and efficient tool to manage their finances. The app is ideal for:
 - **Primary Audience**: Undergraduate and graduate students who wish to track their expenses, income, and savings.
@@ -26,23 +134,49 @@ The Finance Tracker App is designed primarily for **students** who need a simple
     - Need for a simple, mobile-friendly solution to manage finances on-the-go.
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+Budgetflow is designed to address financial management challenges faced by students. It
+offers a solution tailored to their needs.This app simplifies personal finance management
+through the following key benefits:
 
-## User Stories
+- **Financial Insights**:  
+  Users gain visibility into their spending patterns from comparing monthly expenses.
+
+By combining ease of use, goal-driven features, and actionable insights, Budgetflow empowers students to:
+- Build better financial habits.
+- Reduce stress around money management.
+- Achieve their financial goals with confidence.
+
+## Appendix B: User Stories
 
 |Version| As a ... | I want to ...  | So that I can ...                                           |
 |--------|----------|----------------|-------------------------------------------------------------|
+| v1.0    | uni student | log my daily expenses     | track where my money is going                                  |
 |v1.0|new user| see usage instructions | refer to them when I forget how to use the application      |
 |v2.0|user| find a to-do item by name | locate a to-do without having to go through the entire list |
 |v2.0|user| filter by date | which allocation to which category                          |
-## Non-Functional Requirements
+| v2.0    | user        | update my expenses        | make changes to the expenses I already added                   |
 
-{Give non-functional requirements}
+## Appendix C: Non-Functional Requirements
 
+1. This application works on any computers that are Windows, macOS or Unix that has Java17.
 ## Glossary
 
 * *glossary item* - Definition
 
-## Instructions for manual testing
+## Appendix D: Instructions for manual testing
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+1. Launching
+  * Download the jar file [here](insert git JAR file link here) and place it in an empty folder.
+  * Open the command prompt and enter the command `java -jar tP.jar`.
+  * Expected: The application shows a welcome message.
+
+2. Adding expenses and incomes
+  * Test case: `log-expense category/Coffee desc/Coffee amt/3.50 d/06-03-2025`
+  * Expected: Confirmation message to indicate that the expense has been added successfully.
+  * Test case: `add category/Salary amt/1000.00 d/06-03-2025`
+  * Expected: Confirmation message to indicate that the income has been added successfully.
+
+3. Editing expenses
+  * Test case: `update-expense index/<index> category/drink desc/Coffee amt/4.00 d/06-04-2025` where `index` is the index of the expense list to be updated and `category`, `amt` and `d` are the category, amount and date to be changed to.
+  * Expected: Confirmation message to indicate that the expense has been updated successfully.
+
