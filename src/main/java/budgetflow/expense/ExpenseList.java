@@ -161,7 +161,7 @@ public class ExpenseList {
      */
     private ExpenseList getExpenseByAmount(String keyword) throws InvalidNumberFormatException {
         if (!keyword.matches(AMT_PATTERN)) {
-            throw new InvalidNumberFormatException("Please pass valid float number after /amt");
+            throw new InvalidNumberFormatException(ERROR_INVALID_AMOUNT_FORMAT);
         }
         ExpenseList outExpenses = new ExpenseList();
         Double keywordAmount;
