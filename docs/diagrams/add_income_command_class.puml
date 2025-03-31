@@ -1,0 +1,58 @@
+@startuml
+package budgetflow.command {
+    class AddIncomeCommand {
+        - static final Logger logger
+        - static final String ADD_COMMAND_PREFIX
+        - static final String ERROR_MISSING_INCOME_CATEGORY
+        - static final String ERROR_MISSING_INCOME_AMOUNT
+        - static final String ERROR_MISSING_INCOME_DATE
+        - static final String ERROR_INCORRECT_INCOME_DATE
+        + AddIncomeCommand(String input)
+        + execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingIncomeException
+        - Income extractIncome(String input) throws InvalidNumberFormatException, MissingCategoryException, MissingAmountException, MissingDateException, MissingIncomeException
+        - static void verifyMissingOrIncorrect(String input) throws MissingDateException
+    }
+}
+
+package budgetflow.exception {
+    class MissingDateException
+    class InvalidNumberFormatException
+    class MissingAmountException
+    class MissingCategoryException
+    class MissingIncomeException
+}
+
+package budgetflow.expense {
+    class ExpenseList
+}
+
+package budgetflow.income {
+    class Income {
+        + String getCategory()
+        + double getAmount()
+        + String getDate()
+    }
+}
+
+package budgetflow.parser {
+    class DateValidator {
+        + static boolean isValidDate(String date)
+    }
+}
+
+class Command {
+    + Command(String input)
+    + CommandType commandType
+}
+
+AddIncomeCommand --|> Command
+AddIncomeCommand ..> MissingDateException : throws
+AddIncomeCommand ..> InvalidNumberFormatException : throws
+AddIncomeCommand ..> MissingAmountException : throws
+AddIncomeCommand ..> MissingCategoryException : throws
+AddIncomeCommand ..> MissingIncomeException : throws
+AddIncomeCommand ..> Income : uses
+AddIncomeCommand ..> ExpenseList : uses
+AddIncomeCommand ..> DateValidator : uses
+
+@enduml
