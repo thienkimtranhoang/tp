@@ -99,6 +99,31 @@ Step 2: ...
 ### Deleting an Income Entry
 
 ### Updating an Expense Entry
+This feature allows users to make changes to an expense logged earlier by changing the description, category, amount and
+date to the list. The user can decide what they want to change.
+
+Given below is an example usage scenario:
+
+Step 1. The user logged an expense. The user executes
+`update-expense 2 amt/50.0 d/01-04-2025"` to change the amount and date of the expense at index 2 of the list.
+
+Step 2: The `FinanceTracker` system receives the command and passes it to `UpdateExpenseCommand` with parameters (index 
+2, amount 50.0, date "01-04-2025").
+
+Step 3: The command checks if the expense index (2) is valid.
+- If the index is valid, it proceeds to fetch the expense at index 2.
+- If the index is out of bounds, an error message is displayed: "Error: Expense entry not found."
+
+Step 4: The `UpdateExpenseCommand` updates the expense amount to 50.0 and then validates the date format ("01-04-2025").
+- If the date format is valid, it updates the date of the expense.
+- If the date format is invalid, an error message is displayed: "Error: Invalid date format."
+
+Step 5: After successfully updating the expense, `UpdateExpenseCommand` updates the total expenses and saves the changes
+to `Storage`.
+
+Step 6: The user receives a confirmation message: "Expense updated successfully."
+The sequence diagram below shows the process of adding a new event.
+![UpdateExpenseCommand Sequence Diagram](diagrams/UpdateExpense.png)
 
 ### Comparing Expenses Between Two Months
 
