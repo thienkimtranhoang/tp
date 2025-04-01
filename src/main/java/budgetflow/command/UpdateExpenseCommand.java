@@ -101,7 +101,8 @@ public class UpdateExpenseCommand extends Command {
     }
 
     private void extractUpdatedExpense(String input, Expense existingExpense)
-            throws MissingAmountException, MissingDateException, MissingCategoryException, MissingDescriptionException, InvalidDateException, InvalidNumberFormatException {
+            throws MissingAmountException, MissingDateException, MissingCategoryException, MissingDescriptionException,
+            InvalidDateException, InvalidNumberFormatException {
 
         existingExpense.setCategory(getUpdatedCategory(input, existingExpense.getCategory()));
         existingExpense.setAmount(getUpdatedAmount(input, existingExpense.getAmount()));
