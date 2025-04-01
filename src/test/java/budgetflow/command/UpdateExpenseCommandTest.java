@@ -1,5 +1,6 @@
 package budgetflow.command;
 
+import budgetflow.exception.InvalidDateException;
 import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
@@ -88,7 +89,7 @@ public class UpdateExpenseCommandTest {
     void updateExpense_invalidDateFormat() {
         UpdateExpenseCommand command = new UpdateExpenseCommand(
                 "update-expense 1 category/Food amt/15.00 desc/Dinner d/32-01-2024");
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> command.execute(incomes, expenseList));
+        Exception exception = assertThrows(InvalidDateException.class, () -> command.execute(incomes, expenseList));
         assertEquals("Error: Invalid date format. Usage: DD-MM-YYYY", exception.getMessage());
     }
 
@@ -144,7 +145,7 @@ public class UpdateExpenseCommandTest {
     void updateExpense_invalidDateFormatOnUpdate() {
         UpdateExpenseCommand command = new UpdateExpenseCommand(
                 "update-expense 1 category/Food amt/10.00 desc/Lunch d/99-99-2024");
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> command.execute(incomes, expenseList));
+        Exception exception = assertThrows(InvalidDateException.class, () -> command.execute(incomes, expenseList));
         assertEquals("Error: Invalid date format. Usage: DD-MM-YYYY", exception.getMessage());
     }
 

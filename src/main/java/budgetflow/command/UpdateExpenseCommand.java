@@ -1,8 +1,9 @@
 package budgetflow.command;
 
-import budgetflow.exception.MissingDateException;
+import budgetflow.exception.InvalidDateException;
 import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.MissingAmountException;
+import budgetflow.exception.MissingDateException;
 import budgetflow.exception.MissingCategoryException;
 import budgetflow.exception.MissingDescriptionException;
 import budgetflow.expense.Expense;
@@ -48,7 +49,7 @@ public class UpdateExpenseCommand extends Command {
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList)
             throws MissingDateException, InvalidNumberFormatException, MissingAmountException,
-            MissingCategoryException, MissingDescriptionException {
+            MissingCategoryException, MissingDescriptionException, InvalidDateException {
 
         if (input.length() <= UPDATE_EXPENSE_COMMAND_PREFIX_LENGTH) {
             throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
@@ -100,7 +101,7 @@ public class UpdateExpenseCommand extends Command {
     }
 
     private void extractUpdatedExpense(String input, Expense existingExpense)
-            throws MissingAmountException, MissingDateException, MissingCategoryException, MissingDescriptionException {
+            throws MissingAmountException, MissingDateException, MissingCategoryException, MissingDescriptionException, InvalidDateException, InvalidNumberFormatException {
 
         existingExpense.setCategory(getUpdatedCategory(input, existingExpense.getCategory()));
         existingExpense.setAmount(getUpdatedAmount(input, existingExpense.getAmount()));
@@ -145,12 +146,12 @@ public class UpdateExpenseCommand extends Command {
     }
 
     private static String getUpdatedDate(String input, String currentDate)
-            throws IllegalArgumentException {
+            throws InvalidDateException {
         Matcher matcher = DATE_PATTERN.matcher(input);
         if (matcher.find()) {
             String extractedDate = matcher.group(UPDATE_PARAMETER_GROUP).trim();
             if (!DateValidator.isValidDate(extractedDate)) {
-                throw new IllegalArgumentException(ERROR_WRONG_DATE_FORMAT);
+                throw new InvalidDateException(ERROR_WRONG_DATE_FORMAT);
             }
             return extractedDate;
         }
@@ -158,13 +159,13 @@ public class UpdateExpenseCommand extends Command {
     }
 
     private static Double getUpdatedAmount(String input, Double currentAmount)
-            throws IllegalArgumentException {
+            throws InvalidNumberFormatException {
         Matcher matcher = AMT_PATTERN.matcher(input);
         if (matcher.find()) {
             try {
                 return Double.parseDouble(matcher.group(UPDATE_PARAMETER_GROUP).trim());
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException(ERROR_INVALID_AMOUNT);
+                throw new InvalidNumberFormatException(ERROR_INVALID_AMOUNT);
             }
         }
         return currentAmount;
