@@ -6,7 +6,8 @@ import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.InvalidTagException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class ExpenseListTest {
 
@@ -34,7 +35,7 @@ class ExpenseListTest {
         assertEquals(expectedMatch.toString(), matchingExpenses.toString());
     }
     @Test
-    void getByTag_InvalidTagTest() {
+    void getByTag_invalidTagTest() {
         ExpenseList testList = getListWith5Expenses();
         String tag = "/de";
         String keyword = "Lunch";
@@ -47,7 +48,7 @@ class ExpenseListTest {
         }
     }
     @Test
-    void getByTag_InvalidNumberFormatTest() {
+    void getByTag_invalidNumberFormatTest() {
         ExpenseList testList = getListWith5Expenses();
         String tag = "/amt";
         String keyword = "foo ";
@@ -60,7 +61,7 @@ class ExpenseListTest {
         }
     }
     @Test
-    void getByTag_InvalidDateTest() {
+    void getByTag_invalidDateTest() {
         ExpenseList testList = getListWith5Expenses();
         String tag = "/d";
         String keyword = "March 17";

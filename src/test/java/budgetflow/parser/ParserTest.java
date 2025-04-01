@@ -5,7 +5,9 @@ import budgetflow.command.ListIncomeCommand;
 import budgetflow.exception.UnknownCommandException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class ParserTest {
 
