@@ -28,7 +28,8 @@ public class UpdateExpenseCommand extends Command {
     private static final String ERROR_EMPTY_EXPENSE_LIST = "Error: No expense entries exist to update.";
     private static final String ERROR_WRONG_DATE_FORMAT = "Error: Invalid date format. Usage: DD-MM-YYYY";
     private static final String ERROR_INVALID_AMOUNT = "Error: Invalid amount format.";
-
+    private static final String ERROR_INVALID_CATEGORY = "Error: Invalid category.";
+    private static final String ERROR_INVALID_DESCRIPTION = "Error: Invalid description.";
     private static final Pattern CATEGORY_PATTERN = Pattern.compile("category/([^ ]+)");
     private static final Pattern AMT_PATTERN = Pattern.compile("amt/([0-9]+(\\.[0-9]*)?)");
     private static final Pattern DESC_PATTERN = Pattern.compile("desc/([^ ]+)");
@@ -113,10 +114,15 @@ public class UpdateExpenseCommand extends Command {
         if (matcher.find()) {
             String extractedCategory = matcher.group(UPDATE_PARAMETER_GROUP).trim();
             if (extractedCategory.isEmpty()) {
-                throw new MissingCategoryException("Error: Invalid category.");
+                throw new MissingCategoryException(ERROR_INVALID_CATEGORY);
             }
             return extractedCategory;
         }
+
+        if (currentCategory == null || currentCategory.trim().isEmpty()) {
+            throw new MissingCategoryException(ERROR_INVALID_CATEGORY);
+        }
+
         return currentCategory;
     }
 
@@ -126,20 +132,25 @@ public class UpdateExpenseCommand extends Command {
         if (matcher.find()) {
             String extractedDescription = matcher.group(UPDATE_PARAMETER_GROUP).trim();
             if (extractedDescription.isEmpty()) {
-                throw new MissingDescriptionException("Error: Invalid description.");
+                throw new MissingDescriptionException(ERROR_INVALID_DESCRIPTION);
             }
             return extractedDescription;
         }
+
+        if (currentDescription == null || currentDescription.isEmpty()) {
+            throw new MissingDescriptionException(ERROR_INVALID_DESCRIPTION);
+        }
+
         return currentDescription;
     }
 
     private static String getUpdatedDate(String input, String currentDate)
-            throws MissingDateException {
+            throws IllegalArgumentException {
         Matcher matcher = DATE_PATTERN.matcher(input);
         if (matcher.find()) {
             String extractedDate = matcher.group(UPDATE_PARAMETER_GROUP).trim();
             if (!DateValidator.isValidDate(extractedDate)) {
-                throw new MissingDateException(ERROR_WRONG_DATE_FORMAT);
+                throw new IllegalArgumentException(ERROR_WRONG_DATE_FORMAT);
             }
             return extractedDate;
         }
@@ -147,10 +158,14 @@ public class UpdateExpenseCommand extends Command {
     }
 
     private static Double getUpdatedAmount(String input, Double currentAmount)
-            throws MissingAmountException {
+            throws IllegalArgumentException {
         Matcher matcher = AMT_PATTERN.matcher(input);
         if (matcher.find()) {
-            return Double.parseDouble(matcher.group(UPDATE_PARAMETER_GROUP).trim());
+            try {
+                return Double.parseDouble(matcher.group(UPDATE_PARAMETER_GROUP).trim());
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException(ERROR_INVALID_AMOUNT);
+            }
         }
         return currentAmount;
     }
