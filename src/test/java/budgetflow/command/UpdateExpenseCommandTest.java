@@ -27,7 +27,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_Success() throws Exception {
+    void updateExpense_success() throws Exception {
         UpdateExpenseCommand command = new UpdateExpenseCommand(
                 "update-expense 1 category/Dining amt/12.00 desc/Dinner d/03-01-2024");
         command.execute(incomes, expenseList);
@@ -40,7 +40,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_MissingIndex() {
+    void updateExpense_missingIndex() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense");
         Exception exception = assertThrows(InvalidNumberFormatException.class, () ->
                 command.execute(incomes, expenseList));
@@ -48,7 +48,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_InvalidIndexFormat() {
+    void updateExpense_invalidIndexFormat() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense abc category/Food");
         Exception exception = assertThrows(InvalidNumberFormatException.class, () ->
                 command.execute(incomes, expenseList));
@@ -56,7 +56,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_IndexOutOfBounds() {
+    void updateExpense_indexOutOfBounds() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 5 category/Food");
         Exception exception = assertThrows(InvalidNumberFormatException.class, () ->
                 command.execute(incomes, expenseList));
@@ -64,7 +64,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_EmptyExpenseList() {
+    void updateExpense_emptyExpenseList() {
         expenseList = new ExpenseList();
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Food");
         Exception exception = assertThrows(InvalidNumberFormatException.class, () ->
@@ -73,7 +73,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_NoChange() throws Exception {
+    void updateExpense_noChange() throws Exception {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1");
         command.execute(incomes, expenseList);
 
@@ -85,7 +85,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_InvalidDateFormat() {
+    void updateExpense_invalidDateFormat() {
         UpdateExpenseCommand command = new UpdateExpenseCommand(
                 "update-expense 1 category/Food amt/15.00 desc/Dinner d/32-01-2024");
         Exception exception = assertThrows(IllegalArgumentException.class, () -> command.execute(incomes, expenseList));
@@ -93,7 +93,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_UpdateOnlyCategory() throws Exception {
+    void updateExpense_updateOnlyCategory() throws Exception {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Dining");
         command.execute(incomes, expenseList);
 
@@ -105,7 +105,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_UpdateOnlyAmount() throws Exception {
+    void updateExpense_updateOnlyAmount() throws Exception {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/20.00");
         command.execute(incomes, expenseList);
 
@@ -117,7 +117,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_UpdateOnlyDescription() throws Exception {
+    void updateExpense_updateOnlyDescription() throws Exception {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 desc/Dinner");
         command.execute(incomes, expenseList);
 
@@ -129,7 +129,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_UpdateOnlyDate() throws Exception {
+    void updateExpense_updateOnlyDate() throws Exception {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 d/02-02-2024");
         command.execute(incomes, expenseList);
 
@@ -141,7 +141,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_InvalidDateFormatOnUpdate() {
+    void updateExpense_invalidDateFormatOnUpdate() {
         UpdateExpenseCommand command = new UpdateExpenseCommand(
                 "update-expense 1 category/Food amt/10.00 desc/Lunch d/99-99-2024");
         Exception exception = assertThrows(IllegalArgumentException.class, () -> command.execute(incomes, expenseList));
@@ -149,13 +149,13 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_UpdateStorageCalled() throws Exception {
+    void updateExpense_updateStorageCalled() throws Exception {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Transport amt/15.00");
         command.execute(incomes, expenseList);
     }
 
     @Test
-    void testUpdateExpense_LargeIndex() {
+    void updateExpense_largeIndex() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 999999 category/Food");
         Exception exception = assertThrows(InvalidNumberFormatException.class, () ->
                 command.execute(incomes, expenseList));
@@ -163,7 +163,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_UpdateMultipleFields() throws Exception {
+    void updateExpense_updateMultipleFields() throws Exception {
         UpdateExpenseCommand command = new UpdateExpenseCommand(
                 "update-expense 1 category/Transport amt/25.00 desc/Taxi d/15-03-2024");
         command.execute(incomes, expenseList);
@@ -176,7 +176,7 @@ public class UpdateExpenseCommandTest {
     }
 
     @Test
-    void testUpdateExpense_UpdateWithOnlyCategory() throws Exception {
+    void updateExpense_updateWithOnlyCategory() throws Exception {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Leisure");
         command.execute(incomes, expenseList);
 
