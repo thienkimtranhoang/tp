@@ -1,0 +1,57 @@
+@startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+
+package "budgetflow.command" {
+    class UpdateExpenseCommand {
+        + UpdateExpenseCommand(String input)
+        + void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
+          InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException
+        - {static} void updateStorage(List<Income> incomes, ExpenseList expenseList)
+        - void extractUpdatedExpense(String input, Expense existingExpense) throws MissingAmountException,
+          MissingDateException, MissingCategoryException, MissingDescriptionException, InvalidDateException,
+          InvalidNumberFormatException
+        - {static} String getUpdatedCategory(String input, String currentCategory) throws MissingCategoryException
+        - {static} String getUpdatedDescription(String input, String currentDescription) throws MissingDescriptionException
+        - {static} String getUpdatedDate(String input, String currentDate) throws InvalidDateException
+        - {static} Double getUpdatedAmount(String input, Double currentAmount) throws InvalidNumberFormatException
+    }
+}
+
+abstract class "{abstract} \n Command" {
+    + CommandType commandType
+}
+
+class Expense {
+    + String getCategory()
+    + Double getAmount()
+    + String getDescription()
+    + String getDate()
+    + void setCategory(String category)
+    + void setAmount(Double amount)
+    + void setDescription(String description)
+    + void setDate(String date)
+}
+
+class ExpenseList {
+    + int getSize()
+    + Expense get(int index)
+    + void updateTotalExpenses()
+}
+
+class Storage {
+    + void saveData(List<Income> incomes, ExpenseList expenseList)
+}
+
+class DateValidator {
+    + static boolean isValidDate(String date)
+}
+
+UpdateExpenseCommand --|> "{abstract} \n Command" : extends
+UpdateExpenseCommand --> Expense : updates
+UpdateExpenseCommand --> ExpenseList : modifies
+UpdateExpenseCommand --> Storage : uses
+UpdateExpenseCommand --> DateValidator : uses
+
+@enduml

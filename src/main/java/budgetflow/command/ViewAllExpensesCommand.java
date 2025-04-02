@@ -41,6 +41,7 @@ public class ViewAllExpensesCommand extends Command {
             this.outputMessage = EMPTY_EXPENSE_LIST_MESSAGE + System.lineSeparator();
             return;
         }
+        assert expenseList.getSize() > 0 : "List size must be positive";
         String message = "Expenses log:" + System.lineSeparator();
         for (int i = 0; i < expenseList.getSize(); i++) {
             Expense expense = expenseList.get(i);
