@@ -61,7 +61,8 @@ The class diagram for the `Command` component is illustrated as below:
 ![Command Class Diagram](images/Command_class.png)  
 The command component 
 * executes the user's command based on their parsed input from command line.
-* depends on `Income` and `ExpenseList` components to extract information of expense and income for execution
+* depends on `Income` and `ExpenseList` components to extract information of expense and income for execution.
+* hold the output messages which will be sent and displayed to user upon successful execution
 
 ### Storage
 __API__:`Storage.java`
@@ -76,7 +77,7 @@ The class diagram of Ui is displayed as below
 Some method details of Ui class is noted as below:  
 * `public void showWelcom()`: print out the welcome message for the user.
 * `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
-The sequence diagram below illustrates iteractions within Ui component under `readCommand()` call.
+The sequence diagram below illustrates iteractions within Ui component under `readCommand()` call.  
   ![UI read command Diagram](images/UI_readCommandSequence.png)
   ![ref Diagram](images/refGetCommand.png)  
 * `public void printError(String error)`: print out the error message for user by passing the string error message.
@@ -106,7 +107,6 @@ The `ExpenseList` component:
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
 ## implementation
-
 This section provides an overview of the implementation of key features.
 
 ### Adding Income
@@ -125,6 +125,16 @@ Step 2: ...
 ...
 
 ### Viewing All Expenses
+This feature allows users to view all current expenses and relevant information about them (current index inside the list, category, description, amount and date)  
+The execution of this feature is facilitated by `ViewAllExpensesCommand`. It extends `Command` with `commandType = CommandType.READ` and overwrite `execute()` function to send all expenses' information from `ExpenseList` to the output message
+ upon successful execution, which will be displayed to user through UI.  
+Here is the execution scenario after user execute `view-all-expense`  
+* The `UI` reads the user's command, and `FinanceTracker` call `Parser.getCommandFromInput()` to check for matching command.
+Here, the Parser will return command `ViewAllExpensesCommand` for execution.  
+* FinanceTracker call `execute()` api for command's execution. The following sequence diagram shows how `execution()` goes through `ViewAllExpensesCommand` component   
+![ViewAllExpenses execute() Diagram](images/ViewAllExpenses.png)  
+* Since `commandType` is `READ`, no change will be made in storage. The UI then print the output message upon successful execution.
+* As exit condition is false, the application continues running and waits for next command from user.
 
 ### Listing All Incomes
 

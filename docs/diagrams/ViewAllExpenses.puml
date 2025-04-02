@@ -1,41 +1,26 @@
 @startuml
 
-enum CommandType {
-    CREATE, READ, UPDATE, DELETE, EXIT, COMPARE
-}
-package budgetflow.command {
-    enum CommandType {
-        CREATE, READ, UPDATE, DELETE, EXIT, COMPARE
-    }
-    class ViewAllExpensesCommand {
-        # input: String
-        # outputMessage: String
-        + ViewAllExpensesCommand(String input)
-        + execute(): void
-    }
-}
-
-package budgetflow.exception {
-    class UnfoundExpenseException
-}
-
-package budgetflow.expense {
-    class ExpenseList
-}
-
-package budgetflow.income {
-    class Income
-}
-
-class Command {
-    + Command(String input)
-    + CommandType commandType
-}
-
-ViewAllExpensesCommand --> CommandType : commandType
-ViewAllExpensesCommand --|> Command
-ViewAllExpensesCommand ..> UnfoundExpenseException : throws
-ViewAllExpensesCommand ..> Income : uses
-ViewAllExpensesCommand ..> ExpenseList : uses
+participant ":ViewAllExpensesCommand" as Command
+participant "expenseList: ExpenseList" as expenseList
+participant "expense :Expense" as expense
+-> Command ++:execute()
+Command -> expenseList ++: getSize()
+Command <-- expenseList --: size
+alt size == 0
+    Command -> Command: set empty output message
+else size != 0
+    Command -> Command: initialize message string
+    loop for each expense (i)
+        Command -> expenseList ++: get(i)
+        Command <-- expenseList --: expense
+        Command -> expense ++: get all expense's details
+        Command <-- expense --: expense's details
+        Command -> Command: add expense's details to message String
+    end
+    Command -> expenseList ++: get total expenses
+    Command <-- expenseList --: total expenses
+    Command -> Command: add total expenses to message string
+    Command -> Command: set output message as message string
+end
 
 @enduml
