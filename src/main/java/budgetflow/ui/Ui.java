@@ -8,7 +8,7 @@ import java.util.Scanner;
  * Handle basic user interface interaction including reading command from user and printing message
  */
 public class Ui {
-    public static final String WELCOME_MESSAGE = "Welcome to Finance Tracker!" + System.lineSeparator()
+    private static final String WELCOME_MESSAGE = "Welcome to Finance Tracker!" + System.lineSeparator()
             + "You can track incomes and expenses here.";
     private static final Scanner SCANNER = new Scanner(System.in);
 

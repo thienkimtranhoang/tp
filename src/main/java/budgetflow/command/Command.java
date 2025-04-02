@@ -6,7 +6,7 @@ import budgetflow.income.Income;
 
 import java.util.List;
 
-public class Command {
+public abstract class Command {
     protected CommandType commandType;
     protected String input;
     protected String outputMessage;
