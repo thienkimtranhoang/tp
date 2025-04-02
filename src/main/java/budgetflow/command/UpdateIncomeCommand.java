@@ -3,7 +3,6 @@ package budgetflow.command;
 import budgetflow.exception.MissingDateException;
 import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.MissingAmountException;
-import budgetflow.exception.MissingCategoryException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import budgetflow.parser.DateValidator;
@@ -69,11 +68,10 @@ public class UpdateIncomeCommand extends Command {
      * @throws MissingDateException If the provided date is invalid or missing.
      * @throws InvalidNumberFormatException If the index is in an invalid format.
      * @throws MissingAmountException If the amount is missing in the update input.
-     * @throws MissingCategoryException If the category is missing in the update input.
      */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
-            InvalidNumberFormatException, MissingAmountException, MissingCategoryException{
+            InvalidNumberFormatException, MissingAmountException{
         String[] parts = input.substring(UPDATE_COMMAND_PREFIX_LENGTH).trim().split(" ", 2);
         if (parts.length < MINIMUM_PARTS_FOR_UPDATE) {
             throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
@@ -123,11 +121,10 @@ public class UpdateIncomeCommand extends Command {
      * @return The updated Income object.
      * @throws MissingAmountException If the amount is missing in the input.
      * @throws MissingDateException If the date is invalid or missing in the input.
-     * @throws MissingCategoryException If the category is missing or invalid in the input.
      */
     private Income extractUpdatedIncome(String input, Income existingIncome)
             throws MissingAmountException,
-             MissingDateException, MissingCategoryException {
+             MissingDateException {
         String category = existingIncome.getCategory();
         Double amount = existingIncome.getAmount();
         String date = existingIncome.getDate();
@@ -212,7 +209,6 @@ public class UpdateIncomeCommand extends Command {
      * @param categoryPattern The compiled regular expression pattern for the category.
      * @param category The current category to fall back on if not updated.
      * @return The updated category as a String.
-     * @throws MissingCategoryException If the category is missing or invalid.
      */
     private static String getUpdatedCategory(String input, Pattern categoryPattern, String category) {
         assert (!(category.isEmpty())) : ASSERT_EMPTY_CATEGORY;
