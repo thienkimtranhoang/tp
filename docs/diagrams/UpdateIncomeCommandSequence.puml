@@ -1,0 +1,68 @@
+@startuml
+actor User
+participant "UpdateIncomeCommand" as UpdateIncomeCommand
+participant "Income" as Income
+participant "ExpenseList" as ExpenseList
+participant "Storage" as Storage
+participant "DateValidator" as DateValidator
+
+User -> UpdateIncomeCommand: "update-income ..."
+activate UpdateIncomeCommand
+
+
+UpdateIncomeCommand -> UpdateIncomeCommand: input.substring(UPDATE_COMMAND_PREFIX_LENGTH).trim().split(" ", 2)
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+
+ref over UpdateIncomeCommand : parseInputandValidateIndex
+
+opt Valid change in Category
+UpdateIncomeCommand -> UpdateIncomeCommand: getUpdatedCategory(input, categoryPattern, category)
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand: return category
+deactivate UpdateIncomeCommand
+end
+
+opt Valid change in Amount
+UpdateIncomeCommand -> UpdateIncomeCommand: getUpdatedAmount(input, amtPattern, amount)
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand: return amount
+deactivate UpdateIncomeCommand
+end
+
+opt Valid change in Date
+UpdateIncomeCommand -> UpdateIncomeCommand: getUpdatedDate(input, datePattern, date)
+activate UpdateIncomeCommand
+UpdateIncomeCommand -> DateValidator: isValidDate(extractedDate)
+activate DateValidator
+DateValidator --> UpdateIncomeCommand: Confirm valid date
+deactivate DateValidator
+UpdateIncomeCommand --> UpdateIncomeCommand: return date
+deactivate UpdateIncomeCommand
+end
+
+
+UpdateIncomeCommand -> Income: new Income(category, amount, date)
+activate Income
+Income --> UpdateIncomeCommand: Return updated income
+deactivate Income
+
+
+UpdateIncomeCommand -> UpdateIncomeCommand: incomes.set(index, updatedIncome)
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+
+
+
+UpdateIncomeCommand -> Storage: storage.saveData(incomes, expenseList)
+activate Storage
+Storage --> UpdateIncomeCommand: Confirm save
+deactivate Storage
+
+
+UpdateIncomeCommand -> UpdateIncomeCommand: Set outputMessage
+UpdateIncomeCommand --> User: Display success message
+deactivate UpdateIncomeCommand
+@enduml

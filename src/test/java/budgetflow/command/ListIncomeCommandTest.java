@@ -31,7 +31,7 @@ class ListIncomeCommandTest {
                 "Part-timeJob | $300.00 | 12-06-2025" + System.lineSeparator() +
                 "freelance | $100.00 | 29-05-2025" + System.lineSeparator() +
                 "fulltime-job | $5000.00 | 01-01-2025" + System.lineSeparator() +
-                "Total Income: $5400.00" + System.lineSeparator();
+                "Total Income: $5400.00";
         assertEquals(expectedOutput, c.getOutputMessage());
     }
 
@@ -42,6 +42,24 @@ class ListIncomeCommandTest {
         Command c = new ListIncomeCommand();
         c.execute(incomes, expenseList);
         String expectedOutput = "No incomes have been added yet." + System.lineSeparator();
+        assertEquals(expectedOutput, c.getOutputMessage());
+    }
+
+    @Test
+    void listIncomeTest_withSavingGoal_unsuccessful() throws FinanceException {
+        List<Income> incomes = get3Incomes();
+        ExpenseList expenseList = new ExpenseList();
+        ListIncomeCommand.setSavingGoal(10000.00); // Setting a higher saving goal than current income
+        Command c = new ListIncomeCommand();
+        c.execute(incomes, expenseList);
+        String expectedOutput = "Income Log:" + System.lineSeparator() +
+                "Part-timeJob | $300.00 | 12-06-2025" + System.lineSeparator() +
+                "freelance | $100.00 | 29-05-2025" + System.lineSeparator() +
+                "fulltime-job | $5000.00 | 01-01-2025" + System.lineSeparator() +
+                "Total Income: $5400.00" + System.lineSeparator() +
+                "Saving Goal: $10000.00" + System.lineSeparator() +
+                "Current Savings: $5400.00" + System.lineSeparator() +
+                "Progress: 54.00%" + System.lineSeparator(); // The progress would now be less than 100%
         assertEquals(expectedOutput, c.getOutputMessage());
     }
 }

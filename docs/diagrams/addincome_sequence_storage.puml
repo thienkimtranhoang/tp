@@ -1,0 +1,19 @@
+@startuml
+
+participant ":AddIncomeCommand" as AddCommand
+participant ":Income" as Income
+participant "incomes:List<Income>" as IncomeList
+
+AddCommand -> Income : new Income("Salary", 2500.00, "01-01-2024")
+activate Income
+Income --> AddCommand : incomeObject
+deactivate Income
+
+AddCommand -> IncomeList : add(incomeObject)
+activate IncomeList
+IncomeList --> AddCommand : return
+deactivate IncomeList
+
+AddCommand --> AddCommand : return execution result
+
+@enduml
