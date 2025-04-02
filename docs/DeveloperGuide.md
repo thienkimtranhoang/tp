@@ -68,7 +68,8 @@ Some method details of Ui class is noted as below:
 * `public void showWelcom()`: print out the welcome message for the user.
 * `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
 The sequence diagram below illustrates iteractions within Ui component under `readCommand()` call.  
-  ![UI read command Diagram](images/UI_readCommandSequence.png)
+  ![UI read command Diagram](images/UI_readCommandSequence.png)  
+If no input is parsed by user, the programme continues to wait for new input and repeat scanning as shown below:  
   ![ref Diagram](images/refGetCommand.png)  
 * `public void printError(String error)`: print out the error message for user by passing the string error message.
 * `public void printMessage(String message)`: print out the message as a String for user.

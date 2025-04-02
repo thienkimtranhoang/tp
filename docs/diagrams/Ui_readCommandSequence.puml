@@ -13,7 +13,7 @@ ui -> ui ++: trim()
 ui --> ui --: trimmedInput()
 loop emptyInput
     ref over ui, scanner
-        repeat scanning input from user
+        scanning input from user
     end ref
 end
 User <-- ui --: input: String
