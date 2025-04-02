@@ -106,8 +106,24 @@ Income updated: [UPDATED_CATEGORY], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DAT
 ```
 
 ---
+### 7. Setting a Savings Goal
+**Description:** Sets a savings goal with a specified amount and optional target date.  
+**Command:**
+```plaintext
+set-saving-goal amt/<GOAL_AMOUNT> 
+```
+**Example:**
+```plaintext
+set-saving-goal amt/5000
+```
+**Output:**
+```plaintext
+Savings goal set: $5000 by 31-12-2025.
+```
+---
+---
 
-### 7. Exiting the Application
+### 8. Exiting the Application
 **Description:** Safely exits the BudgetFlow application.  
 **Command:**
 ```plaintext
