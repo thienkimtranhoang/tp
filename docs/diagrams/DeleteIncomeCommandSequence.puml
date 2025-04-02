@@ -1,0 +1,47 @@
+@startuml
+participant "User" as User
+participant "DeleteIncomeCommand" as DeleteIncomeCommand
+participant "List<Income>" as IncomeList
+participant "Logger" as Logger
+participant "ExpenseList" as ExpenseList
+
+User -> DeleteIncomeCommand: "delete-income [INCOME_NAME]"
+activate DeleteIncomeCommand
+
+
+DeleteIncomeCommand -> DeleteIncomeCommand: incomeCategory = input.substring(...).trim()
+DeleteIncomeCommand --> DeleteIncomeCommand
+
+    loop for each income
+                DeleteIncomeCommand -> IncomeList: get(i)
+                activate IncomeList
+                IncomeList --> DeleteIncomeCommand: return income
+                deactivate IncomeList
+
+                DeleteIncomeCommand -> IncomeList: getCategory()
+                activate IncomeList
+                IncomeList--> DeleteIncomeCommand: return category
+                deactivate IncomeList
+
+                    alt category matches INCOME_NAME
+                        DeleteIncomeCommand -> IncomeList: remove(i)
+                        activate IncomeList
+                        IncomeList--> DeleteIncomeCommand: return
+                        deactivate IncomeList
+                        DeleteIncomeCommand -> DeleteIncomeCommand: setOutputMessage("Income deleted: " + incomeCategory)
+                        DeleteIncomeCommand -> Logger: info("Income deleted: " + incomeCategory)
+                        note right of DeleteIncomeCommand
+                        Once income is deleted, break from the loop
+                        end note
+                	end
+
+    end
+
+
+alt income not found
+    DeleteIncomeCommand -> Logger: warning("Attempted to delete non-existent income: " + incomeCategory)
+    DeleteIncomeCommand -> DeleteIncomeCommand: throw UnfoundIncomeException
+end
+
+deactivate DeleteIncomeCommand
+@enduml

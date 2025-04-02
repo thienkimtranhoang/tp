@@ -1,0 +1,46 @@
+@startuml
+' Class Diagram for UpdateIncomeCommand
+
+package "budgetflow.command" {
+    class UpdateIncomeCommand {
+
+        + UpdateIncomeCommand(String input)
+        + void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
+         InvalidNumberFormatException, MissingAmountException
+        - {static} void updateStorage(List<Income> incomes, ExpenseList expenseList)
+        - Income extractUpdatedIncome(String input, Income existingIncome) throws MissingAmountException, MissingDateException
+        - {static} String getUpdatedDate(String input, Pattern datePattern, String date) throws MissingDateException
+        - {static} Double getUpdatedAmount(String input, Pattern amtPattern, Double amount) throws MissingAmountException
+        - {static} String getUpdatedCategory(String input, Pattern categoryPattern, String category)
+    }
+}
+
+abstract class Command {
+    + CommandType commandType
+}
+
+class Income {
+    + String getCategory()
+    + Double getAmount()
+    + String getDate()
+    + Income(String category, Double amount, String date)
+}
+
+class ExpenseList {}
+
+class Storage {
+    + void saveData(List<Income> incomes, ExpenseList expenseList)
+}
+
+class DateValidator {
+    + static boolean isValidDate(String date)
+}
+
+' Relationships
+UpdateIncomeCommand --|> Command : extends
+UpdateIncomeCommand --> Income : uses
+UpdateIncomeCommand --> ExpenseList : uses
+UpdateIncomeCommand --> Storage : uses
+UpdateIncomeCommand --> DateValidator : uses
+
+@enduml

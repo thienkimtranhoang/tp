@@ -98,11 +98,62 @@ Step 2: ...
 
 ### Deleting an Income Entry
 
+The `DeleteIncomeCommand` class extends the `Command` class and is responsible for processing the deletion of an income
+entry based on its category. If the specified income category is not found in the list of incomes,
+the command throws an exception (`UnfoundIncomeException`) to indicate the error.
+
+This class adheres to the Command design pattern, 
+where each command encapsulates a specific action (in this case, deleting an income entry).
+The `execute` method implements the core logic for finding and removing the specified income entry.
+
+Below is the Class Diagram of the `DeleteIncomeCommand` Class.
+
+![Delete Income Command Class Diagram](diagrams/DeleteIncomeCommandClass.png)
+
+Below is the Command sequence of the `DeleteIncomeCommand` Class.
+
+![Delete Income Command Sequence](diagrams/DeleteIncomeCommandSequence.png)
+
+### Updating an Income Entry
+
+The UpdateIncomeCommand class extends the `Command` class and is responsible for updating an existing income record
+in the system. It processes user input to extract updated income details (category, amount, and date),
+validates the input, updates the corresponding income entry in the list, and saves the updated data to storage.
+This class adheres to the Command design pattern,
+where each command encapsulates a specific action (in this case, updating an income).
+
+Below is the Class Diagram of the `UpdateIncomeCommand` Class.
+
+![Delete Income Command Class Diagram](diagrams/UpdateIncomeCommandClass.png)
+
+Below is the Command sequence of the `UpdateIncomeCommand` Class.
+
+![Delete Income Command Sequence](diagrams/UpdateIncomeCommandSequence.png)
+
+![Parse Input and Validate Index ](diagrams/ParseInputAndValidateIndex.png)
+
 ### Updating an Expense Entry
 
 ### Comparing Expenses Between Two Months
 
 ### Deleting an Expense Entry
+
+The `DeleteExpenseCommand` class extends the `Command` class and is responsible for processing
+the deletion of an expense entry based on its description.
+If the specified expense description is not found in the list of expenses,
+the command throws an exception (`UnfoundExpenseException`) to indicate the error.
+
+This class adheres to the Command design pattern, 
+where each command encapsulates a specific action (in this case, deleting an expense entry).
+The `execute` method implements the core logic for finding and removing the specified expense entry.
+
+Below is the Class Diagram of the `DeleteExpenseCommand` Class.
+
+![Delete Expense Command Class Diagram](diagrams/DeleteExpenseCommandClass.png)
+
+Below is the Command sequence of the `DeleteExpenseCommand` Class.
+
+![Delete Expense Command Sequence](diagrams/DeleteExpenseCommandSequence.png)
 
 ### Exiting the Application
 
