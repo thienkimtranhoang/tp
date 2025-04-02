@@ -1,6 +1,6 @@
 # Developer Guide
 <br><br>
-![](diagrams/icon.png)<br>
+![](./diagrams/Icon.png)<br>
 
 Anak Agung Gde Yogi Pramana<br>
 
@@ -32,6 +32,7 @@ Tran Hoang Thien Kim<br>
   * [Filtering Incomes by Amount or by Category](#filter-income amount/date) <br>
   * [Deleting an Income Entry](#delete-income) <br>
   * [Updating an Expense Entry](#update-expense) <br>
+  * [Set Saving Goal](#set-saving-goal) <br>
   * [Comparing Expenses Between Two Months](#compare) <br>
   * [Deleting an Expense Entry](#delete-expense) <br>
   * [Exiting the Application](#exit) <br>
@@ -110,7 +111,6 @@ The ```AddIncomeCommand``` adds the newly created incomeObject to an IncomeList.
 ![](./diagrams/addincome_sequence_storage.png)
 5. Completion and Result Return: Illustrates how the success message is formatted and returned to the UI for display to the user.
 ![](./diagrams/addincome_sequence_result.pngk)
-6. 
 #### Exception Handling
 
 The `AddIncomeCommand` implements robust error handling through a series of custom exceptions:
@@ -169,6 +169,42 @@ Step 2: ...
 ### Deleting an Income Entry
 
 ### Updating an Expense Entry
+
+### Set Saving Goal
+
+### **Execution Process**
+![Set Saving Goal Sequence Diagram](./diagrams/setsavinggoal_command_sequence.png)
+
+#### **Scenario:**
+User enters the command:  
+```set-saving-goal 5000```
+
+---
+
+### **1. User Input to Parser**
+- User inputs `set-saving-goal 5000`.
+- The `Parser` validates the command and creates a `SetSavingGoalCommand` object.
+
+---
+
+### **2. Command Execution Initialization**
+- `execute(incomes, expenseList)` initializes and extracts the saving goal amount.
+
+---
+
+### **3. Saving Goal Extraction**
+- The goal amount is extracted and validated to ensure it is positive.
+
+---
+
+### **4. Saving Goal Storage**
+- The `savingGoalAmount` is updated in the system using `ListIncomeCommand.setSavingGoal()`.
+
+---
+
+### **5. Completion and Result**
+- Success message `"Saving goal set to: $5000.00"` is returned to the UI and logged.
+
 
 ### Comparing Expenses Between Two Months
 

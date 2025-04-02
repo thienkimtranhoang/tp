@@ -1,0 +1,42 @@
+@startuml
+package budgetflow.command {
+
+    class SetSavingGoalCommand {
+        - static final Logger logger
+        - double savingGoalAmount
+        + SetSavingGoalCommand(String input)
+        + execute(List<Income> incomes, ExpenseList expenseList)
+        + getSavingGoalAmount(): double
+    }
+}
+
+package budgetflow.expense {
+    class ExpenseList
+}
+
+package budgetflow.income {
+    class Income
+}
+
+package budgetflow.logger {
+    class Logger
+}
+
+package budgetflow.util {
+    class ListIncomeCommand {
+        + static void setSavingGoal(double savingGoalAmount)
+    }
+}
+
+class Command {
+    + Command(String input)
+    + CommandType commandType
+}
+
+SetSavingGoalCommand --|> Command
+SetSavingGoalCommand ..> Income : uses
+SetSavingGoalCommand ..> ExpenseList : uses
+SetSavingGoalCommand ..> Logger : logs
+SetSavingGoalCommand ..> ListIncomeCommand : calls setSavingGoal()
+
+@enduml

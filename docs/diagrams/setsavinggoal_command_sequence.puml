@@ -1,0 +1,19 @@
+@startuml
+actor User
+participant "SetSavingGoalCommand" as SSG
+participant "ListIncomeCommand" as LIC
+participant "Logger" as Log
+
+User -> SSG : set-saving-goal 1000
+SSG -> SSG : Parse input
+SSG -> SSG : Validate amount
+alt Invalid amount
+    SSG -> Log : Log warning "Invalid saving goal amount format"
+    SSG -> User : Show error message
+else Valid amount
+    SSG -> LIC : setSavingGoal(1000)
+    SSG -> Log : Log info "Saving goal set to: $1000"
+    SSG -> User : Show confirmation message
+end
+
+@enduml
