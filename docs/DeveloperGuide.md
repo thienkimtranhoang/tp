@@ -57,11 +57,9 @@ This section outlines the various components of the application and explains how
 ### Architecture
 
 ### Storage
-__API__:`Storage.java`
 The `Storage` component can save the list of incomes and expenses data in .txt format and read it back.
 
 ### UI
-__API__: `Ui.java`
 The `UI` component consists of Ui class, which handles user interactions by reading the user's input, displaying messages and show errors. 
 This serves as the main interface for communication between user and the Finance Tracker application  
 The class diagram of Ui is displayed as below  
@@ -76,7 +74,6 @@ The sequence diagram below illustrates iteractions within Ui component under `re
 * `public void printMessage(String message)`: print out the message as a String for user.
 
 ### Parser
-__API__: `Parser.java`
 The `Parser` component consists of `Parser` class, which handles of identifying command type from user's input and return appropriate command object based of recognized command.  
 How the `Parser` works:
 * When called upon to parse user's input command, the `Parser` class compare the input with the set of several constants representing supported commands.
@@ -85,7 +82,6 @@ The sequence diagram belows further illustrates the interactions when getCommand
   ![Parser getCommandFromInput Diagram](images/Parser_getCommandFromInput.png)
 
 ### Command
-__API__:`Command.java`
 The `Command` component consists of multiple command classes, which all extends from abstract class `Command`.
 The class diagram for the `Command` component is illustrated as below:
 ![Command Class Diagram](images/Command_class.png)  
@@ -95,7 +91,6 @@ The command component
 * hold the output messages which will be sent and displayed to user upon successful execution
 
 ### ExpenseList
-__API__:  
 ![Expense Class Diagram](images/Expense_component.png)  
 The `ExpenseList` component:
 * stores all expense data, i.e., all `Expense` objects as an array list.
@@ -104,7 +99,6 @@ The `ExpenseList` component:
 * updates the `totalExpenses` with the latest changes in expense list by calling `updateTotalExpense()`
 ## Acknowledgements
 
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
 ## Implementation
 
