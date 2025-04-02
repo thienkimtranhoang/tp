@@ -44,15 +44,22 @@ UpdateIncomeCommand -> UpdateIncomeCommand: extractUpdatedIncome(parts[1], exist
 activate UpdateIncomeCommand
 UpdateIncomeCommand --> UpdateIncomeCommand
 deactivate UpdateIncomeCommand
+
+opt Valid change in Category
 UpdateIncomeCommand -> UpdateIncomeCommand: getUpdatedCategory(input, categoryPattern, category)
 activate UpdateIncomeCommand
 UpdateIncomeCommand --> UpdateIncomeCommand: return category
 deactivate UpdateIncomeCommand
+end
+
+opt Valid change in Amount
 UpdateIncomeCommand -> UpdateIncomeCommand: getUpdatedAmount(input, amtPattern, amount)
 activate UpdateIncomeCommand
 UpdateIncomeCommand --> UpdateIncomeCommand: return amount
 deactivate UpdateIncomeCommand
+end
 
+opt Valid change in Date
 UpdateIncomeCommand -> UpdateIncomeCommand: getUpdatedDate(input, datePattern, date)
 activate UpdateIncomeCommand
 UpdateIncomeCommand -> DateValidator: isValidDate(extractedDate)
@@ -61,6 +68,7 @@ DateValidator --> UpdateIncomeCommand: Confirm valid date
 deactivate DateValidator
 UpdateIncomeCommand --> UpdateIncomeCommand: return date
 deactivate UpdateIncomeCommand
+end
 
 
 UpdateIncomeCommand -> Income: new Income(category, amount, date)

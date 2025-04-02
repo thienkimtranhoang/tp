@@ -7,15 +7,15 @@ package "budgetflow.command" {
         + UpdateIncomeCommand(String input)
         + void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
          InvalidNumberFormatException, MissingAmountException
-        - static void updateStorage(List<Income> incomes, ExpenseList expenseList)
+        - {static} void updateStorage(List<Income> incomes, ExpenseList expenseList)
         - Income extractUpdatedIncome(String input, Income existingIncome) throws MissingAmountException, MissingDateException
-        - static String getUpdatedDate(String input, Pattern datePattern, String date) throws MissingDateException
-        - static Double getUpdatedAmount(String input, Pattern amtPattern, Double amount) throws MissingAmountException
-        - static String getUpdatedCategory(String input, Pattern categoryPattern, String category)
+        - {static} String getUpdatedDate(String input, Pattern datePattern, String date) throws MissingDateException
+        - {static} Double getUpdatedAmount(String input, Pattern amtPattern, Double amount) throws MissingAmountException
+        - {static} String getUpdatedCategory(String input, Pattern categoryPattern, String category)
     }
 }
 
-class Command {
+abstract class Command {
     + CommandType commandType
 }
 
