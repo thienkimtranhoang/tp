@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+User -> MainTracker : starts application
+MainTracker -> FinanceTracker : run()
+User -> FinanceTracker : inputs "update-expense 2 amt/50 d/01-04-2025"
+FinanceTracker -> Parser : parse("update-expense 2 amt/50 d/01-04-2025")
+Parser -> FinanceTracker : returns ("update-expense", index=2, amt=50, date="01-04-2025")
+FinanceTracker -> UpdateExpenseCommand : execute(2, 50, "01-04-2025")
+
+alt valid index
+    UpdateExpenseCommand -> ExpenseList : get(2)
+    ExpenseList -> UpdateExpenseCommand : returns Expense
+    UpdateExpenseCommand -> Expense : setAmount(50)
+    UpdateExpenseCommand -> Expense : setDate("01-04-2025")
+else invalid index
+    UpdateExpenseCommand -> FinanceTracker : throw Error("Expense entry not found.")
+end
+
+UpdateExpenseCommand -> Storage : saveData(incomes, expenseList)
+UpdateExpenseCommand -> FinanceTracker : return success message
+FinanceTracker -> User : print "Expense updated successfully."
+@enduml
