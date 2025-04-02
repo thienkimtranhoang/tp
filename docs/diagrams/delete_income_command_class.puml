@@ -2,9 +2,9 @@
 
 package budgetflow.command {
     class DeleteIncomeCommand {
-        - String input
-        - CommandType commandType
-        - String outputMessage
+        # String input
+        # CommandType commandType
+        # String outputMessage
         + DeleteIncomeCommand(String input)
         + execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundIncomeException
     }
