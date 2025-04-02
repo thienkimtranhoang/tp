@@ -1,7 +1,11 @@
 @startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+
 package budgetflow.command {
 
-    class SetSavingGoalCommand {
+    class "{abstract} \n SetSavingGoalCommand" {
         - static final Logger logger
         - double savingGoalAmount
         + SetSavingGoalCommand(String input)
@@ -28,15 +32,15 @@ package budgetflow.util {
     }
 }
 
-class Command {
+class "{abstract} \n Command" {
     + Command(String input)
     + CommandType commandType
 }
 
-SetSavingGoalCommand --|> Command
-SetSavingGoalCommand ..> Income : uses
-SetSavingGoalCommand ..> ExpenseList : uses
-SetSavingGoalCommand ..> Logger : logs
-SetSavingGoalCommand ..> ListIncomeCommand : calls setSavingGoal()
+"{abstract} \n SetSavingGoalCommand" --|> "{abstract} \n Command"
+"{abstract} \n SetSavingGoalCommand" ..> Income : uses
+"{abstract} \n SetSavingGoalCommand" ..> ExpenseList : uses
+"{abstract} \n SetSavingGoalCommand" ..> Logger : logs
+"{abstract} \n SetSavingGoalCommand" ..> ListIncomeCommand : calls setSavingGoal()
 
 @enduml

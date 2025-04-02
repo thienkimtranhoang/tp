@@ -91,6 +91,7 @@ Where:
 
 #### Implementation
 The ```AddIncomeCommand``` extends the abstract ```Command``` class and implements the command pattern for the BudgetFlow application.
+![Class Diagram](./diagrams/add_income_command_class.png)
 ##### Execution Process
 ![Add Income Sequence Diagram](./diagrams/add_income_command_sequence.png)
 Scenario: User keys in ```add category/Salary amt/2500.00 d/01-01-2024``` to the terminal.

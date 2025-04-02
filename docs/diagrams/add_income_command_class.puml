@@ -1,7 +1,11 @@
 @startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+
 package budgetflow.command {
 
-    class AddIncomeCommand {
+    class "{abstract} \n AddIncomeCommand" {
         - static final Logger logger
         - static final String ADD_COMMAND_PREFIX
         - static final String ERROR_MISSING_INCOME_CATEGORY
@@ -9,18 +13,22 @@ package budgetflow.command {
         - static final String ERROR_MISSING_INCOME_DATE
         - static final String ERROR_INCORRECT_INCOME_DATE
         + AddIncomeCommand(String input)
-        + execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingIncomeException
-        - Income extractIncome(String input) throws InvalidNumberFormatException, MissingCategoryException, MissingAmountException, MissingDateException, MissingIncomeException
+        + execute(List<Income> incomes, ExpenseList expenseList)
+          throws MissingDateException, InvalidNumberFormatException, MissingAmountException,
+                 MissingCategoryException, MissingIncomeException
+        - Income extractIncome(String input)
+          throws InvalidNumberFormatException, MissingCategoryException,
+                 MissingAmountException, MissingDateException, MissingIncomeException
         - static void verifyMissingOrIncorrect(String input) throws MissingDateException
     }
 }
 
 package budgetflow.exception {
-    class MissingDateException
-    class InvalidNumberFormatException
-    class MissingAmountException
-    class MissingCategoryException
-    class MissingIncomeException
+    class "<<interface>> \n MissingDateException"
+    class "<<interface>> \n InvalidNumberFormatException"
+    class "<<interface>> \n MissingAmountException"
+    class "<<interface>> \n MissingCategoryException"
+    class "<<interface>> \n MissingIncomeException"
 }
 
 package budgetflow.expense {
@@ -41,19 +49,19 @@ package budgetflow.parser {
     }
 }
 
-class Command {
+class "{abstract} \n Command" {
     + Command(String input)
     + CommandType commandType
 }
 
-AddIncomeCommand --|> Command
-AddIncomeCommand ..> MissingDateException : throws
-AddIncomeCommand ..> InvalidNumberFormatException : throws
-AddIncomeCommand ..> MissingAmountException : throws
-AddIncomeCommand ..> MissingCategoryException : throws
-AddIncomeCommand ..> MissingIncomeException : throws
-AddIncomeCommand ..> Income : uses
-AddIncomeCommand ..> ExpenseList : uses
-AddIncomeCommand ..> DateValidator : uses
+"{abstract} \n AddIncomeCommand" --|> "{abstract} \n Command"
+"{abstract} \n AddIncomeCommand" ..> "<<interface>> \n MissingDateException" : throws
+"{abstract} \n AddIncomeCommand" ..> "<<interface>> \n InvalidNumberFormatException" : throws
+"{abstract} \n AddIncomeCommand" ..> "<<interface>> \n MissingAmountException" : throws
+"{abstract} \n AddIncomeCommand" ..> "<<interface>> \n MissingCategoryException" : throws
+"{abstract} \n AddIncomeCommand" ..> "<<interface>> \n MissingIncomeException" : throws
+"{abstract} \n AddIncomeCommand" ..> Income : uses
+"{abstract} \n AddIncomeCommand" ..> ExpenseList : uses
+"{abstract} \n AddIncomeCommand" ..> DateValidator : uses
 
 @enduml
