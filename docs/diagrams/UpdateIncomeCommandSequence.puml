@@ -1,0 +1,88 @@
+@startuml
+actor User
+participant "UpdateIncomeCommand" as UpdateIncomeCommand
+participant "Income" as Income
+participant "ExpenseList" as ExpenseList
+participant "Storage" as Storage
+participant "DateValidator" as DateValidator
+
+User -> UpdateIncomeCommand: "update-income ..."
+activate UpdateIncomeCommand
+
+
+UpdateIncomeCommand -> UpdateIncomeCommand: input.substring(UPDATE_COMMAND_PREFIX_LENGTH).trim().split(" ", 2)
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+UpdateIncomeCommand -> UpdateIncomeCommand: Validate parts.length < MINIMUM_PARTS_FOR_UPDATE
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+UpdateIncomeCommand -> UpdateIncomeCommand: Validate incomes.isEmpty()
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+
+
+UpdateIncomeCommand -> UpdateIncomeCommand: Integer.parseInt(parts[INDEX_POSITION_IN_1_INDEX]) - 1
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+UpdateIncomeCommand -> UpdateIncomeCommand: Validate index < MINIMUM_INDEX || index >= incomes.size()
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+
+
+UpdateIncomeCommand -> Income: incomes.get(index)
+activate Income
+Income --> UpdateIncomeCommand: Return existing income
+deactivate Income
+
+
+UpdateIncomeCommand -> UpdateIncomeCommand: extractUpdatedIncome(parts[1], existingIncome)
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+UpdateIncomeCommand -> UpdateIncomeCommand: getUpdatedCategory(input, categoryPattern, category)
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand: return category
+deactivate UpdateIncomeCommand
+UpdateIncomeCommand -> UpdateIncomeCommand: getUpdatedAmount(input, amtPattern, amount)
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand: return amount
+deactivate UpdateIncomeCommand
+
+UpdateIncomeCommand -> UpdateIncomeCommand: getUpdatedDate(input, datePattern, date)
+activate UpdateIncomeCommand
+UpdateIncomeCommand -> DateValidator: isValidDate(extractedDate)
+activate DateValidator
+DateValidator --> UpdateIncomeCommand: Confirm valid date
+deactivate DateValidator
+UpdateIncomeCommand --> UpdateIncomeCommand: return date
+deactivate UpdateIncomeCommand
+
+
+UpdateIncomeCommand -> Income: new Income(category, amount, date)
+activate Income
+Income --> UpdateIncomeCommand: Return updated income
+deactivate Income
+
+
+UpdateIncomeCommand -> UpdateIncomeCommand: incomes.set(index, updatedIncome)
+activate UpdateIncomeCommand
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+
+
+
+UpdateIncomeCommand -> Storage: storage.saveData(incomes, expenseList)
+activate Storage
+Storage --> UpdateIncomeCommand: Confirm save
+deactivate Storage
+
+
+UpdateIncomeCommand -> UpdateIncomeCommand: Set outputMessage
+UpdateIncomeCommand --> User: Display success message
+deactivate UpdateIncomeCommand
+@enduml
