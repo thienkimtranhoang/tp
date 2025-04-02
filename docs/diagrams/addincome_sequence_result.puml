@@ -1,14 +1,17 @@
 @startuml
+
 actor User
 participant ":UI" as UI
 participant ":AddIncomeCommand" as AddCommand
 
+activate AddCommand
 AddCommand -> AddCommand : Format output message
 note right: "Income added: Salary, Amount: $2500.00, Date: 01-01-2024"
 
 AddCommand --> UI : outputMessage
 deactivate AddCommand
 
+activate UI
 UI --> User : Display result
 deactivate UI
 
