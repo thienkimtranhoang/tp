@@ -12,8 +12,8 @@ package budgetflow.command {
     }
 
     class "FilterIncomeByDateCommand" {
-        - static final Logger logger
-        - static final String COMMAND_PREFIX
+        - {static} logger: Logger
+        - {static} COMMAND_PREFIX: String
         + FilterIncomeByDateCommand(String input)
         + execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException
     }
