@@ -1,0 +1,45 @@
+@startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+
+package "budgetflow.command" {
+    class LogExpenseCommand {
+        + LogExpenseCommand(String input)
+        + void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
+          InvalidNumberFormatException, MissingAmountException, MissingCategoryException,
+          MissingDescriptionException, MissingExpenseException
+        - Expense extractExpense(String input) throws InvalidNumberFormatException,
+          MissingCategoryException, MissingAmountException, MissingDateException,
+          MissingDescriptionException, MissingExpenseException
+        - String extractPattern(String input, String regex)
+        - {static} void verifyMissingOrIncorrect(String input) throws MissingDateException
+    }
+}
+
+abstract class "{abstract} \n Command" {
+    + CommandType
+}
+
+class Expense {
+    + String getCategory()
+    + String getDescription()
+    + Double getAmount()
+    + String getDate()
+    + Expense(String category, String description, Double amount, String date)
+}
+
+class ExpenseList {
+    + void add(Expense expense)
+}
+
+class DateValidator {
+    + static boolean isValidDate(String date)
+}
+
+LogExpenseCommand --|> "{abstract} \n Command" : extends
+LogExpenseCommand --> Expense : creates
+LogExpenseCommand --> ExpenseList : modifies
+LogExpenseCommand --> DateValidator : uses
+
+@enduml
