@@ -48,6 +48,7 @@ public class Parser {
     private static final String COMMAND_FILTER_INCOME_CATEGORY = "filter-income category";
     // New command constant for saving goal
     private static final String COMMAND_SET_SAVING_GOAL = "set-saving-goal";
+    private static final String ERROR_UNKNOWN_COMMAND = "Unknown command received: ";
 
     /**
      * Parses the user's input and extracts the corresponding command.
@@ -89,7 +90,7 @@ public class Parser {
         } else if (input.startsWith(COMMAND_FILTER_INCOME_CATEGORY)) {
             return new FilterIncomeByCategoryCommand(input);
         } else {
-            logger.warning("Unknown command received: " + input);
+            logger.warning(ERROR_UNKNOWN_COMMAND + input);
             throw new UnknownCommandException();
         }
     }

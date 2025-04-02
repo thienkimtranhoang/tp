@@ -50,9 +50,63 @@ Expense updated at index 1: drink | Coffee | $4.00 | 06-04-2025. Total Expenses:
 
 ---
 
+### 3. Deleting an Income
+**Description:** Deletes an instance of an Income entry.
+**Command:**
+```plaintext
+delete-income [NAME OF INCOME ENTRY]
+```
+**Output:**
+```plaintext
+Saving goal retrieved: [REMAINING OF SAVING GOAL]
+Income deleted: [NAME OF INCOME ENTRY]
+```
+
 ---
 
-### 3. Setting a Savings Goal
+### 4. Deleting an Expense
+**Description:** Deletes an instance of an Expense entry.  
+**Command:**
+```plaintext
+delete-expense [NAME OF EXPENSE ENTRY]
+```
+**Output:**
+```plaintext
+Saving goal retrieved: [REMAINING OF SAVING GOAL]
+Income deleted: [NAME OF EXPENSE ENTRY]
+```
+
+---
+
+### 5. Comparing two Monthly Expenses 
+**Description:** Compares Monthly expenses between two months  
+**Command:**
+```plaintext
+compare MM-YYYY MM-YYYY
+```
+**Output:**
+```plaintext
+Total expenses for MM-YYYY: [AMOUNT]
+Total expenses for MM-YYYY: [AMOUNT]
+```
+
+---
+
+### 6. Updating an Income
+**Description:** Updates an instance of an Income entry.  
+**How it works** The user only has to write the Index and the thing that the user would like to update. 
+E.g. If the user only wants to update the amt, he can run `update-income INDEX amt/[UPDATED_AMOUNT]`
+**Command:**
+```plaintext
+update-income [INDEX] category/[UPDATED_CATEGORY] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]
+```
+**Output:**
+```plaintext
+Income updated: [UPDATED_CATEGORY], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DATE]
+```
+
+---
+### 7. Setting a Savings Goal
 **Description:** Sets a savings goal with a specified amount and optional target date.  
 **Command:**
 ```plaintext
@@ -66,26 +120,10 @@ set-saving-goal amt/5000
 ```plaintext
 Savings goal set: $5000 by 31-12-2025.
 ```
-
 ---
 ---
 
-### 4. Adding an Income Entry
-**Description:** Adds a new income entry with a specified category, amount, and date.  
-**Command:**
-```plaintext
-add category/<CATEGORY> amt/<AMOUNT> d/<DATE>
-```
-**Example:**
-```plaintext
-add category/salary amt/3000 d/01-08-2025
-```
-**Output:**
-```plaintext
-Income added: salary, Amount: $3000.00, Date: 01-08-2025.
-```
----
-### 4. Exiting the Application
+### 8. Exiting the Application
 **Description:** Safely exits the BudgetFlow application.  
 **Command:**
 ```plaintext

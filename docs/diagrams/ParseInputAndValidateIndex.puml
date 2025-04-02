@@ -1,0 +1,24 @@
+@startuml
+participant "UpdateIncomeCommand" as UpdateIncomeCommand
+
+UpdateIncomeCommand -> UpdateIncomeCommand: Validate parts.length < MINIMUM_PARTS_FOR_UPDATE
+activate UpdateIncomeCommand
+UpdateIncomeCommand -> UpdateIncomeCommand: Continue
+deactivate UpdateIncomeCommand
+
+UpdateIncomeCommand -> UpdateIncomeCommand: Validate incomes.isEmpty()
+activate UpdateIncomeCommand
+UpdateIncomeCommand -> UpdateIncomeCommand: Continue
+deactivate UpdateIncomeCommand
+
+UpdateIncomeCommand -> UpdateIncomeCommand: Integer.parseInt(parts[INDEX_POSITION_IN_1_INDEX]) - 1
+activate UpdateIncomeCommand
+UpdateIncomeCommand -> UpdateIncomeCommand: Continue
+deactivate UpdateIncomeCommand
+
+UpdateIncomeCommand -> UpdateIncomeCommand: Validate index < MINIMUM_INDEX || index >= incomes.size()
+activate UpdateIncomeCommand
+UpdateIncomeCommand -> UpdateIncomeCommand: Continue
+deactivate UpdateIncomeCommand
+
+@enduml
