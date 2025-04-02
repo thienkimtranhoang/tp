@@ -177,7 +177,6 @@ Step 2: ...
 ### Exiting the Application
 
 ## Documentation
-
 ## Testing
 JUnit is used for writing tests in this project. You can learn more about JUnit [here](https://se-education.org/guides/tutorials/gradle.html).
 If you're using IntelliJ, you can run all tests by right-clicking the `test/java` folder and selecting `Run 'Tests'`, or by pressing `CRTL` + `SHIFT` + `F10`. 
