@@ -1,5 +1,6 @@
 @startuml
 package budgetflow.command {
+
     class AddIncomeCommand {
         - static final Logger logger
         - static final String ADD_COMMAND_PREFIX

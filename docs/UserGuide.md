@@ -50,7 +50,42 @@ Expense updated at index 1: drink | Coffee | $4.00 | 06-04-2025. Total Expenses:
 
 ---
 
-### 3. Exiting the Application
+---
+
+### 3. Setting a Savings Goal
+**Description:** Sets a savings goal with a specified amount and optional target date.  
+**Command:**
+```plaintext
+set-saving-goal amt/<GOAL_AMOUNT> 
+```
+**Example:**
+```plaintext
+set-saving-goal amt/5000
+```
+**Output:**
+```plaintext
+Savings goal set: $5000 by 31-12-2025.
+```
+
+---
+---
+
+### 4. Adding an Income Entry
+**Description:** Adds a new income entry with a specified category, amount, and date.  
+**Command:**
+```plaintext
+add category/<CATEGORY> amt/<AMOUNT> d/<DATE>
+```
+**Example:**
+```plaintext
+add category/salary amt/3000 d/01-08-2025
+```
+**Output:**
+```plaintext
+Income added: salary, Amount: $3000.00, Date: 01-08-2025.
+```
+---
+### 4. Exiting the Application
 **Description:** Safely exits the BudgetFlow application.  
 **Command:**
 ```plaintext
