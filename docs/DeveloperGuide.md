@@ -223,6 +223,7 @@ By combining ease of use, goal-driven features, and actionable insights, Budgetf
 * *glossary item* - Definition
 
 ## Appendix D: Instructions for manual testing
+Given below are instructions to test the app manually:
 
 1. Launching
   * Download the jar file [here](insert git JAR file link here) and place it in an empty folder.
@@ -239,3 +240,50 @@ By combining ease of use, goal-driven features, and actionable insights, Budgetf
   * Test case: `update-expense index/<index> category/drink desc/Coffee amt/4.00 d/06-04-2025` where `index` is the index of the expense list to be updated and `category`, `amt` and `d` are the category, amount and date to be changed to.
   * Expected: Confirmation message to indicate that the expense has been updated successfully.
 
+4. View all expenses
+  * Test case: `view-all-expense`
+  * Expected: Output message displaying all expenses that matches those stored in storage file (if exist), or error message informing empty list.
+
+5. Filter expense based on category: matching cases
+  * Prerequisites: List all expense use `view-all-expense`. Multiple expense in the list.
+  * Test case: `find-expense \category <category>` where <category> is the existing category in the list
+  * Expected: Output message displaying all expenses with category matches the keyword.
+  * Test case: `find-expense \category <category>` where <category> is the non-matching category
+  * Expected: Output message informing no matching keyword.
+  * Test case: `find-expense \category`
+  * Expected: Missing keyword error with error message shown.
+6. Filter expense based on description
+  * Test case: `find-expense \desc <desc>` where <desc> is the description's keyword to that results in matching expenses in list.
+  * Expected: Output message display all expenses with description containing the keyword, or error message informing no matching found otherwise.
+  * Test case: `find-expense \desc <desc>` where <desc> is the non-matching keyword
+  * Expected: Output message informing no matching keyword.
+  * Test case: `find-expense \desc`
+  * Expected: Missing keyword error with error message shown.
+7. Filter expense based on amount
+  * Test case: `find-expense \amt <amt>` where <amt> is the valid amount number to filter on
+  * Expected: Output message display all expenses with matching amount, or output message informing no matching expenses otherwise.
+  * Test case: `find-expense \amt <amt>` where <amt> is not at double format 
+  * Expected: Error message requires to enter valid keyword format for tag /amt
+  * Test case: `find-expense \amt`
+  * Expected: Missing keyword error with error message shown.
+8. Filter expense based on amount range
+  * Test case: `find-expense \amtrange <startAmt> <endAmt>` where <startAmt>, <endAmt> are valid amount number indicating start and end range of amount to filter on
+  * Expected: Output message display all expenses with matching amount, or output message informing no matching expenses otherwise.
+  * Test case: `find-expense \amt <amt>` where only 1 amount is entered, or amount is not a valid number.
+  * Expected: Error message requires to enter valid keyword format for tag /amtrange
+  * Test case: `find-expense \amt`
+  * Expected: Missing keyword error with error message shown.
+9. Filter expense based on date.
+  * Test case: `find-expense \d <d>` where <d> is the valid date to filter on
+  * Expected: Output message display all expenses with matching date, or output message informing no matching expenses otherwise.
+  * Test case: `find-expense \d <d>` where <amt> is not at valid date format
+  * Expected: Error message requires to enter valid keyword format for tag /d
+  * Test case: `find-expense \d`
+  * Expected: Missing keyword error with error message shown.
+10. Filter expense based on date range
+  * Test case: `find-expense \drange <startDate> <endDate>` where <startDate>, <endDate> are valid amount date indicating start and end range of date to filter on
+  * Expected: Output message display all expenses with matching dates, or output message informing no matching expenses otherwise.
+  * Test case: `find-expense \drange <drange>` where only 1 date is entered, or amount is not a valid date.
+  * Expected: Error message requires to enter valid keyword format for tag /drange
+  * Test case: `find-expense \drange`
+  * Expected: Missing keyword error with error message shown.
