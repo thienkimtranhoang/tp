@@ -1,0 +1,9 @@
+@startuml
+    class UI {
+        -SCANNER {static}: Scanner
+        +showWelcome()
+        +readCommand(): String
+        +printError(String)
+        +printMessage(String)
+    }
+@enduml

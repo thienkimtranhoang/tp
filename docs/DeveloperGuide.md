@@ -1,6 +1,6 @@
 # Developer Guide
 <br><br>
-![](diagrams/icon.png)<br>
+![](images/icon.png)<br>
 
 Anak Agung Gde Yogi Pramana<br>
 
@@ -59,6 +59,20 @@ This section outlines the various components of the application and explains how
 ### Storage
 __API__:`Storage.java`
 The `Storage` component can save the list of incomes and expenses data in .txt format and read it back.
+
+### UI Component
+The UI component consists of Ui class, which handles user interactions by reading the user's input, displaying messages and show errors. 
+This serves as the main interface for communication between user and the Finance Tracker application  
+The class diagram of Ui is displayed as below  
+![UI Class Diagram](images/UI_class.png)
+Some method details of Ui class is noted as below:  
+* `public void showWelcom()`: print out the welcome message for the user.
+* `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
+The sequence diagram below illustrates iteractions within Ui component under `readCommand()` call.
+  ![UI read command Diagram](images/UI_readCommandSequence.png)
+  ![ref Diagram](images/refGetCommand.png)
+* `public void printError(String error)`: print out the error message for user by passing the string error message.
+* `public void printMessage(String message)`: print out the message as a String for user.
 
 ### Logic
 
