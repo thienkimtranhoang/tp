@@ -1,5 +1,8 @@
 @startuml
-' Class Diagram for UpdateIncomeCommand
+
+hide circle
+skinparam classAttributeIconSize 0
+
 
 package "budgetflow.command" {
     class UpdateIncomeCommand {
@@ -15,7 +18,7 @@ package "budgetflow.command" {
     }
 }
 
-abstract class Command {
+abstract class "{abstract} \n Command" {
     + CommandType commandType
 }
 
@@ -36,8 +39,7 @@ class DateValidator {
     + static boolean isValidDate(String date)
 }
 
-' Relationships
-UpdateIncomeCommand --|> Command : extends
+UpdateIncomeCommand --|> "{abstract} \n Command" : extends
 UpdateIncomeCommand --> Income : uses
 UpdateIncomeCommand --> ExpenseList : uses
 UpdateIncomeCommand --> Storage : uses
