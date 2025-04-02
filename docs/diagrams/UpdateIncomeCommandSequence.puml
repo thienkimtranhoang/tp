@@ -14,36 +14,8 @@ UpdateIncomeCommand -> UpdateIncomeCommand: input.substring(UPDATE_COMMAND_PREFI
 activate UpdateIncomeCommand
 UpdateIncomeCommand --> UpdateIncomeCommand
 deactivate UpdateIncomeCommand
-UpdateIncomeCommand -> UpdateIncomeCommand: Validate parts.length < MINIMUM_PARTS_FOR_UPDATE
-activate UpdateIncomeCommand
-UpdateIncomeCommand --> UpdateIncomeCommand
-deactivate UpdateIncomeCommand
-UpdateIncomeCommand -> UpdateIncomeCommand: Validate incomes.isEmpty()
-activate UpdateIncomeCommand
-UpdateIncomeCommand --> UpdateIncomeCommand
-deactivate UpdateIncomeCommand
 
-
-UpdateIncomeCommand -> UpdateIncomeCommand: Integer.parseInt(parts[INDEX_POSITION_IN_1_INDEX]) - 1
-activate UpdateIncomeCommand
-UpdateIncomeCommand --> UpdateIncomeCommand
-deactivate UpdateIncomeCommand
-UpdateIncomeCommand -> UpdateIncomeCommand: Validate index < MINIMUM_INDEX || index >= incomes.size()
-activate UpdateIncomeCommand
-UpdateIncomeCommand --> UpdateIncomeCommand
-deactivate UpdateIncomeCommand
-
-
-UpdateIncomeCommand -> Income: incomes.get(index)
-activate Income
-Income --> UpdateIncomeCommand: Return existing income
-deactivate Income
-
-
-UpdateIncomeCommand -> UpdateIncomeCommand: extractUpdatedIncome(parts[1], existingIncome)
-activate UpdateIncomeCommand
-UpdateIncomeCommand --> UpdateIncomeCommand
-deactivate UpdateIncomeCommand
+ref over UpdateIncomeCommand : parseInputandValidateIndex
 
 opt Valid change in Category
 UpdateIncomeCommand -> UpdateIncomeCommand: getUpdatedCategory(input, categoryPattern, category)

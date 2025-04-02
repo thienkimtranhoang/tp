@@ -130,6 +130,8 @@ Below is the Command sequence of the `UpdateIncomeCommand` Class.
 
 ![Delete Income Command Sequence](diagrams/UpdateIncomeCommandSequence.png)
 
+![Parse Input and Validate Index ](diagrams/ParseInputAndValidateIndex.png)
+
 ### Updating an Expense Entry
 
 ### Comparing Expenses Between Two Months
