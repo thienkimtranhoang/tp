@@ -19,7 +19,7 @@ Tran Hoang Thien Kim<br>
   * [Setting Up](#setting-up)<br>
 * [Design](#design) <br>
   * [Architecture](#architecture) <br>
-  * [UI](#ui) <br>
+  * [UI](###UI) <br>
   * [Storage](#storage) <br>
   * [Logic](#logic) <br>
   * [Model](#model) <br>
@@ -58,7 +58,7 @@ This section outlines the various components of the application and explains how
 __API__:`Command.java`
 The `Command` component consists of multiple command classes, which all extends from abstract class `Command`.
 The class diagram for the `Command` component is illustrated as below:
-![Command Class Diagram](images/Command_class.png)
+![Command Class Diagram](images/Command_class.png)  
 The command component 
 * executes the user's command based on their parsed input from command line.
 * depends on `Income` and `ExpenseList` components to extract information of expense and income for execution
@@ -72,23 +72,35 @@ __API__: `Ui.java`
 The `UI` component consists of Ui class, which handles user interactions by reading the user's input, displaying messages and show errors. 
 This serves as the main interface for communication between user and the Finance Tracker application  
 The class diagram of Ui is displayed as below  
-![UI Class Diagram](images/UI_class.png)
+![UI Class Diagram](images/UI_class.png)  
 Some method details of Ui class is noted as below:  
 * `public void showWelcom()`: print out the welcome message for the user.
 * `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
 The sequence diagram below illustrates iteractions within Ui component under `readCommand()` call.
   ![UI read command Diagram](images/UI_readCommandSequence.png)
-  ![ref Diagram](images/refGetCommand.png)
+  ![ref Diagram](images/refGetCommand.png)  
 * `public void printError(String error)`: print out the error message for user by passing the string error message.
 * `public void printMessage(String message)`: print out the message as a String for user.
 
 ### Parser
+__API__: `Parser.java`
+The `Parser` component consists of `Parser` class, which handles of identifying command type from user's input and return appropriate command object based of recognized command.  
+How the `Parser` works:
+* When called upon to parse user's input command, the `Parser` class compare the input with the set of several constants representing supported commands.
+* If the user's input satisfies the command's condition, it will return a corresponding command object. Otherwise, an `UnknownCommandException` error will be thrown.
+The sequence diagram belows further illustrates the interactions when getCommandFromInput() api is called
+  ![Parser getCommandFromInput Diagram](images/Parser_getCommandFromInput.png)
 
 ### Model
 
-#### Expense
-__API__: 
-
+### ExpenseList
+__API__:  
+![Expense Class Diagram](images/Expense_component.png)  
+The `ExpenseList` component:
+* stores all expense data, i.e., all `Expense` objects as an array list.
+* remove the expense from the list based on its current index in the list through `delete(int index)`
+* stores a private member `totalExpenses` which represents the sum amount of all expenses inside the list.
+* updates the `totalExpenses` with the latest changes in expense list by calling `updateTotalExpense()`
 ## Acknowledgements
 
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}

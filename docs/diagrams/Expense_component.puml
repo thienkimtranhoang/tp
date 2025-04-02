@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package budgetflow.expense {
+    class Expense {
+        -description: String
+        -amount: double
+        -date: String
+        -category: String
+        +Expense()
+        +Expense(...)
+    }
+    class ExpenseList {
+        -totalExpenses: double
+        +ExpenseList()
+        +ExpenseList(...)
+        +delete(int)
+        +getByTag(...): ExpenseList
+        +getTotalExpense()
+        +updateTotalExpense()
+    }
+}
+ExpenseList --> Expense: "0..*" innerList
+@enduml
