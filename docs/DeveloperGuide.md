@@ -1,6 +1,6 @@
 # Developer Guide
 <br><br>
-![](diagrams/icon.png)<br>
+![](./diagrams/Icon.png)<br>
 
 Anak Agung Gde Yogi Pramana<br>
 
@@ -32,6 +32,7 @@ Tran Hoang Thien Kim<br>
   * [Filtering Incomes by Amount or by Category](#filter-income amount/date) <br>
   * [Deleting an Income Entry](#delete-income) <br>
   * [Updating an Expense Entry](#update-expense) <br>
+  * [Set Saving Goal](#set-saving-goal) <br>
   * [Comparing Expenses Between Two Months](#compare) <br>
   * [Deleting an Expense Entry](#delete-expense) <br>
   * [Exiting the Application](#exit) <br>
@@ -77,6 +78,76 @@ This section provides an overview of the implementation of key features.
 
 ### Adding Income
 
+The ```AddIncomeCommand``` class handles the addition of income entries to the BudgetFlow application. This command parses user input in a specific format, extracts relevant information, validates it, and creates a new income record.
+
+#### Command Format
+
+Users add new income entries using the following command format:
+```add category/<CATEGORY> amt/<AMOUNT> d/<DATE>```
+Where:
+```<CATEGORY>``` is the income category (e.g., "Salary", "Bonus")
+```<AMOUNT>``` is the income amount as a decimal number
+```<DATE>``` is the income date in DD-MM-YYYY format
+
+#### Implementation
+The ```AddIncomeCommand``` extends the abstract ```Command``` class and implements the command pattern for the BudgetFlow application.
+![Class Diagram](./diagrams/add_income_command_class.png)
+##### Execution Process
+![Add Income Sequence Diagram](./diagrams/add_income_command_sequence.png)
+Scenario: User keys in ```add category/Salary amt/2500.00 d/01-01-2024``` to the terminal.
+When executed, the command:
+1. User Input to Parser: The process begins with the User entering a command into the UI: ```add category/Salary amt/2500.00 d/01-01-2024```. Then, the UI component receives this input and forwards it to the Parser component by calling the method ```getCommandFromInput()``` with the user's text as a parameter. The Parser then checks if the input starts with ```add category/``` to determine what type of command it is.
+   After validating the command type, the Parser creates a new ```AddIncomeCommand``` object using the input data and returns it to the UI.
+![](./diagrams/add_income_command_sequence_inputparser.png)
+2. Command Execution Initialization: The function ```execute(incomes, expenseList)``` is responsible for handling financial data, specifically income entries and an expense list. When called, it processes the incomes list, adding new income records.
+![](./diagrams/addincome_sequence_commandinitialization.png)
+3. Income Information Extraction: The function ```extractIncome(input)``` in ```AddIncomeCommand``` processes an input string to extract income details. It:
+- Removes a command prefix and checks if the remaining input is empty (throws ```MissingIncomeException``` if empty).
+- Uses regex to extract the category, amount, and date.
+- If a date is found, it validates the date using ```DateValidator.isValidDate()```. If no valid date is found, it checks for missing or incorrect dates.
+Finally, it validates that the category is not empty and the amount is not null.
+![](./diagrams/addincome_sequene_infoextract.png)
+4. Income Object Creation and Storage: The AddIncomeCommand creates a new Income object with the details "Salary", 2500.00, and "01-01-2024". The Income constructor is activated to instantiate the object, which is then returned to ```AddIncomeCommand```.
+The ```AddIncomeCommand``` adds the newly created incomeObject to an IncomeList. The IncomeList's add() method is called, which is activated to insert the income into the list. The list then returns control to AddIncomeCommand.
+![](./diagrams/addincome_sequence_storage.png)
+5. Completion and Result Return: Illustrates how the success message is formatted and returned to the UI for display to the user.
+![](./diagrams/addincome_sequence_result.pngk)
+#### Exception Handling
+
+The `AddIncomeCommand` implements robust error handling through a series of custom exceptions:
+
+| Exception | Cause | Error Message |
+|-----------|-------|---------------|
+| `MissingIncomeException` | Empty input after removing prefix | "Income should not be empty" |
+| `MissingCategoryException` | Missing income category | "Error: Income category is required." |
+| `MissingAmountException` | Missing income amount | "Error: Income amount is required." |
+| `MissingDateException` | Missing income date | "Error: Income date is required." |
+| `MissingDateException` | Invalid date format | "Error: Income date is in wrong format. Please use DD-MM-YYYY format." |
+| `InvalidNumberFormatException` | Invalid amount format | When amount is not a valid number |
+
+The command takes care to provide clear, actionable error messages to help users correct their input.
+
+#### Design Considerations
+
+##### Aspect: Parameter extraction approach
+
+**Alternative 1 (current choice)**: Use regex pattern matching to extract parameters.
+* Pros: Flexible order of parameters, robust extraction regardless of spacing or formatting variations.
+* Cons: More complex implementation, potential regex performance concerns with very large inputs.
+
+**Alternative 2**: Split by delimiters and process sequentially.
+* Pros: Simpler implementation, potentially faster for simple inputs.
+* Cons: Less flexible, requires strict ordering of parameters, more prone to errors with unusual formatting.
+
+##### Aspect: Date validation strategy
+
+**Alternative 1 (current choice)**: Use a separate DateValidator utility class.
+* Pros: Reusable validation logic, separation of concerns.
+* Cons: Additional dependency, potential overhead for simple validations.
+
+**Alternative 2**: Inline date validation in the command.
+* Pros: Self-contained, no additional dependencies.
+* Cons: Code duplication if date validation is needed elsewhere, mixing validation logic
 ### Logging an Expense
 
 This feature allows users to add expenses and relevant information about them (category, description, amount and date) to the expense list.
@@ -158,6 +229,42 @@ to `Storage`.
 Step 6: The user receives a confirmation message: "Expense updated successfully."
 The sequence diagram below shows the process of adding a new event.
 ![UpdateExpenseCommand Sequence Diagram](diagrams/UpdateExpense.png)
+
+### Set Saving Goal
+
+#### **Execution Process**
+![Set Saving Goal Sequence Diagram](./diagrams/setsavinggoal_command_sequence.png)
+
+#### **Scenario:**
+User enters the command:  
+```set-saving-goal 5000```
+
+---
+
+**1. User Input to Parser**
+- User inputs `set-saving-goal 5000`.
+- The `Parser` validates the command and creates a `SetSavingGoalCommand` object.
+
+---
+
+**2. Command Execution Initialization**
+- `execute(incomes, expenseList)` initializes and extracts the saving goal amount.
+
+---
+
+**3. Saving Goal Extraction**
+- The goal amount is extracted and validated to ensure it is positive.
+
+---
+
+**4. Saving Goal Storage**
+- The `savingGoalAmount` is updated in the system using `ListIncomeCommand.setSavingGoal()`.
+
+---
+
+**5. Completion and Result**
+- Success message `"Saving goal set to: $5000.00"` is returned to the UI and logged.
+
 
 ### Comparing Expenses Between Two Months
 

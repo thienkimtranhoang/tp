@@ -1,0 +1,9 @@
+@startuml
+participant ":UI" as UI
+participant ":AddIncomeCommand" as AddCommand
+
+UI -> AddCommand : execute(incomes, expenseList)
+activate AddCommand
+note right: Command begins execution with\nincomes list and expenseList
+
+@enduml
