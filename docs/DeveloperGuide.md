@@ -150,16 +150,25 @@ The command takes care to provide clear, actionable error messages to help users
 * Cons: Code duplication if date validation is needed elsewhere, mixing validation logic
 ### Logging an Expense
 
-This feature allows users to add expenses and relevant information about them (category, description, amount and date) to the expense list.
+Below is the Class Diagram of the `LogExpenseCommand` Class.
+The `LogExpenseCommand` class extends the `Command` class and is responsible for processing the logging of a new expense
+entry. It extracts expense details such as category, description, amount, and date from the user's input and ensures
+that all necessary fields are present. If any required information is missing, the command throws the corresponding
+exception (`MissingDateException`, `InvalidNumberFormatException`, `MissingAmountException`, `MissingCategoryException`,
+or `MissingDescriptionException`) to indicate the error.
 
-Here is an example of usage scenario:
+This class follows the Command design pattern, encapsulating the action of logging an expense. It interacts with
+`ExpenseList` to store the expense, `DateValidator` to validate the provided date, and `Storage` to save the updated data.
+The `execute` method implements the core logic for parsing user input, creating an `Expense` object, and adding it to the
+system.
 
-Step 1: The user launches the application to log a spending to his expense list. The user executes
-`log-expense category/Coffee desc/Coffee amt/3.50 d/06-03-2025` to add a new spending to the list.
+Below is the Class Diagram of the `LogExpenseCommand` Class.
 
-Step 2: ...
+![log_expense_command class_diagram](diagrams/log_expense_command_class_diagram.png)
 
-...
+Below is the Sequence Diagram of the `LogExpenseCommand` Class.
+
+![log_expense_command sequence_diagram](diagrams/log_expense_command_sequence_diagram.png)
 
 ### Viewing All Expenses
 
@@ -228,6 +237,13 @@ to `Storage`.
 
 Step 6: The user receives a confirmation message: "Expense updated successfully."
 The sequence diagram below shows the process of adding a new event.
+
+Below is the Class Diagram of the `UpdateExpenseCommand` Class.
+
+![update_expense_command class_diagram](diagrams/update_expense_command_class_diagram.png)
+
+Below is the Sequence Diagram of the `UpdateExpenseCommand` Class.
+
 ![UpdateExpenseCommand Sequence Diagram](diagrams/UpdateExpense.png)
 
 ### Set Saving Goal

@@ -1,0 +1,27 @@
+@startuml
+
+actor User
+participant "LogExpenseCommand" as LogCmd
+participant "ExpenseList" as ExpenseList
+participant "Expense" as Expense
+participant "Storage" as Storage
+participant "DateValidator" as DateValidator
+
+User -> LogCmd: log-expense category/Food desc/Lunch amt/12.5 d/02-04-2025
+
+LogCmd -> LogCmd: extractExpense(input)
+LogCmd -> DateValidator: isValidDate("02-04-2025")
+
+alt Date is valid
+    LogCmd -> Expense: create Expense("Food", "Lunch", 12.5, "02-04-2025")
+else Invalid date format
+    LogCmd -> User: "Error: Invalid date format"
+    return
+end
+
+LogCmd -> ExpenseList: add(expense)
+LogCmd -> Storage: saveData()
+
+User <-- LogCmd: "Expense logged successfully"
+
+@enduml

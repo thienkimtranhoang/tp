@@ -16,7 +16,7 @@ filter them by category or date, and analyze their financial habits. It is writt
     * Highlights: The feature supports categorization, making it easier for users to analyze their spending in specific
   areas such as food, transportation, and entertainment.
     <br>
-*__New Feature:__ Added the ability to update expenses:
+* __New Feature:__ Added the ability to update expenses:
     * What it does: This feature allows users to modify previously logged expenses using the `update-expense` command.
   The user can adjust the `amount`, `category`, or `description` of an existing expense.
     * Justification: This feature enhances the flexibility of the application, as users may realize that they made a
@@ -28,6 +28,8 @@ filter them by category or date, and analyze their financial habits. It is writt
 *__Enhancements to existing features:__
     * Fix bugs for invalid category and amount for `update-expense` [#100](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/100)
     * Hide log messages [#70](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/70)
+    * Improve `update-expense` command to update expense details in any order and with any number of details [#107](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/107)
+    `update-expense 1 category/Food` instead of full command `update-expense 1 category/Food desc/Lunch amt/15.00 d/08-04-2025`
 * __Code Contributed:__ [RepoSense Link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=Darius&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21)
     <br><br>
 * __Project Management:__
@@ -46,5 +48,5 @@ filter them by category or date, and analyze their financial habits. It is writt
     <br>
 * __Community:__ 
     * Reviewed Developer Guide of the team and fixed format error 
-    * PRs reviewed (with non-trivial review comments): 
+    * PRs reviewed (with non-trivial review comments)
     * Reported bugs and suggestions for other teams in the class (examples: [1](https://github.com/dariusyawningwhiz/catcher-smoke-test/issues/1))
