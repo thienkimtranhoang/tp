@@ -1,0 +1,27 @@
+@startuml
+actor User
+participant "FilterIncomeByCategoryCommand" as Command
+participant "Income" as Income
+participant "Logger" as Logger
+
+User -> Command: execute(incomes, expenseList)
+activate Command
+note right of Command: Remove command prefix\nand extract category
+Command -> Command: category = input.substring(COMMAND_PREFIX.length()).trim()
+alt Category is empty
+    Command -> User: throw FinanceException("Invalid category filter format. Usage: filter-income category/<category>")
+else Category provided
+    Command -> Command: Initialize outputMessage header
+    loop For each Income in incomes
+        Command -> Income: getCategory()
+        alt Income.getCategory().equalsIgnoreCase(category)
+            Command -> Income: getAmount()
+            Command -> Income: getDate()
+            Command -> Command: Append income details to outputMessage
+        end
+    end
+    Command -> Logger: info("Filtered incomes by category: " + outputMessage)
+    Command -> User: Return outputMessage
+end
+deactivate Command
+@enduml

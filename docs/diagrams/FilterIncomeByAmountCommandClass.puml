@@ -1,0 +1,58 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+package budgetflow.command {
+
+    class "{abstract} \n Command" {
+        - input: String
+        - commandType: CommandType
+        - outputMessage: String
+        + Command(String input)
+        + execute(List<Income> incomes, ExpenseList expenseList): void
+    }
+
+    class "FilterIncomeByAmountCommand" {
+        - {static} logger: Logger
+        - {static} COMMAND_PREFIX: String
+        + FilterIncomeByAmountCommand(String input)
+        + execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException
+    }
+
+    "FilterIncomeByAmountCommand" --|> "{abstract} \n Command"
+}
+
+package budgetflow.exception {
+    class "FinanceException"
+}
+
+package budgetflow.expense {
+    class ExpenseList
+}
+
+package budgetflow.income {
+    class Income {
+        + getAmount(): double
+        + getCategory(): String
+        + getDate(): String
+    }
+}
+
+package java.util {
+    interface List
+}
+
+enum CommandType {
+    READ
+    // Other command types...
+}
+
+package java.util.logging {
+    class Logger
+}
+
+"FilterIncomeByAmountCommand" ..> "FinanceException" : throws
+"FilterIncomeByAmountCommand" ..> "Income" : uses
+"FilterIncomeByAmountCommand" ..> "ExpenseList" : uses
+"FilterIncomeByAmountCommand" ..> "Logger" : uses
+@enduml

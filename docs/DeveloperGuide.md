@@ -227,7 +227,98 @@ The category keyword used for filtering is __case sensitive__.
 
 ### Listing All Incomes
 
-### Filtering Incomes by Amount or by Category
+### Filtering Incomes
+#### By Amount
+**Overview:**  
+This feature allows users to filter income records based on a specified numerical range. It is critical for financial reporting and analysis.
+
+**Command Format:**  
+filter-income amount from/<minAmount> to/<maxAmount>
+- `<minAmount>`: The lower bound of the income amount range.
+- `<maxAmount>`: The upper bound of the income amount range.
+
+**Execution Process:**
+1. **Parameter Extraction:**
+  - The command removes its fixed prefix from the user input to isolate the parameters.
+  - Regular expressions are used to extract the minimum and maximum amount values.
+2. **Validation:**
+  - The extracted values are parsed into numerical types (e.g., double).
+  - It validates that both values are numeric and that the minimum does not exceed the maximum.
+  - In case of an invalid input, a `FinanceException` is thrown with an appropriate error message.
+3. **Filtering Logic:**
+  - The command iterates over the list of income records.
+  - It selects those records where the income amount falls within the specified range.
+4. **Result Handling:**
+  - The matching incomes are compiled into a formatted output message.
+  - The result is logged and then returned for display.
+
+**UML Diagrams:**
+- **Class Diagram:**  
+  ![](diagrams/FilterIncomeByAmountCommandClass.png)
+- **Sequence Diagram:**  
+  ![](diagrams/FilterIncomeByAmountCommandSequence.png)
+
+---
+
+#### By Category
+
+**Overview:**  
+This feature enables users to filter income records by a specific category (e.g., "Salary", "Bonus"). It supports case-insensitive matching to enhance usability.
+
+**Command Format:**  
+filter-income category/<category>
+- `<category>`: The income category to filter by.
+
+**Execution Process:**
+1. **Category Extraction:**
+  - The command removes its fixed prefix to isolate the category parameter.
+  - Extra whitespace is trimmed from the extracted string.
+2. **Validation:**
+  - The command verifies that the category string is not empty.
+  - If the category is missing, a `FinanceException` is thrown.
+3. **Filtering Logic:**
+  - It iterates over the income records.
+  - A case-insensitive comparison is performed between each income's category and the provided filter.
+4. **Result Handling:**
+  - Matching records are assembled into a user-friendly output message.
+  - The result is logged and returned for further display.
+
+**UML Diagrams:**
+- **Class Diagram:**  
+  ![](diagrams/FilterIncomeByCategoryCommandClass.png)
+- **Sequence Diagram:**  
+  ![](diagrams/FilterIncomeByCategoryCommandSequence.png)
+
+---
+
+#### By Date
+**Overview:**  
+This feature allows users to filter income records within a specific date range. It is essential for generating time-based financial reports.
+
+**Command Format:**  
+filter-income date from/DD-MM-YYYY to/DD-MM-YYYY
+- `DD-MM-YYYY`: The expected date format for both the start and end dates.
+
+**Execution Process:**
+1. **Parameter Extraction:**
+  - The command removes its fixed prefix and uses regex to extract the `from` and `to` date parameters.
+2. **Validation:**
+  - The extracted date strings are validated using a dedicated `DateValidator` utility to ensure they follow the `DD-MM-YYYY` format.
+  - If either date is invalid, or if the start date is later than the end date, a `FinanceException` is thrown.
+3. **Parsing and Filtering:**
+  - Valid date strings are parsed into `LocalDate` objects.
+  - The command iterates over the income records, converting each record’s date into a `LocalDate` and checking if it lies within the specified range.
+4. **Result Handling:**
+  - Matching income records are formatted into an output message.
+  - The result is logged and returned to be displayed to the user.
+
+**UML Diagrams:**
+- **Class Diagram:**  
+  ![](diagrams/FilterIncomeByDateCommandClass.png)
+- **Sequence Diagram:**  
+  ![](diagrams/FilterIncomeByDateCommandSequence.png)
+
+---
 
 ### Deleting an Income Entry
 
