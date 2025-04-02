@@ -55,13 +55,21 @@ This section outlines the various components of the application and explains how
 ### Architecture
 
 ### Command
+__API__:`Command.java`
+The `Command` component consists of multiple command classes, which all extends from abstract class `Command`.
+The class diagram for the `Command` component is illustrated as below:
+![Command Class Diagram](images/Command_class.png)
+The command component 
+* executes the user's command based on their parsed input from command line.
+* depends on `Income` and `ExpenseList` components to extract information of expense and income for execution
 
 ### Storage
 __API__:`Storage.java`
 The `Storage` component can save the list of incomes and expenses data in .txt format and read it back.
 
 ### UI Component
-The UI component consists of Ui class, which handles user interactions by reading the user's input, displaying messages and show errors. 
+__API__: `Ui.java`
+The `UI` component consists of Ui class, which handles user interactions by reading the user's input, displaying messages and show errors. 
 This serves as the main interface for communication between user and the Finance Tracker application  
 The class diagram of Ui is displayed as below  
 ![UI Class Diagram](images/UI_class.png)
@@ -74,7 +82,7 @@ The sequence diagram below illustrates iteractions within Ui component under `re
 * `public void printError(String error)`: print out the error message for user by passing the string error message.
 * `public void printMessage(String message)`: print out the message as a String for user.
 
-### Logic
+### Parser
 
 ### Model
 

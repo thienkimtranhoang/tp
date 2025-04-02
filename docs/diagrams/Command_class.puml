@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/class-diagram
+package budgetflow.command {
+    abstract class Command {
+        #input: String
+        #outputMessage: String
+        #isExit: boolean = false
+        +Command()
+        +Command(String)
+        +execute(...)
+        +isExit(): boolean
+        +getOutputMessage(): Strong
+        +getCommandType(): CommandType
+    }
+    class DifferentCommands
+    enum CommandType {
+    CREATE
+    READ
+    UPDATE
+    DELETE
+    EXIT
+    COMPARE
+    }
+}
+
+class Income
+class ExpenseList
+
+class FinanceException
+DifferentCommands -up-|> Command
+Command ..> "0..*" Income:  uses
+Command ..> "1" ExpenseList: uses
+Command --> "commandType 1" CommandType
+Command ..> FinanceException: throws
+
+
+@enduml
