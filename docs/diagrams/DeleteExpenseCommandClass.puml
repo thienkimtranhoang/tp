@@ -22,7 +22,7 @@ package budgetflow.income {
     class Income
 }
 
-class Command {
+abstract class Command {
     + Command(String input)
     + CommandType commandType
 }
