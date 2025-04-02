@@ -172,7 +172,7 @@ Step 2: ...
 
 ### Set Saving Goal
 
-### **Execution Process**
+#### **Execution Process**
 ![Set Saving Goal Sequence Diagram](./diagrams/setsavinggoal_command_sequence.png)
 
 #### **Scenario:**
@@ -181,28 +181,28 @@ User enters the command:
 
 ---
 
-### **1. User Input to Parser**
+**1. User Input to Parser**
 - User inputs `set-saving-goal 5000`.
 - The `Parser` validates the command and creates a `SetSavingGoalCommand` object.
 
 ---
 
-### **2. Command Execution Initialization**
+**2. Command Execution Initialization**
 - `execute(incomes, expenseList)` initializes and extracts the saving goal amount.
 
 ---
 
-### **3. Saving Goal Extraction**
+**3. Saving Goal Extraction**
 - The goal amount is extracted and validated to ensure it is positive.
 
 ---
 
-### **4. Saving Goal Storage**
+**4. Saving Goal Storage**
 - The `savingGoalAmount` is updated in the system using `ListIncomeCommand.setSavingGoal()`.
 
 ---
 
-### **5. Completion and Result**
+**5. Completion and Result**
 - Success message `"Saving goal set to: $5000.00"` is returned to the UI and logged.
 
 
