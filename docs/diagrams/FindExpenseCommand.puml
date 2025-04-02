@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant ":FindExpenseCommand" as command
+participant "expenseList: ExpenseList" as expenseList
+-> command ++: execute()
+command -> command: extract tag and keyword
+command --> command: tag, keyword
+command -> expenseList ++: get matching expenses
+command <-- expenseList --: matching expenses
+alt no matching expenses
+    <-- command: unfound expense exception
+else
+    command -> command: set output message to matching expenses
+end
+
+@enduml

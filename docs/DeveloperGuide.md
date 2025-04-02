@@ -126,7 +126,7 @@ Step 2: ...
 
 ### Viewing All Expenses
 This feature allows users to view all current expenses and relevant information about them (current index inside the list, category, description, amount and date)  
-The execution of this feature is facilitated by `ViewAllExpensesCommand`. It extends `Command` with `commandType = CommandType.READ` and overwrite `execute()` function to send all expenses' information from `ExpenseList` to the output message
+The execution of this feature is facilitated by `ViewAllExpensesCommand`. It extends `Command` with `commandType = CommandType.READ` and overwrite `execute()` to send all expenses' information from `ExpenseList` to the output message
  upon successful execution, which will be displayed to user through UI.  
 Here is the execution scenario after user execute `view-all-expense`  
 * The `UI` reads the user's command, and `FinanceTracker` call `Parser.getCommandFromInput()` to check for matching command.
@@ -135,6 +135,21 @@ Here, the Parser will return command `ViewAllExpensesCommand` for execution.
 ![ViewAllExpenses execute() Diagram](images/ViewAllExpenses.png)  
 * Since `commandType` is `READ`, no change will be made in storage. The UI then print the output message upon successful execution.
 * As exit condition is false, the application continues running and waits for next command from user.
+
+### Filtering Expenses
+This feature allows users to filter and view all expenses in the list based on category, description, amount or date.  
+The execution of this feature is facilitated by `FindExpenseCommand`. It extends `Command` with `commandType = CommandType.READ` and overwrite `execute()` to filter out expenses and send output message upon successful execution.
+Additionally, this command also holds dependency on `ExpenseList` and call `ExpenseList.getByTag()` to return the list of filtered expenses based on tags/ filter conditions.  
+The following sequence diagram shows how `execution()` goes through `FindExpenseCommand` component  
+![FindExpenseCommand execute() Diagram](images/FindExpenseCommand.png)  
+There are currently 6 tags supported for filtering, which serves for different filtering conditions. There can only be 1 tag used per command. These tags and their purposes are:  
+* `/category`: filter all expenses with exact match to the query category (for example: `find-expense /category food` looking for all expenses with category `food`). 
+The category keyword used for filtering is __case sensitive__.
+* `/desc`: filter all expenses with description that contains the keyword (for example: `find-expense /desc many` looking for all expenses with `many` in their description). The keyword is __case sensitive__
+* `/amt`: filter all expenses with amount that exactly matches with the keyword. The keyword used for filtering must be at integer or decimal format.
+* `/d`: filter all expenses of the exact date as the keyword. The keyword used to filtering must match exact dd-MM-yyyy pattern. (for example: `find-expense /desc 01-10-2005` looking for expense on 1st October 2025).  
+* `/amtrange`: filter all expenses with amount in the listed range (for example: `find-expense /amt 10.00 20.00` find for expenses with amount from 10.00 to 20.00).
+* `/drange`: filter all expenses within the the date range (for example: `find-expense /desc 01-10-2005 30-10-2004` looking for expenses from 1st Oct 2025 to 30th Oct 2025).
 
 ### Listing All Incomes
 
