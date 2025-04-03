@@ -65,4 +65,7 @@ Here are all matching expenses:
 drink | Coffee | $3.50 | 06-04-2025
 
 What would you like to do?
+
+Saving goal set to: $5000.00
+What would you like to do?
 Goodbye!
