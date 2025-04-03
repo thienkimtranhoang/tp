@@ -54,6 +54,8 @@ public class DeleteExpenseCommand extends Command {
         }
 
         for (int i = 0; i < expenseList.getSize(); i++) {
+            assert expenseList.get(i) != null : "Expense list contains a null entry";
+            assert expenseList.get(i).getDescription() != null : "Expense entry has a null description";
             if (expenseList.get(i) != null && expenseList.get(i).getDescription() != null &&
                     expenseList.get(i).getDescription().equalsIgnoreCase(expenseDesc)) {
                 expenseList.delete(i);
