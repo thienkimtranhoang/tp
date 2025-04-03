@@ -9,7 +9,7 @@ class CompareExpenseCommand {
     + execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException
     - String[] parseAndValidateInput(String input) throws FinanceException
     - LocalDate[] getValidatedDateRange(String monthYear) throws FinanceException
-    - static String getCompareMessage(String monthYear1, double totalMonth1, String monthYear2, double totalMonth2)
+    - {static} String getCompareMessage(String monthYear1, double totalMonth1, String monthYear2, double totalMonth2)
     - double calculateTotalExpenses(ExpenseList expenseList, LocalDate startDate, LocalDate endDate)
 }
 
