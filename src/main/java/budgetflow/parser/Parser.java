@@ -1,21 +1,6 @@
 package budgetflow.parser;
 
-import budgetflow.command.AddIncomeCommand;
-import budgetflow.command.Command;
-import budgetflow.command.CompareExpenseCommand;
-import budgetflow.command.DeleteExpenseCommand;
-import budgetflow.command.DeleteIncomeCommand;
-import budgetflow.command.ExitCommand;
-import budgetflow.command.FilterIncomeByAmountCommand;
-import budgetflow.command.FilterIncomeByCategoryCommand;
-import budgetflow.command.FilterIncomeByDateCommand;
-import budgetflow.command.FindExpenseCommand;
-import budgetflow.command.ListIncomeCommand;
-import budgetflow.command.LogExpenseCommand;
-import budgetflow.command.SetSavingGoalCommand;
-import budgetflow.command.UpdateExpenseCommand;
-import budgetflow.command.UpdateIncomeCommand;
-import budgetflow.command.ViewAllExpensesCommand;
+import budgetflow.command.*;
 import budgetflow.exception.UnknownCommandException;
 
 import java.util.logging.Logger;
@@ -42,6 +27,7 @@ public class Parser {
     private static final String COMMAND_COMPARE = "compare";
     private static final String COMMAND_UPDATE_EXPENSE = "update-expense";
     private static final String COMMAND_UPDATE_INCOME = "update-income";
+    private static final String COMMAND_HELP = "help";
     // New command constants for filtering incomes
     private static final String COMMAND_FILTER_INCOME_DATE = "filter-income date";
     private static final String COMMAND_FILTER_INCOME_AMOUNT = "filter-income amount";
@@ -85,6 +71,8 @@ public class Parser {
             return new UpdateIncomeCommand(input);
         } else if (input.startsWith(COMMAND_FILTER_INCOME_DATE)) {
             return new FilterIncomeByDateCommand(input);
+        }  else if (input.startsWith(COMMAND_HELP)) {
+            return new HelpCommand();
         } else if (input.startsWith(COMMAND_FILTER_INCOME_AMOUNT)) {
             return new FilterIncomeByAmountCommand(input);
         } else if (input.startsWith(COMMAND_FILTER_INCOME_CATEGORY)) {
