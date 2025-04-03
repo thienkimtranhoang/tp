@@ -53,18 +53,16 @@ Expense logged: Coffee | Coffee | $3.50 | 06-03-2025
 ---
 
 ### 2. Updating an Expense Entry
-**Description:** Modifies an existing expense entry.  
+**Description:** Updates an instance of an Expense entry.  
+**How it works** The user only has to write the Index and the thing that the user would like to update.
+E.g. If the user only wants to update the amt, he can run `update-expense INDEX amt/[UPDATED_AMOUNT]`
 **Command:**
 ```plaintext
-update-expense index/<INDEX> category/<NEW_CATEGORY> desc/<NEW_DESCRIPTION> amt/<NEW_AMOUNT> d/<NEW_DATE>
-```
-**Example:**
-```plaintext
-update-expense index/1 category/drink desc/Coffee amt/4.00 d/06-04-2025
+update-expense [INDEX] category/[UPDATED_CATEGORY] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]
 ```
 **Output:**
 ```plaintext
-Expense updated at index 1: drink | Coffee | $4.00 | 06-04-2025. Total Expenses: $4.00
+Expense updated: [UPDATED_CATEGORY], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DATE]
 ```
 
 ---
