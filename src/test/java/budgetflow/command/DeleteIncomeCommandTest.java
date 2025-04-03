@@ -27,10 +27,10 @@ class DeleteIncomeCommandTest {
     void deleteIncome_validIncome_expectIncomeFound() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = get3Incomes();
-        Command c = new DeleteIncomeCommand("delete-income Part-timeJob");
-        c.execute(incomes, expenseList);
+        Command command = new DeleteIncomeCommand("delete-income Part-timeJob");
+        command.execute(incomes, expenseList);
         String expectedOutput = "Income deleted: Part-timeJob";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     //@@author Yikbing
@@ -38,8 +38,8 @@ class DeleteIncomeCommandTest {
     void deleteIncome_invalidIncome_expectNoIncomeFound() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = get3Incomes();
-        Command c = new DeleteIncomeCommand("delete-income Housework");
-        c.execute(incomes, expenseList);
+        Command command = new DeleteIncomeCommand("delete-income Housework");
+        command.execute(incomes, expenseList);
 
         String expectedOutput = "Income not found: Housework";
         assertEquals(expectedOutput, c.getOutputMessage());
@@ -49,8 +49,8 @@ class DeleteIncomeCommandTest {
     void deleteIncome_invalidCommandFormat_expectInvalidCommandError() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = get3Incomes();
-        Command c = new DeleteIncomeCommand("delete-something Part-timeJob");
-        c.execute(incomes, expenseList);
+        Command command = new DeleteIncomeCommand("delete-something Part-timeJob");
+        command.execute(incomes, expenseList);
         String expectedOutput = "Invalid delete income command format.";
         assertEquals(expectedOutput, c.getOutputMessage());
     }
@@ -59,8 +59,8 @@ class DeleteIncomeCommandTest {
     void deleteIncome_emptyCategory_expectEmptyCategoryError() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = get3Incomes();
-        Command c = new DeleteIncomeCommand("delete-income ");
-        c.execute(incomes, expenseList);
+        Command command = new DeleteIncomeCommand("delete-income ");
+        command.execute(incomes, expenseList);
         String expectedOutput = "Error: Income category is required.";
         assertEquals(expectedOutput, c.getOutputMessage());
     }
