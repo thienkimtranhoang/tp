@@ -65,7 +65,7 @@ The __Architecture Diagram__ above explains the high-level design of the applica
   * During the run of application, it manages all components, including invoking method for UI's display, command's execution and saving data. 
   * At the shut-down of application, in is in charge of shut down application and all components with clean up if necessary.  
 * `Storage`: storing data in hard disk and loading them during the run of application.
-* `UI`: displaying messages to user.
+* `UI`: managing user's communication with application and displaying messages to user.
 * `Model`: holds the data of the app relating to incomes and expenses.
 * `Parser`: parsing user's string command and convert them into commands.
 * `Command`: executable commands of the application.
