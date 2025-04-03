@@ -6,19 +6,10 @@ skinparam classAttributeIconSize 0
 package budgetflow.command {
 
     class "{abstract} \n AddIncomeCommand" {
-        - static final Logger logger
-        - static final String ADD_COMMAND_PREFIX
-        - static final String ERROR_MISSING_INCOME_CATEGORY
-        - static final String ERROR_MISSING_INCOME_AMOUNT
-        - static final String ERROR_MISSING_INCOME_DATE
-        - static final String ERROR_INCORRECT_INCOME_DATE
+        - {static} final Logger logger
         + AddIncomeCommand(String input)
         + execute(List<Income> incomes, ExpenseList expenseList)
-          throws MissingDateException, InvalidNumberFormatException, MissingAmountException,
-                 MissingCategoryException, MissingIncomeException
         - Income extractIncome(String input)
-          throws InvalidNumberFormatException, MissingCategoryException,
-                 MissingAmountException, MissingDateException, MissingIncomeException
         - static void verifyMissingOrIncorrect(String input) throws MissingDateException
     }
 }
