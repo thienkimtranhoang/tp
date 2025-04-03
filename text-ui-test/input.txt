@@ -16,5 +16,4 @@ find-expense /amt 4.00
 find-expense /amtrange 0.00 5.00
 find-expense /d 06-04-2025
 find-expense /drange 01-04-2025 10-04-2025
-set-saving-goal 5000
 exit

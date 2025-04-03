@@ -37,6 +37,7 @@ public class DeleteExpenseCommand extends Command {
      * @param incomes      The list of incomes (unused in this command).
      * @param expenseList  The list of expenses from which the specified expense will be deleted.
      */
+    //@@author dariusyawningwhiz
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
         if (!input.startsWith(COMMAND_DELETE_EXPENSE)) {
