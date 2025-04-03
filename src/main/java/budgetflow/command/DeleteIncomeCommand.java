@@ -45,32 +45,26 @@ public class DeleteIncomeCommand extends Command {
      */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
-        // Ensure the command starts with "delete-income"
         if (!input.startsWith(COMMAND_DELETE_INCOME)) {
             this.outputMessage = ERROR_INVALID_COMMAND;
-            return; // Exit if the command format is incorrect
+            return;
         }
 
-        // Extract the income category from the input
         String incomeCategory = input.substring(COMMAND_DELETE_INCOME.length()).trim();
 
-        // Check if the income category is empty, return an error message
         if (incomeCategory.isEmpty()) {
             this.outputMessage = ERROR_EMPTY_CATEGORY;
-            return; // Exit early if the category is empty
+            return;
         }
 
         boolean found = false;
-        // Iterate through the incomes list to find the matching category
         for (int i = 0; i < incomes.size(); i++) {
             Income income = incomes.get(i);
 
-            // Validate the income and category with assertions
             assert income != null : ASSERT_NULL_ENTRY;
             assert income.getCategory() != null : ASSERT_NULL_CATEGORY;
 
             if (income.getCategory().equalsIgnoreCase(incomeCategory)) {
-                // If found, remove it from the list
                 incomes.remove(i);
                 this.outputMessage = INCOME_DELETED_HEADER + incomeCategory;
                 found = true;
@@ -79,7 +73,6 @@ public class DeleteIncomeCommand extends Command {
             }
         }
 
-        // If no income was found, return an error message
         if (!found) {
             this.outputMessage = ERROR_INCOME_NOT_FOUND + incomeCategory;
             logger.warning("Attempted to delete non-existent income: " + incomeCategory);

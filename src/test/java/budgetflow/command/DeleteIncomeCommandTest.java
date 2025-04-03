@@ -41,7 +41,7 @@ class DeleteIncomeCommandTest {
         command.execute(incomes, expenseList);
 
         String expectedOutput = "Income not found: Housework";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     @Test
@@ -51,7 +51,7 @@ class DeleteIncomeCommandTest {
         Command command = new DeleteIncomeCommand("delete-something Part-timeJob");
         command.execute(incomes, expenseList);
         String expectedOutput = "Invalid delete income command format.";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     @Test
@@ -61,7 +61,7 @@ class DeleteIncomeCommandTest {
         Command command = new DeleteIncomeCommand("delete-income ");
         command.execute(incomes, expenseList);
         String expectedOutput = "Error: Income category is required.";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     @Test
