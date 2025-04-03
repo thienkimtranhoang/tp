@@ -1,0 +1,65 @@
+@startuml
+participant "User" as User
+participant "CompareExpenseCommand" as CompareExpenseCommand
+participant "ExpenseList" as ExpenseList
+participant "DateValidator" as DateValidator
+participant "Expense" as Expense
+
+
+User -> CompareExpenseCommand : execute(incomes, expenseList)
+activate CompareExpenseCommand
+CompareExpenseCommand -> ExpenseList : getSize()
+activate ExpenseList
+ExpenseList --> CompareExpenseCommand : return size
+deactivate ExpenseList
+
+opt ExpenseList is empty
+    CompareExpenseCommand -> CompareExpenseCommand : throw MissingExpenseException
+    activate CompareExpenseCommand
+    CompareExpenseCommand --> CompareExpenseCommand
+    deactivate CompareExpenseCommand
+end
+
+CompareExpenseCommand -> DateValidator : Validate Month1 and Month2
+activate DateValidator
+DateValidator --> CompareExpenseCommand : return boolean
+deactivate DateValidator
+note left of DateValidator
+    Checks whether the months are in the
+     right format and if user put enough inputs
+end note
+
+CompareExpenseCommand -> DateValidator : getMonthRange(parts[2])
+activate DateValidator
+DateValidator --> CompareExpenseCommand : return date range
+deactivate DateValidator
+
+CompareExpenseCommand -> CompareExpenseCommand : calculateTotalExpenses(ExpenseList, \n range1[MONTH_FIRST_DAY], range1[MONTH_LAST_DAY])
+
+activate CompareExpenseCommand
+CompareExpenseCommand --> CompareExpenseCommand
+deactivate CompareExpenseCommand
+
+ref over CompareExpenseCommand : IterateExpensesSequence Month1
+
+CompareExpenseCommand --> CompareExpenseCommand : return totalMonth1
+
+CompareExpenseCommand -> CompareExpenseCommand : calculateTotalExpenses(ExpenseList, \n range2[MONTH_FIRST_DAY], range2[MONTH_LAST_DAY])
+
+    activate CompareExpenseCommand
+    CompareExpenseCommand --> CompareExpenseCommand
+    deactivate CompareExpenseCommand
+
+ref over CompareExpenseCommand : IterateExpensesSequence Month2
+
+CompareExpenseCommand --> CompareExpenseCommand : return totalMonth2
+
+CompareExpenseCommand -> CompareExpenseCommand : getCompareMessage(parts[FIRST_MONTH_POSITION], totalMonth1,\n parts[SECOND_MONTH_POSITION], totalMonth2)
+    activate CompareExpenseCommand
+    CompareExpenseCommand --> CompareExpenseCommand
+    deactivate CompareExpenseCommand
+
+
+User <-- CompareExpenseCommand : return outputMessage
+deactivate CompareExpenseCommand
+@enduml
