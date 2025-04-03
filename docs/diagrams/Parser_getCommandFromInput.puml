@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant "Parser" as Parser
+participant ":Command" as Command
+participant ":UnknownCommandException" as Exception
+-> Parser ++: getCommandFromInput(input)
+alt matching command
+    create Command
+    Parser -> Command ++: new Command()
+    Parser <-- Command --:
+    <-- Parser: matchingCommand
+else no matching command
+    create Exception
+    Parser -> Exception ++: new UnknownCommandException()
+    Parser <-- Exception --
+    <-- Parser: throw UnknownCommandException
+end
+
+@enduml

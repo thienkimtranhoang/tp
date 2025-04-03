@@ -1,0 +1,40 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+participant ":FinanceTracker" as FinanceTracker
+participant ":Ui" as Ui
+participant ":Storage" as Storage
+participant "Parser" as Parser
+participant ":SavingGoalManager" as SavingGoalManager
+participant ":FinanceException" as FinanceException
+participant "c:Command" as c
+
+-> FinanceTracker ++: run()
+FinanceTracker -> Ui: showWelcome()
+
+    loop true
+        FinanceTracker -> Ui ++: readCommand()
+        FinanceTracker <-- Ui --: input
+        FinanceTracker -> Parser ++: getCommandFromInput(input)
+        create c
+        Parser -> c ++: new Command()
+        Parser <-- c --
+        deactivate Parser
+
+        FinanceTracker -> c: execute()
+        FinanceTracker -> SavingGoalManager: setSavingGoal()
+        FinanceTracker -> c ++: getOutputMessage()
+        FinanceTracker <-- c --: message
+        break isExit
+            FinanceTracker -> Ui: printMessage(message)
+        end
+
+        FinanceTracker -> c ++: getCommandType()
+        FinanceTracker <-- c --: commandType
+        opt commandType == CREATE || commandType == DELETE
+            FinanceTracker -> Storage: saveData(...)
+        end
+        FinanceTracker -> Ui: printMessage(message)
+        destroy c
+    end
+
+@enduml

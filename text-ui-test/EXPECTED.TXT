@@ -31,7 +31,7 @@ What would you like to do?
 Saving goal retrieved: 0.0
 Income deleted: Salary
 What would you like to do?
-Expense updated at index 1: drink | Coffee | $4.00 | 06-04-2025. Total Expenses: $4.00
+Expense updated: drink, Description: Coffee, Amount: $4.00, Date: 06-04-2025
 What would you like to do?
 Total expenses for 03-2025: $0.00
 Total expenses for 04-2025: $4.00
@@ -39,5 +39,30 @@ Total expenses for 04-2025: $4.00
 What would you like to do?
 Saving goal retrieved: 0.0
 Expense deleted: Coffee
+What would you like to do?
+Saving goal retrieved: 0.0
+Expense logged: drink | Coffee | $3.50 | 06-04-2025
+What would you like to do?
+Here are all matching expenses:
+drink | Coffee | $3.50 | 06-04-2025
+
+What would you like to do?
+Here are all matching expenses:
+drink | Coffee | $3.50 | 06-04-2025
+
+What would you like to do?
+Sorry, I cannot find any expenses matching your keyword: 4.00
+What would you like to do?
+Here are all matching expenses:
+drink | Coffee | $3.50 | 06-04-2025
+
+What would you like to do?
+Here are all matching expenses:
+drink | Coffee | $3.50 | 06-04-2025
+
+What would you like to do?
+Here are all matching expenses:
+drink | Coffee | $3.50 | 06-04-2025
+
 What would you like to do?
 Goodbye!

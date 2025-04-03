@@ -1,0 +1,34 @@
+@startuml
+actor User
+participant "MainTracker" as Main
+participant "FinanceTracker" as Finance
+participant "UpdateExpenseCommand" as UpdateCmd
+participant "ExpenseList" as ExpenseList
+participant "Expense" as Expense
+participant "Storage" as Storage
+participant "DateValidator" as DateValidator
+
+User -> Main: starts application
+Main -> Finance: run()
+User -> Finance: types "update-expense 2 amt/50.0 d/01-04-2025"
+Finance -> UpdateCmd: execute(2, 50.0, "01-04-2025")
+
+alt Index is valid
+    UpdateCmd -> ExpenseList: get(2)
+    UpdateCmd -> Expense: updateAmount(50.0)
+    UpdateCmd -> DateValidator: isValidDate("01-04-2025")
+
+    alt Date is valid
+        UpdateCmd -> Expense: updateDate("01-04-2025")
+    else Invalid date format
+        UpdateCmd -> User: "Error: Invalid date format"
+    end
+else Index out of bounds
+    UpdateCmd -> User: "Error: Expense entry not found"
+end
+
+UpdateCmd -> ExpenseList: updateTotalExpenses()
+UpdateCmd -> Storage: saveData()
+
+User <-- UpdateCmd: "Expense updated successfully"
+@enduml

@@ -50,7 +50,80 @@ Expense updated at index 1: drink | Coffee | $4.00 | 06-04-2025. Total Expenses:
 
 ---
 
-### 3. Exiting the Application
+### 3. Deleting an Income
+**Description:** Deletes an instance of an Income entry.
+**Command:**
+```plaintext
+delete-income [NAME OF INCOME ENTRY]
+```
+**Output:**
+```plaintext
+Saving goal retrieved: [REMAINING OF SAVING GOAL]
+Income deleted: [NAME OF INCOME ENTRY]
+```
+
+---
+
+### 4. Deleting an Expense
+**Description:** Deletes an instance of an Expense entry.  
+**Command:**
+```plaintext
+delete-expense [NAME OF EXPENSE ENTRY]
+```
+**Output:**
+```plaintext
+Saving goal retrieved: [REMAINING OF SAVING GOAL]
+Income deleted: [NAME OF EXPENSE ENTRY]
+```
+
+---
+
+### 5. Comparing two Monthly Expenses 
+**Description:** Compares Monthly expenses between two months  
+**Command:**
+```plaintext
+compare MM-YYYY MM-YYYY
+```
+**Output:**
+```plaintext
+Total expenses for MM-YYYY: [AMOUNT]
+Total expenses for MM-YYYY: [AMOUNT]
+```
+
+---
+
+### 6. Updating an Income
+**Description:** Updates an instance of an Income entry.  
+**How it works** The user only has to write the Index and the thing that the user would like to update. 
+E.g. If the user only wants to update the amt, he can run `update-income INDEX amt/[UPDATED_AMOUNT]`
+**Command:**
+```plaintext
+update-income [INDEX] category/[UPDATED_CATEGORY] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]
+```
+**Output:**
+```plaintext
+Income updated: [UPDATED_CATEGORY], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DATE]
+```
+
+---
+### 7. Setting a Savings Goal
+**Description:** Sets a savings goal with a specified amount and optional target date.  
+**Command:**
+```plaintext
+set-saving-goal amt/<GOAL_AMOUNT> 
+```
+**Example:**
+```plaintext
+set-saving-goal amt/5000
+```
+**Output:**
+```plaintext
+Savings goal set: $5000 by 31-12-2025.
+```
+---
+---
+
+### 8. Exiting the Application
 **Description:** Safely exits the BudgetFlow application.  
 **Command:**
 ```plaintext

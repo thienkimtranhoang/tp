@@ -1,4 +1,5 @@
 @startuml
+
 participant ":AddIncomeCommand" as AddCommand
 participant ":Income" as Income
 participant "incomes:List<Income>" as IncomeList
@@ -10,7 +11,9 @@ deactivate Income
 
 AddCommand -> IncomeList : add(incomeObject)
 activate IncomeList
-IncomeList --> AddCommand
+IncomeList --> AddCommand : return
 deactivate IncomeList
+
+AddCommand --> AddCommand : return execution result
 
 @enduml

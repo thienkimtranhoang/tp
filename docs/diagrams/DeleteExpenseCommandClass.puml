@@ -1,10 +1,13 @@
 @startuml
 
+hide circle
+skinparam classAttributeIconSize 0
+
 package budgetflow.command {
     class DeleteExpenseCommand {
-        - String input
-        - CommandType commandType
-        - String outputMessage
+        # String input
+        # CommandType commandType
+        # String outputMessage
         + DeleteExpenseCommand(String input)
         + execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundExpenseException
     }
@@ -22,12 +25,13 @@ package budgetflow.income {
     class Income
 }
 
-class Command {
+abstract class "{abstract} \n Command" {
+    + CommandType: commandType
     + Command(String input)
-    + CommandType commandType
 }
 
-DeleteExpenseCommand --|> Command
+
+DeleteExpenseCommand --|> "{abstract} \n Command"
 DeleteExpenseCommand ..> UnfoundExpenseException : throws
 DeleteExpenseCommand ..> Income : uses
 DeleteExpenseCommand ..> ExpenseList : uses

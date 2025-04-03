@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant ":Ui" as ui
+participant "SCANNER: Scanner" as scanner
+group sd scanning input from user
+    ui -> scanner ++: nextLine()
+    ui <-- scanner --: rawInput: String
+    ui -> ui ++: trim()
+    ui --> ui --: trimmedInput()
+end
+@enduml

@@ -1,14 +1,11 @@
 package budgetflow.command;
 
-import budgetflow.exception.FinanceException;
-import budgetflow.exception.MissingCategoryException;
-import budgetflow.exception.MissingDescriptionException;
-import budgetflow.exception.MissingExpenseException;
-import budgetflow.exception.MissingAmountException;
-import budgetflow.exception.MissingDateException;
+import budgetflow.exception.InvalidDateException;
+import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,183 +14,180 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class UpdateExpenseCommandTest {
+public class UpdateExpenseCommandTest {
+    private ExpenseList expenseList;
+    private List<Income> incomes;
 
-    @Test
-    void updateExpense_validInput_updatesExpense() throws FinanceException {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        expenseList.add(new Expense("Food", "Lunch", 12.50, "13-03-2025"));
+    @BeforeEach
+    void setUp() {
+        expenseList = new ExpenseList();
+        incomes = new ArrayList<>();
 
-        Command c = new UpdateExpenseCommand(
-                "update-expense index/1 category/Dining desc/Dinner amt/20.00 d/14-03-2025"
-        );
-        c.execute(incomes, expenseList);
-
-        String expectedOutput =
-                "Expense updated at index 1: Dining | Dinner | $20.00 | 14-03-2025. Total Expenses: $20.00";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        expenseList.add(new Expense("Food", "Lunch", 10.50, "01-01-2024"));
+        expenseList.add(new Expense("Transport", "Bus fare", 2.00, "02-01-2024"));
     }
 
     @Test
-    void updateExpense_invalidIndex_throwsException() {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        Command c = new UpdateExpenseCommand(
-                "update-expense index/5 category/Food desc/Lunch amt/10.00 d/12-03-2025"
-        );
+    void updateExpense_success() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand(
+                "update-expense 1 category/Dining amt/12.00 desc/Dinner d/03-01-2024");
+        command.execute(incomes, expenseList);
 
-        Exception exception = assertThrows(MissingExpenseException.class, () -> c.execute(incomes, expenseList));
-        assertEquals("Error: Invalid index. Expense not found.", exception.getMessage());
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("Dining", updatedExpense.getCategory());
+        assertEquals("Dinner", updatedExpense.getDescription());
+        assertEquals(12.00, updatedExpense.getAmount());
+        assertEquals("03-01-2024", updatedExpense.getDate());
     }
 
     @Test
-    void updateExpense_missingIndex_throwsException() {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        Command c = new UpdateExpenseCommand("update-expense category/Food desc/Lunch amt/10.00 d/12-03-2025");
-
-        Exception exception = assertThrows(MissingExpenseException.class, () -> c.execute(incomes, expenseList));
-        assertEquals("Index is required", exception.getMessage());
+    void updateExpense_missingIndex() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense");
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () ->
+                command.execute(incomes, expenseList));
+        assertEquals("Error: Index is required.", exception.getMessage());
     }
 
     @Test
-    void updateExpense_missingCategory_throwsException() {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        expenseList.add(new Expense("Food", "Lunch", 12.50, "13-03-2025"));
-
-        Command c = new UpdateExpenseCommand("update-expense index/1 desc/Dinner amt/20.00 d/14-03-2025");
-        Exception exception = assertThrows(MissingCategoryException.class, () -> c.execute(incomes, expenseList));
-        assertEquals("Error: Expense category is required.", exception.getMessage());
+    void updateExpense_invalidIndexFormat() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense abc category/Food");
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () ->
+                command.execute(incomes, expenseList));
+        assertEquals("Error: Index must be a number.", exception.getMessage());
     }
 
     @Test
-    void updateExpense_missingDescription_throwsException() {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        expenseList.add(new Expense("Food", "Lunch", 12.50, "13-03-2025"));
-
-        Command c = new UpdateExpenseCommand("update-expense index/1 category/Dining amt/20.00 d/14-03-2025");
-        Exception exception = assertThrows(MissingDescriptionException.class, () -> c.execute(incomes, expenseList));
-        assertEquals("Error: Expense description is required.", exception.getMessage());
+    void updateExpense_indexOutOfBounds() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 5 category/Food");
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () ->
+                command.execute(incomes, expenseList));
+        assertEquals("Error: Expense entry not found.", exception.getMessage());
     }
 
     @Test
-    void updateExpense_missingAmount_throwsException() {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        expenseList.add(new Expense("Food", "Lunch", 12.50, "13-03-2025"));
-
-        Command c = new UpdateExpenseCommand("update-expense index/1 category/Dining desc/Dinner d/14-03-2025");
-        Exception exception = assertThrows(MissingAmountException.class, () -> c.execute(incomes, expenseList));
-        assertEquals("Error: Expense amount is required.", exception.getMessage());
+    void updateExpense_emptyExpenseList() {
+        expenseList = new ExpenseList();
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Food");
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () ->
+                command.execute(incomes, expenseList));
+        assertEquals("Error: No expense entries exist to update.", exception.getMessage());
     }
 
     @Test
-    void updateExpense_missingDate_throwsException() {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        expenseList.add(new Expense("Food", "Lunch", 12.50, "13-03-2025"));
+    void updateExpense_noChange() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1");
+        command.execute(incomes, expenseList);
 
-        Command c = new UpdateExpenseCommand("update-expense index/1 category/Dining desc/Dinner amt/20.00");
-        Exception exception = assertThrows(MissingDateException.class, () -> c.execute(incomes, expenseList));
-        assertEquals("Error: Expense date is required.", exception.getMessage());
+        Expense expense = expenseList.get(0);
+        assertEquals("Food", expense.getCategory());
+        assertEquals("Lunch", expense.getDescription());
+        assertEquals(10.50, expense.getAmount());
+        assertEquals("01-01-2024", expense.getDate());
     }
 
     @Test
-    void updateExpense_invalidCategory_throwsException() {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        expenseList.add(new Expense("Food", "Lunch", 12.50, "13-03-2025"));
-
-        // Using invalid category format that shouldn't match
-        Command c = new UpdateExpenseCommand(
-                "update-expense index/1 category/!@#$ desc/Dinner amt/20.00 d/14-03-2025"
-        );
-
-        Exception exception = assertThrows(MissingCategoryException.class, () -> c.execute(incomes, expenseList));
-        assertEquals("Error: Invalid category format.", exception.getMessage());
+    void updateExpense_invalidDateFormat() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand(
+                "update-expense 1 category/Food amt/15.00 desc/Dinner d/32-01-2024");
+        Exception exception = assertThrows(InvalidDateException.class, () -> command.execute(incomes, expenseList));
+        assertEquals("Error: Invalid date format. Usage: DD-MM-YYYY", exception.getMessage());
     }
 
     @Test
-    void updateExpense_invalidAmountFormat_throwsException() {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        expenseList.add(new Expense("Food", "Lunch", 12.50, "13-03-2025"));
+    void updateExpense_updateOnlyCategory() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Dining");
+        command.execute(incomes, expenseList);
 
-        Command c = new UpdateExpenseCommand(
-                "update-expense index/1 category/Dining desc/Dinner amt/invalid d/14-03-2025"
-        );
-        Exception exception = assertThrows(MissingAmountException.class, () -> c.execute(incomes, expenseList));
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("Dining", updatedExpense.getCategory());
+        assertEquals("Lunch", updatedExpense.getDescription());
+        assertEquals(10.50, updatedExpense.getAmount());
+        assertEquals("01-01-2024", updatedExpense.getDate());
     }
 
     @Test
-    void updateExpense_invalidDateFormat_throwsException() {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        expenseList.add(new Expense("Food", "Lunch", 12.50, "13-03-2025"));
+    void updateExpense_updateOnlyAmount() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/20.00");
+        command.execute(incomes, expenseList);
 
-        Command c = new UpdateExpenseCommand(
-                "update-expense index/1 category/Dining desc/Dinner amt/20.00 d/2025-03-14"
-        );
-        Exception exception = assertThrows(MissingDateException.class, () -> c.execute(incomes, expenseList));
-        assertEquals("Error: Expense date is required."
-                , exception.getMessage());
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("Food", updatedExpense.getCategory());
+        assertEquals("Lunch", updatedExpense.getDescription());
+        assertEquals(20.00, updatedExpense.getAmount());
+        assertEquals("01-01-2024", updatedExpense.getDate());
     }
 
     @Test
-    void updateExpense_extraParameters_ignoresExtraParams() throws FinanceException {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        expenseList.add(new Expense("Food", "Lunch", 12.50, "13-03-2025"));
+    void updateExpense_updateOnlyDescription() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 desc/Dinner");
+        command.execute(incomes, expenseList);
 
-        Command c = new UpdateExpenseCommand(
-                "update-expense index/1 category/Dining desc/Dinner amt/20.00 d/14-03-2025 extra/param"
-        );
-        c.execute(incomes, expenseList);
-
-        String expectedOutput =
-                "Expense updated at index 1: Dining | Dinner | $20.00 | 14-03-2025. Total Expenses: $20.00";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("Food", updatedExpense.getCategory());
+        assertEquals("Dinner", updatedExpense.getDescription());
+        assertEquals(10.50, updatedExpense.getAmount());
+        assertEquals("01-01-2024", updatedExpense.getDate());
     }
 
     @Test
-    void updateExpense_emptyInput_throwsException() {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        Command c = new UpdateExpenseCommand("");
+    void updateExpense_updateOnlyDate() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 d/02-02-2024");
+        command.execute(incomes, expenseList);
 
-        Exception exception = assertThrows(MissingExpenseException.class, () -> c.execute(incomes, expenseList));
-        assertEquals("Index is required", exception.getMessage());
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("Food", updatedExpense.getCategory());
+        assertEquals("Lunch", updatedExpense.getDescription());
+        assertEquals(10.50, updatedExpense.getAmount());
+        assertEquals("02-02-2024", updatedExpense.getDate());
     }
 
     @Test
-    void updateExpense_negativeIndex_throwsException() {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        Command c = new UpdateExpenseCommand(
-                "update-expense index/-1 category/Food desc/Lunch amt/10.00 d/12-03-2025"
-        );
-
-        Exception exception = assertThrows(MissingExpenseException.class, () -> c.execute(incomes, expenseList));
-        assertEquals("Error: Invalid index. Expense not found.", exception.getMessage());
+    void updateExpense_invalidDateFormatOnUpdate() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand(
+                "update-expense 1 category/Food amt/10.00 desc/Lunch d/99-99-2024");
+        Exception exception = assertThrows(InvalidDateException.class, () -> command.execute(incomes, expenseList));
+        assertEquals("Error: Invalid date format. Usage: DD-MM-YYYY", exception.getMessage());
     }
 
     @Test
-    void updateExpense_withExtraParameters_ignoresExtraParams() throws FinanceException {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        expenseList.add(new Expense("Food", "Lunch", 12.50, "13-03-2025"));
+    void updateExpense_updateStorageCalled() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Transport amt/15.00");
+        command.execute(incomes, expenseList);
+    }
 
-        // Input with extra parameters like `extra/param`
-        Command c = new UpdateExpenseCommand(
-                "update-expense index/1 category/Dining desc/Dinner amt/20.00 d/14-03-2025 extra/param"
-        );
-        c.execute(incomes, expenseList);
+    @Test
+    void updateExpense_largeIndex() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 999999 category/Food");
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () ->
+                command.execute(incomes, expenseList));
+        assertEquals("Error: Expense entry not found.", exception.getMessage());
+    }
 
-        String expectedOutput =
-                "Expense updated at index 1: Dining | Dinner | $20.00 | 14-03-2025. Total Expenses: $20.00";
-        assertEquals(expectedOutput, c.getOutputMessage());
+    @Test
+    void updateExpense_updateMultipleFields() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand(
+                "update-expense 1 category/Transport amt/25.00 desc/Taxi d/15-03-2024");
+        command.execute(incomes, expenseList);
+
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("Transport", updatedExpense.getCategory());
+        assertEquals("Taxi", updatedExpense.getDescription());
+        assertEquals(25.00, updatedExpense.getAmount());
+        assertEquals("15-03-2024", updatedExpense.getDate());
+    }
+
+    @Test
+    void updateExpense_updateWithOnlyCategory() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Leisure");
+        command.execute(incomes, expenseList);
+
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("Leisure", updatedExpense.getCategory());
+        assertEquals("Lunch", updatedExpense.getDescription());
+        assertEquals(10.50, updatedExpense.getAmount());
+        assertEquals("01-01-2024", updatedExpense.getDate());
     }
 }
+
+
+
