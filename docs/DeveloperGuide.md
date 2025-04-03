@@ -23,7 +23,9 @@ Tran Hoang Thien Kim<br>
   * [UI](#ui) <br>
   * [Parser](#parser) <br>
   * [Command](#command) <br>
-  * [ExpenseList](#expenseList) <br>
+  * [Model](#model) <br>
+    * [Income](#income) <br>
+    * [ExpenseList](#expenselist) <br>
 * [Implementation](#Implementation) <br>
   * [Adding Income](#adding-income) <br>
   * [Logging an Expense](#logging-an-expense) <br>
@@ -45,10 +47,14 @@ Tran Hoang Thien Kim<br>
 * [Appendix D. Instructions for manual testing](#appendix-d-instructions-for-manual-testing)
 
 ## Introduction
+Budgetflow is lightweight, efficient, and fast—perfect for students to manage incomes and expenses via Command Line Interface (CLI).
+This developer guide provides information relating to architecture, implementation and design behind application to help developers contribute effectively.
 
 ## Getting Started
 
 ### Prerequisites
+* JDK 17
+* Gradle 7.6.2 or higher
 
 ### Setting Up
 <div style="background-color: #fff3cd; border-left: 6px solid #ffa502; padding: 10px;">
@@ -81,7 +87,19 @@ First, **fork** this repo, and **clone** the fork into your computer.
 ## Design
 This section outlines the various comp[DeveloperGuide.md](DeveloperGuide.md)onents of the application and explains how they interact to execute the program.
 ### Architecture
-
+![Architecture Diagram](images/Architecture.png)  
+  
+The __Architecture Diagram__ above explains the high-level design of the application.  
+#### Main component of application:
+* `Main` (including `MainTracker` and `FinanceTracker`): in charge of main flow of application from launch to shut down:  
+  * At the launch of application, it initializes all components and connect them in correct order.  
+  * During the run of application, it manages all components, including invoking method for UI's display, command's execution and saving data. 
+  * At the shut-down of application, in is in charge of shut down application and all components with clean up if necessary.  
+* `Storage`: storing data in hard disk and loading them during the run of application.
+* `UI`: managing user's communication with application and displaying messages to user.
+* `Model`: holds the data of the app relating to incomes and expenses.
+* `Parser`: parsing user's string command and convert them into commands.
+* `Command`: executable commands of the application.
 ### Storage
 The `Storage` component can save the list of incomes and expenses data in .txt format and read it back.
 
@@ -91,14 +109,16 @@ This serves as the main interface for communication between user and the Finance
 The class diagram of Ui is displayed as below  
 ![UI Class Diagram](images/UI_class.png)  
 Some method details of Ui class is noted as below:  
-* `public void showWelcom()`: print out the welcome message for the user.
+* `public void showWelcome()`: print out the welcome message for the user at the launch of application.
 * `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
 The sequence diagram below illustrates iteractions within Ui component under `readCommand()` call.  
   ![UI read command Diagram](images/UI_readCommandSequence.png)  
 If no input is parsed by user, the programme continues to wait for new input and repeat scanning as shown below:  
   ![ref Diagram](images/refGetCommand.png)  
 * `public void printError(String error)`: print out the error message for user by passing the string error message.
-* `public void printMessage(String message)`: print out the message as a String for user.
+* `public void printMessage(String message)`: print out the message as a String for user.  
+The example sequence diagram below shows how `Ui` prints messages/ errors after the `Command` execution  
+  ![UI print message sequence](images/Ui_printMessageSequence.png)  
 
 ### Parser
 The `Parser` component consists of `Parser` class, which handles of identifying command type from user's input and return appropriate command object based of recognized command.  
@@ -117,19 +137,26 @@ The command component
 * depends on `Income` and `ExpenseList` components to extract information of expense and income for execution.
 * hold the output messages which will be sent and displayed to user upon successful execution
 
-### ExpenseList
+### Model
+The `Model` component of diagram can be further divided into 2 main parts:
+  * `Income`: holding data of income in memory.
+  * `ExpenseList`: holding data of all expenses in memory
+### Income
+![Income Class Diagram](diagrams/income_class.png)
+The class has three attributes: ```category (String), amount (double), date (String)```
+It includes:
+* A constructor to initialize these attributes.
+* Three getter methods (getCategory(), getAmount(), getDate()) to retrieve the values.
+#### ExpenseList
+The figure below illustrates the class diagram of class `ExpenseList`:  
+   
 ![Expense Class Diagram](images/Expense_component.png)  
+  
 The `ExpenseList` component:
 * stores all expense data, i.e., all `Expense` objects as an array list.
 * remove the expense from the list based on its current index in the list through `delete(int index)`
 * stores a private member `totalExpenses` which represents the sum amount of all expenses inside the list.
 * updates the `totalExpenses` with the latest changes in expense list by calling `updateTotalExpense()`
-### Income
-![Income Class Diagram](./diagrams/income_class.puml)
-The class has three attributes: ```category (String), amount (double), date (String)```
-It includes:
-* A constructor to initialize these attributes.
-* Three getter methods (getCategory(), getAmount(), getDate()) to retrieve the values.
 ## Acknowledgements
 
 
@@ -246,7 +273,7 @@ Here, the Parser will return command `ViewAllExpensesCommand` for execution.
 ### Filtering Expenses
 This feature allows users to filter and view all expenses in the list based on category, description, amount or date.  
 The execution of this feature is facilitated by `FindExpenseCommand`. It extends `Command` with `commandType = CommandType.READ` and overwrite `execute()` to filter out expenses and send output message upon successful execution.
-Additionally, this command also holds dependency on `ExpenseList` and call `ExpenseList.getByTag()` to return the list of filtered expenses based on tags/ filter conditions.  
+Additionally, this command also holds dependency on `ExpenseList` and call `ExpenseList.getByTag()` to return the list of filtered expenses based on tag and keyword.  
 The following sequence diagram shows how `execution()` goes through `FindExpenseCommand` component  
 ![FindExpenseCommand execute() Diagram](images/FindExpenseCommand.png)  
 There are currently 6 tags supported for filtering, which serves for different filtering conditions. There can only be 1 tag used per command. These tags and their purposes are:  

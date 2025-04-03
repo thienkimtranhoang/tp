@@ -41,23 +41,23 @@ public class FinanceTracker {
         while (true) {
             try {
                 String input = ui.readCommand();
-                Command c = Parser.getCommandFromInput(input);
-                c.execute(incomes, expenseList);
+                Command command = Parser.getCommandFromInput(input);
+                command.execute(incomes, expenseList);
                 savingGoalManager.saveSavingGoal(ListIncomeCommand.getSavingGoal()); // Save saving goal
                 // Save data and saving goal for specific commands
-                if (c.isExit()) {
-                    ui.printCommandMessage(c.getOutputMessage());
+                if (command.isExit()) {
+                    ui.printCommandMessage(command.getOutputMessage());
                     break;
                 }
-                if (c.getCommandType() == CommandType.CREATE || c.getCommandType() == CommandType.DELETE) {
+                if (command.getCommandType() == CommandType.CREATE || command.getCommandType() == CommandType.DELETE) {
                     storage.saveData(incomes, expenseList);
 
                     System.out.println("Saving goal retrieved: " + ListIncomeCommand.getSavingGoal());
 
                 }
-                ui.printCommandMessage(c.getOutputMessage());
-            } catch (FinanceException e) {
-                ui.printError(e.getMessage());
+                ui.printCommandMessage(command.getOutputMessage());
+            } catch (FinanceException error) {
+                ui.printError(error.getMessage());
             }
         }
     }
