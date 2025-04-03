@@ -33,6 +33,7 @@ class DeleteExpenseCommandTest {
         assertEquals("Expense not found: Dinner", command.getOutputMessage());
         assertEquals(3, expenseList.getSize()); // Ensure list size remains unchanged
     }
+    
    //@@author dariusyawningwhiz
     @Test
     void deleteExpense_emptyDescription_expectErrorMessage() throws FinanceException {
