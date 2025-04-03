@@ -78,7 +78,7 @@ This serves as the main interface for communication between user and the Finance
 The class diagram of Ui is displayed as below  
 ![UI Class Diagram](images/UI_class.png)  
 Some method details of Ui class is noted as below:  
-* `public void showWelcom()`: print out the welcome message for the user.
+* `public void showWelcome()`: print out the welcome message for the user at the launch of application.
 * `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
 The sequence diagram below illustrates iteractions within Ui component under `readCommand()` call.  
   ![UI read command Diagram](images/UI_readCommandSequence.png)  
