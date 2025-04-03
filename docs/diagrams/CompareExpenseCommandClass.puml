@@ -31,9 +31,9 @@ class Expense {
 class Income {}
 
 class DateValidator {
-    + static boolean isValidMonthYear(String monthYear)
-    + static LocalDate[] getMonthRange(String monthYear)
-    + static DateTimeFormatter getFullDateFormatter()
+    + {static} boolean isValidMonthYear(String monthYear)
+    + {static} LocalDate[] getMonthRange(String monthYear)
+    + {static} DateTimeFormatter getFullDateFormatter()
 }
 
 
