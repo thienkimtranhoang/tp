@@ -394,23 +394,6 @@ The sequence diagram below illustrates the execution flow when the `execute` met
 - **User Interface Integration:**  
   The formatted output produced by the `execute` method can be easily integrated into various user interface components, such as a web or desktop UI.
 
-### How to Build and Test
-
-1. **Compilation:**
-  - Ensure that all dependent packages (`budgetflow.command`, `budgetflow.income`, `budgetflow.expense`, etc.) are correctly referenced.
-  - Compile the application using your preferred build tool (e.g., Maven, Gradle).
-
-2. **Testing:**
-  - Unit tests should be written to cover:
-    - The handling of empty income lists.
-    - The correctness of the saving progress calculation.
-    - The proper functioning of the static methods (`setSavingGoal` and `getSavingGoal`).
-  - Integration tests may include end-to-end scenarios where multiple commands are executed.
-
-### Conclusion
-
-The `ListIncomeCommand` class is designed to be both robust and flexible. It encapsulates the logic for listing incomes and tracking saving goals in a modular fashion, making it easy to extend or modify as requirements evolve. For further details, please refer to the class and sequence diagrams provided above.
-
 ---
 
 ### Filtering Incomes
@@ -783,3 +766,10 @@ Given below are instructions to test the app manually:
   * Expected: Error message requires to enter valid keyword format for tag /drange
   * Test case: `find-expense \drange`
   * Expected: Missing keyword error with error message shown.
+11. **Listing All Incomes**
+  - **Test case:** `list-income`
+    - **Expected:**
+      - If incomes exist, the output should display each income’s details (category, amount, date), followed by the total income.
+      - If a saving goal has been set, the output should also include saving goal details, current savings, and the progress percentage.
+      - If no incomes have been added, the output should display the message "No incomes have been added yet."
+
