@@ -6,7 +6,7 @@ filter-income date from/01-03-2025 to/31-03-2025
 filter-income amount from/500 to/1500
 filter-income category/Salary
 update-income 1 category/Salary1 amt/5000 d/28-02-2025
-delete-income Salary
+delete-income Salary1
 update-expense 1 category/drink amt/4.00 d/06-04-2025
 compare 03-2025 04-2025
 delete-expense Coffee
