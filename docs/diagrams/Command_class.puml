@@ -32,7 +32,7 @@ class FinanceException
 DifferentCommands -up-|> Command
 Command ..> "0..*" Income:  uses
 Command ..> "1" ExpenseList: uses
-Command --> "commandType 1" CommandType
+Command --> "1" CommandType: commandType
 Command ..> FinanceException: throws
 
 

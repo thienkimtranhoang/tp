@@ -11,6 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+//@@author Yikbing
 class DeleteExpenseCommandTest {
     private static ExpenseList getListWith3Expenses() {
         ExpenseList expenseList = new ExpenseList();
@@ -24,11 +25,11 @@ class DeleteExpenseCommandTest {
     void deleteExpense_invalidExpense_expectExpenseNotFoundMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command c = new DeleteExpenseCommand("delete-expense Dinner");
+        Command command = new DeleteExpenseCommand("delete-expense Dinner");
 
-        c.execute(incomes, expenseList);
+        command.execute(incomes, expenseList);
 
-        assertEquals("Expense not found: Dinner", c.getOutputMessage());
+        assertEquals("Expense not found: Dinner", command.getOutputMessage());
         assertEquals(3, expenseList.getSize()); // Ensure list size remains unchanged
     }
 
@@ -36,11 +37,11 @@ class DeleteExpenseCommandTest {
     void deleteExpense_emptyDescription_expectErrorMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command c = new DeleteExpenseCommand("delete-expense ");
+        Command command = new DeleteExpenseCommand("delete-expense ");
 
-        c.execute(incomes, expenseList);
+        command.execute(incomes, expenseList);
 
-        assertEquals("Error: Expense description is required.", c.getOutputMessage());
+        assertEquals("Error: Expense description is required.", command.getOutputMessage());
         assertEquals(3, expenseList.getSize()); // Ensure no expenses were removed
     }
 
@@ -48,23 +49,24 @@ class DeleteExpenseCommandTest {
     void deleteExpense_existingExpense_expectSuccessMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command c = new DeleteExpenseCommand("delete-expense Lunch");
+        Command command = new DeleteExpenseCommand("delete-expense Lunch");
 
-        c.execute(incomes, expenseList);
+        command.execute(incomes, expenseList);
 
-        assertEquals("Expense deleted: Lunch", c.getOutputMessage());
+        assertEquals("Expense deleted: Lunch", command.getOutputMessage());
         assertEquals(2, expenseList.getSize()); // Ensure list size is reduced by 1
     }
 
+    //@@author Yikbing
     @Test
     void deleteExpense_invalidCommandFormat_expectErrorMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command c = new DeleteExpenseCommand("remove-expense Lunch");
+        Command command = new DeleteExpenseCommand("remove-expense Lunch");
 
-        c.execute(incomes, expenseList);
+        command.execute(incomes, expenseList);
 
-        assertEquals("Invalid delete expense command format.", c.getOutputMessage());
+        assertEquals("Invalid delete expense command format.", command.getOutputMessage());
         assertEquals(3, expenseList.getSize()); // Ensure list size remains unchanged
     }
 
@@ -72,11 +74,11 @@ class DeleteExpenseCommandTest {
     void deleteExpense_caseInsensitiveDescription_expectSuccessMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command c = new DeleteExpenseCommand("delete-expense lunch"); // lowercase input
+        Command command = new DeleteExpenseCommand("delete-expense lunch"); // lowercase input
 
-        c.execute(incomes, expenseList);
+        command.execute(incomes, expenseList);
 
-        assertEquals("Expense deleted: lunch", c.getOutputMessage());
+        assertEquals("Expense deleted: lunch", command.getOutputMessage());
         assertEquals(2, expenseList.getSize()); // Ensure list size is reduced by 1
     }
 
