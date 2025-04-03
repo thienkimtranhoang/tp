@@ -23,6 +23,11 @@ filter them by category or date, and analyze their financial habits. It is writt
   mistake while logging an income or need to update the details of a transaction. It improves the overall user
   experience by providing them with more control over their financial records.
 
+* __New Feature:__ Added a help function:
+  * What it does: This feature allows users to use the `help` command to learn what to type based on what they need.
+  * Justification: This feature enhances the User experience as the user can know exactly what to type based on
+  the description of the features given in the help function. 
+
 * __Code Contributed:__ [RepoSense Link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21)__
 
 * __Documentation:__
