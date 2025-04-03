@@ -24,6 +24,7 @@ Tran Hoang Thien Kim<br>
   * [Parser](#parser) <br>
   * [Command](#command) <br>
   * [Model](#model) <br>
+    * [Income](#income) <br>
     * [ExpenseList](#expenselist) <br>
 * [Implementation](#Implementation) <br>
   * [Adding Income](#adding-income) <br>
@@ -46,10 +47,14 @@ Tran Hoang Thien Kim<br>
 * [Appendix D. Instructions for manual testing](#appendix-d-instructions-for-manual-testing)
 
 ## Introduction
+Budgetflow is lightweight, efficient, and fast—perfect for students to manage incomes and expenses via Command Line Interface (CLI).
+This developer guide provides information relating to architecture, implementation and design behind application to help developers contribute effectively.
 
 ## Getting Started
 
 ### Prerequisites
+* JDK 17
+* Gradle 7.6.2 or higher
 
 ### Setting Up
 <div style="background-color: #fff3cd; border-left: 6px solid #ffa502; padding: 10px;">
@@ -134,6 +139,12 @@ The command component
 The `Model` component of diagram can be further divided into 2 main parts:
   * `Income`: holding data of income in memory.
   * `ExpenseList`: holding data of all expenses in memory
+### Income
+![Income Class Diagram](./diagrams/income_class.puml)
+The class has three attributes: ```category (String), amount (double), date (String)```
+It includes:
+* A constructor to initialize these attributes.
+* Three getter methods (getCategory(), getAmount(), getDate()) to retrieve the values.
 #### ExpenseList
 The figure below illustrates the class diagram of class `ExpenseList`:  
    
@@ -144,12 +155,6 @@ The `ExpenseList` component:
 * remove the expense from the list based on its current index in the list through `delete(int index)`
 * stores a private member `totalExpenses` which represents the sum amount of all expenses inside the list.
 * updates the `totalExpenses` with the latest changes in expense list by calling `updateTotalExpense()`
-### Income
-![Income Class Diagram](./diagrams/income_class.puml)
-The class has three attributes: ```category (String), amount (double), date (String)```
-It includes:
-* A constructor to initialize these attributes.
-* Three getter methods (getCategory(), getAmount(), getDate()) to retrieve the values.
 ## Acknowledgements
 
 
