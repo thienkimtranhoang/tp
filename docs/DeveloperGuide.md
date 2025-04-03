@@ -214,7 +214,7 @@ Here, the Parser will return command `ViewAllExpensesCommand` for execution.
 ### Filtering Expenses
 This feature allows users to filter and view all expenses in the list based on category, description, amount or date.  
 The execution of this feature is facilitated by `FindExpenseCommand`. It extends `Command` with `commandType = CommandType.READ` and overwrite `execute()` to filter out expenses and send output message upon successful execution.
-Additionally, this command also holds dependency on `ExpenseList` and call `ExpenseList.getByTag()` to return the list of filtered expenses based on tags/ filter conditions.  
+Additionally, this command also holds dependency on `ExpenseList` and call `ExpenseList.getByTag()` to return the list of filtered expenses based on tag and keyword.  
 The following sequence diagram shows how `execution()` goes through `FindExpenseCommand` component  
 ![FindExpenseCommand execute() Diagram](images/FindExpenseCommand.png)  
 There are currently 6 tags supported for filtering, which serves for different filtering conditions. There can only be 1 tag used per command. These tags and their purposes are:  
