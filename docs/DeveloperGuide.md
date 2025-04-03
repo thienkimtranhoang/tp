@@ -429,6 +429,26 @@ User enters the command:
 
 ### Comparing Expenses Between Two Months
 
+The `CompareExpenseCommand` is a class extends the `Command` class and is designed to compare the total expenses
+between two specified months. 
+It processes user input, validates date ranges, calculates the total expenses within those ranges,
+and generates a formatted comparison message. 
+If the input format is invalid, or the month-year strings are not in the right format(MM-YYYY),
+The command throws an exception (`FinanceException`) to indicate the error.
+
+Below is the Class Diagram of the `CompareExpenseCommand` Class.
+
+![Compare Expense Command Class Diagram](diagrams/CompareExpenseCommandClass.png)
+
+Below is the Command sequence of the `CompareExpenseCommand` Class.
+
+![Compare Expense Command Sequence Diagram](diagrams/CompareExpenseCommandSequence.png)
+
+Below is the Command sequence of the reference box `IterateExpensesSequence`.
+
+![Iterate Expenses Sequence Diagram](diagrams/IterateExpensesSequence.png)
+
+
 ### Deleting an Expense Entry
 
 The `DeleteExpenseCommand` class extends the `Command` class and is responsible for processing

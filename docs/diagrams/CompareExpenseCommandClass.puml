@@ -1,0 +1,46 @@
+@startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+
+
+class CompareExpenseCommand {
+    + CompareExpenseCommand(String input)
+    + execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException
+    - String[] parseAndValidateInput(String input) throws FinanceException
+    - LocalDate[] getValidatedDateRange(String monthYear) throws FinanceException
+    - static String getCompareMessage(String monthYear1, double totalMonth1, String monthYear2, double totalMonth2)
+    - double calculateTotalExpenses(ExpenseList expenseList, LocalDate startDate, LocalDate endDate)
+}
+
+abstract class "{abstract} \n Command" {
+    - String input
+    - CommandType commandType
+}
+
+class ExpenseList {
+    + int getSize()
+    + Expense get(int index)
+}
+
+class Expense {
+    + String getDate()
+    + double getAmount()
+}
+
+class Income {}
+
+class DateValidator {
+    + static boolean isValidMonthYear(String monthYear)
+    + static LocalDate[] getMonthRange(String monthYear)
+    + static DateTimeFormatter getFullDateFormatter()
+}
+
+
+CompareExpenseCommand --|> Command
+CompareExpenseCommand --> ExpenseList
+CompareExpenseCommand --> Expense
+CompareExpenseCommand --> Income
+CompareExpenseCommand --> DateValidator
+CompareExpenseCommand --> FinanceException
+@enduml
