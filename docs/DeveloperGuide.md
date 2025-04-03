@@ -116,7 +116,9 @@ The sequence diagram below illustrates iteractions within Ui component under `re
 If no input is parsed by user, the programme continues to wait for new input and repeat scanning as shown below:  
   ![ref Diagram](images/refGetCommand.png)  
 * `public void printError(String error)`: print out the error message for user by passing the string error message.
-* `public void printMessage(String message)`: print out the message as a String for user.
+* `public void printMessage(String message)`: print out the message as a String for user.  
+The example sequence diagram below shows how `Ui` prints messages/ errors after the `Command` execution  
+  ![UI print message sequence](images/Ui_printMessageSequence.png)  
 
 ### Parser
 The `Parser` component consists of `Parser` class, which handles of identifying command type from user's input and return appropriate command object based of recognized command.  
@@ -140,7 +142,7 @@ The `Model` component of diagram can be further divided into 2 main parts:
   * `Income`: holding data of income in memory.
   * `ExpenseList`: holding data of all expenses in memory
 ### Income
-![Income Class Diagram](./diagrams/income_class.puml)
+![Income Class Diagram](diagrams/income_class.png)
 The class has three attributes: ```category (String), amount (double), date (String)```
 It includes:
 * A constructor to initialize these attributes.
