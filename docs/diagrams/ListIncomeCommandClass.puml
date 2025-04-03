@@ -1,0 +1,39 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+package budgetflow.command {
+    class ListIncomeCommand {
+        # CommandType commandType
+        # String outputMessage
+        - <u>logger: Logger</u>
+        - <u>EMPTY_INCOME_LIST_MESSAGE: String</u>
+        - <u>savingGoal: double</u>
+        + ListIncomeCommand()
+        + <u>setSavingGoal(amount: double)</u>
+        + <u>getSavingGoal(): double</u>
+        - calculateSavingProgress(totalIncome: double, totalExpenses: double): double
+        + execute(List<Income> incomes, ExpenseList expenseList)
+    }
+}
+
+package budgetflow.expense {
+    class ExpenseList
+}
+
+package budgetflow.income {
+    class Income
+}
+
+class Logger
+
+abstract class "{abstract} \n Command" {
+    + CommandType: commandType
+    + Command()
+}
+
+ListIncomeCommand --|> "{abstract} \n Command"
+ListIncomeCommand ..> Income : uses
+ListIncomeCommand ..> ExpenseList : uses
+ListIncomeCommand ..> Logger : uses
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+hide circle
+skinparam participantIconSize 0
+
+actor "User" as User
+participant "ListIncomeCommand" as LIC
+participant "Income" as Income
+participant "ExpenseList" as ExpenseList
+participant "Logger" as Logger
+
+User -> LIC: execute(incomes, expenseList)
+activate LIC
+alt Incomes list is empty
+    LIC -> Logger: info("Reading empty income list")
+    LIC -> LIC: set outputMessage to EMPTY_INCOME_LIST_MESSAGE
+else Incomes list is not empty
+    loop For each Income in incomes
+        LIC -> Income: getCategory()
+        LIC -> Income: getAmount()
+        LIC -> Income: getDate()
+    end
+    LIC -> ExpenseList: getTotalExpenses()
+    LIC -> LIC: calculateSavingProgress(totalIncome, totalExpenses)
+    LIC -> LIC: Build outputMessage with income details,\n total income, saving goal, and progress
+    LIC -> Logger: info("Reading non-empty income list with potential saving goal")
+end
+deactivate LIC
+@enduml
