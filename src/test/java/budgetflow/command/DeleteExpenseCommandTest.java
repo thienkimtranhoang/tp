@@ -27,10 +27,10 @@ class DeleteExpenseCommandTest {
     void deleteExpense_validExpense_expectExpenseFound() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command c = new DeleteExpenseCommand("delete-expense Lunch");
-        c.execute(incomes, expenseList);
+        Command command = new DeleteExpenseCommand("delete-expense Lunch");
+        command.execute(incomes, expenseList);
         String expectedOutput = "Expense deleted: Lunch";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     //@@author Yikbing
@@ -38,9 +38,9 @@ class DeleteExpenseCommandTest {
     void deleteExpense_invalidExpense_expectExpenseNotFound() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command c = new DeleteExpenseCommand("delete-expense Dinner");
+        Command command = new DeleteExpenseCommand("delete-expense Dinner");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
             String expectedError = "Expense not found: Dinner";

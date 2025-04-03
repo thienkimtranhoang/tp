@@ -23,7 +23,8 @@ Tran Hoang Thien Kim<br>
   * [UI](#ui) <br>
   * [Parser](#parser) <br>
   * [Command](#command) <br>
-  * [ExpenseList](#expenseList) <br>
+  * [Model](#model) <br>
+    * [ExpenseList](#expenselist) <br>
 * [Implementation](#Implementation) <br>
   * [Adding Income](#adding-income) <br>
   * [Logging an Expense](#logging-an-expense) <br>
@@ -55,7 +56,19 @@ Tran Hoang Thien Kim<br>
 ## Design
 This section outlines the various components of the application and explains how they interact to execute the program.
 ### Architecture
-
+![Architecture Diagram](images/Architecture.png)  
+  
+The __Architecture Diagram__ above explains the high-level design of the application.  
+#### Main component of application:
+* `Main` (including `MainTracker` and `FinanceTracker`): in charge of main flow of application from launch to shut down:  
+  * At the launch of application, it initializes all components and connect them in correct order.  
+  * During the run of application, it manages all components, including invoking method for UI's display, command's execution and saving data. 
+  * At the shut-down of application, in is in charge of shut down application and all components with clean up if necessary.  
+* `Storage`: storing data in hard disk and loading them during the run of application.
+* `UI`: displaying messages to user.
+* `Model`: holds the data of the app relating to incomes and expenses.
+* `Parser`: parsing user's string command and convert them into commands.
+* `Command`: executable commands of the application.
 ### Storage
 The `Storage` component can save the list of incomes and expenses data in .txt format and read it back.
 
@@ -91,8 +104,15 @@ The command component
 * depends on `Income` and `ExpenseList` components to extract information of expense and income for execution.
 * hold the output messages which will be sent and displayed to user upon successful execution
 
-### ExpenseList
+### Model
+The `Model` component of diagram can be further divided into 2 main parts:
+  * `Income`: holding data of income in memory.
+  * `ExpenseList`: holding data of all expenses in memory
+#### ExpenseList
+The figure below illustrates the class diagram of class `ExpenseList`:  
+   
 ![Expense Class Diagram](images/Expense_component.png)  
+  
 The `ExpenseList` component:
 * stores all expense data, i.e., all `Expense` objects as an array list.
 * remove the expense from the list based on its current index in the list through `delete(int index)`

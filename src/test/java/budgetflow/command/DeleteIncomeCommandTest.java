@@ -27,10 +27,10 @@ class DeleteIncomeCommandTest {
     void deleteIncome_validIncome_expectIncomeFound() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = get3Incomes();
-        Command c = new DeleteIncomeCommand("delete-income Part-timeJob");
-        c.execute(incomes, expenseList);
+        Command command = new DeleteIncomeCommand("delete-income Part-timeJob");
+        command.execute(incomes, expenseList);
         String expectedOutput = "Income deleted: Part-timeJob";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     //@@author Yikbing
@@ -38,9 +38,9 @@ class DeleteIncomeCommandTest {
     void deleteIncome_invalidIncome_expectNoIncomeFound() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = get3Incomes();
-        Command c = new DeleteIncomeCommand("delete-income Housework");
+        Command command = new DeleteIncomeCommand("delete-income Housework");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
             String expectedError = "Income not found: Housework";

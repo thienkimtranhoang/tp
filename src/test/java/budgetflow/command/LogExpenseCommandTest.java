@@ -27,11 +27,11 @@ class LogExpenseCommandTest {
     void logExpense_validInput_logsExpense() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new LogExpenseCommand(
+        Command command = new LogExpenseCommand(
                 "log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/15-03-2025");
-        c.execute(incomes, expenseList);
+        command.execute(incomes, expenseList);
         String expectedOutput = "Expense logged: Dining | DinnerWithFriends | $45.75 | 15-03-2025";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     /**
@@ -43,9 +43,9 @@ class LogExpenseCommandTest {
     void logExpense_emptyInputTest() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new LogExpenseCommand("log-expense ");
+        Command command = new LogExpenseCommand("log-expense ");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
             String expectedError = "Expense should not be empty";
@@ -61,10 +61,10 @@ class LogExpenseCommandTest {
     void logExpense_missingCategory_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new LogExpenseCommand(
+        Command command = new LogExpenseCommand(
                 "log-expense desc/DinnerWithFriends amt/45.75 d/15-03-2025");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Expense category is required.";
@@ -80,10 +80,10 @@ class LogExpenseCommandTest {
     void logExpense_missingDescription_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new LogExpenseCommand(
+        Command command = new LogExpenseCommand(
                 "log-expense category/Dining amt/45.75 d/15-03-2025");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Expense description is required.";
@@ -99,10 +99,10 @@ class LogExpenseCommandTest {
     void logExpense_missingAmount_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new LogExpenseCommand(
+        Command command = new LogExpenseCommand(
                 "log-expense category/Dining desc/DinnerWithFriends d/15-03-2025");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Expense amount is required.";
@@ -118,10 +118,10 @@ class LogExpenseCommandTest {
     void logExpense_missingDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new LogExpenseCommand(
+        Command command = new LogExpenseCommand(
                 "log-expense category/Dining desc/DinnerWithFriends amt/45.75");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Expense date is required.";
@@ -137,10 +137,10 @@ class LogExpenseCommandTest {
     void logExpense_invalidAmountFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new LogExpenseCommand(
+        Command command = new LogExpenseCommand(
                 "log-expense category/Dining desc/DinnerWithFriends amt/invalid d/15-03-2025");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Expense amount is required.";
@@ -152,9 +152,9 @@ class LogExpenseCommandTest {
     void logExpense_invalidDateFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new LogExpenseCommand("log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
+        Command command = new LogExpenseCommand("log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
         } catch (FinanceException e) {
             String expectedError = "Error: Income date is in wrong format." +
                     "please use DD-MM-YYYY format.";
@@ -166,9 +166,9 @@ class LogExpenseCommandTest {
     void logExpense_invalidDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new LogExpenseCommand("log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/99-99-1234");
+        Command command = new LogExpenseCommand("log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/99-99-1234");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
         } catch (FinanceException e) {
             String expectedError = "Error: Date is not a valid date";
             assertEquals(expectedError, e.getMessage());
@@ -180,10 +180,10 @@ class LogExpenseCommandTest {
     void addIncome_extraParameters_ignoresExtraParams() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025 extra/parameter");
-        c.execute(incomes, expenseList);
+        Command command = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025 extra/parameter");
+        command.execute(incomes, expenseList);
         String expectedOutput = "Income added: Salary, Amount: $2500.00, Date: 15-03-2025";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
 
