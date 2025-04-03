@@ -9,26 +9,57 @@ participant "Storage" as Storage
 participant "DateValidator" as DateValidator
 
 User -> Main: starts application
+activate Main
 Main -> Finance: run()
+deactivate Main
+
 User -> Finance: types "update-expense 2 amt/50.0 d/01-04-2025"
+activate Finance
 Finance -> UpdateCmd: execute(2, 50.0, "01-04-2025")
+activate UpdateCmd
 
 alt Index is valid
     UpdateCmd -> ExpenseList: get(2)
+    activate ExpenseList
+    ExpenseList --> UpdateCmd: return Expense
+    deactivate ExpenseList
+
     UpdateCmd -> Expense: updateAmount(50.0)
+    activate Expense
+    Expense --> UpdateCmd: return updated amount
+    deactivate Expense
+
     UpdateCmd -> DateValidator: isValidDate("01-04-2025")
+    activate DateValidator
+    DateValidator --> UpdateCmd: return boolean
+    deactivate DateValidator
 
     alt Date is valid
         UpdateCmd -> Expense: updateDate("01-04-2025")
+        activate Expense
+        Expense --> UpdateCmd: return updated date
+        deactivate Expense
     else Invalid date format
         UpdateCmd -> User: "Error: Invalid date format"
+        deactivate UpdateCmd
     end
 else Index out of bounds
     UpdateCmd -> User: "Error: Expense entry not found"
+    deactivate UpdateCmd
 end
 
 UpdateCmd -> ExpenseList: updateTotalExpenses()
-UpdateCmd -> Storage: saveData()
+activate ExpenseList
+ExpenseList --> UpdateCmd: return updated total
+deactivate ExpenseList
 
-User <-- UpdateCmd: "Expense updated successfully"
+UpdateCmd -> Storage: saveData()
+activate Storage
+Storage --> UpdateCmd: return save confirmation
+deactivate Storage
+
+UpdateCmd --> User: "Expense updated successfully"
+deactivate UpdateCmd
+deactivate Finance
+
 @enduml

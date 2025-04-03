@@ -446,7 +446,7 @@ Below is the Class Diagram of the `UpdateExpenseCommand` Class.
 
 Below is the Sequence Diagram of the `UpdateExpenseCommand` Class.
 
-![UpdateExpenseCommand Sequence Diagram](diagrams/UpdateExpense.png)
+![UpdateExpenseCommand Sequence Diagram](diagrams/update_expense_sequence_diagram.png)
 
 ### Set Saving Goal
 #### **Execution Process**

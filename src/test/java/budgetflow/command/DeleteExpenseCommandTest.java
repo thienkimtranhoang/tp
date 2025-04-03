@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 //@@author Yikbing
 class DeleteExpenseCommandTest {
@@ -22,29 +21,103 @@ class DeleteExpenseCommandTest {
         return expenseList;
     }
 
-    //@@author Yikbing
     @Test
-    void deleteExpense_validExpense_expectExpenseFound() throws FinanceException {
+    void deleteExpense_invalidExpense_expectExpenseNotFoundMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command command = new DeleteExpenseCommand("delete-expense Lunch");
-        command.execute(incomes, expenseList);
-        String expectedOutput = "Expense deleted: Lunch";
-        assertEquals(expectedOutput, command.getOutputMessage());
+        Command c = new DeleteExpenseCommand("delete-expense Dinner");
+
+        c.execute(incomes, expenseList);
+
+        assertEquals("Expense not found: Dinner", c.getOutputMessage());
+        assertEquals(3, expenseList.getSize()); // Ensure list size remains unchanged
+    }
+
+    @Test
+    void deleteExpense_emptyDescription_expectErrorMessage() throws FinanceException {
+        ExpenseList expenseList = getListWith3Expenses();
+        List<Income> incomes = new ArrayList<>();
+        Command c = new DeleteExpenseCommand("delete-expense ");
+
+        c.execute(incomes, expenseList);
+
+        assertEquals("Error: Expense description is required.", c.getOutputMessage());
+        assertEquals(3, expenseList.getSize()); // Ensure no expenses were removed
+    }
+
+    @Test
+    void deleteExpense_existingExpense_expectSuccessMessage() throws FinanceException {
+        ExpenseList expenseList = getListWith3Expenses();
+        List<Income> incomes = new ArrayList<>();
+        Command c = new DeleteExpenseCommand("delete-expense Lunch");
+
+        c.execute(incomes, expenseList);
+
+        assertEquals("Expense deleted: Lunch", c.getOutputMessage());
+        assertEquals(2, expenseList.getSize()); // Ensure list size is reduced by 1
     }
 
     //@@author Yikbing
     @Test
-    void deleteExpense_invalidExpense_expectExpenseNotFound() throws FinanceException {
+    void deleteExpense_invalidCommandFormat_expectErrorMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command command = new DeleteExpenseCommand("delete-expense Dinner");
-        try {
-            command.execute(incomes, expenseList);
-            fail();
-        } catch (FinanceException e) {
-            String expectedError = "Expense not found: Dinner";
-            assertEquals(expectedError, e.getMessage());
-        }
+        Command c = new DeleteExpenseCommand("remove-expense Lunch");
+
+        c.execute(incomes, expenseList);
+
+        assertEquals("Invalid delete expense command format.", c.getOutputMessage());
+        assertEquals(3, expenseList.getSize()); // Ensure list size remains unchanged
+    }
+
+    @Test
+    void deleteExpense_caseInsensitiveDescription_expectSuccessMessage() throws FinanceException {
+        ExpenseList expenseList = getListWith3Expenses();
+        List<Income> incomes = new ArrayList<>();
+        Command c = new DeleteExpenseCommand("delete-expense lunch"); // lowercase input
+
+        c.execute(incomes, expenseList);
+
+        assertEquals("Expense deleted: lunch", c.getOutputMessage());
+        assertEquals(2, expenseList.getSize()); // Ensure list size is reduced by 1
+    }
+
+    @Test
+    void deleteExpense_emptyList_expectErrorMessage() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList(); // Empty list
+        List<Income> incomes = new ArrayList<>();
+        Command c = new DeleteExpenseCommand("delete-expense Lunch");
+
+        c.execute(incomes, expenseList);
+
+        assertEquals("Expense not found: Lunch", c.getOutputMessage());
+        assertEquals(0, expenseList.getSize()); // Ensure list size remains unchanged
+    }
+
+    @Test
+    void deleteExpense_multipleExpensesWithSameName_expectCorrectExpenseDeleted() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        expenseList.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
+        expenseList.add(new Expense("food", "Lunch", 15.00, "14-03-2025")); // Duplicate entry
+        expenseList.add(new Expense("food", "Lunch", 20.00, "15-03-2025")); // Another duplicate
+        List<Income> incomes = new ArrayList<>();
+        Command c = new DeleteExpenseCommand("delete-expense Lunch");
+
+        c.execute(incomes, expenseList);
+
+        assertEquals("Expense deleted: Lunch", c.getOutputMessage());
+        assertEquals(2, expenseList.getSize()); // Ensure list size is reduced by 1
+    }
+
+    @Test
+    void deleteExpense_nullExpenseDescription_expectErrorMessage() throws FinanceException {
+        ExpenseList expenseList = getListWith3Expenses();
+        List<Income> incomes = new ArrayList<>();
+        Command c = new DeleteExpenseCommand("delete-expense null");
+
+        c.execute(incomes, expenseList);
+
+        assertEquals("Expense not found: null", c.getOutputMessage());
+        assertEquals(3, expenseList.getSize()); // Ensure list size remains unchanged
     }
 }
