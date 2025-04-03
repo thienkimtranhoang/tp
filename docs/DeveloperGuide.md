@@ -424,7 +424,6 @@ Below is the Sequence Diagram of the `UpdateExpenseCommand` Class.
 ![UpdateExpenseCommand Sequence Diagram](diagrams/UpdateExpense.png)
 
 ### Set Saving Goal
-
 #### **Execution Process**
 ![Set Saving Goal Sequence Diagram](./diagrams/setsavinggoal_command_sequence.png)
 
