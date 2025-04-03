@@ -1,27 +1,47 @@
-@startuml
+@@startuml
 
-actor User
-participant "LogExpenseCommand" as LogCmd
-participant "ExpenseList" as ExpenseList
-participant "Expense" as Expense
-participant "Storage" as Storage
-participant "DateValidator" as DateValidator
+ actor User
+ participant "LogExpenseCommand" as LogCmd
+ participant "ExpenseList" as ExpenseList
+ participant "Expense" as Expense
+ participant "Storage" as Storage
+ participant "DateValidator" as DateValidator
 
-User -> LogCmd: log-expense category/Food desc/Lunch amt/12.5 d/02-04-2025
+ User -> LogCmd: log-expense category/Food desc/Lunch amt/12.5 d/02-04-2025
+ activate LogCmd
 
-LogCmd -> LogCmd: extractExpense(input)
-LogCmd -> DateValidator: isValidDate("02-04-2025")
+ LogCmd -> LogCmd: extractExpense(input)
+ activate LogCmd
+ LogCmd --> LogCmd: return extracted values
+ deactivate LogCmd
 
-alt Date is valid
-    LogCmd -> Expense: create Expense("Food", "Lunch", 12.5, "02-04-2025")
-else Invalid date format
-    LogCmd -> User: "Error: Invalid date format"
-    return
-end
+ LogCmd -> DateValidator: isValidDate("02-04-2025")
+ activate DateValidator
+ DateValidator --> LogCmd: return boolean
+ deactivate DateValidator
 
-LogCmd -> ExpenseList: add(expense)
-LogCmd -> Storage: saveData()
+ alt Date is valid
+     LogCmd -> Expense: create Expense("Food", "Lunch", 12.5, "02-04-2025")
+     activate Expense
+     Expense --> LogCmd: return expense object
+     deactivate Expense
+ else Invalid date format
+     LogCmd -> User: "Error: Invalid date format"
+     deactivate LogCmd
+     return
+ end
 
-User <-- LogCmd: "Expense logged successfully"
+ LogCmd -> ExpenseList: add(expense)
+ activate ExpenseList
+ ExpenseList --> LogCmd: return confirmation
+ deactivate ExpenseList
 
-@enduml
+ LogCmd -> Storage: saveData()
+ activate Storage
+ Storage --> LogCmd: return save confirmation
+ deactivate Storage
+
+ User <-- LogCmd: "Expense logged successfully"
+ deactivate LogCmd
+
+ @enduml
