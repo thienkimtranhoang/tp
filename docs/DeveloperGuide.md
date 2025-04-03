@@ -51,9 +51,35 @@ Tran Hoang Thien Kim<br>
 ### Prerequisites
 
 ### Setting Up
+<div style="background-color: #fff3cd; border-left: 6px solid #ffa502; padding: 10px;">
+<strong>⚠️  Caution: Follow the steps in the following guide precisely. </strong>
+The code may not work as intended if steps are deviated from
+</div>
+
+<br/>
+
+First, **fork** this repo, and **clone** the fork into your computer.
+
+##### If you plan to use Intellij IDEA (highly recommended):
+
+**Configure the JDK:** Follow the guide [se-edu/guides] IDEA: Configuring the JDK to ensure Intellij is configured to use JDK 17.
+
+**Import the project as a Gradle project:** For instructions on importing a Gradle project into IntelliJ IDEA, refer to the [se-edu guide](https://se-education.org/guides/tutorials/intellijImportGradleProject.html).
+
+
+<div style="background-color: #89CFF0; border-left: 6px solid #ffa502; padding: 10px;">
+<strong> Note: </strong> Importing a Gradle project is slightly different from importing a normal Java project.
+</div>
+<br/>
+
+**Verify the setup:**
+- Run the seedu.address.Main and try a few commands.
+- Run the tests to ensure they all pass.
+- Refer to the **Manual Testing** section for more in-depth instructions on testing
+
 
 ## Design
-This section outlines the various components of the application and explains how they interact to execute the program.
+This section outlines the various comp[DeveloperGuide.md](DeveloperGuide.md)onents of the application and explains how they interact to execute the program.
 ### Architecture
 
 ### Storage
@@ -98,6 +124,12 @@ The `ExpenseList` component:
 * remove the expense from the list based on its current index in the list through `delete(int index)`
 * stores a private member `totalExpenses` which represents the sum amount of all expenses inside the list.
 * updates the `totalExpenses` with the latest changes in expense list by calling `updateTotalExpense()`
+### Income
+![Income Class Diagram](./diagrams/income_class.puml)
+The class has three attributes: ```category (String), amount (double), date (String)```
+It includes:
+* A constructor to initialize these attributes.
+* Three getter methods (getCategory(), getAmount(), getDate()) to retrieve the values.
 ## Acknowledgements
 
 
