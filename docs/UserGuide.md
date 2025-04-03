@@ -313,7 +313,173 @@ Coffee | Coffee | $3.50 | 06-03-2025
 ---
 ```
 
-### 10. Exiting the Application
+### 10. Listing Income
+
+**Overview:** Lists all recorded income entries.
+
+**Description:** Provides a comprehensive list of all income records.
+
+**Command:**
+
+```plaintext
+list-income
+```
+
+**Output:**
+
+```plaintext
+Here are all recorded income entries:
+[INFORMATION OF ALL INCOME ENTRIES]
+```
+
+**Example:**
+
+```plaintext
+list-income
+Here are all recorded income entries:
+Salary | Monthly Salary | $3000.00 | 01-04-2025
+Freelance | Website Development | $500.00 | 05-04-2025
+---
+```
+
+---
+
+### 11. Filtering Income by Category
+
+**Description:** Filters all income entries that exactly match the provided category keyword.
+
+**Command:**
+
+```plaintext
+find-income /category <CATEGORY>
+```
+
+- tag `/category` indicates filtering by category.
+- keyword `<CATEGORY>` contains the name of the category for filtering.
+- **NOTE**: the tag and keywords are **CASE SENSITIVE**.
+
+**Output:**
+
+```plaintext
+Here are all matching income entries:
+[INFORMATION OF MATCHING INCOME ENTRIES]
+```
+
+**Example:**
+
+```plaintext
+find-income /category Salary
+Here are all matching income entries:
+Salary | Monthly Salary | $3000.00 | 01-04-2025
+---
+```
+
+---
+
+### 12. Filtering Income by Amount
+
+**Description:** Filters all income entries matching the specified amount.
+
+**Command:**
+
+```plaintext
+find-income /amt <AMT>
+```
+
+- tag `/amt` indicates filtering by amount.
+- keyword `<AMT>` contains the specific amount value.
+- **NOTE**:
+  - the tag is **CASE SENSITIVE**.
+  - Value of `<AMT>` must be a valid integer or decimal number with digit before dot. Invalid examples: `string`, `.12`, `5..6`.
+
+**Output:**
+
+```plaintext
+Here are all matching income entries:
+[INFORMATION OF MATCHING INCOME ENTRIES]
+```
+
+**Example:**
+
+```plaintext
+find-income /amt 500.00
+Here are all matching income entries:
+Freelance | Website Development | $500.00 | 05-04-2025
+---
+```
+
+---
+
+### 13. Filtering Income by Amount Range
+
+**Description:** Filters all income entries with amount values within a specified range.
+
+**Command:**
+
+```plaintext
+find-income /amtrange <AMT1> <AMT2>
+```
+
+- tag `/amtrange` indicates filtering by amount range.
+- keywords `<AMT1>` and `<AMT2>` represent the range for filtering.
+  - `<AMT1>`: Lower bound of the range.
+  - `<AMT2>`: Upper bound of the range.
+- **NOTE**:
+  - the tag is **CASE SENSITIVE**.
+  - Values of `<AMT1>` and `<AMT2>` must be valid integers or decimals with digit before dot. Invalid examples: `string`, `.12`, `5..6`.
+  - `<AMT1>` and `<AMT2>` must be separated by at least one space ` `.
+
+**Output:**
+
+```plaintext
+Here are all matching income entries:
+[INFORMATION OF MATCHING INCOME ENTRIES]
+```
+
+**Example:**
+
+```plaintext
+find-income /amtrange 400.00 3000.00
+Here are all matching income entries:
+Salary | Monthly Salary | $3000.00 | 01-04-2025
+Freelance | Website Development | $500.00 | 05-04-2025
+---
+```
+
+---
+
+### 14. Filtering Income by Date
+
+**Description:** Filters all income entries recorded on a specific date.
+
+**Command:**
+
+```plaintext
+find-income /date <DATE>
+```
+
+- tag `/date` indicates filtering by date.
+- keyword `<DATE>` must follow the format `DD-MM-YYYY`.
+- **NOTE**:
+  - the tag is **CASE SENSITIVE**.
+  - Date must be valid. Invalid examples: `31-02-2025`, `string`, `12/12/2025`.
+
+**Output:**
+
+```plaintext
+Here are all matching income entries:
+[INFORMATION OF MATCHING INCOME ENTRIES]
+```
+
+**Example:**
+
+```plaintext
+find-income /date 01-04-2025
+Here are all matching income entries:
+Salary | Monthly Salary | $3000.00 | 01-04-2025
+---
+```
+### 15. Exiting the Application
 **Description:** Safely exits the BudgetFlow application.  
 **Command:**
 ```plaintext

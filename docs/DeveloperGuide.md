@@ -286,6 +286,115 @@ The category keyword used for filtering is __case sensitive__.
 * `/drange`: filter all expenses within the the date range (for example: `find-expense /desc 01-10-2005 30-10-2004` looking for expenses from 1st Oct 2025 to 30th Oct 2025).
 
 ### Listing All Incomes
+#### Overview
+
+The `ListIncomeCommand` class is a core component of the BudgetFlow application. Its main responsibility is to list all recorded incomes and calculate the progress towards a predefined saving goal. It extends an abstract `Command` class and collaborates with other classes such as `Income`, `ExpenseList`, and `Logger` to perform its tasks. This guide provides an in-depth overview of the class's design, functionality, and execution flow.
+
+#### Package Structure
+
+- **budgetflow.command**: Contains command implementations, including the `ListIncomeCommand`.
+- **budgetflow.income**: Houses the `Income` class that represents individual income entries.
+- **budgetflow.expense**: Contains the `ExpenseList` class for managing expense records.
+- **Other Utilities**: Classes like `Logger` are used for logging application events.
+
+#### Class Responsibilities
+
+- **Listing Incomes**: Iterates through the provided list of income records and formats them for output.
+- **Saving Goal Management**: Uses a static variable to store a saving goal, and provides methods to set and retrieve this goal.
+- **Saving Progress Calculation**: Computes the percentage progress towards the saving goal by comparing total income against total expenses.
+- **Logging**: Employs the `Logger` class to log events such as empty income lists or successful income listing.
+
+#### Class Diagram
+
+The diagram below represents the class structure, relationships, and dependencies of the `ListIncomeCommand` class:
+
+![](diagrams/ListIncomeCommandClass.png)
+
+> **Note:** The diagram is saved as a PNG image and illustrates:
+> - The inheritance relationship between `ListIncomeCommand` and the abstract `Command` class.
+> - The usage relationships with `Income`, `ExpenseList`, and `Logger`.
+> - Static members are underlined as per the coding conventions.
+
+#### Detailed Class Description
+
+##### Attributes
+
+- **Static Fields:**
+  - `<u>logger: Logger</u>`  
+    A static Logger instance used to log information and debug messages.
+  - `<u>EMPTY_INCOME_LIST_MESSAGE: String</u>`  
+    A static message that is displayed when no incomes have been recorded.
+  - `<u>savingGoal: double</u>`  
+    A static variable that stores the saving goal for all instances of the command.
+
+#### Methods
+
+- **Constructor**
+  - `ListIncomeCommand()`  
+    Initializes a new instance of the class and sets the command type appropriately.
+
+- **Static Methods**
+  - `<u>setSavingGoal(amount: double)</u>`  
+    Sets the saving goal. Throws an `IllegalArgumentException` if a negative value is passed.
+  - `<u>getSavingGoal(): double</u>`  
+    Retrieves the current saving goal.
+
+- **Instance Methods**
+  - `calculateSavingProgress(totalIncome: double, totalExpenses: double): double`  
+    A helper method that computes the saving progress as a percentage of the saving goal.
+  - `execute(List<Income> incomes, ExpenseList expenseList): void`  
+    Processes the list of incomes, calculates total income and expenses, computes saving progress, and constructs an output message. It logs whether the income list is empty or non-empty and includes saving goal details if set.
+
+### Sequence Diagram
+
+The sequence diagram below illustrates the execution flow when the `execute` method is invoked:
+
+![](diagrams/ListIncomeCommandSequence.png)
+
+### Execution Flow Details
+
+1. **User Invocation:**
+  - The process starts when a user (or calling component) triggers the `execute` method on a `ListIncomeCommand` instance, passing in the list of incomes and an expense list.
+
+2. **Check for Empty Incomes:**
+  - The command checks whether the provided list of incomes is empty.
+    - **If Empty:**  
+      Logs an informational message via the `Logger` and sets the output message to `EMPTY_INCOME_LIST_MESSAGE`.
+    - **If Not Empty:**  
+      Iterates over each `Income` object to retrieve the category, amount, and date.
+
+3. **Expense Calculation:**
+  - Calls the `getTotalExpenses()` method on the `ExpenseList` instance to retrieve the total expenses incurred.
+
+4. **Saving Progress Calculation:**
+  - Utilizes the `calculateSavingProgress()` method to determine how much progress has been made toward the saving goal, based on the total income minus total expenses.
+
+5. **Output Message Construction:**
+  - Combines income details, total income, saving goal, and the calculated progress into a formatted output message.
+
+6. **Logging:**
+  - Logs the action of reading a non-empty income list along with the saving goal details.
+
+### Exception Handling
+
+- **Input Validation:**  
+  The `setSavingGoal` method validates the input amount and throws an `IllegalArgumentException` if the value is negative.
+
+- **Graceful Handling:**  
+  The `execute` method logs if the income list is empty, ensuring that the system handles this edge case gracefully without throwing exceptions.
+
+### Extending and Customizing the Class
+
+- **Modifying Saving Progress Calculation:**  
+  Developers can adjust the logic in `calculateSavingProgress` to change how progress is measured against the saving goal.
+
+- **Enhanced Logging:**  
+  Additional logging can be incorporated to provide more granular runtime information, which can be useful for debugging and auditing purposes.
+
+- **User Interface Integration:**  
+  The formatted output produced by the `execute` method can be easily integrated into various user interface components, such as a web or desktop UI.
+
+---
 
 ### Filtering Incomes
 #### By Amount
@@ -657,3 +766,10 @@ Given below are instructions to test the app manually:
   * Expected: Error message requires to enter valid keyword format for tag /drange
   * Test case: `find-expense \drange`
   * Expected: Missing keyword error with error message shown.
+11. **Listing All Incomes**
+  - **Test case:** `list-income`
+    - **Expected:**
+      - If incomes exist, the output should display each income’s details (category, amount, date), followed by the total income.
+      - If a saving goal has been set, the output should also include saving goal details, current savings, and the progress percentage.
+      - If no incomes have been added, the output should display the message "No incomes have been added yet."
+

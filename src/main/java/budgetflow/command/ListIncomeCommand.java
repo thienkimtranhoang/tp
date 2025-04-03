@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 /**
  * Represents a command to list all recorded incomes and display saving goal progress.
+ * @@author IgoyAI
  */
 public class ListIncomeCommand extends Command {
     private static final Logger logger = Logger.getLogger(ListIncomeCommand.class.getName());
