@@ -152,7 +152,8 @@ class LogExpenseCommandTest {
     void logExpense_invalidDateFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command command = new LogExpenseCommand("log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
+        Command command = new LogExpenseCommand(
+                "log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
         try {
             command.execute(incomes, expenseList);
         } catch (FinanceException e) {
@@ -166,7 +167,8 @@ class LogExpenseCommandTest {
     void logExpense_invalidDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command command = new LogExpenseCommand("log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/99-99-1234");
+        Command command = new LogExpenseCommand(
+                "log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/99-99-1234");
         try {
             command.execute(incomes, expenseList);
         } catch (FinanceException e) {
