@@ -11,8 +11,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//@@author Yikbing
 class DeleteExpenseCommandTest {
+    //@@author Yikbing
     private static ExpenseList getListWith3Expenses() {
         ExpenseList expenseList = new ExpenseList();
         expenseList.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
@@ -21,6 +21,7 @@ class DeleteExpenseCommandTest {
         return expenseList;
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void deleteExpense_invalidExpense_expectExpenseNotFoundMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
@@ -33,6 +34,7 @@ class DeleteExpenseCommandTest {
         assertEquals(3, expenseList.getSize()); // Ensure list size remains unchanged
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void deleteExpense_emptyDescription_expectErrorMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
@@ -45,6 +47,7 @@ class DeleteExpenseCommandTest {
         assertEquals(3, expenseList.getSize()); // Ensure no expenses were removed
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void deleteExpense_existingExpense_expectSuccessMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
@@ -70,6 +73,7 @@ class DeleteExpenseCommandTest {
         assertEquals(3, expenseList.getSize()); // Ensure list size remains unchanged
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void deleteExpense_caseInsensitiveDescription_expectSuccessMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
@@ -82,6 +86,7 @@ class DeleteExpenseCommandTest {
         assertEquals(2, expenseList.getSize()); // Ensure list size is reduced by 1
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void deleteExpense_emptyList_expectErrorMessage() throws FinanceException {
         ExpenseList expenseList = new ExpenseList(); // Empty list
@@ -94,6 +99,7 @@ class DeleteExpenseCommandTest {
         assertEquals(0, expenseList.getSize()); // Ensure list size remains unchanged
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void deleteExpense_multipleExpensesWithSameName_expectCorrectExpenseDeleted() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -109,6 +115,7 @@ class DeleteExpenseCommandTest {
         assertEquals(2, expenseList.getSize()); // Ensure list size is reduced by 1
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void deleteExpense_nullExpenseDescription_expectErrorMessage() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();

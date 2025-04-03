@@ -43,6 +43,7 @@ public class DeleteIncomeCommand extends Command {
      * @param expenseList  The list of expense entries (unused in this command but required for consistency).
      * @throws UnfoundIncomeException If the specified income category is not found.
      */
+    //@@author dariusyawningwhiz
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
         if (!input.startsWith(COMMAND_DELETE_INCOME)) {
