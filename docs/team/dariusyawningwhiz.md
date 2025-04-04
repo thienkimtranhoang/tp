@@ -25,10 +25,9 @@ filter them by category or date, and analyze their financial habits. It is writt
     * Highlights: This feature ensures that users can easily make adjustments to their finances without the need to
   delete and re-enter entire transactions, which can be cumbersome.
     <br>
-*__Enhancements to existing features:__
+* __Enhancements to existing features:__
     * Fix bugs for invalid category and amount for `update-expense` [#100](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/100)
     * Fix bugs for empty `delete-income` and `delete-expense` [#123](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/123)
-
     * Hide log messages [#70](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/70)
     * Improve `update-expense` command to update expense details in any order and with any number of details [#107](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/107)
     `update-expense 1 category/Food` instead of full command `update-expense 1 category/Food desc/Lunch amt/15.00 d/08-04-2025`
@@ -43,7 +42,6 @@ filter them by category or date, and analyze their financial habits. It is writt
         * Added documentation for log-expense and update-expense command [#101](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/101)
         * Added solutions in Q&A section [#101](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/101)
     * Developer Guide:
-        * Added the project logo picture [#102](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/102)
         * Added Table of content and outline of Developer Guide [#102](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/102)
         * Added log-expense and update-expense for Appendix B: User Stories [#102](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/102)
         * Added Appendix D: instructions for manual testing [#102](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/102)
