@@ -1,4 +1,3 @@
-set-saving-goal 10000
 add category/Salary amt/1000.00 d/06-03-2025
 log-expense category/Coffee desc/Coffee amt/3.50 d/06-03-2025
 view-all-expense
@@ -13,6 +12,7 @@ delete-expense 1
 log-expense category/drink desc/Coffee amt/3.50 d/06-04-2025
 find-expense /category drink
 find-expense /desc Coffee
+find-expense /amt 4.00
 find-expense /amtrange 0.00 5.00
 find-expense /d 06-04-2025
 find-expense /drange 01-04-2025 10-04-2025
