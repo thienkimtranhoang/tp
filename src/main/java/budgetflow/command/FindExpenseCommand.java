@@ -5,6 +5,7 @@ import budgetflow.exception.InvalidTagException;
 import budgetflow.exception.InvalidKeywordException;
 import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.InvalidDateException;
+import budgetflow.exception.ExceedsMaxTotalExpense;
 
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -49,10 +50,10 @@ public class FindExpenseCommand extends Command {
     private static final int START_DATE_PART = 0;
     private static final int END_DATE_PART = 1;
     public static final String COMMAND_TAG_PATTERN = "find-expense\\s+(/desc|/d|/amt|/category|/amtrange|/drange).*";
-    public static final String ERROR_INVALID_OR_MISSING_TAG = "I cannot recognise your finding condition. " +
+    private static final String ERROR_INVALID_OR_MISSING_TAG = "I cannot recognise your finding condition. " +
             "Please use valid tags for finding expenses: /desc, /d, /amt, /category, /amtrange, /drange";
-    public static final String ERROR_MISSING_KEYWORD = "Sorry, please enter the finding keyword after your tag";
-    public static final String ASSERTION_MISSING_COMMAND = "Missing find-expense command";
+    private static final String ERROR_MISSING_KEYWORD = "Sorry, please enter the finding keyword after your tag";
+    private static final String ASSERTION_MISSING_COMMAND = "Missing find-expense command";
 
     /**
      * Constructs a FindExpenseCommand with the given input.
@@ -100,7 +101,7 @@ public class FindExpenseCommand extends Command {
         ExpenseList matchingExpenses;
         try {
             matchingExpenses = expenseList.getByTag(tag, keyword);
-        } catch (InvalidDateException | InvalidNumberFormatException e) {
+        } catch (InvalidDateException | InvalidNumberFormatException | ExceedsMaxTotalExpense e) {
             throw new InvalidKeywordException(e.getMessage());
         }
         return matchingExpenses;

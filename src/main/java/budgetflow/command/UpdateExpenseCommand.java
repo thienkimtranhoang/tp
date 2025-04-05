@@ -1,11 +1,12 @@
 package budgetflow.command;
 
+import budgetflow.exception.MissingDateException;
 import budgetflow.exception.InvalidDateException;
 import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.MissingAmountException;
-import budgetflow.exception.MissingDateException;
-import budgetflow.exception.MissingCategoryException;
 import budgetflow.exception.MissingDescriptionException;
+import budgetflow.exception.MissingCategoryException;
+import budgetflow.exception.ExceedsMaxTotalExpense;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -40,6 +41,9 @@ public class UpdateExpenseCommand extends Command {
 
     private static final int MINIMUM_INDEX = 0;
     private static final int UPDATE_PARAMETER_GROUP = 1;
+    private static final String ERROR_EXCEED_TOTAL_EXPENSE =
+            "Sorry, new updated amount will make total expense exceed maximum amount. Please try another value";
+    private static final double MAX_TOTAL_EXPENSE = 9999999.99;
 
     public UpdateExpenseCommand(String input) {
         super(input);
@@ -49,7 +53,7 @@ public class UpdateExpenseCommand extends Command {
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList)
             throws MissingDateException, InvalidNumberFormatException, MissingAmountException,
-            MissingCategoryException, MissingDescriptionException, InvalidDateException {
+            MissingCategoryException, MissingDescriptionException, InvalidDateException, ExceedsMaxTotalExpense {
 
         if (input.length() <= UPDATE_EXPENSE_COMMAND_PREFIX_LENGTH) {
             throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
@@ -83,6 +87,9 @@ public class UpdateExpenseCommand extends Command {
         Expense existingExpense = expenseList.get(index);
 
         if (parts.length > 1) {
+            if (exceedTotalExpense(parts[1], existingExpense, expenseList)) {
+                throw new ExceedsMaxTotalExpense(ERROR_EXCEED_TOTAL_EXPENSE);
+            }
             extractUpdatedExpense(parts[1], existingExpense);
         }
 
@@ -103,7 +110,6 @@ public class UpdateExpenseCommand extends Command {
     private void extractUpdatedExpense(String input, Expense existingExpense)
             throws MissingAmountException, MissingDateException, MissingCategoryException, MissingDescriptionException,
             InvalidDateException, InvalidNumberFormatException {
-
         existingExpense.setCategory(getUpdatedCategory(input, existingExpense.getCategory()));
         existingExpense.setAmount(getUpdatedAmount(input, existingExpense.getAmount()));
         existingExpense.setDescription(getUpdatedDescription(input, existingExpense.getDescription()));
@@ -170,5 +176,11 @@ public class UpdateExpenseCommand extends Command {
             }
         }
         return currentAmount;
+    }
+    private boolean exceedTotalExpense(String input, Expense existingExpense, ExpenseList expenseList)
+            throws InvalidNumberFormatException {
+        double currentAmount = existingExpense.getAmount();
+        double updatedAmount = getUpdatedAmount(input, currentAmount);
+        return expenseList.getTotalExpenses() - currentAmount + updatedAmount > MAX_TOTAL_EXPENSE;
     }
 }
