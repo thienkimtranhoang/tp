@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
  * If no matching expenses are found, an exception is thrown.
  */
 public class FindExpenseCommand extends Command {
-    private static final String AMT_PATTERN = "[0-9]+(\\.[0-9]*)?";
+    private static final String AMT_PATTERN = "\\d{1,7}(\\.\\d{1,2})?";
     private static final String DATE_PATTERN = "\\d{2}-\\d{2}-\\d{4}";
     private static final Logger logger = Logger.getLogger(FindExpenseCommand.class.getName());
     private static final String COMMAND_FIND_EXPENSE = "find-expense";

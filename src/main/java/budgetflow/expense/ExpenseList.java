@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class ExpenseList {
-    private static final String AMT_PATTERN = "[0-9]+(\\.[0-9]*)?";
+    private static final String AMT_PATTERN = "\\d{1,7}(\\.\\d{1,2})?";
     private static final String DATE_PATTERN = "dd-MM-yyyy";
     private static final String EMPTY_EXPENSE_LIST_MESSAGE =
             "There is currently no expense in your list right now. Please add more expenses to continue";
