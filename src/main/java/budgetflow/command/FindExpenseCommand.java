@@ -24,14 +24,14 @@ public class FindExpenseCommand extends Command {
     private static final String DATE_PATTERN = "\\d{2}-\\d{2}-\\d{4}";
     private static final Logger logger = Logger.getLogger(FindExpenseCommand.class.getName());
     private static final String COMMAND_FIND_EXPENSE = "find-expense";
-    private static final String ERROR_MISSING_KEYWORD = "Error: Missing keyword";
     private static final String ERROR_UNFOUNDED_KEYWORD = "Sorry, I cannot find any expenses matching your keyword: ";
     private static final String MATCHING_EXPENSES_MESSAGE = "Here are all matching expenses:";
 
     private static final Pattern COMMAND_PATTERN = Pattern.compile(
             "find-expense\s+(/desc|/d|/amt|/category|/amtrange|/drange)\s+(.+)");
     private static final String ERROR_INVALID_KEYWORD_FORMAT = "Please enter correct keyword format for tag ";
-    private static final String ERROR_NO_TAG_OR_KEYWORD = "Invalid or missing tag/keyword in find-expense command";
+    private static final String WARMING_NO_TAG = "Invalid or missing tag in find-expense command";
+    private static final String WARMING_NO_KEYWORD = "Missing keyword in find-expense command";
     private static final String ERROR_INVALID_TAG = "Please enter valid tag for query";
     private static final String ASSERTION_FAIL_INVALID_FIND_COMMAND = "Invalid find expense command format";
     private static final String TAG_DESCRIPTION = "/desc";
@@ -46,6 +46,11 @@ public class FindExpenseCommand extends Command {
     private static final int END_AMT_PART = 1;
     private static final int START_DATE_PART = 0;
     private static final int END_DATE_PART = 1;
+    public static final String COMMAND_TAG_PATTERN = "find-expense\\s+(/desc|/d|/amt|/category|/amtrange|/drange).*";
+    public static final String ERROR_INVALID_OR_MISSING_TAG = "I cannot recognise your finding condition. " +
+            "Please use valid tags for finding expenses: /desc, /d, /amt, /category, /amtrange, /drange";
+    public static final String ERROR_MISSING_KEYWORD = "Sorry, please enter the finding keyword after your tag";
+    public static final String ASSERTION_MISSING_COMMAND = "Missing find-expense command";
 
     /**
      * Constructs a FindExpenseCommand with the given input.
@@ -103,8 +108,14 @@ public class FindExpenseCommand extends Command {
             InvalidKeywordException {
         Matcher matcher = COMMAND_PATTERN.matcher(input);
         if (!matcher.matches()) {
-            logger.warning(ERROR_NO_TAG_OR_KEYWORD);
-            throw new MissingKeywordException(ERROR_MISSING_KEYWORD);
+            assert input.startsWith(COMMAND_FIND_EXPENSE) : ASSERTION_MISSING_COMMAND;
+            if (!input.matches(COMMAND_TAG_PATTERN)) {
+                logger.warning(WARMING_NO_TAG);
+                throw new InvalidTagException(ERROR_INVALID_OR_MISSING_TAG);
+            } else {
+                logger.warning(WARMING_NO_KEYWORD);
+                throw new MissingKeywordException(ERROR_MISSING_KEYWORD);
+            }
         }
         String tag = matcher.group(END_DATE_PART);
         String keyword = matcher.group(AMT_RANGE_LENGTH).trim();
@@ -124,7 +135,7 @@ public class FindExpenseCommand extends Command {
         // Validate keyword format based on the tag
         return switch (tag) {
         case TAG_DESCRIPTION -> keyword.matches(descPattern);
-        case TAG_DATE -> keyword.matches(DATE_PATTERN);
+        case TAG_DATE -> isValidDate(keyword);
         case TAG_AMOUNT -> keyword.matches(AMT_PATTERN);
         case TAG_CATEGORY -> keyword.matches(categoryPattern);
         case TAG_AMOUNT_RANGE -> isValidAmtRange(keyword);
@@ -133,6 +144,11 @@ public class FindExpenseCommand extends Command {
         };
     }
 
+    private static boolean isValidDate(String keyword) {
+        if (!keyword.matches(DATE_PATTERN)) return false;
+        String[] parts = keyword.split("-");
+        return parts[2].length() == 4;
+    }
     private static boolean isValidAmtRange(String keyword) {
         String[] parts = keyword.split("\\s+");
         return parts.length == AMT_RANGE_LENGTH && parts[START_AMT_PART].matches(AMT_PATTERN)
@@ -141,7 +157,7 @@ public class FindExpenseCommand extends Command {
 
     private static boolean isValidDateRange(String keyword) {
         String[] parts = keyword.split("\\s+");
-        return parts.length == DATE_RANGE_LENGTH && parts[START_DATE_PART].matches(DATE_PATTERN)
-                && parts[END_DATE_PART].matches(DATE_PATTERN);
+        return parts.length == DATE_RANGE_LENGTH && isValidDate(parts[START_DATE_PART])
+                && isValidDate(parts[END_DATE_PART]);
     }
 }
