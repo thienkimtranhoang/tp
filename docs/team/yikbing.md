@@ -28,6 +28,10 @@ filter them by category or date, and analyze their financial habits. It is writt
   * Justification: This feature enhances the User experience as the user can know exactly what to type based on
   the description of the features given in the help function. 
 
+* __New Feature:__ Added a DateValidator method:
+  * What it does: This method allows the program to be able to accurately identify whether the dates entered by the
+  user is a valid date so that all dates that are inside the program is a valid date.
+
 * __Code Contributed:__ [RepoSense Link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21)__
 
 * __Documentation:__
