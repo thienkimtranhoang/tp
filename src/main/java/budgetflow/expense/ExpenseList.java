@@ -33,7 +33,7 @@ public class ExpenseList {
     private double totalExpenses;
 
     public ExpenseList() {
-        // Empty constructor.
+        // Empty constructor here.
     }
 
     public ExpenseList(Expense... expenses) {
