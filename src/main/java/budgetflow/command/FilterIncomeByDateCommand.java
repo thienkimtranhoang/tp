@@ -4,10 +4,11 @@ import budgetflow.exception.FinanceException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import budgetflow.parser.DateValidator;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Filters incomes based on a given date range.
@@ -16,7 +17,8 @@ import java.util.logging.Logger;
  * <code>filter-income date from/DD-MM-YYYY to/DD-MM-YYYY</code>
  * <p>
  * This command parses the start and end dates, validates them, and displays all incomes whose
- * dates fall within the specified range.
+ * dates fall within the specified range. If the input is incomplete,
+ * the usage guide is displayed.
  *
  * @@author IgoyAI
  */
@@ -35,40 +37,49 @@ public class FilterIncomeByDateCommand extends Command {
     }
 
     /**
-     * Executes the command to filter incomes based on the provided date range.
+     * Executes the command to filter incomes by date range.
+     * If the input is incomplete or invalid, the usage guide is displayed.
      *
      * @param incomes     list of incomes.
-     * @param expenseList expense list (unused in this command).
-     * @throws FinanceException if the filter format is invalid or dates are incorrect.
+     * @param expenseList expense list (unused).
+     * @throws FinanceException if an unexpected error occurs.
      */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException {
+        String trimmedInput = input.trim();
+        // Check for incomplete input: "filter-income" or "filter-income date" (no parameters).
+        if (trimmedInput.equals("filter-income") || trimmedInput.equals("filter-income date")) {
+            this.outputMessage = "Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY\n" +
+                    "Example: filter-income date from/01-01-2023 to/31-12-2023";
+            logger.info("Displayed usage guide for filter-income date command.");
+            return;
+        }
         // Remove the command prefix and trim remaining parameters.
         String params = input.substring(COMMAND_PREFIX.length()).trim();
-        // Use non-space tokens to extract parameters.
-        java.util.regex.Pattern fromPattern = java.util.regex.Pattern.compile("from/(\\S+)");
-        java.util.regex.Matcher fromMatcher = fromPattern.matcher(params);
-        java.util.regex.Pattern toPattern = java.util.regex.Pattern.compile("to/(\\S+)");
-        java.util.regex.Matcher toMatcher = toPattern.matcher(params);
-
+        Pattern fromPattern = Pattern.compile("from/(\\S+)");
+        Matcher fromMatcher = fromPattern.matcher(params);
+        Pattern toPattern = Pattern.compile("to/(\\S+)");
+        Matcher toMatcher = toPattern.matcher(params);
         if (!fromMatcher.find() || !toMatcher.find()) {
-            throw new FinanceException("Invalid date filter format. Usage: filter-income date " +
-                    "from/DD-MM-YYYY to/DD-MM-YYYY");
+            this.outputMessage = "Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY\n" +
+                    "Example: filter-income date from/01-01-2023 to/31-12-2023";
+            logger.info("Displayed usage guide for filter-income date command due to invalid format.");
+            return;
         }
-
         String fromDateStr = fromMatcher.group(1);
         String toDateStr = toMatcher.group(1);
-
         if (!DateValidator.isValidDate(fromDateStr) || !DateValidator.isValidDate(toDateStr)) {
-            throw new FinanceException("One or both dates are invalid. Please use DD-MM-YYYY format.");
+            this.outputMessage = "One or both dates are invalid. Please use DD-MM-YYYY format.";
+            logger.info("Displayed error: one or both dates are invalid.");
+            return;
         }
-
         LocalDate fromDate = LocalDate.parse(fromDateStr, DateValidator.getFullDateFormatter());
         LocalDate toDate = LocalDate.parse(toDateStr, DateValidator.getFullDateFormatter());
         if (fromDate.isAfter(toDate)) {
-            throw new FinanceException("Start date must be before or equal to end date.");
+            this.outputMessage = "Start date must be before or equal to end date.";
+            logger.info("Displayed error: start date is after end date.");
+            return;
         }
-
         StringBuilder sb = new StringBuilder();
         sb.append("Filtered Incomes by Date (").append(fromDateStr)
                 .append(" to ").append(toDateStr).append("):\n");
