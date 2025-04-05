@@ -19,7 +19,7 @@ even compare monthly expenses at ease.
   * [Deleting an Expense](#4-deleting-an-expense)
   * [Comparing two Monthly Expenses](#5-comparing-two-monthly-expenses-)
   * [Adding an Income](#6-adding-an-income)
-  * [Updating an Income](#7-updating-an-income)
+  * [Updating an Income](#7-updating-an-income-)
   * [Setting a Savings Goal](#8-setting-a-savings-goal)
   * [Viewing all expenses](#9-viewing-all-expenses)
   * [Filtering expenses](#10-filtering-expenses)
@@ -144,7 +144,7 @@ Income added: Salary, Amount: $2000.00, Date: 06-03-2025
 
 ---
 
-### 7. Updating an Income (Not expense)
+### 7. Updating an Income 
 **Description:** Updates an instance of an Income entry.  
 **How it works** The user only has to write the Index and the thing that the user would like to update (note: need spacing between each part).  
 E.g. If the user only wants to update the amt, he can run `update-income INDEX amt/[UPDATED_AMOUNT]`  
