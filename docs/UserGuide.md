@@ -18,18 +18,25 @@ even compare monthly expenses at ease.
   * [Deleting an Income](#3-deleting-an-income)
   * [Deleting an Expense](#4-deleting-an-expense)
   * [Comparing two Monthly Expenses](#5-comparing-two-monthly-expenses-)
-  * [Updating an Income](#6-updating-an-income)
-  * [Setting a Savings Goal](#7-setting-a-savings-goal)
-  * [Viewing all expenses](#8-viewing-all-expenses)
-  * [Filtering expenses](#9-filtering-expenses)
-    * [Filtering expenses based on category](#91-filtering-expenses-based-on-category)
-    * [Filtering expenses based on description](#92-filtering-expenses-based-on-description)
-    * [Filtering expenses based on amount](#93-filtering-expenses-based-on-amount)
-    * [Filtering expenses based on amount range](#94-filtering-expenses-based-on-amount-range)
-    * [Filtering expenses based on date](#95-filtering-expenses-based-on-date)
-    * [Filtering expenses based on date range](#96-filtering-expenses-based-on-date-range)
-  * [Exiting the Application](#10-exiting-the-application)
-  * [help](#16-help)
+  * [Adding an Income](#6-adding-an-income)
+  * [Updating an Income](#7-updating-an-income-)
+  * [Setting a Savings Goal](#8-setting-a-savings-goal)
+  * [Viewing all expenses](#9-viewing-all-expenses)
+  * [Filtering expenses](#10-filtering-expenses)
+    * [Filtering expenses based on category](#101-filtering-expenses-based-on-category)
+    * [Filtering expenses based on description](#102-filtering-expenses-based-on-description)
+    * [Filtering expenses based on amount](#103-filtering-expenses-based-on-amount)
+    * [Filtering expenses based on amount range](#104-filtering-expenses-based-on-amount-range)
+    * [Filtering expenses based on date](#105-filtering-expenses-based-on-date)
+    * [Filtering expenses based on date range](#106-filtering-expenses-based-on-date-range)
+  * [Listing Income](#11-listing-income)
+  * [Filter Income](#12-filtering-incomes)
+    * [Filtering Income by Category](#121-filtering-income-by-category)
+    * [Filtering Income by Amount](#122-filtering-income-by-amount)
+    * [Filtering Income by Amount Range](#123-filtering-income-by-amount-range)
+    * [Filtering Income by Date](#124-filtering-income-by-date)
+  * [Exiting the Application](#13-exiting-the-application)
+  * [help](#14-help)
 * [FAQ](#faq)
 * [Command Summary](#command-summary)
 ---
@@ -151,7 +158,7 @@ Income added: Salary, Amount: $2000.00, Date: 06-03-2025
 
 ---
 
-### 7. Updating an Income (Not expense)
+### 7. Updating an Income 
 **Description:** Updates an instance of an Income entry.  
 **How it works** The user only has to write the Index and the thing that the user would like to update (note: need spacing between each part).  
 E.g. If the user only wants to update the amt, he can run `update-income INDEX amt/[UPDATED_AMOUNT]`  
@@ -390,8 +397,10 @@ Freelance | Website Development | $500.00 | 05-04-2025
 
 ---
 
-### 12. Filtering Income by Category
+### 12. Filtering incomes
+**Overview:** Filters incomes based the keyword and given condition.
 
+#### 12.1 Filtering income by Category
 **Description:** Filters all income entries that exactly match the provided category keyword.
 
 **Command:**
@@ -422,7 +431,7 @@ Salary | Monthly Salary | $3000.00 | 01-04-2025
 
 ---
 
-### 13. Filtering Income by Amount
+#### 12.2 Filtering Income by Amount
 
 **Description:** Filters all income entries matching the specified amount.
 
@@ -456,7 +465,7 @@ Freelance | Website Development | $500.00 | 05-04-2025
 
 ---
 
-### 14. Filtering Income by Amount Range
+#### 12.3 Filtering Income by Amount Range
 
 **Description:** Filters all income entries with amount values within a specified range.
 
@@ -494,7 +503,7 @@ Freelance | Website Development | $500.00 | 05-04-2025
 
 ---
 
-### 15. Filtering Income by Date
+#### 12.4 Filtering Income by Date
 
 **Description:** Filters all income entries recorded on a specific date.
 
@@ -525,7 +534,7 @@ Here are all matching income entries:
 Salary | Monthly Salary | $3000.00 | 01-04-2025
 ---
 ```
-### 16. Exiting the Application
+### 13. Exiting the Application
 **Description:** Safely exits the BudgetFlow application.  
 **Command:**
 ```plaintext
@@ -536,7 +545,7 @@ exit
 Goodbye!
 ```
 
-### 17. help
+### 14. help
 **Description:** The `help` Command provides users with a comprehensive list of all available commands 
 and their syntax for managing incomes and expenses within the budget management system.
 **Command:**
