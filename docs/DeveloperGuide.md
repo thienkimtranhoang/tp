@@ -644,10 +644,6 @@ JUnit is used for writing tests in this project. You can learn more about JUnit 
 If you're using IntelliJ, you can run all tests by right-clicking the `test/java` folder and selecting `Run 'Tests'`, or by pressing `CRTL` + `SHIFT` + `F10`. 
 Alternatively, you can open a console and run the command `gradelw clean test` (Mac/linus: `.gradlew clean test`).
 
-###
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
-
-
 ## Appendix A: Product scope
 ### Target User Profile
 The Finance Tracker App is designed primarily for **students** who need a simple and efficient tool to manage their finances. The app is ideal for:
