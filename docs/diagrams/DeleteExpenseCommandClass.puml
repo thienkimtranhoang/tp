@@ -13,16 +13,22 @@ package budgetflow.command {
     }
 }
 
-package budgetflow.exception {
-    class UnfoundExpenseException
-}
-
 package budgetflow.expense {
-    class ExpenseList
+    class ExpenseList {
+        + int getSize()
+        + Expense get(int index)
+        + void delete(int index)
+        + double getAmount()
+    }
 }
 
-package budgetflow.income {
-    class Income
+class budgetflow.income.Income {
+
+}
+
+
+class budgetflow.exception.InvalidNumberFormatException {
+    + InvalidNumberFormatException(String message)
 }
 
 abstract class "{abstract} \n Command" {
@@ -31,9 +37,8 @@ abstract class "{abstract} \n Command" {
 }
 
 
-DeleteExpenseCommand --|> "{abstract} \n Command"
-DeleteExpenseCommand ..> UnfoundExpenseException : throws
-DeleteExpenseCommand ..> Income : uses
-DeleteExpenseCommand ..> ExpenseList : uses
-
+DeleteExpenseCommand --|> "{abstract} \n Command" : extends
+DeleteExpenseCommand --> ExpenseList : uses
+DeleteExpenseCommand --> Income : uses
+DeleteExpenseCommand --> InvalidNumberFormatException : throws
 @enduml

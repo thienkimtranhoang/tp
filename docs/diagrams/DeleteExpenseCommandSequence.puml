@@ -2,52 +2,46 @@
 actor User
 participant "DeleteExpenseCommand" as DeleteExpenseCommand
 participant "ExpenseList" as ExpenseList
-participant "UnfoundExpenseException" as Exception
+participant "InvalidNumberFormatException" as InvalidNumberFormatException
 
 User -> DeleteExpenseCommand: Create command(input)
 activate DeleteExpenseCommand
 
-User -> DeleteExpenseCommand: execute(incomes, expenseList)
+
+
+DeleteExpenseCommand -> DeleteExpenseCommand : checkEmptyIndex(indexString)
 activate DeleteExpenseCommand
+opt indexString.isEmpty()
+DeleteExpenseCommand -> InvalidNumberFormatException : throw InvalidNumberFormatException(ERROR_EMPTY_INDEX)
+activate InvalidNumberFormatException
+InvalidNumberFormatException --> DeleteExpenseCommand
+deactivate InvalidNumberFormatException
+end
+DeleteExpenseCommand --> DeleteExpenseCommand
+deactivate DeleteExpenseCommand
 
-DeleteExpenseCommand -> DeleteExpenseCommand: Validate input format
-DeleteExpenseCommand -> DeleteExpenseCommand: Extract expense description from input
 
-DeleteExpenseCommand -> ExpenseList: Get expense entries (getSize())
+DeleteExpenseCommand -> DeleteExpenseCommand : parse indexString to int
+activate DeleteExpenseCommand
+DeleteExpenseCommand --> DeleteExpenseCommand
+deactivate DeleteExpenseCommand
+
+DeleteExpenseCommand -> DeleteExpenseCommand : checkValidIndex(expenseList, index)
+activate DeleteExpenseCommand
+opt index < 0 || index >= expenseList.getSize()
+DeleteExpenseCommand -> InvalidNumberFormatException : throw InvalidNumberFormatException(ERROR_INVALID_EXPENSE_INDEX)
+activate InvalidNumberFormatException
+InvalidNumberFormatException --> DeleteExpenseCommand
+deactivate InvalidNumberFormatException
+end
+DeleteExpenseCommand --> DeleteExpenseCommand
+deactivate DeleteExpenseCommand
+
+DeleteExpenseCommand -> ExpenseList: print description and amount for given index
 activate ExpenseList
-ExpenseList --> DeleteExpenseCommand: Return size
+ExpenseList --> DeleteExpenseCommand
 deactivate ExpenseList
 
-loop for each expense in expenseList
-    DeleteExpenseCommand -> ExpenseList: Get expense at index i (get(i))
-    activate ExpenseList
-    ExpenseList --> DeleteExpenseCommand: Return expense entry
-    deactivate ExpenseList
-
-    DeleteExpenseCommand -> ExpenseList: Validate expense entry is not null
-    DeleteExpenseCommand -> ExpenseList: Validate expense description is not null
-
-    alt if expense description matches input
-        DeleteExpenseCommand -> ExpenseList: Delete expense at index i (delete(i))
-        activate ExpenseList
-        ExpenseList --> DeleteExpenseCommand: Confirm deletion
-        deactivate ExpenseList
-
-
-        DeleteExpenseCommand -> DeleteExpenseCommand: Set output message ("Expense deleted")
-        note right of DeleteExpenseCommand
-        Once income is deleted, break from the loop
-        endnote
-    end
-end
-
-
-
-DeleteExpenseCommand -> Exception: Throw UnfoundExpenseException
-activate Exception
-Exception --> DeleteExpenseCommand: Exception thrown
-deactivate Exception
-
-DeleteExpenseCommand --> User: Exception propagated
+DeleteExpenseCommand --> User
 deactivate DeleteExpenseCommand
 @enduml

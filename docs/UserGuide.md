@@ -100,12 +100,12 @@ Income deleted: [NAME OF INCOME ENTRY]
 **Description:** Deletes an instance of an Expense entry.  
 **Command:**
 ```plaintext
-delete-expense <NAME OF EXPENSE ENTRY>
+delete-expense <INDEX OF EXPENSE ENTRY>
 ```
 **Output:**
 ```plaintext
-Saving goal retrieved: [REMAINING OF SAVING GOAL]
-Income deleted: [NAME OF EXPENSE ENTRY]
+Saving goal retrieved: <REMAINING OF SAVING GOAL>
+Income deleted: <DESCRIPTION OF EXPENSE ENTRY>, $<AMT>
 ```
 
 ---

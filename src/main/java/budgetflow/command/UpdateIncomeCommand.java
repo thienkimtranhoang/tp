@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-
+//@@ author Yikbing
 /**
  * The class handles the logic for updating an existing income record in the system.
  * It processes the input command to extract relevant
@@ -48,6 +48,7 @@ public class UpdateIncomeCommand extends Command {
     private static final int UPDATE_PARAMETER_GROUP = 1;
     private static final int MINIMUM_PARTS_FOR_UPDATE = 2;
 
+    //@@ author Yikbing
     /**
      * Constructs an UpdateIncomeCommand with the given input string.
      *
@@ -59,6 +60,7 @@ public class UpdateIncomeCommand extends Command {
         this.commandType = CommandType.UPDATE;
     }
 
+    //@@ author Yikbing
     /**
      * Executes the income update command by parsing the input, validating the index and other parameters,
      * and updating the corresponding income in the list.
@@ -102,6 +104,7 @@ public class UpdateIncomeCommand extends Command {
         logger.info("Income updated successfully: " + updatedIncome);
     }
 
+    //@@ author Yikbing
     /**
      * Saves the updated incomes and expense list to storage.
      *
@@ -113,6 +116,7 @@ public class UpdateIncomeCommand extends Command {
         storage.saveData(incomes, expenseList);
     }
 
+    //@@ author Yikbing
     /**
      * Extracts the updated income details from the input and creates a new Income object.
      *
@@ -148,6 +152,7 @@ public class UpdateIncomeCommand extends Command {
         return new Income(category, amount, date);
     }
 
+    //@@ author Yikbing
     /**
      * Extracts and validates the updated date from the input string.
      *
@@ -175,6 +180,7 @@ public class UpdateIncomeCommand extends Command {
         return date;
     }
 
+    //@@ author Yikbing
     /**
      * Extracts and validates the updated amount from the input string.
      *
@@ -202,6 +208,7 @@ public class UpdateIncomeCommand extends Command {
         return amount;
     }
 
+    //@@ author Yikbing
     /**
      * Extracts and validates the updated category from the input string.
      *

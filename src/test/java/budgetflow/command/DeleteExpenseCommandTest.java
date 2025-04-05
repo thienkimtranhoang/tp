@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class DeleteExpenseCommandTest {
     //@@author Yikbing
@@ -21,110 +22,60 @@ class DeleteExpenseCommandTest {
         return expenseList;
     }
 
-    //@@author dariusyawningwhiz
+    //@@author Yikbing
     @Test
-    void deleteExpense_invalidExpense_expectExpenseNotFoundMessage() throws FinanceException {
+    void deleteExpense_validIndex_expenseDeleted() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command command = new DeleteExpenseCommand("delete-expense Dinner");
-
+        Command command = new DeleteExpenseCommand("delete-expense 1");
         command.execute(incomes, expenseList);
-
-        assertEquals("Expense not found: Dinner", command.getOutputMessage());
-        assertEquals(3, expenseList.getSize()); // Ensure list size remains unchanged
-    }
-
-    //@@author dariusyawningwhiz
-    @Test
-    void deleteExpense_emptyDescription_expectErrorMessage() throws FinanceException {
-        ExpenseList expenseList = getListWith3Expenses();
-        List<Income> incomes = new ArrayList<>();
-        Command command = new DeleteExpenseCommand("delete-expense ");
-
-        command.execute(incomes, expenseList);
-
-        assertEquals("Error: Expense description is required.", command.getOutputMessage());
-        assertEquals(3, expenseList.getSize()); // Ensure no expenses were removed
-    }
-
-    //@@author dariusyawningwhiz
-    @Test
-    void deleteExpense_existingExpense_expectSuccessMessage() throws FinanceException {
-        ExpenseList expenseList = getListWith3Expenses();
-        List<Income> incomes = new ArrayList<>();
-        Command command = new DeleteExpenseCommand("delete-expense Lunch");
-
-        command.execute(incomes, expenseList);
-
-        assertEquals("Expense deleted: Lunch", command.getOutputMessage());
-        assertEquals(2, expenseList.getSize()); // Ensure list size is reduced by 1
+        assertEquals("Expense deleted: Lunch, $12.5", command.getOutputMessage());
     }
 
     //@@author Yikbing
     @Test
-    void deleteExpense_invalidCommandFormat_expectErrorMessage() throws FinanceException {
+    void deleteExpense_invalidNumericIndex_throwsException() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command command = new DeleteExpenseCommand("remove-expense Lunch");
-
-        command.execute(incomes, expenseList);
-
-        assertEquals("Invalid delete expense command format.", command.getOutputMessage());
-        assertEquals(3, expenseList.getSize()); // Ensure list size remains unchanged
+        Command command = new DeleteExpenseCommand("delete-expense 4");
+        try{
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Invalid expense index.";
+            assertEquals(expectedError, e.getMessage());
+        }
     }
 
-    //@@author dariusyawningwhiz
+    //@@author Yikbing
     @Test
-    void deleteExpense_caseInsensitiveDescription_expectSuccessMessage() throws FinanceException {
+    void deleteExpense_invalidNonNumericIndex_throwsException() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command command = new DeleteExpenseCommand("delete-expense lunch"); // lowercase input
-
-        command.execute(incomes, expenseList);
-
-        assertEquals("Expense deleted: lunch", command.getOutputMessage());
-        assertEquals(2, expenseList.getSize()); // Ensure list size is reduced by 1
+        Command command = new DeleteExpenseCommand("delete-expense a");
+        try{
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Please enter a valid numeric index.";
+            assertEquals(expectedError, e.getMessage());
+        }
     }
 
-    //@@author dariusyawningwhiz
+    //@@author Yikbing
     @Test
-    void deleteExpense_emptyList_expectErrorMessage() throws FinanceException {
-        ExpenseList expenseList = new ExpenseList(); // Empty list
-        List<Income> incomes = new ArrayList<>();
-        Command c = new DeleteExpenseCommand("delete-expense Lunch");
-
-        c.execute(incomes, expenseList);
-
-        assertEquals("Expense not found: Lunch", c.getOutputMessage());
-        assertEquals(0, expenseList.getSize()); // Ensure list size remains unchanged
-    }
-
-    //@@author dariusyawningwhiz
-    @Test
-    void deleteExpense_multipleExpensesWithSameName_expectCorrectExpenseDeleted() throws FinanceException {
-        ExpenseList expenseList = new ExpenseList();
-        expenseList.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
-        expenseList.add(new Expense("food", "Lunch", 15.00, "14-03-2025")); // Duplicate entry
-        expenseList.add(new Expense("food", "Lunch", 20.00, "15-03-2025")); // Another duplicate
-        List<Income> incomes = new ArrayList<>();
-        Command c = new DeleteExpenseCommand("delete-expense Lunch");
-
-        c.execute(incomes, expenseList);
-
-        assertEquals("Expense deleted: Lunch", c.getOutputMessage());
-        assertEquals(2, expenseList.getSize()); // Ensure list size is reduced by 1
-    }
-
-    //@@author dariusyawningwhiz
-    @Test
-    void deleteExpense_nullExpenseDescription_expectErrorMessage() throws FinanceException {
+    void deleteExpense_noIndex_throwsException() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
-        Command c = new DeleteExpenseCommand("delete-expense null");
-
-        c.execute(incomes, expenseList);
-
-        assertEquals("Expense not found: null", c.getOutputMessage());
-        assertEquals(3, expenseList.getSize()); // Ensure list size remains unchanged
+        Command command = new DeleteExpenseCommand("delete-expense");
+        try{
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Expense Index is required.";
+            assertEquals(expectedError, e.getMessage());
+        }
     }
+
+
 }
