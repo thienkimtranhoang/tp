@@ -86,7 +86,8 @@ public class AddIncomeCommand extends Command {
 
                 if (integerPart.length() > 7) {
                     logger.warning("Amount exceeds 7 digit limit: " + integerPart);
-                    throw new ExceedsMaxDigitException("Amount exceeds 7 digits. Please enter a number with up to 7 digits.");
+                    throw new ExceedsMaxDigitException("Amount exceeds 7 digits. " +
+                            "Please enter a number with up to 7 digits.");
                 }
 
                 if (parts.length > 1) {
