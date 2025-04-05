@@ -3,6 +3,7 @@ package budgetflow.command;
 import budgetflow.exception.FinanceException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
+
 import java.util.List;
 
 //@@ author Yikbing
@@ -48,9 +49,9 @@ public class HelpCommand extends Command {
         helpMessage.append("To Update an expense: update-expense <INDEX> category/<CATEGORY> OR amt/<AMOUNT> OR " +
                 "desc/<DESCRIPTION> d/<DD-MM-YYYY>\n" + CYAN);
         helpMessage.append("To Update an Income :\n" + RESET +
-                        "update-income category/<CATEGORY>\n" + YELLOW +
-                        "OR update-income amt/<AMOUNT>\n" + RESET +
-                        "OR update-income d/<DD-MM-YYYY>\n" + YELLOW +
+                "update-income category/<CATEGORY>\n" + YELLOW +
+                "OR update-income amt/<AMOUNT>\n" + RESET +
+                "OR update-income d/<DD-MM-YYYY>\n" + YELLOW +
                 "OR any other combination of the three\n" + RESET);
         helpMessage.append("To filter income by date: filter-income date from/<DD-MM-YYYY> to/<DD-MM-YYYY>\n" + CYAN);
         helpMessage.append("To filter income by amount: filter-income amount from/<AMOUNT 1> to/<AMOUNT 2>\n" + RESET);
