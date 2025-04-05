@@ -43,26 +43,33 @@ public class FilterIncomeCommand extends Command {
             StringBuilder sb = new StringBuilder();
             String border = BORDER_CHAR.repeat(OUTPUT_WIDTH);
             sb.append(border).append(System.lineSeparator());
-            sb.append(centerText("FILTER INCOME USAGE GUIDE", OUTPUT_WIDTH)).append(System.lineSeparator());
+            sb.append(centerText("FILTER INCOME USAGE GUIDE", OUTPUT_WIDTH))
+                    .append(System.lineSeparator());
             sb.append(border).append(System.lineSeparator());
             sb.append(System.lineSeparator());
 
             // Section 1: Filter by Category
             sb.append("1. Filter by Category:").append(System.lineSeparator());
-            sb.append("   Usage   : filter-income category/<category>").append(System.lineSeparator());
-            sb.append("   Example : filter-income category/Salary").append(System.lineSeparator());
+            sb.append("   Usage   : filter-income category/<category>")
+                    .append(System.lineSeparator());
+            sb.append("   Example : filter-income category/Salary")
+                    .append(System.lineSeparator());
             sb.append(System.lineSeparator());
 
             // Section 2: Filter by Amount
             sb.append("2. Filter by Amount:").append(System.lineSeparator());
-            sb.append("   Usage   : filter-income amount from/<minAmount> to/<maxAmount>").append(System.lineSeparator());
-            sb.append("   Example : filter-income amount from/1000 to/5000").append(System.lineSeparator());
+            sb.append("   Usage   : filter-income amount from/<minAmount> " +
+                    "to/<maxAmount>").append(System.lineSeparator());
+            sb.append("   Example : filter-income amount from/1000 to/5000")
+                    .append(System.lineSeparator());
             sb.append(System.lineSeparator());
 
             // Section 3: Filter by Date
             sb.append("3. Filter by Date:").append(System.lineSeparator());
-            sb.append("   Usage   : filter-income date from/DD-MM-YYYY to/DD-MM-YYYY").append(System.lineSeparator());
-            sb.append("   Example : filter-income date from/01-01-2023 to/31-12-2023").append(System.lineSeparator());
+            sb.append("   Usage   : filter-income date from/DD-MM-YYYY " +
+                    "to/DD-MM-YYYY").append(System.lineSeparator());
+            sb.append("   Example : filter-income date from/01-01-2023 " +
+                    "to/31-12-2023").append(System.lineSeparator());
             sb.append(System.lineSeparator());
 
             sb.append(border);
