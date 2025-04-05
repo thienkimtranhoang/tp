@@ -37,6 +37,7 @@ even compare monthly expenses at ease.
 
 ### 1. Logging an Expense
 **Description:** Logs a new expense with a category, description, amount, and date.  
+Note: the inputs must follow the specified order, and there should be proper spacing between each component.  
 **Command:**
 ```plaintext
 log-expense category/<CATEGORY> desc/<DESCRIPTION> amt/<AMOUNT> d/<DATE>
@@ -55,15 +56,24 @@ Expense logged: Coffee | Coffee | $3.50 | 06-03-2025
 
 ### 2. Updating an Expense Entry
 **Description:** Updates an instance of an Expense entry.  
-**How it works** The user only has to write the Index and the thing that the user would like to update.
-E.g. If the user only wants to update the amt, he can run `update-expense INDEX amt/[UPDATED_AMOUNT]`
-**Command:**
+**How it works:** The user only has to write the index and the part they would like to update.  
+For example, if the user only wants to update the amount, they can run:
 ```plaintext
-update-expense [INDEX] category/[UPDATED_CATEGORY] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]
+update-expense INDEX amt/[UPDATED_AMOUNT]
+```
+if user only wants to update the category and amount, they can run:
+```plaintext
+update-expense INDEX amt/[UPDATED_AMOUNT] category/[UPDATED_CATEGORY]
+```
+Note: `amount`, `category`, `date` and `description` can be in any order
+
+**Input:**
+```plaintext
+update-expense [INDEX] category/[UPDATED_CATEGORY] desc/[UPDATED_DESCRIPTION] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]
 ```
 **Output:**
 ```plaintext
-Expense updated: [UPDATED_CATEGORY], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DATE]
+Expense updated: [UPDATED_CATEGORY], Description: [UPDATED_DESCRIPTION], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DATE]
 ```
 
 ---
@@ -112,15 +122,20 @@ Total expenses for MM-YYYY: [AMOUNT]
 
 ### 6. Updating an Income
 **Description:** Updates an instance of an Income entry.  
-**How it works** The user only has to write the Index and the thing that the user would like to update. 
-E.g. If the user only wants to update the amt, he can run `update-income INDEX amt/[UPDATED_AMOUNT]`
+**How it works** The user only has to write the Index and the thing that the user would like to update (note: need spacing between each part).  
+E.g. If the user only wants to update the amt, he can run `update-income INDEX amt/[UPDATED_AMOUNT]`  
+if user only wants to update the category and amount, they can run:
+```plaintext
+update-expense INDEX amt/[UPDATED_AMOUNT] category/[UPDATED_CATEGORY]
+```
+Note: amount, category, date and description can be in any order
 **Command:**
 ```plaintext
-update-income [INDEX] category/[UPDATED_CATEGORY] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]
+update-income [INDEX] category/[UPDATED_CATEGORY], desc/[UPDATED_DESCRIPTION], amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]
 ```
 **Output:**
 ```plaintext
-Income updated: [UPDATED_CATEGORY], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DATE]
+Income updated: [UPDATED_CATEGORY], Description: [UPDATED_DESCRIPTION], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DATE]
 ```
 
 ---
