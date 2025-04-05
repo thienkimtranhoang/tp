@@ -1,21 +1,17 @@
 package budgetflow.command;
 
-import budgetflow.exception.FinanceException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-
-//@@author IgoyAI
 class FilterIncomeByAmountCommandTest {
 
     @Test
-    void amount_valid_returnsMatching() throws FinanceException {
+    void amount_valid_returnsMatching() throws Exception {
         List<Income> incomes = new ArrayList<>();
         incomes.add(new Income("Salary", 2500.00, "15-03-2025"));
         incomes.add(new Income("Bonus", 500.00, "20-03-2025"));
@@ -23,58 +19,52 @@ class FilterIncomeByAmountCommandTest {
         ExpenseList expenseList = new ExpenseList();
 
         // Filter incomes with amount between 500 and 3000 should return Salary and Bonus
-        Command command = new FilterIncomeByAmountCommand(
-                "filter-income amount from/500 to/3000");
+        Command command = new FilterIncomeByAmountCommand("filter-income amount from/500 to/3000");
         command.execute(incomes, expenseList);
-        String expectedOutput = "Filtered Incomes by Amount (500.0 to 3000.0):\n"
-                + "Salary | $2500.00 | 15-03-2025\n"
-                + "Bonus | $500.00 | 20-03-2025\n";
+        String expectedOutput = String.format("Filtered Incomes by Amount Range: %.2f to %.2f%n%n", 500.0, 3000.0)
+                + String.format("%-20s | %-10s | %-15s%n", "Category", "Amount", "Date")
+                + String.format("%-20s-+-%-10s-+-%-15s%n", "-".repeat(20), "-".repeat(10), "-".repeat(15))
+                + String.format("%-20s | $%-9.2f | %-15s%n", "Salary", 2500.00, "15-03-2025")
+                + String.format("%-20s | $%-9.2f | %-15s%n", "Bonus", 500.00, "20-03-2025");
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     @Test
-    void amount_noMatch_returnsNone() throws FinanceException {
+    void amount_noMatch_returnsNone() throws Exception {
         List<Income> incomes = new ArrayList<>();
         incomes.add(new Income("Salary", 2500.00, "15-03-2025"));
         ExpenseList expenseList = new ExpenseList();
 
         // Filter range that does not match any income amounts
-        Command command = new FilterIncomeByAmountCommand(
-                "filter-income amount from/3000 to/5000");
+        Command command = new FilterIncomeByAmountCommand("filter-income amount from/3000 to/5000");
         command.execute(incomes, expenseList);
-        String expectedOutput = "Filtered Incomes by Amount (3000.0 to 5000.0):\n"
+        String expectedOutput = String.format("Filtered Incomes by Amount Range: %.2f to %.2f%n%n", 3000.0, 5000.0)
+                + String.format("%-20s | %-10s | %-15s%n", "Category", "Amount", "Date")
+                + String.format("%-20s-+-%-10s-+-%-15s%n", "-".repeat(20), "-".repeat(10), "-".repeat(15))
                 + "No incomes found in the specified amount range.";
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     @Test
-    void amount_invalidFormat_throws() {
+    void amount_invalidFormat_returnsUsageGuide() throws Exception {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
-        Command command = new FilterIncomeByAmountCommand(
-                "filter-income amount from/2500");
-        try {
-            command.execute(incomes, expenseList);
-            fail();
-        } catch (FinanceException e) {
-            String expectedError = "Invalid amount filter format. Usage: filter-income amount " +
-                    "from/<minAmount> to/<maxAmount>";
-            assertEquals(expectedError, e.getMessage());
-        }
+        // Missing the "to/<maxAmount>" part
+        Command command = new FilterIncomeByAmountCommand("filter-income amount from/2500");
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Usage: filter-income amount from/<minAmount> to/<maxAmount>\n"
+                + "Example: filter-income amount from/1000 to/5000";
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     @Test
-    void amount_rangeInvalid_throws() {
+    void amount_rangeInvalid_returnsErrorMessage() throws Exception {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
-        Command command = new FilterIncomeByAmountCommand(
-                "filter-income amount from/3000 to/2500");
-        try {
-            command.execute(incomes, expenseList);
-            fail();
-        } catch (FinanceException e) {
-            String expectedError = "Minimum amount should not be greater than maximum amount.";
-            assertEquals(expectedError, e.getMessage());
-        }
+        // Invalid range: minAmount > maxAmount
+        Command command = new FilterIncomeByAmountCommand("filter-income amount from/3000 to/2500");
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Minimum amount should not be greater than maximum amount.";
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 }

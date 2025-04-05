@@ -39,7 +39,7 @@ class DeleteExpenseCommandTest {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
         Command command = new DeleteExpenseCommand("delete-expense 4");
-        try{
+        try {
             command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
@@ -54,7 +54,7 @@ class DeleteExpenseCommandTest {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
         Command command = new DeleteExpenseCommand("delete-expense a");
-        try{
+        try {
             command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
@@ -69,7 +69,7 @@ class DeleteExpenseCommandTest {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
         Command command = new DeleteExpenseCommand("delete-expense");
-        try{
+        try {
             command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {

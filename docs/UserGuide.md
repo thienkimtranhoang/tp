@@ -58,6 +58,7 @@ These constraints reflect realistic daily usage for students, the primary target
 * This app is meant for users who prefer to type in CLI-command in English. For other language characters, the chatbot may not be able to parse them. 
 
 ## Features
+
 ### 1. Logging an Expense
 **Description:** Logs a new expense with a category, description, amount, and date.  
 Note: the inputs must follow the specified order, and there should be proper spacing between each component.  
@@ -81,13 +82,17 @@ Expense logged: Coffee | Coffee | $3.50 | 06-03-2025
 **Description:** Updates an instance of an Expense entry.  
 **How it works:** The user only has to write the index and the part they would like to update.  
 For example, if the user only wants to update the amount, they can run:
+
 ```plaintext
 update-expense INDEX amt/[UPDATED_AMOUNT]
 ```
+
 if user only wants to update the category and amount, they can run:
+
 ```plaintext
 update-expense INDEX amt/[UPDATED_AMOUNT] category/[UPDATED_CATEGORY]
 ```
+
 Note: `amount`, `category`, `date` and `description` can be in any order
 
 **Input:**
@@ -408,26 +413,35 @@ Freelance | Website Development | $500.00 | 05-04-2025
 **Command:**
 
 ```plaintext
-find-income /category <CATEGORY>
+filter-income category/category
 ```
-
-- tag `/category` indicates filtering by category.
-- keyword `<CATEGORY>` contains the name of the category for filtering.
-- **NOTE**: the tag and keywords are **CASE SENSITIVE**.
-
+- Tag category/ specifies the category for filtering.
+- Tag and keyword are CASE INSENSITIVE.
+- The keyword <category> must not be empty.
+- 
 **Output:**
 
 ```plaintext
-Here are all matching income entries:
-[INFORMATION OF MATCHING INCOME ENTRIES]
+Filtered Incomes by Category: <category>
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+[Matching income entries displayed here]
+
+If no entries match, the output will be:
+No incomes found under the specified category.
 ```
 
 **Example:**
 
 ```plaintext
-find-income /category Salary
-Here are all matching income entries:
-Salary | Monthly Salary | $3000.00 | 01-04-2025
+filter-income category/Salary
+
+Filtered Incomes by Category: Salary
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+Salary               | $3000.00   | 01-04-2025   
 ---
 ```
 
@@ -435,108 +449,90 @@ Salary | Monthly Salary | $3000.00 | 01-04-2025
 
 #### 12.2 Filtering Income by Amount
 
-**Description:** Filters all income entries matching the specified amount.
+**Description:** Filters income entries within a specified amount range.
 
 **Command:**
 
 ```plaintext
-find-income /amt <AMT>
+filter-income amount from/<minAmount> to/<maxAmount>
 ```
-
-- tag `/amt` indicates filtering by amount.
-- keyword `<AMT>` contains the specific amount value.
-- **NOTE**:
-  - the tag is **CASE SENSITIVE**.
-  - Value of `<AMT>` must be a valid integer or decimal number with digit before dot. Invalid examples: `string`, `.12`, `5..6`.
+- Tag from/ specifies the minimum amount.
+- Tag to/ specifies the maximum amount.
+- Both tags and values are CASE SENSITIVE.
+- Values must be valid integers or decimal numbers, starting with a digit (valid: 100, 500.50; invalid: string, .50, 3..2).
+- The minimum amount must be less than or equal to the maximum amount.
 
 **Output:**
 
 ```plaintext
-Here are all matching income entries:
-[INFORMATION OF MATCHING INCOME ENTRIES]
+Filtered Incomes by Amount Range: <minAmount> to <maxAmount>
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+[Matching income entries displayed here]
+
+If no entries match, the output will be:
+No incomes found in the specified amount range.
 ```
 
 **Example:**
 
 ```plaintext
-find-income /amt 500.00
-Here are all matching income entries:
-Freelance | Website Development | $500.00 | 05-04-2025
+filter-income amount from/100.00 to/1000.00
+
+Filtered Incomes by Amount Range: 100.00 to 1000.00
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+Freelance            | $500.00    | 05-04-2025     
+Salary               | $900.00    | 01-04-2025     
 ---
 ```
 
 ---
 
-#### 12.3 Filtering Income by Amount Range
+### 14. Filtering Income by Date
 
-**Description:** Filters all income entries with amount values within a specified range.
+**Description:** Filters income entries within a specified date range.
 
 **Command:**
 
 ```plaintext
-find-income /amtrange <AMT1> <AMT2>
+filter-income date from/DD-MM-YYYY to/DD-MM-YYYY
 ```
-
-- tag `/amtrange` indicates filtering by amount range.
-- keywords `<AMT1>` and `<AMT2>` represent the range for filtering.
-  - `<AMT1>`: Lower bound of the range.
-  - `<AMT2>`: Upper bound of the range.
-- **NOTE**:
-  - the tag is **CASE SENSITIVE**.
-  - Values of `<AMT1>` and `<AMT2>` must be valid integers or decimals with digit before dot. Invalid examples: `string`, `.12`, `5..6`.
-  - `<AMT1>` and `<AMT2>` must be separated by at least one space ` `.
+- Tag from/ specifies the start date of the range.
+- Tag to/ specifies the end date of the range.
+- Both tags and date values are CASE SENSITIVE.
+- Dates must follow the format DD-MM-YYYY and must be valid calendar dates (valid: 01-01-2025; invalid: 31-02-2025, string, 12/12/2025).
+- The start date must be earlier than or equal to the end date.
 
 **Output:**
 
 ```plaintext
-Here are all matching income entries:
-[INFORMATION OF MATCHING INCOME ENTRIES]
+Output:
+
+Filtered Incomes by Date: <fromDate> to <toDate>
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+[Matching income entries displayed here]
+
+If no entries match, the output will be:
+No incomes found in the specified date range. 
 ```
 
 **Example:**
 
 ```plaintext
-find-income /amtrange 400.00 3000.00
-Here are all matching income entries:
-Salary | Monthly Salary | $3000.00 | 01-04-2025
-Freelance | Website Development | $500.00 | 05-04-2025
+Filtered Incomes by Date (01-03-2025 to 31-03-2025)
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+Salary               | $1000.00   | 06-03-2025     
 ---
 ```
 
----
-
-#### 12.4 Filtering Income by Date
-
-**Description:** Filters all income entries recorded on a specific date.
-
-**Command:**
-
-```plaintext
-find-income /date <DATE>
-```
-
-- tag `/date` indicates filtering by date.
-- keyword `<DATE>` must follow the format `DD-MM-YYYY`.
-- **NOTE**:
-  - the tag is **CASE SENSITIVE**.
-  - Date must be valid. Invalid examples: `31-02-2025`, `string`, `12/12/2025`.
-
-**Output:**
-
-```plaintext
-Here are all matching income entries:
-[INFORMATION OF MATCHING INCOME ENTRIES]
-```
-
-**Example:**
-
-```plaintext
-find-income /date 01-04-2025
-Here are all matching income entries:
-Salary | Monthly Salary | $3000.00 | 01-04-2025
----
-```
-### 13. Exiting the Application
+### 16. Exiting the Application
 **Description:** Safely exits the BudgetFlow application.  
 **Command:**
 ```plaintext
@@ -544,7 +540,10 @@ exit
 ```
 **Output:**
 ```plaintext
-Goodbye!
+============================================================
+              Thank you for using Budgetflow!
+                          Goodbye!
+============================================================
 ```
 
 ### 14. help

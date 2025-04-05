@@ -1,8 +1,8 @@
 package budgetflow.command;
 
+import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
-import budgetflow.exception.InvalidNumberFormatException;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -34,6 +34,20 @@ public class DeleteExpenseCommand extends Command {
     }
 
     /**
+     * Checks if the provided index string is empty.
+     *
+     * @param indexString The string representing the index to be checked.
+     * @throws InvalidNumberFormatException If the index string is empty.
+     */
+    //@@ author Yikbing
+    private static void checkEmptyIndex(String indexString) throws InvalidNumberFormatException {
+        if (indexString.isEmpty()) {
+            logger.warning(LOG_ATTEMPT_EMPTY_INDEX);
+            throw new InvalidNumberFormatException(ERROR_EMPTY_INDEX);
+        }
+    }
+
+    /**
      * Executes the command to delete an expense from the expense list.
      *
      * @param incomes      The list of incomes (unused in this command).
@@ -41,7 +55,7 @@ public class DeleteExpenseCommand extends Command {
      */
     //@@author Yikbing
     @Override
-    public void execute(List<Income> incomes, ExpenseList expenseList) throws InvalidNumberFormatException{
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws InvalidNumberFormatException {
 
         String indexString = input.substring(COMMAND_DELETE_EXPENSE.length()).trim();
 
@@ -60,21 +74,6 @@ public class DeleteExpenseCommand extends Command {
         }
 
     }
-
-    /**
-     * Checks if the provided index string is empty.
-     *
-     * @param indexString The string representing the index to be checked.
-     * @throws InvalidNumberFormatException If the index string is empty.
-     */
-    //@@ author Yikbing
-    private static void checkEmptyIndex(String indexString) throws InvalidNumberFormatException {
-        if (indexString.isEmpty()) {
-            logger.warning(LOG_ATTEMPT_EMPTY_INDEX);
-            throw new InvalidNumberFormatException(ERROR_EMPTY_INDEX);
-        }
-    }
-
 
     /**
      * Validates whether the provided index is within the valid range of the expense list.
@@ -106,5 +105,5 @@ public class DeleteExpenseCommand extends Command {
         this.outputMessage = LOG_EXPENSE_DELETED + deletedDesc + ", $" + amount;
         logger.info(LOG_EXPENSE_DELETED + deletedDesc);
     }
-    
+
 }
