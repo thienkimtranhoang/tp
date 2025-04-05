@@ -24,9 +24,17 @@ import java.util.stream.Collectors;
 public class FilterIncomeByAmountCommand extends Command {
     private static final Logger logger = Logger.getLogger(FilterIncomeByAmountCommand.class.getName());
     private static final String COMMAND_PREFIX = "filter-income amount";
-    // Precompile regex patterns for improved performance.
     private static final Pattern FROM_PATTERN = Pattern.compile("from/([0-9]+(\\.[0-9]+)?)");
     private static final Pattern TO_PATTERN = Pattern.compile("to/([0-9]+(\\.[0-9]+)?)");
+
+    // Constants for messages and formats
+    private static final String USAGE_GUIDE = "Usage: filter-income amount from/<minAmount> to/<maxAmount>\n"
+            + "Example: filter-income amount from/1000 to/5000";
+    private static final String ERROR_MIN_GREATER_THAN_MAX = "Minimum amount should not be greater than maximum amount.";
+    private static final String FILTERED_HEADER = "Filtered Incomes by Amount Range: %.2f to %.2f%n%n";
+    private static final String TABLE_ROW_FORMAT = "%-20s | %-10s | %-15s%n";
+    private static final String TABLE_SEPARATOR_FORMAT = "%-20s-+-%-10s-+-%-15s%n";
+    private static final String EMPTY_RESULT_MESSAGE = "No incomes found in the specified amount range.";
 
     /**
      * Constructs a FilterIncomeByAmountCommand with the specified user input.
@@ -50,9 +58,8 @@ public class FilterIncomeByAmountCommand extends Command {
     public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException {
         String trimmedInput = input.trim();
         // Check for incomplete input: "filter-income" or "filter-income amount" (no parameters).
-        if (trimmedInput.equals("filter-income") || trimmedInput.equals("filter-income amount")) {
-            this.outputMessage = "Usage: filter-income amount from/<minAmount> to/<maxAmount>\n" +
-                    "Example: filter-income amount from/1000 to/5000";
+        if (trimmedInput.equals("filter-income") || trimmedInput.equals(COMMAND_PREFIX)) {
+            this.outputMessage = USAGE_GUIDE;
             logger.info("Displayed usage guide for filter-income amount command.");
             return;
         }
@@ -62,8 +69,7 @@ public class FilterIncomeByAmountCommand extends Command {
         Matcher fromMatcher = FROM_PATTERN.matcher(params);
         Matcher toMatcher = TO_PATTERN.matcher(params);
         if (!fromMatcher.find() || !toMatcher.find()) {
-            this.outputMessage = "Usage: filter-income amount from/<minAmount> to/<maxAmount>\n" +
-                    "Example: filter-income amount from/1000 to/5000";
+            this.outputMessage = USAGE_GUIDE;
             logger.info("Displayed usage guide for filter-income amount command due to invalid format.");
             return;
         }
@@ -71,7 +77,7 @@ public class FilterIncomeByAmountCommand extends Command {
         double minAmount = Double.parseDouble(fromMatcher.group(1));
         double maxAmount = Double.parseDouble(toMatcher.group(1));
         if (minAmount > maxAmount) {
-            this.outputMessage = "Minimum amount should not be greater than maximum amount.";
+            this.outputMessage = ERROR_MIN_GREATER_THAN_MAX;
             logger.info("Displayed error: Minimum amount is greater than maximum amount.");
             return;
         }
@@ -82,16 +88,15 @@ public class FilterIncomeByAmountCommand extends Command {
                 .collect(Collectors.toList());
 
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Filtered Incomes by Amount Range: %.2f to %.2f%n%n", minAmount, maxAmount));
+        sb.append(String.format(FILTERED_HEADER, minAmount, maxAmount));
         // Define table header format with fixed column widths.
-        String rowFormat = "%-20s | %-10s | %-15s%n";
-        sb.append(String.format(rowFormat, "Category", "Amount", "Date"));
-        sb.append(String.format("%-20s-+-%-10s-+-%-15s%n", "-".repeat(20), "-".repeat(10), "-".repeat(15)));
+        sb.append(String.format(TABLE_ROW_FORMAT, "Category", "Amount", "Date"));
+        sb.append(String.format(TABLE_SEPARATOR_FORMAT, "-".repeat(20), "-".repeat(10), "-".repeat(15)));
         if (filteredIncomes.isEmpty()) {
-            sb.append("No incomes found in the specified amount range.");
+            sb.append(EMPTY_RESULT_MESSAGE);
         } else {
             for (Income income : filteredIncomes) {
-                sb.append(String.format(rowFormat, income.getCategory(),
+                sb.append(String.format(TABLE_ROW_FORMAT, income.getCategory(),
                         "$" + String.format("%.2f", income.getAmount()), income.getDate()));
             }
         }

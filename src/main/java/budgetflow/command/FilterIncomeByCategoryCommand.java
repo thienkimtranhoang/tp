@@ -22,6 +22,14 @@ public class FilterIncomeByCategoryCommand extends Command {
     private static final Logger logger = Logger.getLogger(FilterIncomeByCategoryCommand.class.getName());
     private static final String COMMAND_PREFIX = "filter-income category/";
 
+    // Constants for messages and formats
+    private static final String USAGE_GUIDE = "Usage: filter-income category/<category>\n" +
+            "Example: filter-income category/Salary";
+    private static final String HEADER_FORMAT = "Filtered Incomes by Category: %s%n%n";
+    private static final String TABLE_ROW_FORMAT = "%-20s | %-10s | %-15s%n";
+    private static final String TABLE_SEPARATOR_FORMAT = "%-20s-+-%-10s-+-%-15s%n";
+    private static final String NO_INCOMES_FOUND = "No incomes found under the specified category.";
+
     /**
      * Constructs a FilterIncomeByCategoryCommand with the specified user input.
      *
@@ -43,38 +51,34 @@ public class FilterIncomeByCategoryCommand extends Command {
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException {
         String trimmedInput = input.trim();
-        // If input equals "filter-income" or "filter-income category/" (no category provided)
-        if (trimmedInput.equals("filter-income") || trimmedInput.equals("filter-income category/")) {
-            this.outputMessage = "Usage: filter-income category/<category>\n" +
-                    "Example: filter-income category/Salary";
+        // Check for incomplete input: "filter-income" or "filter-income category/" (no category provided).
+        if (trimmedInput.equals("filter-income") || trimmedInput.equals(COMMAND_PREFIX)) {
+            this.outputMessage = USAGE_GUIDE;
             logger.info("Displayed usage guide for filter-income category command.");
             return;
         }
         // Remove the command prefix and trim to extract the category.
         String category = input.substring(COMMAND_PREFIX.length()).trim();
         if (category.isEmpty()) {
-            this.outputMessage = "Usage: filter-income category/<category>\n" +
-                    "Example: filter-income category/Salary";
+            this.outputMessage = USAGE_GUIDE;
             logger.info("Displayed usage guide for filter-income category command due to empty category.");
             return;
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Filtered Incomes by Category: %s%n%n", category));
-        // Define the table header format with fixed column widths.
-        String rowFormat = "%-20s | %-10s | %-15s%n";
-        sb.append(String.format(rowFormat, "Category", "Amount", "Date"));
-        sb.append(String.format("%-20s-+-%-10s-+-%-15s%n", "-".repeat(20), "-".repeat(10), "-".repeat(15)));
+        sb.append(String.format(HEADER_FORMAT, category));
+        sb.append(String.format(TABLE_ROW_FORMAT, "Category", "Amount", "Date"));
+        sb.append(String.format(TABLE_SEPARATOR_FORMAT, "-".repeat(20), "-".repeat(10), "-".repeat(15)));
         boolean found = false;
         for (Income income : incomes) {
             if (income.getCategory().equalsIgnoreCase(category)) {
-                sb.append(String.format(rowFormat, income.getCategory(),
+                sb.append(String.format(TABLE_ROW_FORMAT, income.getCategory(),
                         "$" + String.format("%.2f", income.getAmount()), income.getDate()));
                 found = true;
             }
         }
         if (!found) {
-            sb.append("No incomes found under the specified category.");
+            sb.append(NO_INCOMES_FOUND);
         }
         this.outputMessage = sb.toString();
         logger.info("Filtered incomes by category: " + this.outputMessage);
