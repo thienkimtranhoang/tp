@@ -7,12 +7,13 @@ import budgetflow.income.Income;
 import java.util.List;
 import java.util.logging.Logger;
 
-//@@author Yikbing
+
 /**
  * The DeleteIncomeCommand class processes the deletion of an income entry
  * based on its category. If the specified income category is not found,
  * an exception is thrown.
  */
+//@@author Yikbing
 public class DeleteIncomeCommand extends Command {
     private static final Logger logger = Logger.getLogger(DeleteIncomeCommand.class.getName());
     private static final String COMMAND_DELETE_INCOME = "delete-income ";
@@ -23,18 +24,17 @@ public class DeleteIncomeCommand extends Command {
     private static final String ERROR_EMPTY_CATEGORY = "Error: Income category is required.";
     private static final String INCOME_DELETED_HEADER = "Income deleted: ";
 
-    //@@author Yikbing
     /**
      * Constructs a DeleteIncomeCommand with the specified user input.
      *
      * @param input The command input containing the income category to be deleted.
      */
+    //@@author Yikbing
     public DeleteIncomeCommand(String input) {
         super(input);
         this.commandType = CommandType.DELETE;
     }
 
-    //@@author Yikbing
     /**
      * Executes the income deletion command by searching for an income entry with the given category.
      * If the income entry is found, it is removed from the list; otherwise, an exception is thrown.
@@ -43,6 +43,7 @@ public class DeleteIncomeCommand extends Command {
      * @param expenseList  The list of expense entries (unused in this command but required for consistency).
      * @throws UnfoundIncomeException If the specified income category is not found.
      */
+    //@@author dariusyawningwhiz
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
         if (!input.startsWith(COMMAND_DELETE_INCOME)) {

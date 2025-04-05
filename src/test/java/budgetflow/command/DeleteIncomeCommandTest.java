@@ -44,6 +44,7 @@ class DeleteIncomeCommandTest {
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void deleteIncome_invalidCommandFormat_expectInvalidCommandError() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -54,6 +55,7 @@ class DeleteIncomeCommandTest {
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void deleteIncome_emptyCategory_expectEmptyCategoryError() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -64,6 +66,7 @@ class DeleteIncomeCommandTest {
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void deleteIncome_validIncomeInMiddleOfList_expectIncomeDeleted() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();

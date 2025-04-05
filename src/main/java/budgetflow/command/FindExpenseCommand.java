@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static budgetflow.parser.DateValidator.isValidDate;
+
 //@@author QuyDatNguyen
 /**
  * Represents a command to find expenses based on a given keyword.
@@ -144,11 +146,6 @@ public class FindExpenseCommand extends Command {
         };
     }
 
-    private static boolean isValidDate(String keyword) {
-        if (!keyword.matches(DATE_PATTERN)) return false;
-        String[] parts = keyword.split("-");
-        return parts[2].length() == 4;
-    }
     private static boolean isValidAmtRange(String keyword) {
         String[] parts = keyword.split("\\s+");
         return parts.length == AMT_RANGE_LENGTH && parts[START_AMT_PART].matches(AMT_PATTERN)

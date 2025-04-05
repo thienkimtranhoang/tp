@@ -8,7 +8,7 @@ filter-income category/Salary
 delete-income Salary
 update-expense 1 category/drink amt/4.00 d/06-04-2025
 compare 03-2025 04-2025
-delete-expense Coffee
+delete-expense 1
 log-expense category/drink desc/Coffee amt/3.50 d/06-04-2025
 find-expense /category drink
 find-expense /desc Coffee

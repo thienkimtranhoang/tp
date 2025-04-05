@@ -11,8 +11,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+//@@ author Yikbing
 public class UpdateIncomeCommandTest {
 
+    //@@ author Yikbing
     @Test
     public void updateIncome_validInputCategory_updatesIncome() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -26,6 +28,7 @@ public class UpdateIncomeCommandTest {
 
     }
 
+    //@@ author Yikbing
     @Test
     public void updateIncome_validInputAmt_updatesIncome() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -39,6 +42,7 @@ public class UpdateIncomeCommandTest {
 
     }
 
+    //@@ author Yikbing
     @Test
     public void updateIncome_validInputDate_updatesIncome() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -52,6 +56,7 @@ public class UpdateIncomeCommandTest {
 
     }
 
+    //@@ author Yikbing
     @Test
     public void updateIncome_allValidInputs_updatesIncome() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -65,6 +70,7 @@ public class UpdateIncomeCommandTest {
 
     }
 
+    //@@ author Yikbing
     @Test
     public void updateIncome_inValidInputCategory_noChangeToIncome() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -79,6 +85,7 @@ public class UpdateIncomeCommandTest {
 
     }
 
+    //@@ author Yikbing
     @Test
     public void updateIncome_inValidInputAmt_throwsException() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -97,6 +104,7 @@ public class UpdateIncomeCommandTest {
 
     }
 
+    //@@ author Yikbing
     @Test
     public void updateIncome_inValidInputDate_throwsException() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -115,6 +123,7 @@ public class UpdateIncomeCommandTest {
 
     }
 
+    //@@ author Yikbing
     @Test
     public void updateIncome_inValidDateFormat_throwsException() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -133,6 +142,7 @@ public class UpdateIncomeCommandTest {
 
     }
 
+    //@@ author Yikbing
     @Test
     public void updateIncome_emptyList_throwsException(){
         ExpenseList expenseList = new ExpenseList();

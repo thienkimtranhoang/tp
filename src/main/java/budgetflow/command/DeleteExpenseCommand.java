@@ -2,70 +2,109 @@ package budgetflow.command;
 
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
+import budgetflow.exception.InvalidNumberFormatException;
 
 import java.util.List;
 import java.util.logging.Logger;
 
-//@@author Yikbing
+
 /**
  * Represents a command to delete an expense from the expense list.
  */
+//@@author Yikbing
 public class DeleteExpenseCommand extends Command {
     private static final Logger logger = Logger.getLogger(DeleteExpenseCommand.class.getName());
-    private static final String COMMAND_DELETE_EXPENSE = "delete-expense ";
-    private static final String ERROR_INVALID_COMMAND = "Invalid delete expense command format.";
-    private static final String ERROR_EMPTY_DESCRIPTION = "Error: Expense description is required.";
-    private static final String ERROR_EXPENSE_NOT_FOUND = "Expense not found: ";
-    private static final String LOG_ATTEMPT_EMPTY_DESCRIPTION = "Attempted to delete an empty expense description.";
-    private static final String LOG_ATTEMPT_NON_EXISTENT_EXPENSE = "Attempted to delete non-existent expense: ";
+    private static final String COMMAND_DELETE_EXPENSE = "delete-expense";
+    private static final String ERROR_EMPTY_INDEX = "Error: Expense Index is required.";
+    private static final String LOG_ATTEMPT_EMPTY_INDEX = "Attempted to delete an empty expense Index.";
     private static final String LOG_EXPENSE_DELETED = "Expense deleted: ";
+    private static final String ERROR_INVALID_EXPENSE_INDEX = "Error: Invalid expense index.";
+    private static final String ERROR_INVALID_NUMBER = "Error: Please enter a valid numeric index.";
+    private static final int CONVERT_TO_ZERO_INDEX = 1;
 
     /**
      * Constructs a DeleteExpenseCommand with the specified user input.
      *
      * @param input The user input string containing the expense to be deleted.
      */
+    //@@author Yikbing
     public DeleteExpenseCommand(String input) {
         super(input);
         this.commandType = CommandType.DELETE;
     }
 
-    //@@author Yikbing
     /**
      * Executes the command to delete an expense from the expense list.
      *
      * @param incomes      The list of incomes (unused in this command).
      * @param expenseList  The list of expenses from which the specified expense will be deleted.
      */
+    //@@author Yikbing
     @Override
-    public void execute(List<Income> incomes, ExpenseList expenseList) {
-        if (!input.startsWith(COMMAND_DELETE_EXPENSE)) {
-            logger.warning(ERROR_INVALID_COMMAND);
-            this.outputMessage = ERROR_INVALID_COMMAND;
-            return;
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws InvalidNumberFormatException{
+
+        String indexString = input.substring(COMMAND_DELETE_EXPENSE.length()).trim();
+
+        checkEmptyIndex(indexString);
+
+        try {
+            int index = Integer.parseInt(indexString) - CONVERT_TO_ZERO_INDEX;
+
+            checkValidIndex(expenseList, index);
+
+            deleteExpenseAndOutput(expenseList, index);
+
+        } catch (NumberFormatException e) {
+            logger.warning("Invalid index format: " + indexString);
+            throw new InvalidNumberFormatException(ERROR_INVALID_NUMBER);
         }
 
-        String expenseDesc = input.substring(COMMAND_DELETE_EXPENSE.length()).trim();
-
-        if (expenseDesc.isEmpty()) {
-            logger.warning(LOG_ATTEMPT_EMPTY_DESCRIPTION);
-            this.outputMessage = ERROR_EMPTY_DESCRIPTION;
-            return;
-        }
-
-        for (int i = 0; i < expenseList.getSize(); i++) {
-            assert expenseList.get(i) != null : "Expense list contains a null entry";
-            assert expenseList.get(i).getDescription() != null : "Expense entry has a null description";
-            if (expenseList.get(i) != null && expenseList.get(i).getDescription() != null &&
-                    expenseList.get(i).getDescription().equalsIgnoreCase(expenseDesc)) {
-                expenseList.delete(i);
-                this.outputMessage = LOG_EXPENSE_DELETED + expenseDesc;
-                logger.info(LOG_EXPENSE_DELETED + expenseDesc);
-                return;
-            }
-        }
-
-        logger.warning(LOG_ATTEMPT_NON_EXISTENT_EXPENSE + expenseDesc);
-        this.outputMessage = ERROR_EXPENSE_NOT_FOUND + expenseDesc;
     }
+
+    /**
+     * Checks if the provided index string is empty.
+     *
+     * @param indexString The string representing the index to be checked.
+     * @throws InvalidNumberFormatException If the index string is empty.
+     */
+    //@@ author Yikbing
+    private static void checkEmptyIndex(String indexString) throws InvalidNumberFormatException {
+        if (indexString.isEmpty()) {
+            logger.warning(LOG_ATTEMPT_EMPTY_INDEX);
+            throw new InvalidNumberFormatException(ERROR_EMPTY_INDEX);
+        }
+    }
+
+
+    /**
+     * Validates whether the provided index is within the valid range of the expense list.
+     *
+     * @param expenseList The list of expenses to validate the index against.
+     * @param index       The index to be validated.
+     * @throws InvalidNumberFormatException If the index is out of bounds.
+     */
+    //@@author Yikbing
+    private void checkValidIndex(ExpenseList expenseList, int index) throws InvalidNumberFormatException {
+        if (index < 0 || index >= expenseList.getSize()) {
+            logger.warning("Attempted to delete with invalid index: " + (index + 1));
+            throw new InvalidNumberFormatException(ERROR_INVALID_EXPENSE_INDEX);
+        }
+    }
+
+
+    /**
+     * Deletes the specified expense from the expense list and generates the output message.
+     *
+     * @param expenseList The list of expenses from which the expense will be deleted.
+     * @param index       The index of the expense to be deleted.
+     */
+    //@@author Yikbing
+    private void deleteExpenseAndOutput(ExpenseList expenseList, int index) {
+        String deletedDesc = expenseList.get(index).getDescription();
+        String amount = Double.toString(expenseList.get(index).getAmount());
+        expenseList.delete(index);
+        this.outputMessage = LOG_EXPENSE_DELETED + deletedDesc + ", $" + amount;
+        logger.info(LOG_EXPENSE_DELETED + deletedDesc);
+    }
+    
 }

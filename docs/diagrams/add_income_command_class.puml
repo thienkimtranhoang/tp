@@ -20,6 +20,7 @@ package budgetflow.exception {
     class "<<interface>> \n MissingAmountException"
     class "<<interface>> \n MissingCategoryException"
     class "<<interface>> \n MissingIncomeException"
+    class "<<interface>> \n ExceedsMaxDigitException"
 }
 
 package budgetflow.expense {
@@ -51,6 +52,7 @@ class "{abstract} \n Command" {
 "{abstract} \n AddIncomeCommand" ..> "<<interface>> \n MissingAmountException" : throws
 "{abstract} \n AddIncomeCommand" ..> "<<interface>> \n MissingCategoryException" : throws
 "{abstract} \n AddIncomeCommand" ..> "<<interface>> \n MissingIncomeException" : throws
+"{abstract} \n AddIncomeCommand" ..> "<<interface>> \n ExceedsMaxDigitException" : throws
 "{abstract} \n AddIncomeCommand" ..> Income : uses
 "{abstract} \n AddIncomeCommand" ..> ExpenseList : uses
 "{abstract} \n AddIncomeCommand" ..> DateValidator : uses
