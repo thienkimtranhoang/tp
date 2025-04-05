@@ -48,10 +48,12 @@ Notes about the command format:
   Example of correct format:
  ```add category/1amt 1.125456789 d/11-11-2025```
 This note applies to all commands. The above is an example of add income command.
-  The system expects space separation between the category parameter, amount value, and date parameter. Without proper spacing, the system may misinterpret your input or generate unexpected results.
+  The system expects space separation between the category parameter, amount value, and date parameter. Without proper spacing, the system may misinterpret your input or generate unexpected results.  
+* The current limit for total expenses amount is __$9,999,999.99__ (Nine million, nine hundred ninety-nine thousand, nine hundred ninety-nine dollars and ninety-nine cents). As such, users will not be able to log or update expense amounts that exceed this maximum total expense.  
+This maximum capacity is sufficient for tracking tuition fees, rent, and other typical expenses for several years of a student’s studies.
 * For all commands involving monetary amounts (e.g., income or expense entries), the following rules apply:
-✅ The integer part of the amount must not exceed 7 digits.
-✅ The decimal part must not exceed 2 digits (i.e., cents).
+✅ The integer part of the amount must not exceed 7 digits.  
+✅ The decimal part must not exceed 2 digits (i.e., cents).  
 These constraints reflect realistic daily usage for students, the primary target users of this application. As such, it is unlikely that users would need to record transactions involving more than 7 digits, and dollar amounts conventionally support up to 2 decimal places.
 * This app is meant for users who prefer to type in CLI-command in English. For other language characters, the chatbot may not be able to parse them. 
 

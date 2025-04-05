@@ -1,5 +1,6 @@
 package budgetflow.command;
 
+import budgetflow.exception.ExceedsMaxTotalExpense;
 import budgetflow.exception.FinanceException;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 class DeleteExpenseCommandTest {
     //@@author Yikbing
-    private static ExpenseList getListWith3Expenses() {
+    private static ExpenseList getListWith3Expenses() throws ExceedsMaxTotalExpense {
         ExpenseList expenseList = new ExpenseList();
         expenseList.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
         expenseList.add(new Expense("transport", "Transport", 3.20, "12-03-2025"));

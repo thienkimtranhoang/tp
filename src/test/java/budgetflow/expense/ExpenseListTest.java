@@ -1,9 +1,6 @@
 package budgetflow.expense;
 
-import budgetflow.exception.FinanceException;
-import budgetflow.exception.InvalidDateException;
-import budgetflow.exception.InvalidNumberFormatException;
-import budgetflow.exception.InvalidTagException;
+import budgetflow.exception.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 class ExpenseListTest {
 
-    private static ExpenseList getListWith5Expenses() {
+    private static ExpenseList getListWith5Expenses() throws ExceedsMaxTotalExpense {
         ExpenseList expenseList = new ExpenseList();
         expenseList.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
         expenseList.add(new Expense("transport", "Transport", 3.20, "12-03-2025"));
@@ -23,7 +20,7 @@ class ExpenseListTest {
 
     @Test
     void getByTag_normalTest() throws InvalidTagException,
-            InvalidNumberFormatException, InvalidDateException {
+            InvalidNumberFormatException, InvalidDateException, ExceedsMaxTotalExpense {
         ExpenseList testList = getListWith5Expenses();
         String tag = "/desc";
         String keyword = "Lunch";
@@ -35,7 +32,7 @@ class ExpenseListTest {
         assertEquals(expectedMatch.toString(), matchingExpenses.toString());
     }
     @Test
-    void getByTag_invalidTagTest() {
+    void getByTag_invalidTagTest() throws ExceedsMaxTotalExpense {
         ExpenseList testList = getListWith5Expenses();
         String tag = "/de";
         String keyword = "Lunch";
@@ -48,7 +45,7 @@ class ExpenseListTest {
         }
     }
     @Test
-    void getByTag_invalidNumberFormatTest() {
+    void getByTag_invalidNumberFormatTest() throws ExceedsMaxTotalExpense {
         ExpenseList testList = getListWith5Expenses();
         String tag = "/amt";
         String keyword = "foo ";
@@ -61,7 +58,7 @@ class ExpenseListTest {
         }
     }
     @Test
-    void getByTag_invalidDateTest() {
+    void getByTag_invalidDateTest() throws ExceedsMaxTotalExpense {
         ExpenseList testList = getListWith5Expenses();
         String tag = "/d";
         String keyword = "March 17";

@@ -1,5 +1,6 @@
 package budgetflow.command;
 
+import budgetflow.exception.ExceedsMaxTotalExpense;
 import budgetflow.exception.InvalidDateException;
 import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.expense.Expense;
@@ -19,7 +20,7 @@ public class UpdateExpenseCommandTest {
     private List<Income> incomes;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws ExceedsMaxTotalExpense {
         expenseList = new ExpenseList();
         incomes = new ArrayList<>();
 

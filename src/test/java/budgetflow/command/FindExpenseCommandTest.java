@@ -1,7 +1,7 @@
 package budgetflow.command;
 
+import budgetflow.exception.ExceedsMaxTotalExpense;
 import budgetflow.exception.FinanceException;
-import budgetflow.exception.UnfoundExpenseException;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 //@@author QuyDatNguyen
 class FindExpenseCommandTest {
 
-    private static ExpenseList getListWith5Expenses() {
+    private static ExpenseList getListWith5Expenses() throws ExceedsMaxTotalExpense {
         ExpenseList expenseList = new ExpenseList();
         expenseList.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
         expenseList.add(new Expense("transport", "Transport", 3.20, "12-03-2025"));
@@ -26,7 +26,7 @@ class FindExpenseCommandTest {
         return expenseList;
     }
 
-    private static ExpenseList getListWith3Expenses() {
+    private static ExpenseList getListWith3Expenses() throws ExceedsMaxTotalExpense {
         ExpenseList expenseList = new ExpenseList();
         expenseList.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
         expenseList.add(new Expense("transport", "Transport", 3.20, "12-03-2025"));
@@ -71,7 +71,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_foundNoExpenseDescTest() throws UnfoundExpenseException {
+    void findExpense_foundNoExpenseDescTest() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         try {
@@ -97,7 +97,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_noMatchingCategory() {
+    void findExpense_noMatchingCategory() throws ExceedsMaxTotalExpense {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
         try {
@@ -121,7 +121,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_noMatchingAmount() {
+    void findExpense_noMatchingAmount() throws ExceedsMaxTotalExpense {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
         try {
@@ -134,7 +134,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_invalidAmount() {
+    void findExpense_invalidAmount() throws ExceedsMaxTotalExpense {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
         try {
@@ -158,7 +158,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_noMatchingDate() {
+    void findExpense_noMatchingDate() throws ExceedsMaxTotalExpense {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = getListWith3Expenses();
         try {
@@ -171,7 +171,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_invalidDate() {
+    void findExpense_invalidDate() throws ExceedsMaxTotalExpense {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
         try {
@@ -196,7 +196,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_noMatchingAmountRange() {
+    void findExpense_noMatchingAmountRange() throws ExceedsMaxTotalExpense {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = getListWith3Expenses();
         try {
@@ -209,7 +209,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_invalidAmountRange() {
+    void findExpense_invalidAmountRange() throws ExceedsMaxTotalExpense {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
         try {
@@ -235,7 +235,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_noMatchingDateRange() {
+    void findExpense_noMatchingDateRange() throws ExceedsMaxTotalExpense {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = getListWith3Expenses();
         try {
@@ -248,7 +248,7 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_invalidDateRange() {
+    void findExpense_invalidDateRange() throws ExceedsMaxTotalExpense {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
         try {
@@ -261,14 +261,14 @@ class FindExpenseCommandTest {
     }
 
     @Test
-    void findExpense_noKeywordsTest() {
+    void findExpense_noKeywordsTest() throws ExceedsMaxTotalExpense {
         ExpenseList expenseList = getListWith3Expenses();
         List<Income> incomes = new ArrayList<>();
         try {
             Command c = new FindExpenseCommand("find-expense");
             c.execute(incomes, expenseList);
         } catch (FinanceException e) {
-            String expectedError = "Error: Missing keyword";
+            String expectedError = "I cannot recognise your finding condition. Please use valid tags for finding expenses: /desc, /d, /amt, /category, /amtrange, /drange";
             assertEquals(expectedError, e.getMessage());
         }
     }
