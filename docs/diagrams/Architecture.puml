@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+actor User
+package budgetflow {
+    [Main]
+    [Ui]
+    [Parser]
+    [Command]
+    [Storage]
+    [Model]
+}
+User --> [Main]
+[Main] -left-> [Model]
+[Main] --> [Storage]
+[Main] *-- [Ui]
+[Main] ..> [Parser]
+[Storage] ..> [Model]
+[Command] ..> [Model]
+[Parser] ..> [Command]
+[Ui] ..> [Command]
+
+@enduml

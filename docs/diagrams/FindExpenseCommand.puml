@@ -6,7 +6,7 @@ participant "expenseList: ExpenseList" as expenseList
 -> command ++: execute()
 command -> command: extract tag and keyword
 command --> command: tag, keyword
-command -> expenseList ++: get matching expenses
+command -> expenseList ++: get expenses based on tag and keyword
 command <-- expenseList --: matching expenses
 alt no matching expenses
     <-- command: unfound expense exception

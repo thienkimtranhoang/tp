@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant ":FinanceTracker" as FinanceTracker
+participant ":Command" as command
+participant ":Ui" as ui
+
+FinanceTracker -> command ++: execute()
+alt failed execution
+FinanceTracker <-- command: throws error
+FinanceTracker -> ui ++: printError(error message)
+FinanceTracker <-- ui --: display error message
+else successful execution
+FinanceTracker <-- command --:
+FinanceTracker -> command ++: getOutputMessage()
+FinanceTracker <-- command --: message
+FinanceTracker -> ui ++: printMessage(message)
+FinanceTracker <-- ui --: display result message
+end
+
+
+@enduml

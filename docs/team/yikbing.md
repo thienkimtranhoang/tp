@@ -32,8 +32,8 @@ filter them by category or date, and analyze their financial habits. It is writt
 
 * __Documentation:__
     * User Guide:
-      * Added documentation for delete-expense, delete-income and update-income command [#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
+      * Added documentation for delete-expense, delete-income, compare expenses and update-income command [#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
     * Developer Guide:
-      * Added delete-income, delete-expense and update-income for Implementation[#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
+      * Added delete-income, delete-expense, compare expenses and update-income for Implementation[#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
 * __Community:__
     * PRs reviewed (with non-trivial review comments): [#98](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/98)

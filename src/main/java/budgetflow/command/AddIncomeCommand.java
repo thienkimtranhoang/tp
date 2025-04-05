@@ -34,7 +34,7 @@ public class AddIncomeCommand extends Command {
     }
 
     /**
-     * Add the user income and save it to the income lists
+     * Adds the user income and save it to the income lists
      *
      * @param incomes list of incomes
      * @throws MissingDateException if user did not provide the date for income, or when use miss the date tag

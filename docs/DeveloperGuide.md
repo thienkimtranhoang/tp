@@ -23,7 +23,9 @@ Tran Hoang Thien Kim<br>
   * [UI](#ui) <br>
   * [Parser](#parser) <br>
   * [Command](#command) <br>
-  * [ExpenseList](#expenseList) <br>
+  * [Model](#model) <br>
+    * [Income](#income) <br>
+    * [ExpenseList](#expenselist) <br>
 * [Implementation](#Implementation) <br>
   * [Adding Income](#adding-income) <br>
   * [Logging an Expense](#logging-an-expense) <br>
@@ -45,10 +47,14 @@ Tran Hoang Thien Kim<br>
 * [Appendix D. Instructions for manual testing](#appendix-d-instructions-for-manual-testing)
 
 ## Introduction
+Budgetflow is lightweight, efficient, and fast—perfect for students to manage incomes and expenses via Command Line Interface (CLI).
+This developer guide provides information relating to architecture, implementation and design behind application to help developers contribute effectively.
 
 ## Getting Started
 
 ### Prerequisites
+* JDK 17
+* Gradle 7.6.2 or higher
 
 ### Setting Up
 <div style="background-color: #fff3cd; border-left: 6px solid #ffa502; padding: 10px;">
@@ -81,7 +87,19 @@ First, **fork** this repo, and **clone** the fork into your computer.
 ## Design
 This section outlines the various comp[DeveloperGuide.md](DeveloperGuide.md)onents of the application and explains how they interact to execute the program.
 ### Architecture
-
+![Architecture Diagram](images/Architecture.png)  
+  
+The __Architecture Diagram__ above explains the high-level design of the application.  
+#### Main component of application:
+* `Main` (including `MainTracker` and `FinanceTracker`): in charge of main flow of application from launch to shut down:  
+  * At the launch of application, it initializes all components and connect them in correct order.  
+  * During the run of application, it manages all components, including invoking method for UI's display, command's execution and saving data. 
+  * At the shut-down of application, in is in charge of shut down application and all components with clean up if necessary.  
+* `Storage`: storing data in hard disk and loading them during the run of application.
+* `UI`: managing user's communication with application and displaying messages to user.
+* `Model`: holds the data of the app relating to incomes and expenses.
+* `Parser`: parsing user's string command and convert them into commands.
+* `Command`: executable commands of the application.
 ### Storage
 The `Storage` component can save the list of incomes and expenses data in .txt format and read it back.
 
@@ -91,14 +109,16 @@ This serves as the main interface for communication between user and the Finance
 The class diagram of Ui is displayed as below  
 ![UI Class Diagram](images/UI_class.png)  
 Some method details of Ui class is noted as below:  
-* `public void showWelcom()`: print out the welcome message for the user.
+* `public void showWelcome()`: print out the welcome message for the user at the launch of application.
 * `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
 The sequence diagram below illustrates iteractions within Ui component under `readCommand()` call.  
   ![UI read command Diagram](images/UI_readCommandSequence.png)  
 If no input is parsed by user, the programme continues to wait for new input and repeat scanning as shown below:  
   ![ref Diagram](images/refGetCommand.png)  
 * `public void printError(String error)`: print out the error message for user by passing the string error message.
-* `public void printMessage(String message)`: print out the message as a String for user.
+* `public void printMessage(String message)`: print out the message as a String for user.  
+The example sequence diagram below shows how `Ui` prints messages/ errors after the `Command` execution  
+  ![UI print message sequence](images/Ui_printMessageSequence.png)  
 
 ### Parser
 The `Parser` component consists of `Parser` class, which handles of identifying command type from user's input and return appropriate command object based of recognized command.  
@@ -117,19 +137,26 @@ The command component
 * depends on `Income` and `ExpenseList` components to extract information of expense and income for execution.
 * hold the output messages which will be sent and displayed to user upon successful execution
 
-### ExpenseList
+### Model
+The `Model` component of diagram can be further divided into 2 main parts:
+  * `Income`: holding data of income in memory.
+  * `ExpenseList`: holding data of all expenses in memory
+### Income
+![Income Class Diagram](diagrams/income_class.png)
+The class has three attributes: ```category (String), amount (double), date (String)```
+It includes:
+* A constructor to initialize these attributes.
+* Three getter methods (getCategory(), getAmount(), getDate()) to retrieve the values.
+#### ExpenseList
+The figure below illustrates the class diagram of class `ExpenseList`:  
+   
 ![Expense Class Diagram](images/Expense_component.png)  
+  
 The `ExpenseList` component:
 * stores all expense data, i.e., all `Expense` objects as an array list.
 * remove the expense from the list based on its current index in the list through `delete(int index)`
 * stores a private member `totalExpenses` which represents the sum amount of all expenses inside the list.
 * updates the `totalExpenses` with the latest changes in expense list by calling `updateTotalExpense()`
-### Income
-![Income Class Diagram](./diagrams/income_class.puml)
-The class has three attributes: ```category (String), amount (double), date (String)```
-It includes:
-* A constructor to initialize these attributes.
-* Three getter methods (getCategory(), getAmount(), getDate()) to retrieve the values.
 ## Acknowledgements
 
 
@@ -246,7 +273,7 @@ Here, the Parser will return command `ViewAllExpensesCommand` for execution.
 ### Filtering Expenses
 This feature allows users to filter and view all expenses in the list based on category, description, amount or date.  
 The execution of this feature is facilitated by `FindExpenseCommand`. It extends `Command` with `commandType = CommandType.READ` and overwrite `execute()` to filter out expenses and send output message upon successful execution.
-Additionally, this command also holds dependency on `ExpenseList` and call `ExpenseList.getByTag()` to return the list of filtered expenses based on tags/ filter conditions.  
+Additionally, this command also holds dependency on `ExpenseList` and call `ExpenseList.getByTag()` to return the list of filtered expenses based on tag and keyword.  
 The following sequence diagram shows how `execution()` goes through `FindExpenseCommand` component  
 ![FindExpenseCommand execute() Diagram](images/FindExpenseCommand.png)  
 There are currently 6 tags supported for filtering, which serves for different filtering conditions. There can only be 1 tag used per command. These tags and their purposes are:  
@@ -259,6 +286,115 @@ The category keyword used for filtering is __case sensitive__.
 * `/drange`: filter all expenses within the the date range (for example: `find-expense /desc 01-10-2005 30-10-2004` looking for expenses from 1st Oct 2025 to 30th Oct 2025).
 
 ### Listing All Incomes
+#### Overview
+
+The `ListIncomeCommand` class is a core component of the BudgetFlow application. Its main responsibility is to list all recorded incomes and calculate the progress towards a predefined saving goal. It extends an abstract `Command` class and collaborates with other classes such as `Income`, `ExpenseList`, and `Logger` to perform its tasks. This guide provides an in-depth overview of the class's design, functionality, and execution flow.
+
+#### Package Structure
+
+- **budgetflow.command**: Contains command implementations, including the `ListIncomeCommand`.
+- **budgetflow.income**: Houses the `Income` class that represents individual income entries.
+- **budgetflow.expense**: Contains the `ExpenseList` class for managing expense records.
+- **Other Utilities**: Classes like `Logger` are used for logging application events.
+
+#### Class Responsibilities
+
+- **Listing Incomes**: Iterates through the provided list of income records and formats them for output.
+- **Saving Goal Management**: Uses a static variable to store a saving goal, and provides methods to set and retrieve this goal.
+- **Saving Progress Calculation**: Computes the percentage progress towards the saving goal by comparing total income against total expenses.
+- **Logging**: Employs the `Logger` class to log events such as empty income lists or successful income listing.
+
+#### Class Diagram
+
+The diagram below represents the class structure, relationships, and dependencies of the `ListIncomeCommand` class:
+
+![](diagrams/ListIncomeCommandClass.png)
+
+> **Note:** The diagram is saved as a PNG image and illustrates:
+> - The inheritance relationship between `ListIncomeCommand` and the abstract `Command` class.
+> - The usage relationships with `Income`, `ExpenseList`, and `Logger`.
+> - Static members are underlined as per the coding conventions.
+
+#### Detailed Class Description
+
+##### Attributes
+
+- **Static Fields:**
+  - `<u>logger: Logger</u>`  
+    A static Logger instance used to log information and debug messages.
+  - `<u>EMPTY_INCOME_LIST_MESSAGE: String</u>`  
+    A static message that is displayed when no incomes have been recorded.
+  - `<u>savingGoal: double</u>`  
+    A static variable that stores the saving goal for all instances of the command.
+
+#### Methods
+
+- **Constructor**
+  - `ListIncomeCommand()`  
+    Initializes a new instance of the class and sets the command type appropriately.
+
+- **Static Methods**
+  - `<u>setSavingGoal(amount: double)</u>`  
+    Sets the saving goal. Throws an `IllegalArgumentException` if a negative value is passed.
+  - `<u>getSavingGoal(): double</u>`  
+    Retrieves the current saving goal.
+
+- **Instance Methods**
+  - `calculateSavingProgress(totalIncome: double, totalExpenses: double): double`  
+    A helper method that computes the saving progress as a percentage of the saving goal.
+  - `execute(List<Income> incomes, ExpenseList expenseList): void`  
+    Processes the list of incomes, calculates total income and expenses, computes saving progress, and constructs an output message. It logs whether the income list is empty or non-empty and includes saving goal details if set.
+
+### Sequence Diagram
+
+The sequence diagram below illustrates the execution flow when the `execute` method is invoked:
+
+![](diagrams/ListIncomeCommandSequence.png)
+
+### Execution Flow Details
+
+1. **User Invocation:**
+  - The process starts when a user (or calling component) triggers the `execute` method on a `ListIncomeCommand` instance, passing in the list of incomes and an expense list.
+
+2. **Check for Empty Incomes:**
+  - The command checks whether the provided list of incomes is empty.
+    - **If Empty:**  
+      Logs an informational message via the `Logger` and sets the output message to `EMPTY_INCOME_LIST_MESSAGE`.
+    - **If Not Empty:**  
+      Iterates over each `Income` object to retrieve the category, amount, and date.
+
+3. **Expense Calculation:**
+  - Calls the `getTotalExpenses()` method on the `ExpenseList` instance to retrieve the total expenses incurred.
+
+4. **Saving Progress Calculation:**
+  - Utilizes the `calculateSavingProgress()` method to determine how much progress has been made toward the saving goal, based on the total income minus total expenses.
+
+5. **Output Message Construction:**
+  - Combines income details, total income, saving goal, and the calculated progress into a formatted output message.
+
+6. **Logging:**
+  - Logs the action of reading a non-empty income list along with the saving goal details.
+
+### Exception Handling
+
+- **Input Validation:**  
+  The `setSavingGoal` method validates the input amount and throws an `IllegalArgumentException` if the value is negative.
+
+- **Graceful Handling:**  
+  The `execute` method logs if the income list is empty, ensuring that the system handles this edge case gracefully without throwing exceptions.
+
+### Extending and Customizing the Class
+
+- **Modifying Saving Progress Calculation:**  
+  Developers can adjust the logic in `calculateSavingProgress` to change how progress is measured against the saving goal.
+
+- **Enhanced Logging:**  
+  Additional logging can be incorporated to provide more granular runtime information, which can be useful for debugging and auditing purposes.
+
+- **User Interface Integration:**  
+  The formatted output produced by the `execute` method can be easily integrated into various user interface components, such as a web or desktop UI.
+
+---
 
 ### Filtering Incomes
 #### By Amount
@@ -421,7 +557,7 @@ Below is the Class Diagram of the `UpdateExpenseCommand` Class.
 
 Below is the Sequence Diagram of the `UpdateExpenseCommand` Class.
 
-![UpdateExpenseCommand Sequence Diagram](diagrams/UpdateExpense.png)
+![UpdateExpenseCommand Sequence Diagram](diagrams/update_expense_sequence_diagram.png)
 
 ### Set Saving Goal
 #### **Execution Process**
@@ -459,6 +595,26 @@ User enters the command:
 
 
 ### Comparing Expenses Between Two Months
+
+The `CompareExpenseCommand` is a class extends the `Command` class and is designed to compare the total expenses
+between two specified months. 
+It processes user input, validates date ranges, calculates the total expenses within those ranges,
+and generates a formatted comparison message. 
+If the input format is invalid, or the month-year strings are not in the right format(MM-YYYY),
+The command throws an exception (`FinanceException`) to indicate the error.
+
+Below is the Class Diagram of the `CompareExpenseCommand` Class.
+
+![Compare Expense Command Class Diagram](diagrams/CompareExpenseCommandClass.png)
+
+Below is the Command sequence of the `CompareExpenseCommand` Class.
+
+![Compare Expense Command Sequence Diagram](diagrams/CompareExpenseCommandSequence.png)
+
+Below is the Command sequence of the reference box `IterateExpensesSequence`.
+
+![Iterate Expenses Sequence Diagram](diagrams/IterateExpensesSequence.png)
+
 
 ### Deleting an Expense Entry
 
@@ -610,3 +766,10 @@ Given below are instructions to test the app manually:
   * Expected: Error message requires to enter valid keyword format for tag /drange
   * Test case: `find-expense \drange`
   * Expected: Missing keyword error with error message shown.
+11. **Listing All Incomes**
+  - **Test case:** `list-income`
+    - **Expected:**
+      - If incomes exist, the output should display each income’s details (category, amount, date), followed by the total income.
+      - If a saving goal has been set, the output should also include saving goal details, current savings, and the progress percentage.
+      - If no incomes have been added, the output should display the message "No incomes have been added yet."
+

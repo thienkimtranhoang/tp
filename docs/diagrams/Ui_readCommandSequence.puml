@@ -1,12 +1,11 @@
 @startuml
 ''https://plantuml.com/sequence-diagram
 skinparam sequenceReferenceBackgroundColor #f7807c
-actor User
 participant ":Ui" as ui
 participant "SCANNER: Scanner" as scanner
 
-create ui
-User -> ui ++: readCommand()
+
+-> ui ++: readCommand()
 ui -> scanner ++: nextLine()
 ui <-- scanner --: rawInput: String
 ui -> ui ++: trim()
@@ -16,5 +15,5 @@ loop emptyInput
         scanning input from user
     end ref
 end
-User <-- ui --: input: String
+<-- ui --: input: String
 @enduml

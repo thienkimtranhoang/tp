@@ -17,19 +17,19 @@ class AddIncomeCommandTest {
     void addIncome_validInput_addsIncome() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025");
-        c.execute(incomes, expenseList);
+        Command command = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025");
+        command.execute(incomes, expenseList);
         String expectedOutput = "Income added: Salary, Amount: $2500.00, Date: 15-03-2025";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     @Test
     void addIncome_missingCategory_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new AddIncomeCommand("add amt/2500.00 d/15-03-2025");
+        Command command = new AddIncomeCommand("add amt/2500.00 d/15-03-2025");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Income category is required.";
@@ -41,9 +41,9 @@ class AddIncomeCommandTest {
     void addIncome_missingAmount_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new AddIncomeCommand("add category/Salary d/15-03-2025");
+        Command command = new AddIncomeCommand("add category/Salary d/15-03-2025");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
         } catch (FinanceException e) {
             String expectedError = "Error: Income amount is required.";
             assertEquals(expectedError, e.getMessage());
@@ -54,9 +54,9 @@ class AddIncomeCommandTest {
     void addIncome_missingDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new AddIncomeCommand("add category/Salary amt/2500.00");
+        Command command = new AddIncomeCommand("add category/Salary amt/2500.00");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
         } catch (FinanceException e) {
             String expectedError = "Error: Income date is required.";
             assertEquals(expectedError, e.getMessage());
@@ -67,9 +67,9 @@ class AddIncomeCommandTest {
     void addIncome_invalidAmountFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new AddIncomeCommand("add category/Salary amt/invalid d/15-03-2025");
+        Command command = new AddIncomeCommand("add category/Salary amt/invalid d/15-03-2025");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
         } catch (FinanceException e) {
             String expectedError = "Error: Income amount is required.";
             assertEquals(expectedError, e.getMessage());
@@ -80,19 +80,19 @@ class AddIncomeCommandTest {
     void addIncome_extraParameters_ignoresExtraParams() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025 extra/parameter");
-        c.execute(incomes, expenseList);
+        Command command = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025 extra/parameter");
+        command.execute(incomes, expenseList);
         String expectedOutput = "Income added: Salary, Amount: $2500.00, Date: 15-03-2025";
-        assertEquals(expectedOutput, c.getOutputMessage());
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     @Test
     void addIncome_invalidDateFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new AddIncomeCommand("add category/Salary amt/5000 d/2025-03-15");
+        Command command = new AddIncomeCommand("add category/Salary amt/5000 d/2025-03-15");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
         } catch (FinanceException e) {
             String expectedError = "Error: Income date is in wrong format." +
                     "please use DD-MM-YYYY format.";
@@ -104,9 +104,9 @@ class AddIncomeCommandTest {
     void addIncome_invalidDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command c = new AddIncomeCommand("add category/Salary amt/5000 d/99-99-1234");
+        Command command = new AddIncomeCommand("add category/Salary amt/5000 d/99-99-1234");
         try {
-            c.execute(incomes, expenseList);
+            command.execute(incomes, expenseList);
         } catch (FinanceException e) {
             String expectedError = "Error: Date is not a valid date";
             assertEquals(expectedError, e.getMessage());
