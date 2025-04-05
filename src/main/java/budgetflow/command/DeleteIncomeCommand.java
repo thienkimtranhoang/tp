@@ -17,9 +17,11 @@ public class DeleteIncomeCommand extends Command {
     private static final Logger logger = Logger.getLogger(DeleteIncomeCommand.class.getName());
     private static final String COMMAND_DELETE_INCOME = "delete-income ";
     private static final String ERROR_INCOME_NOT_FOUND = "Income not found: ";
-    private static final String ASSERT_INVALID_COMMAND = "Invalid delete income command format";
+    private static final String ERROR_INVALID_COMMAND = "Invalid delete income command format.";
     private static final String ASSERT_NULL_ENTRY = "Income list contains a null entry";
     private static final String ASSERT_NULL_CATEGORY = "Income entry has a null category";
+    private static final String ERROR_EMPTY_CATEGORY = "Error: Income category is required.";
+    private static final String INCOME_DELETED_HEADER = "Income deleted: ";
 
     //@@author Yikbing
     /**
@@ -41,25 +43,40 @@ public class DeleteIncomeCommand extends Command {
      * @param expenseList  The list of expense entries (unused in this command but required for consistency).
      * @throws UnfoundIncomeException If the specified income category is not found.
      */
+    //@@author dariusyawningwhiz
     @Override
-    public void execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundIncomeException {
-        assert input.startsWith(COMMAND_DELETE_INCOME) : ASSERT_INVALID_COMMAND;
+    public void execute(List<Income> incomes, ExpenseList expenseList) {
+        if (!input.startsWith(COMMAND_DELETE_INCOME)) {
+            this.outputMessage = ERROR_INVALID_COMMAND;
+            return;
+        }
+
         String incomeCategory = input.substring(COMMAND_DELETE_INCOME.length()).trim();
+
+        if (incomeCategory.isEmpty()) {
+            this.outputMessage = ERROR_EMPTY_CATEGORY;
+            return;
+        }
+
         boolean found = false;
         for (int i = 0; i < incomes.size(); i++) {
-            assert incomes.get(i) != null : ASSERT_NULL_ENTRY;
-            assert incomes.get(i).getCategory() != null : ASSERT_NULL_CATEGORY;
-            if (incomes.get(i).getCategory().equalsIgnoreCase(incomeCategory)) {
+            Income income = incomes.get(i);
+
+            assert income != null : ASSERT_NULL_ENTRY;
+            assert income.getCategory() != null : ASSERT_NULL_CATEGORY;
+
+            if (income.getCategory().equalsIgnoreCase(incomeCategory)) {
                 incomes.remove(i);
-                this.outputMessage = "Income deleted: " + incomeCategory;
+                this.outputMessage = INCOME_DELETED_HEADER + incomeCategory;
                 found = true;
-                logger.info("Income deleted: " + incomeCategory);
+                logger.info(INCOME_DELETED_HEADER + incomeCategory);
                 break;
             }
         }
+
         if (!found) {
+            this.outputMessage = ERROR_INCOME_NOT_FOUND + incomeCategory;
             logger.warning("Attempted to delete non-existent income: " + incomeCategory);
-            throw new UnfoundIncomeException(ERROR_INCOME_NOT_FOUND + incomeCategory);
         }
     }
 }

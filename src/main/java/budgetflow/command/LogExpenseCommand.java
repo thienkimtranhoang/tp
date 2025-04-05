@@ -40,7 +40,7 @@ public class LogExpenseCommand extends Command{
     }
 
     /**
-     * Log new user expense into the expense list
+     * Logs new user expense into the expense list
      * @param expenseList the list storing all expenses
      * @throws MissingDateException if user miss the date of expense or date tag
      * @throws InvalidNumberFormatException if amount does not follow valid number format
