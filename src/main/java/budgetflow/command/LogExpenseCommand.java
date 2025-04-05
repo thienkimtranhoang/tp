@@ -6,6 +6,8 @@ import budgetflow.exception.MissingAmountException;
 import budgetflow.exception.MissingCategoryException;
 import budgetflow.exception.MissingDescriptionException;
 import budgetflow.exception.MissingExpenseException;
+import budgetflow.exception.ExceedsMaxDigitException;
+
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -49,7 +51,7 @@ public class LogExpenseCommand extends Command{
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
             InvalidNumberFormatException, MissingAmountException, MissingCategoryException,
-            MissingDescriptionException, MissingExpenseException {
+            MissingDescriptionException, MissingExpenseException,ExceedsMaxDigitException {
         Expense expense = extractExpense(input);
         expenseList.add(expense);
         this.outputMessage = "Expense logged: " + expense.getCategory() + " | " + expense.getDescription() +
@@ -59,7 +61,7 @@ public class LogExpenseCommand extends Command{
     //@@author dariusyawningwhiz
     private Expense extractExpense (String input) throws InvalidNumberFormatException,
             MissingCategoryException, MissingAmountException, MissingDateException,
-            MissingDescriptionException, MissingExpenseException {
+            MissingDescriptionException, MissingExpenseException, ExceedsMaxDigitException {
         assert input != null && !input.isEmpty() : "Expense input should not be empty";
         assert input.startsWith(LOG_EXPENSE_COMMAND_PREFIX) : "Invalid log expense format";
 
@@ -76,8 +78,8 @@ public class LogExpenseCommand extends Command{
 
         String categoryPattern = "category/(.*?) (desc/|amt/|d/|$)";
         String descPattern = "desc/(.*?) (amt/|d/|$)";
-        String amtPattern = "amt/([0-9]+(\\.[0-9]*)?)";
-        String datePattern = "d/(\\d{2}-\\d{2}-\\d{4})";
+        String amtPattern = "amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])";
+        String datePattern = "d/\\s*(\\d{2}-\\d{2}-\\d{4})";
 
         java.util.regex.Pattern pattern;
         java.util.regex.Matcher matcher;
@@ -97,7 +99,23 @@ public class LogExpenseCommand extends Command{
         if (matcher.find()) {
             try {
                 amount = Double.parseDouble(matcher.group(1));
+                String[] parts = matcher.group(1).split("\\.");
+                String integerPart = parts[0];
+
+                if (integerPart.length() > 7) {
+                    logger.warning("Amount exceeds 7 digit limit: " + integerPart);
+                    throw new ExceedsMaxDigitException("Amount exceeds 7 digits. Please enter a number with up to 7 digits.");
+                }
+
+                if (parts.length > 1) {
+                    String decimalPart = parts[1];
+                    if (decimalPart.length() > 2) {
+                        logger.warning("Amount has more than 2 decimal digits: " + decimalPart);
+                        throw new ExceedsMaxDigitException("Amount must have at most 2 decimal places.");
+                    }
+                }
             } catch (NumberFormatException e) {
+                logger.warning("Invalid amount format: " + input);
                 throw new InvalidNumberFormatException();
             }
         }

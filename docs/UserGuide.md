@@ -14,7 +14,19 @@ prefer typing over navigating complex apps. You can log your transactions, filte
 even compare monthly expenses at
 
 ---
-
+Notes about the command format:
+* When entering commands in the system, please ensure you include a space between each parameter.
+  Example of incorrect format:
+  ```add category/1amt/1.125456789 d/11-11-2025```
+  Example of correct format:
+ ```add category/1amt 1.125456789 d/11-11-2025```
+This note applies to all commands. The above is an example of add income command.
+  The system expects space separation between the category parameter, amount value, and date parameter. Without proper spacing, the system may misinterpret your input or generate unexpected results.
+* For all commands involving monetary amounts (e.g., income or expense entries), the following rules apply:
+✅ The integer part of the amount must not exceed 7 digits.
+✅ The decimal part must not exceed 2 digits (i.e., cents).
+These constraints reflect realistic daily usage for students, the primary target users of this application. As such, it is unlikely that users would need to record transactions involving more than 7 digits, and dollar amounts conventionally support up to 2 decimal places.
+* This app is meant for users who prefer to type in CLI-command in English. For other language characters, the chatbot may not be able to parse them. 
 ### 1. Logging an Expense
 **Description:** Logs a new expense with a category, description, amount, and date.  
 **Command:**
@@ -107,18 +119,18 @@ Income updated: [UPDATED_CATEGORY], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DAT
 
 ---
 ### 7. Setting a Savings Goal
-**Description:** Sets a savings goal with a specified amount and optional target date.  
+**Description:** Sets a savings goal with a specified amount.  
 **Command:**
 ```plaintext
-set-saving-goal amt/<GOAL_AMOUNT> 
+set-saving-goal <GOAL_AMOUNT> 
 ```
 **Example:**
 ```plaintext
-set-saving-goal amt/5000
+set-saving-goal 100000
 ```
 **Output:**
 ```plaintext
-Savings goal set: $5000 by 31-12-2025.
+Saving goal set to: $100000.00
 ```
 ---
 ---
@@ -146,17 +158,18 @@ A: Yes! You can use the `update-expense` or `delete-expense` commands to modify 
 
 ## Command Summary
 
-| **Command** | **Description** |
-|------------|---------------|
-| `add category/Salary amt/1000.00 d/06-03-2025` | Adds an income entry with the specified category, amount, and date. |
-| `log-expense category/Coffee desc/Coffee amt/3.50 d/06-03-2025` | Logs an expense entry with details. |
-| `view-all-expense` | Displays all logged expenses. |
-| `list income` | Shows all recorded incomes. |
-| `filter-income date from/01-03-2025 to/31-03-2025` | Filters income entries within a specific date range. |
-| `filter-income amount from/500 to/1500` | Filters income entries within a specified amount range. |
-| `filter-income category/Salary` | Filters income by category. |
-| `delete-income Salary` | Deletes an income entry with the category *Salary*. |
-| `update-expense index/1 category/drink desc/Coffee amt/4.00 d/06-04-2025` | Updates an expense entry at index 1. |
-| `compare 03-2025 04-2025` | Compares total expenses between March and April 2025. |
-| `delete-expense Coffee` | Deletes an expense entry with the description *Coffee*. |
-| `exit` | Exits the application safely. |
+| **Command**                                                               | **Description**                                                     |
+|---------------------------------------------------------------------------|---------------------------------------------------------------------|
+| `add category/Salary amt/1000.00 d/06-03-2025`                            | Adds an income entry with the specified category, amount, and date. |
+| `log-expense category/Coffee desc/Coffee amt/3.50 d/06-03-2025`           | Logs an expense entry with details.                                 |
+| `view-all-expense`                                                        | Displays all logged expenses.                                       |
+| `list income`                                                             | Shows all recorded incomes.                                         |
+| `set-saving-goal 100000`                                                  | Sets a saving goal.                                                 |
+| `filter-income date from/01-03-2025 to/31-03-2025`                        | Filters income entries within a specific date range.                |
+| `filter-income amount from/500 to/1500`                                   | Filters income entries within a specified amount range.             |
+| `filter-income category/Salary`                                           | Filters income by category.                                         |
+| `delete-income Salary`                                                    | Deletes an income entry with the category *Salary*.                 |
+| `update-expense index/1 category/drink desc/Coffee amt/4.00 d/06-04-2025` | Updates an expense entry at index 1.                                |
+| `compare 03-2025 04-2025`                                                 | Compares total expenses between March and April 2025.               |
+| `delete-expense Coffee`                                                   | Deletes an expense entry with the description *Coffee*.             |
+| `exit`                                                                    | Exits the application safely.                                       |

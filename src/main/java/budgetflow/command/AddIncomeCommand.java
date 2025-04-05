@@ -5,6 +5,7 @@ import budgetflow.exception.MissingDateException;
 import budgetflow.exception.MissingAmountException;
 import budgetflow.exception.MissingCategoryException;
 import budgetflow.exception.MissingIncomeException;
+import budgetflow.exception.ExceedsMaxDigitException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import java.util.List;
@@ -44,7 +45,7 @@ public class AddIncomeCommand extends Command {
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
             InvalidNumberFormatException, MissingAmountException, MissingCategoryException,
-            MissingIncomeException {
+            MissingIncomeException,  ExceedsMaxDigitException{
         Income income = extractIncome(input);
         incomes.add(income);
         this.outputMessage = "Income added: " + income.getCategory() + ", Amount: $" +
@@ -55,7 +56,7 @@ public class AddIncomeCommand extends Command {
 
     private Income extractIncome(String input) throws InvalidNumberFormatException,
             MissingCategoryException, MissingAmountException,
-            MissingDateException, MissingIncomeException {
+            MissingDateException, MissingIncomeException,  ExceedsMaxDigitException {
         assert input.startsWith(ADD_COMMAND_PREFIX) : "Invalid add income format";
         input = input.substring(ADD_COMMAND_PREFIX_LENGTH).trim();
         if (input.isEmpty()) {
@@ -67,8 +68,8 @@ public class AddIncomeCommand extends Command {
         String date = null;
 
         String categoryPattern = "category/(.*?) (amt/|d/|$)";
-        String amtPattern = "amt/([0-9]+(\\.[0-9]*)?)";
-        String datePattern = "d/(\\d{2}-\\d{2}-\\d{4})";
+        String amtPattern = "amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])";
+        String datePattern = "d/\\s*(\\d{2}-\\d{2}-\\d{4})";
 
         java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(categoryPattern);
         java.util.regex.Matcher matcher = pattern.matcher(input);
@@ -80,6 +81,21 @@ public class AddIncomeCommand extends Command {
         if (matcher.find()) {
             try {
                 amount = Double.parseDouble(matcher.group(1));
+                String[] parts = matcher.group(1).split("\\.");
+                String integerPart = parts[0];
+
+                if (integerPart.length() > 7) {
+                    logger.warning("Amount exceeds 7 digit limit: " + integerPart);
+                    throw new ExceedsMaxDigitException("Amount exceeds 7 digits. Please enter a number with up to 7 digits.");
+                }
+
+                if (parts.length > 1) {
+                    String decimalPart = parts[1];
+                    if (decimalPart.length() > 2) {
+                        logger.warning("Amount has more than 2 decimal digits: " + decimalPart);
+                        throw new ExceedsMaxDigitException("Amount must have at most 2 decimal places.");
+                    }
+                }
             } catch (NumberFormatException e) {
                 logger.warning("Invalid amount format: " + input);
                 throw new InvalidNumberFormatException();
