@@ -20,7 +20,8 @@ import java.util.logging.Logger;
 
 //@@author thienkimtranhoang
 public class LogExpenseCommand extends Command{
-    public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
+    public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date. " +
+            "Please use DD-MM-YYYY format." ;
 
     private static final Logger logger = Logger.getLogger(LogExpenseCommand.class.getName());
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
@@ -33,7 +34,7 @@ public class LogExpenseCommand extends Command{
     private static final String ERROR_MISSING_EXPENSE_DATE = "Error: Expense date is required.";
     private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Income date is in wrong format." +
             "please use DD-MM-YYYY format.";
-
+    private static final String ERROR_INCORRECT_YEAR_FORMAT = "Error: Year must be exactly 4 digits in the format YYYY.";
     public LogExpenseCommand(String input) {
         super(input);
         this.commandType = CommandType.CREATE;
@@ -79,7 +80,7 @@ public class LogExpenseCommand extends Command{
         String categoryPattern = "category/(.*?) (desc/|amt/|d/|$)";
         String descPattern = "desc/(.*?) (amt/|d/|$)";
         String amtPattern = "amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])";
-        String datePattern = "d/\\s*(\\d{2}-\\d{2}-\\d{4})";
+        String datePattern = "d/\\s*(\\d{2}-\\d{2}-\\d+)";
 
         java.util.regex.Pattern pattern;
         java.util.regex.Matcher matcher;
@@ -128,6 +129,8 @@ public class LogExpenseCommand extends Command{
                 logger.warning("Invalid date input: " + date);
                 throw new MissingDateException(ERROR_INVALID_DATE);
             }
+            // Check for exact 4-digit year format
+            validateYearFormat(date);
         } else {
             verifyMissingOrIncorrect(input);
         }
@@ -153,6 +156,24 @@ public class LogExpenseCommand extends Command{
         return matcher.find() ? matcher.group(1).trim() : null;
     }
 
+    /**
+     * Validates that the year part of the date is exactly 4 digits.
+     *
+     * @param date The date to validate in DD-MM-YYYY format
+     * @throws MissingDateException if the year does not have exactly 4 digits
+     */
+    private void validateYearFormat(String date) throws MissingDateException {
+        // Split the date to get the year part
+        String[] dateParts = date.split("-");
+        if (dateParts.length == 3) {
+            String year = dateParts[2];
+            // Check if year is exactly 4 digits
+            if (year.length() != 4) {
+                logger.warning("Invalid year format (not 4 digits): " + year);
+                throw new MissingDateException(ERROR_INCORRECT_YEAR_FORMAT);
+            }
+        }
+    }
     private static void verifyMissingOrIncorrect(String input) throws MissingDateException {
         java.util.regex.Pattern pattern;
         java.util.regex.Matcher matcher;
