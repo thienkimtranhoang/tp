@@ -33,8 +33,22 @@ even compare monthly expenses at ease.
 * [FAQ](#faq)
 * [Command Summary](#command-summary)
 ---
-## Features
 
+Notes about the command format:
+* When entering commands in the system, please ensure you include a space between each parameter.
+  Example of incorrect format:
+  ```add category/1amt/1.125456789 d/11-11-2025```
+  Example of correct format:
+ ```add category/1amt 1.125456789 d/11-11-2025```
+This note applies to all commands. The above is an example of add income command.
+  The system expects space separation between the category parameter, amount value, and date parameter. Without proper spacing, the system may misinterpret your input or generate unexpected results.
+* For all commands involving monetary amounts (e.g., income or expense entries), the following rules apply:
+✅ The integer part of the amount must not exceed 7 digits.
+✅ The decimal part must not exceed 2 digits (i.e., cents).
+These constraints reflect realistic daily usage for students, the primary target users of this application. As such, it is unlikely that users would need to record transactions involving more than 7 digits, and dollar amounts conventionally support up to 2 decimal places.
+* This app is meant for users who prefer to type in CLI-command in English. For other language characters, the chatbot may not be able to parse them. 
+
+## Features
 ### 1. Logging an Expense
 **Description:** Logs a new expense with a category, description, amount, and date.  
 Note: the inputs must follow the specified order, and there should be proper spacing between each component.  
@@ -155,20 +169,19 @@ update-income [INDEX] category/[UPDATED_CATEGORY], amt/[UPDATED_AMOUNT] d/[UPDAT
 Income updated: [UPDATED_CATEGORY], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DATE]
 ```
 
----
 ### 8. Setting a Savings Goal
 **Description:** Sets a savings goal with a specified amount and optional target date.  
 **Command:**
 ```plaintext
-set-saving-goal amt/<GOAL_AMOUNT> 
+set-saving-goal <GOAL_AMOUNT> 
 ```
 **Example:**
 ```plaintext
-set-saving-goal amt/5000
+set-saving-goal 100000
 ```
 **Output:**
 ```plaintext
-Savings goal set: $5000 by 31-12-2025.
+Saving goal set to: $100000.00
 ```
 ---
 
@@ -546,7 +559,6 @@ A: Yes! You can use the `update-expense` or `delete-expense` commands to modify 
 ---
 
 ## Command Summary
-
 | **Command**                                                                                                           | **Description**                                                          |
 |-----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
 | `add category/<CATEGORY> amt/<AMOUNT> d/<DATE>`                                                                       | Adds an income entry with the specified category, amount, and date.      |
@@ -569,3 +581,4 @@ A: Yes! You can use the `update-expense` or `delete-expense` commands to modify 
 | `compare <Month1> <Month2>`                                                                                           | Compares total expenses between `<Month1>` and `<Month2>`.               | 
 | `exit`                                                                                                                | Exits the application safely.                                            |
 | `help`                                                                                                                | Displays a comprehensive list of all commands                            |
+
