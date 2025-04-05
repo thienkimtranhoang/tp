@@ -28,19 +28,23 @@ public class ExpenseList {
     private static final String TAG_DATE_RANGE = "/drange";
     private static final String ERROR_INVALID_TAG = "Please enter valid tag: /desc | /amt| /d| /category";
     private static final String ERROR_INVALID_AMOUNT_FORMAT = "Please enter valid float number after /amt";
+
     private final ArrayList<Expense> innerList = new ArrayList<>();
     private double totalExpenses;
 
     public ExpenseList() {
+        // Empty constructor.
     }
 
     public ExpenseList(Expense... expenses) {
         final List<Expense> initialExpenses = Arrays.asList(expenses);
         innerList.addAll(initialExpenses);
+        updateTotalExpenses();
     }
 
     public ExpenseList(Collection<Expense> expenses) {
         innerList.addAll(expenses);
+        updateTotalExpenses();
     }
 
     public int getSize() {
@@ -48,35 +52,35 @@ public class ExpenseList {
     }
 
     /**
-     * Get expense object from the list using its index
+     * Get expense object from the list using its index.
      *
-     * @param index of the desired expense to get
-     * @return the expense with matching index
+     * @param index of the desired expense to get.
+     * @return the expense with matching index.
      */
     public Expense get(int index) {
         return innerList.get(index);
     }
 
     /**
-     * Find all expenses by either description, category, amount or date
-     * @param tag indicates whether user wants to find expense
-     *            based on the description, category, amount or date
-     * @param keyword keyword to find expense from indicated tag
-     * @return all matching expenses from indicated tags and keyword
-     * @throws InvalidTagException if user attempts to find expense from an unknown tag
-     * @throws InvalidNumberFormatException if keyword for tag /amt does not have valid double number format
-     * @throws InvalidDateException if keyword for tag /d does not follow dd-MM-yyyy format
+     * Find all expenses by either description, category, amount or date.
+     *
+     * @param tag indicates whether user wants to find expense based on description, category, amount or date.
+     * @param keyword keyword to find expense from indicated tag.
+     * @return all matching expenses from indicated tags and keyword.
+     * @throws InvalidTagException if user attempts to find expense from an unknown tag.
+     * @throws InvalidNumberFormatException if keyword for tag /amt does not have valid double number format.
+     * @throws InvalidDateException if keyword for tag /d does not follow dd-MM-yyyy format.
      */
     public ExpenseList getByTag(String tag, String keyword) throws InvalidTagException,
             InvalidNumberFormatException, InvalidDateException {
         return switch (tag) {
-        case TAG_DESCRIPTION -> getExpenseByDesc(keyword);
-        case TAG_CATEGORY -> getExpenseByCategory(keyword);
-        case TAG_AMOUNT -> getExpenseByAmount(keyword);
-        case TAG_DATE -> getExpenseByDate(keyword);
-        case TAG_AMOUNT_RANGE -> getExpenseByAmountRange(keyword);
-        case TAG_DATE_RANGE -> getExpenseByDateRange(keyword);
-        default -> throw new InvalidTagException(ERROR_INVALID_TAG);
+            case TAG_DESCRIPTION -> getExpenseByDesc(keyword);
+            case TAG_CATEGORY -> getExpenseByCategory(keyword);
+            case TAG_AMOUNT -> getExpenseByAmount(keyword);
+            case TAG_DATE -> getExpenseByDate(keyword);
+            case TAG_AMOUNT_RANGE -> getExpenseByAmountRange(keyword);
+            case TAG_DATE_RANGE -> getExpenseByDateRange(keyword);
+            default -> throw new InvalidTagException(ERROR_INVALID_TAG);
         };
     }
 
@@ -100,7 +104,6 @@ public class ExpenseList {
 
     private ExpenseList getExpenseByAmountRange(String keyword) throws InvalidNumberFormatException {
         ExpenseList outExpenses = new ExpenseList();
-
         String[] amountRange = keyword.split("\\s+");
         Double startAmount;
         Double endAmount;
@@ -110,7 +113,6 @@ public class ExpenseList {
         } catch (NumberFormatException e) {
             throw new InvalidNumberFormatException(ERROR_INVALID_AMOUNT_FORMAT);
         }
-
         for (int i = 0; i < this.getSize(); i++) {
             Double amount = this.get(i).getAmount();
             if (amount.compareTo(startAmount) >= 0 && amount.compareTo(endAmount) <= 0) {
@@ -121,10 +123,10 @@ public class ExpenseList {
     }
 
     /**
-     * Find expense object with description that contains query keyword
+     * Find expense object with description that contains query keyword.
      *
-     * @param keyword keyword to find expense
-     * @return expense with des description matching keyword or null expense object if not found
+     * @param keyword keyword to find expense.
+     * @return expense with description matching keyword.
      */
     private ExpenseList getExpenseByDesc(String keyword) {
         ExpenseList outExpenses = new ExpenseList();
@@ -138,9 +140,10 @@ public class ExpenseList {
     }
 
     /**
-     * Find all expense objects from the same category
-     * @param keyword the category user wishes to find from
-     * @return all expenses from the category if found, null otherwise
+     * Find all expense objects from the same category.
+     *
+     * @param keyword the category user wishes to find.
+     * @return all expenses from the category.
      */
     private ExpenseList getExpenseByCategory(String keyword) {
         ExpenseList outExpenses = new ExpenseList();
@@ -154,10 +157,11 @@ public class ExpenseList {
     }
 
     /**
-     * Find all expenses with matching amount to the query
-     * @param keyword the amount to search from
-     * @return all expenses with matching amount
-     * @throws InvalidNumberFormatException if amount keyword is not at valid amount format
+     * Find all expenses with matching amount to the query.
+     *
+     * @param keyword the amount to search.
+     * @return all expenses with matching amount.
+     * @throws InvalidNumberFormatException if amount keyword is not in a valid format.
      */
     private ExpenseList getExpenseByAmount(String keyword) throws InvalidNumberFormatException {
         if (!keyword.matches(AMT_PATTERN)) {
@@ -201,8 +205,9 @@ public class ExpenseList {
     }
 
     /**
-     * Adding an expense to the expense list
-     * @param expense the expense object to be added
+     * Adds an expense to the expense list.
+     *
+     * @param expense the expense object to be added.
      */
     public void add(Expense expense) {
         innerList.add(expense);
@@ -215,8 +220,9 @@ public class ExpenseList {
     }
 
     /**
-     * Remove an expense in a list based on the index
-     * @param index the current index of expense in the list to be deleted
+     * Removes an expense in the list based on the index.
+     *
+     * @param index the index of the expense to be deleted.
      */
     public void delete(int index) {
         Expense deleteExpense = this.get(index);
@@ -241,12 +247,20 @@ public class ExpenseList {
     }
 
     /**
-     * Recalculate the total expenses to be up to date
+     * Recalculates the total expenses to be up to date.
      */
     public void updateTotalExpenses() {
         totalExpenses = 0.0;
         for (Expense expense : innerList) {
             totalExpenses += expense.getAmount();
         }
+    }
+
+    /**
+     * Clears the expense list and resets total expenses to zero.
+     */
+    public void clear() {
+        innerList.clear();
+        totalExpenses = 0.0;
     }
 }

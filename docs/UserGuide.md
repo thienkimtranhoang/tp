@@ -352,7 +352,7 @@ Freelance | Website Development | $500.00 | 05-04-2025
 **Command:**
 
 ```plaintext
-find-income /category <CATEGORY>
+filter-income category/category
 ```
 
 - tag `/category` indicates filtering by category.
@@ -384,7 +384,7 @@ Salary | Monthly Salary | $3000.00 | 01-04-2025
 **Command:**
 
 ```plaintext
-find-income /amt <AMT>
+filter-income amount from/minAmount to/maxAmount
 ```
 
 - tag `/amt` indicates filtering by amount.
@@ -408,55 +408,16 @@ Here are all matching income entries:
 Freelance | Website Development | $500.00 | 05-04-2025
 ---
 ```
-
 ---
 
-### 13. Filtering Income by Amount Range
-
-**Description:** Filters all income entries with amount values within a specified range.
-
-**Command:**
-
-```plaintext
-find-income /amtrange <AMT1> <AMT2>
-```
-
-- tag `/amtrange` indicates filtering by amount range.
-- keywords `<AMT1>` and `<AMT2>` represent the range for filtering.
-  - `<AMT1>`: Lower bound of the range.
-  - `<AMT2>`: Upper bound of the range.
-- **NOTE**:
-  - the tag is **CASE SENSITIVE**.
-  - Values of `<AMT1>` and `<AMT2>` must be valid integers or decimals with digit before dot. Invalid examples: `string`, `.12`, `5..6`.
-  - `<AMT1>` and `<AMT2>` must be separated by at least one space ` `.
-
-**Output:**
-
-```plaintext
-Here are all matching income entries:
-[INFORMATION OF MATCHING INCOME ENTRIES]
-```
-
-**Example:**
-
-```plaintext
-find-income /amtrange 400.00 3000.00
-Here are all matching income entries:
-Salary | Monthly Salary | $3000.00 | 01-04-2025
-Freelance | Website Development | $500.00 | 05-04-2025
----
-```
-
----
-
-### 14. Filtering Income by Date
+### 13. Filtering Income by Date
 
 **Description:** Filters all income entries recorded on a specific date.
 
 **Command:**
 
 ```plaintext
-find-income /date <DATE>
+filter-income date from/DD-MM-YYYY to/DD-MM-YYYY
 ```
 
 - tag `/date` indicates filtering by date.

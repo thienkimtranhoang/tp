@@ -9,6 +9,7 @@ import budgetflow.command.ExitCommand;
 import budgetflow.command.FilterIncomeByAmountCommand;
 import budgetflow.command.FilterIncomeByCategoryCommand;
 import budgetflow.command.FilterIncomeByDateCommand;
+import budgetflow.command.FilterIncomeCommand;
 import budgetflow.command.FindExpenseCommand;
 import budgetflow.command.ListIncomeCommand;
 import budgetflow.command.LogExpenseCommand;
@@ -31,7 +32,7 @@ import java.util.logging.Logger;
 public class Parser {
     private static final Logger logger = Logger.getLogger(Parser.class.getName());
 
-    // Command constant
+    // Command constants
     private static final String COMMAND_ADD_INCOME = "add category/";
     private static final String COMMAND_LOG_EXPENSE = "log-expense ";
     private static final String COMMAND_DELETE_INCOME = "delete-income";
@@ -45,6 +46,7 @@ public class Parser {
     private static final String COMMAND_UPDATE_INCOME = "update-income";
     private static final String COMMAND_HELP = "help";
     // New command constants for filtering incomes
+    private static final String COMMAND_FILTER_INCOME = "filter-income";
     private static final String COMMAND_FILTER_INCOME_DATE = "filter-income date";
     private static final String COMMAND_FILTER_INCOME_AMOUNT = "filter-income amount";
     private static final String COMMAND_FILTER_INCOME_CATEGORY = "filter-income category";
@@ -83,16 +85,19 @@ public class Parser {
             return new CompareExpenseCommand(input);
         } else if (input.startsWith(COMMAND_UPDATE_EXPENSE)) {
             return new UpdateExpenseCommand(input);
-        }else if (input.startsWith(COMMAND_UPDATE_INCOME)) {
+        } else if (input.startsWith(COMMAND_UPDATE_INCOME)) {
             return new UpdateIncomeCommand(input);
+        } else if (input.equals(COMMAND_FILTER_INCOME)) {
+            // When the user types exactly "filter-income", display the usage guide.
+            return new FilterIncomeCommand(input);
         } else if (input.startsWith(COMMAND_FILTER_INCOME_DATE)) {
             return new FilterIncomeByDateCommand(input);
-        }  else if (input.startsWith(COMMAND_HELP)) {
-            return new HelpCommand();
         } else if (input.startsWith(COMMAND_FILTER_INCOME_AMOUNT)) {
             return new FilterIncomeByAmountCommand(input);
         } else if (input.startsWith(COMMAND_FILTER_INCOME_CATEGORY)) {
             return new FilterIncomeByCategoryCommand(input);
+        } else if (input.startsWith(COMMAND_HELP)) {
+            return new HelpCommand();
         } else {
             logger.warning(ERROR_UNKNOWN_COMMAND + input);
             throw new UnknownCommandException();
