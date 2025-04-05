@@ -58,7 +58,7 @@ Total expenses for 04-2025: $4.00
 
 What would you like to do?
 Saving goal retrieved: 0.0
-Expense deleted: Coffee
+Expense deleted: Coffee, $4.0
 What would you like to do?
 Saving goal retrieved: 0.0
 Expense logged: drink | Coffee | $3.50 | 06-04-2025

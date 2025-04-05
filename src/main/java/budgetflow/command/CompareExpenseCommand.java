@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
 
+//@@ author Yikbing
 /**
  * Represents a command to compare expenses between two months.
  * It calculates and displays the total expenses for each month.
@@ -32,6 +33,7 @@ public class CompareExpenseCommand extends Command {
     private static final Logger logger = Logger.getLogger(CompareExpenseCommand.class.getName());
 
 
+    //@@ author Yikbing
     /**
      * Constructs a CompareExpenseCommand with the given input.
      *
@@ -42,6 +44,7 @@ public class CompareExpenseCommand extends Command {
         this.commandType = CommandType.COMPARE;
     }
 
+    //@@ author Yikbing
     /**
      * Executes the compare command by calculating the total expenses for two specified months
      * and logging the results.
@@ -72,6 +75,7 @@ public class CompareExpenseCommand extends Command {
         logger.info("Expense totals calculated: " + this.outputMessage);
     }
 
+    //@@ author Yikbing
     /**
      * Parses and validates the input command for the compare operation.
      *
@@ -87,6 +91,7 @@ public class CompareExpenseCommand extends Command {
         return parts;
     }
 
+    //@@ author Yikbing
     /**
      * Retrieves and validates the date range for a given month-year string.
      *
@@ -101,6 +106,7 @@ public class CompareExpenseCommand extends Command {
         return DateValidator.getMonthRange(monthYear);
     }
 
+    //@@ author Yikbing
     /**
      * Generates a message comparing the total expenses between two months.
      *
@@ -118,6 +124,7 @@ public class CompareExpenseCommand extends Command {
                 String.format("%.2f", totalMonth2) + System.lineSeparator();
     }
 
+    //@@ author Yikbing
     /**
      * Calculates the total expenses within a given date range.
      *

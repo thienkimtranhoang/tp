@@ -5,11 +5,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjusters;
+import java.time.format.ResolverStyle;
 
+//@@ author Yikbing
 public class DateValidator {
-    private static final DateTimeFormatter fullDateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    private static final DateTimeFormatter monthYearFormatter = DateTimeFormatter.ofPattern("MM-yyyy");
+    private static final DateTimeFormatter fullDateFormatter =
+            DateTimeFormatter.ofPattern("dd-MM-uuuu").withResolverStyle(ResolverStyle.STRICT);
 
+    //@@ author Yikbing
     /**
      * Validates a full date string in the format "dd-MM-yyyy".
      *
@@ -25,6 +28,8 @@ public class DateValidator {
         }
     }
 
+
+    //@@ author Yikbing
     /**
      * Validates a month-year string in the format "MM-yyyy".
      *
@@ -40,6 +45,8 @@ public class DateValidator {
         }
     }
 
+
+    //@@ author Yikbing
     /**
      * Parses a month-year string into a LocalDate object representing the first day of the month.
      *
@@ -55,6 +62,7 @@ public class DateValidator {
         }
     }
 
+    //@@ author Yikbing
     /**
      * Returns the first and last day of the month for a given month-year string.
      *
@@ -67,6 +75,7 @@ public class DateValidator {
         return new LocalDate[]{firstDay, lastDay};
     }
 
+    //@@ author Yikbing
     /**
      * Provides access to the full date formatter (dd-MM-yyyy).
      *
