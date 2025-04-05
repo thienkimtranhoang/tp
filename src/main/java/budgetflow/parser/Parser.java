@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 /**
  * Parses the user's input and extracts the corresponding command.
  *
- * <p>New filtering commands for income (by date, amount, and category) have been added. ok
+ * <p>New filtering commands for income (by date, amount, and category) have been added. oke
  *
  * @@author IgoyAI (modified)
  */
