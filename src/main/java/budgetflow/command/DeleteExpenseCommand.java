@@ -87,7 +87,7 @@ public class DeleteExpenseCommand extends Command {
     private void checkValidIndex(ExpenseList expenseList, int index) throws InvalidNumberFormatException {
         if (index < 0 || index >= expenseList.getSize()) {
             logger.warning("Attempted to delete with invalid index: " + (index + 1));
-                throw new InvalidNumberFormatException(ERROR_INVALID_EXPENSE_INDEX);
+            throw new InvalidNumberFormatException(ERROR_INVALID_EXPENSE_INDEX);
         }
     }
 
