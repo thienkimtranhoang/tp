@@ -1,9 +1,9 @@
 @startuml
-participant "User" as User
-participant "CompareExpenseCommand" as CompareExpenseCommand
-participant "ExpenseList" as ExpenseList
-participant "DateValidator" as DateValidator
-participant "Expense" as Expense
+participant ":User" as User
+participant ":CompareExpenseCommand" as CompareExpenseCommand
+participant ":ExpenseList" as ExpenseList
+participant ":DateValidator" as DateValidator
+participant ":Expense" as Expense
 
 
 User -> CompareExpenseCommand : execute(incomes, expenseList)

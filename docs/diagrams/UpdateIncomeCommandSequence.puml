@@ -1,10 +1,10 @@
 @startuml
 actor User
-participant "UpdateIncomeCommand" as UpdateIncomeCommand
-participant "Income" as Income
-participant "ExpenseList" as ExpenseList
-participant "Storage" as Storage
-participant "DateValidator" as DateValidator
+participant ":UpdateIncomeCommand" as UpdateIncomeCommand
+participant ":Income" as Income
+participant ":ExpenseList" as ExpenseList
+participant ":Storage" as Storage
+participant ":DateValidator" as DateValidator
 
 User -> UpdateIncomeCommand: "update-income ..."
 activate UpdateIncomeCommand
