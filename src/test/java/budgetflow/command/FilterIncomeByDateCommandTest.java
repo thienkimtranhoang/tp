@@ -1,6 +1,7 @@
 package budgetflow.command;
 
-import budgetflow.exception.FinanceException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import org.junit.jupiter.api.Test;
@@ -8,14 +9,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-
-//@@author IgoyAI
 class FilterIncomeByDateCommandTest {
 
     @Test
-    void date_valid_returnsMatching() throws FinanceException {
+    void date_valid_returnsMatching() throws Exception {
         List<Income> incomes = new ArrayList<>();
         incomes.add(new Income("Salary", 2500.00, "15-03-2025"));
         incomes.add(new Income("Bonus", 500.00, "20-03-2025"));
@@ -33,7 +30,7 @@ class FilterIncomeByDateCommandTest {
     }
 
     @Test
-    void date_noMatch_returnsNone() throws FinanceException {
+    void date_noMatch_returnsNone() throws Exception {
         List<Income> incomes = new ArrayList<>();
         incomes.add(new Income("Salary", 2500.00, "15-03-2025"));
         ExpenseList expenseList = new ExpenseList();
@@ -48,48 +45,39 @@ class FilterIncomeByDateCommandTest {
     }
 
     @Test
-    void date_invalidFormat_throws() {
+    void date_invalidFormat_returnsUsageGuide() throws Exception {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
+        // Missing the "to/..." part
         Command command = new FilterIncomeByDateCommand(
                 "filter-income date from/15-03-2025");
-        try {
-            command.execute(incomes, expenseList);
-            fail();
-        } catch (FinanceException e) {
-            String expectedError = "Invalid date filter format. Usage: filter-income date " +
-                    "from/DD-MM-YYYY to/DD-MM-YYYY";
-            assertEquals(expectedError, e.getMessage());
-        }
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY\n"
+                + "Example: filter-income date from/01-01-2023 to/31-12-2023";
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     @Test
-    void date_rangeInvalid_throws() {
+    void date_rangeInvalid_returnsErrorMessage() throws Exception {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
+        // Invalid range: start date is after end date.
         Command command = new FilterIncomeByDateCommand(
                 "filter-income date from/25-03-2025 to/15-03-2025");
-        try {
-            command.execute(incomes, expenseList);
-            fail();
-        } catch (FinanceException e) {
-            String expectedError = "Start date must be before or equal to end date.";
-            assertEquals(expectedError, e.getMessage());
-        }
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Start date must be before or equal to end date.";
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     @Test
-    void date_badFormat_throws() {
+    void date_badFormat_returnsErrorMessage() throws Exception {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
+        // "to" date is in bad format.
         Command command = new FilterIncomeByDateCommand(
                 "filter-income date from/15-03-2025 to/2025-03-15");
-        try {
-            command.execute(incomes, expenseList);
-            fail();
-        } catch (FinanceException e) {
-            String expectedError = "One or both dates are invalid. Please use DD-MM-YYYY format.";
-            assertEquals(expectedError, e.getMessage());
-        }
+        command.execute(incomes, expenseList);
+        String expectedOutput = "One or both dates are invalid. Please use DD-MM-YYYY format.";
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 }
