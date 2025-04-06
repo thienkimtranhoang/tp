@@ -31,6 +31,7 @@ public class HelpCommand extends Command {
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException {
         StringBuilder helpMessage = new StringBuilder();
+        helpMessage.append("To set a Saving Goal: set-saving-goal <AMOUNT>\n" + RESET);
         helpMessage.append("To add an Income: add category/<CATEGORY> amt/<AMOUNT> d/<DD-MM-YYYY>\n" + CYAN);
         helpMessage.append("To add an Expense: log-expense category/<CATEGORY> desc/<DESCRIPTION> amt/<AMOUNT>" +
                 " d/<DD-MM-YYYY>\n" + RESET);

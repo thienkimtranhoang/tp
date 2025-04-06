@@ -13,4 +13,6 @@ Parser -> Parser : Check if input starts with "add category/"
 Parser --> UI : new AddIncomeCommand(input)
 deactivate Parser
 
+deactivate UI
+
 @enduml
