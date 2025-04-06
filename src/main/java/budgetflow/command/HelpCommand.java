@@ -1,6 +1,8 @@
 package budgetflow.command;
 
 import budgetflow.exception.FinanceException;
+import budgetflow.exception.InvalidKeywordException;
+
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import java.util.List;
@@ -25,8 +27,14 @@ public class HelpCommand extends Command {
         this.commandType = CommandType.READ;
     }
 
+    //@@ author Yikbing
     @Override
-    public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException {
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException{
+
+        if(input != HELP_PATTERN) {
+            throw new InvalidKeywordException("Invalid command. Did you mean 'help'?");
+        }
+
         StringBuilder helpMessage = new StringBuilder();
         String border = "=".repeat(60);
 
