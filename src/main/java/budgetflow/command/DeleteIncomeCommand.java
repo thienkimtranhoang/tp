@@ -1,6 +1,8 @@
 package budgetflow.command;
 
+import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.UnfoundIncomeException;
+import budgetflow.exception.InvalidKeywordException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 
@@ -16,13 +18,15 @@ import java.util.logging.Logger;
 //@@author Yikbing
 public class DeleteIncomeCommand extends Command {
     private static final Logger logger = Logger.getLogger(DeleteIncomeCommand.class.getName());
-    private static final String COMMAND_DELETE_INCOME = "delete-income ";
-    private static final String ERROR_INCOME_NOT_FOUND = "Income not found: ";
-    private static final String ERROR_INVALID_COMMAND = "Invalid delete income command format.";
-    private static final String ASSERT_NULL_ENTRY = "Income list contains a null entry";
-    private static final String ASSERT_NULL_CATEGORY = "Income entry has a null category";
-    private static final String ERROR_EMPTY_CATEGORY = "Error: Income category is required.";
-    private static final String INCOME_DELETED_HEADER = "Income deleted: ";
+    private static final String COMMAND_DELETE_INCOME = "delete-income";
+    private static final String ERROR_EMPTY_INDEX = "Error: Income Index is required.";
+    private static final String LOG_ATTEMPT_EMPTY_INDEX = "Attempted to delete an empty Income Index.";
+    private static final String ERROR_INVALID_INCOME_INDEX = "Error: Invalid Income index.";
+    private static final String LOG_INCOME_DELETED = "Income deleted: ";
+    private static final String ERROR_INVALID_NUMBER = "Error: Please enter a valid numeric index.";
+    public static final String LOG_INVALID_INDEX = "Invalid index format: ";
+    public static final String LOG_ATTEMPT_TO_DELETE_INVALID_INDEX = "Attempted to delete with invalid index: ";
+    private static final int CONVERT_TO_ZERO_INDEX = 1;
 
     /**
      * Constructs a DeleteIncomeCommand with the specified user input.
@@ -43,40 +47,71 @@ public class DeleteIncomeCommand extends Command {
      * @param expenseList  The list of expense entries (unused in this command but required for consistency).
      * @throws UnfoundIncomeException If the specified income category is not found.
      */
-    //@@author dariusyawningwhiz
+    //@@author Yikbing
     @Override
-    public void execute(List<Income> incomes, ExpenseList expenseList) {
-        if (!input.startsWith(COMMAND_DELETE_INCOME)) {
-            this.outputMessage = ERROR_INVALID_COMMAND;
-            return;
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws InvalidKeywordException,
+            InvalidNumberFormatException {
+
+        String incomeIndex = input.substring(COMMAND_DELETE_INCOME.length()).trim();
+
+
+        checkEmptyIndex(incomeIndex);
+
+        try {
+            int index = Integer.parseInt(incomeIndex) - CONVERT_TO_ZERO_INDEX;
+
+            checkValidIndex(incomes, index, incomeIndex);
+
+            deleteIncomeAndOutput(incomes, index);
+
+        } catch (NumberFormatException e) {
+            logger.warning(LOG_INVALID_INDEX + incomeIndex);
+            throw new InvalidNumberFormatException(ERROR_INVALID_NUMBER);
         }
+    }
 
-        String incomeCategory = input.substring(COMMAND_DELETE_INCOME.length()).trim();
-
-        if (incomeCategory.isEmpty()) {
-            this.outputMessage = ERROR_EMPTY_CATEGORY;
-            return;
+    /**
+     * Checks if the provided index string is empty.
+     *
+     * @param incomeIndex The string representing the index to be checked.
+     * @throws InvalidNumberFormatException If the index string is empty.
+     */
+    //@@ author Yikbing
+    private static void checkEmptyIndex(String incomeIndex) throws InvalidNumberFormatException {
+        if (incomeIndex.isEmpty()) {
+            logger.warning(LOG_ATTEMPT_EMPTY_INDEX);
+            throw new InvalidNumberFormatException(ERROR_EMPTY_INDEX);
         }
+    }
 
-        boolean found = false;
-        for (int i = 0; i < incomes.size(); i++) {
-            Income income = incomes.get(i);
-
-            assert income != null : ASSERT_NULL_ENTRY;
-            assert income.getCategory() != null : ASSERT_NULL_CATEGORY;
-
-            if (income.getCategory().equalsIgnoreCase(incomeCategory)) {
-                incomes.remove(i);
-                this.outputMessage = INCOME_DELETED_HEADER + incomeCategory;
-                found = true;
-                logger.info(INCOME_DELETED_HEADER + incomeCategory);
-                break;
-            }
+    /**
+     * Validates whether the provided index is within the valid range of the incomes list.
+     *
+     * @param incomes The list of incomes to validate the index against.
+     * @param index       The index to be validated.
+     * @param incomeIndex The index entered by the user.
+     * @throws InvalidNumberFormatException If the index is out of bounds.
+     */
+    //@@author Yikbing
+    private static void checkValidIndex(List<Income> incomes, int index, String incomeIndex) throws InvalidNumberFormatException {
+        if (index < 0 || index >= incomes.size()) {
+            logger.warning(LOG_ATTEMPT_TO_DELETE_INVALID_INDEX + incomeIndex);
+            throw new InvalidNumberFormatException(ERROR_INVALID_INCOME_INDEX);
         }
+    }
 
-        if (!found) {
-            this.outputMessage = ERROR_INCOME_NOT_FOUND + incomeCategory;
-            logger.warning("Attempted to delete non-existent income: " + incomeCategory);
-        }
+    /**
+     * Deletes the specified Income from the incomes list and generates the output message.
+     *
+     * @param incomes The list of incomes from which the income will be deleted.
+     * @param index       The index of the Income to be deleted.
+     */
+    //@@author Yikbing
+    private void deleteIncomeAndOutput(List<Income> incomes, int index) {
+        String deletedDesc = incomes.get(index).getCategory();
+        String amount = Double.toString(incomes.get(index).getAmount());
+        incomes.remove(index);
+        this.outputMessage = LOG_INCOME_DELETED + deletedDesc + ", $" + amount;
+        logger.info(LOG_INCOME_DELETED + deletedDesc);
     }
 }
