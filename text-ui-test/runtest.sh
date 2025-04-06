@@ -6,7 +6,7 @@ cd "${0%/*}"
 cd ..
 
 # Clear the persistent budgetflow file
-DATA_FILE="data/budgetflow.txt"
+DATA_FILE="text-ui-test/data/budgetflow.txt"
 if [ -f "$DATA_FILE" ]; then
     > "$DATA_FILE"
 else

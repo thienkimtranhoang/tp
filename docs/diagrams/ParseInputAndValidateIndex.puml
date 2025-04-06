@@ -1,5 +1,5 @@
 @startuml
-participant "UpdateIncomeCommand" as UpdateIncomeCommand
+participant ":UpdateIncomeCommand" as UpdateIncomeCommand
 
 UpdateIncomeCommand -> UpdateIncomeCommand: Validate parts.length < MINIMUM_PARTS_FOR_UPDATE
 activate UpdateIncomeCommand

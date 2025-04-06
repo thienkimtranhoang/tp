@@ -14,10 +14,6 @@ abstract class "{abstract} \n Command" {
     +getCommandType(): CommandType
 }
 class DifferentCommands
-note top of DifferentCommands {
-    This is not a class name, but rather representing
-    different classes that extends this Command class
-}
 enum CommandType {
 CREATE
 READ
@@ -27,6 +23,7 @@ EXIT
 COMPARE
 }
 
+' Define the other classes
 class Income
 class ExpenseList
 
@@ -37,5 +34,10 @@ DifferentCommands -up-|> "{abstract} \n Command"
 "{abstract} \n Command" --> "1" CommandType: commandType
 "{abstract} \n Command" ..> FinanceException: throws
 
+' Add a note for clarification
+note top of DifferentCommands
+  DifferentCommands is not a class name.
+  It is a placeholder for different command types.
+end note
 
 @enduml

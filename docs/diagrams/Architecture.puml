@@ -1,6 +1,8 @@
 @startuml
-'https://plantuml.com/use-case-diagram
+' Define the actor and system
 actor User
+
+' Define the package containing the system components
 package budgetflow {
     [Main]
     [Ui]
@@ -9,14 +11,31 @@ package budgetflow {
     [Storage]
     [Model]
 }
-User --> [Main]
-[Main] -left-> [Model]
-[Main] --> [Storage]
-[Main] *-- [Ui]
-[Main] ..> [Parser]
-[Storage] ..> [Model]
-[Command] ..> [Model]
-[Parser] ..> [Command]
-[Ui] ..> [Command]
+
+' Define relationships between components
+User --> [Main] : Interacts with
+[Main] -left-> [Model] : Updates and retrieves data
+[Main] --> [Storage] : Saves and loads data
+[Main] *-- [Ui] : Uses
+[Main] ..> [Parser] : Uses for input parsing
+[Storage] ..> [Model] : Saves and retrieves data
+[Command] ..> [Model] : Executes actions on model
+[Parser] ..> [Command] : Parses commands into actions
+[Ui] ..> [Command] : Sends user input as commands
+
+' Add legends for components and interactions
+legend left
+  Main: Entry point, coordinates between components.
+  Ui: Handles user input/output.
+  Parser: Converts user input to executable commands.
+  Command: Executes budget-related actions.
+  Storage: Manages data persistence.
+  Model: Stores application data and logic.
+endlegend
+
+legend right
+  User: Interacts with the system.
+  Interaction: Communication flow between components.
+endlegend
 
 @enduml

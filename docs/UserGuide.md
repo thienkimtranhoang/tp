@@ -112,12 +112,18 @@ Expense updated: [UPDATED_CATEGORY], Description: [UPDATED_DESCRIPTION], Amount:
 **Description:** Deletes an instance of an Income entry.
 **Command:**
 ```plaintext
-delete-income <NAME OF INCOME ENTRY>
+delete-income <INDEX OF INCOME ENTRY>
 ```
+
+**Example:**
+```plaintext
+delete-income 1
+```
+
 **Output:**
 ```plaintext
-Saving goal retrieved: [REMAINING OF SAVING GOAL]
-Income deleted: [NAME OF INCOME ENTRY]
+Saving goal retrieved: <REMAINING OF SAVING GOAL>
+Income deleted: <NAME OF INCOME ENTRY>, $<AMT>
 ```
 
 ---
@@ -128,10 +134,16 @@ Income deleted: [NAME OF INCOME ENTRY]
 ```plaintext
 delete-expense <INDEX OF EXPENSE ENTRY>
 ```
+
+**Example:**
+```plaintext
+delete-expense 1
+```
+
 **Output:**
 ```plaintext
 Saving goal retrieved: <REMAINING OF SAVING GOAL>
-Income deleted: <DESCRIPTION OF EXPENSE ENTRY>, $<AMT>
+Expense deleted: <DESCRIPTION OF EXPENSE ENTRY>, $<AMT>
 ```
 
 ---
@@ -142,10 +154,15 @@ Income deleted: <DESCRIPTION OF EXPENSE ENTRY>, $<AMT>
 ```plaintext
 compare <MM-YYYY> <MM-YYYY>
 ```
+**Example:**
+```plaintext
+compare 03-2025 04-2025
+```
+
 **Output:**
 ```plaintext
-Total expenses for MM-YYYY: [AMOUNT]
-Total expenses for MM-YYYY: [AMOUNT]
+Total expenses for MM-YYYY: $<AMT>
+Total expenses for MM-YYYY: $<AMT>
 ```
 
 ---
@@ -532,6 +549,14 @@ Salary               | $1000.00   | 06-03-2025
 ---
 ```
 
+**Example:**
+
+```plaintext
+find-income /date 01-04-2025
+Here are all matching income entries:
+Salary | Monthly Salary | $3000.00 | 01-04-2025
+---
+```
 ### 16. Exiting the Application
 **Description:** Safely exits the BudgetFlow application.  
 **Command:**
@@ -585,9 +610,9 @@ A: Yes! You can use the `update-expense` or `delete-expense` commands to modify 
 | `filter-income date from/<DATE1> to/<DATE2>`                                                                          | Filters income entries within a specific date range.                     |
 | `filter-income amount from/<AMOUNT1> to/<AMOUNT1>`                                                                    | Filters income entries within a specified amount range.                  |
 | `filter-income category/<CATEGORY>`                                                                                   | Filters income by category.                                              |
-| `delete-income <NAME OF INCOME ENTRY>`                                                                                | Deletes an income entry with the category `<NAME OF INCOME ENTRY>`.      |
-| `delete-expense <NAME OF EXPENSE ENTRY>`                                                                              | Deletes an expense entry with the description `<NAME OF EXPENSE ENTRY>`. |
-| `update-income [INDEX] category/[UPDATED_CATEGORY] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]`                             | Updates an income entry at index `<INDEX>`.                              |
+| `delete-income <INDEX> OF INCOME ENTRY>`                                                                              | Deletes an income entry with the category `<NAME OF INCOME ENTRY>`.      |
+| `delete-expense <INDEX> OF EXPENSE ENTRY>`                                                                            | Deletes an expense entry with the description `<NAME OF EXPENSE ENTRY>`. |
+| `update-income <INDEX> category/<UPDATED_CATEGORY> amt/<UPDATED_AMOUNT> d/<UPDATED_DATE>`                             | Updates an income entry at index `<INDEX>`.                              |
 | `compare <Month1> <Month2>`                                                                                           | Compares total expenses between `<Month1>` and `<Month2>`.               | 
 | `exit`                                                                                                                | Exits the application safely.                                            |
 | `help`                                                                                                                | Displays a comprehensive list of all commands                            |

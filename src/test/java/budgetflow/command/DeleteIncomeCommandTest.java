@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class DeleteIncomeCommandTest {
 
@@ -23,61 +24,58 @@ class DeleteIncomeCommandTest {
 
     //@@author Yikbing
     @Test
-    void deleteIncome_validIncome_expectIncomeFound() throws FinanceException {
+    void deleteIncome_validIndex_incomeDeleted() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = get3Incomes();
-        Command command = new DeleteIncomeCommand("delete-income Part-timeJob");
+        Command command = new DeleteIncomeCommand("delete-income 1");
         command.execute(incomes, expenseList);
-        String expectedOutput = "Income deleted: Part-timeJob";
+        String expectedOutput = "Income deleted: Part-timeJob, $300.0";
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     //@@author Yikbing
     @Test
-    void deleteIncome_invalidIncome_expectNoIncomeFound() throws FinanceException {
+    void deleteIncome_invalidNumericIndex_throwsException() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = get3Incomes();
-        Command command = new DeleteIncomeCommand("delete-income Housework");
-        command.execute(incomes, expenseList);
-
-        String expectedOutput = "Income not found: Housework";
-        assertEquals(expectedOutput, command.getOutputMessage());
+        Command command = new DeleteIncomeCommand("delete-income 4");
+        try{
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Invalid Income index.";
+            assertEquals(expectedError, e.getMessage());
+        }
     }
 
-    //@@author dariusyawningwhiz
+    //@@author Yikbing
     @Test
-    void deleteIncome_invalidCommandFormat_expectInvalidCommandError() throws FinanceException {
+    void deleteIncome_invalidNonNumericIndex_throwsException() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = get3Incomes();
-        Command command = new DeleteIncomeCommand("delete-something Part-timeJob");
-        command.execute(incomes, expenseList);
-        String expectedOutput = "Invalid delete income command format.";
-        assertEquals(expectedOutput, command.getOutputMessage());
+        Command command = new DeleteIncomeCommand("delete-income a");
+        try{
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Please enter a valid numeric index.";
+            assertEquals(expectedError, e.getMessage());
+        }
     }
 
-    //@@author dariusyawningwhiz
+    //@@author Yikbing
     @Test
-    void deleteIncome_emptyCategory_expectEmptyCategoryError() throws FinanceException {
+    void deleteIncome_noIndex_throwsException() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = get3Incomes();
-        Command command = new DeleteIncomeCommand("delete-income ");
-        command.execute(incomes, expenseList);
-        String expectedOutput = "Error: Income category is required.";
-        assertEquals(expectedOutput, command.getOutputMessage());
+        Command command = new DeleteIncomeCommand("delete-income");
+        try{
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Income Index is required.";
+            assertEquals(expectedError, e.getMessage());
+        }
     }
 
-    //@@author dariusyawningwhiz
-    @Test
-    void deleteIncome_validIncomeInMiddleOfList_expectIncomeDeleted() throws FinanceException {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        incomes.add(new Income("Part-timeJob", 300.00, "12-06-2025"));
-        incomes.add(new Income("freelance", 100.00, "29-05-2025"));
-        incomes.add(new Income("fulltime-job", 5000.00, "01-01-2025"));
-        incomes.add(new Income("contract", 2000.00, "05-05-2025"));
-        Command c = new DeleteIncomeCommand("delete-income freelance");
-        c.execute(incomes, expenseList);
-        String expectedOutput = "Income deleted: freelance";
-        assertEquals(expectedOutput, c.getOutputMessage());
-    }
 }

@@ -3,7 +3,8 @@
 participant ":ViewAllExpensesCommand" as Command
 participant "expenseList: ExpenseList" as expenseList
 participant "expense :Expense" as expense
--> Command ++:execute()
+
+-> Command ++: execute()
 Command -> expenseList ++: getSize()
 Command <-- expenseList --: size
 alt size == 0
