@@ -8,12 +8,12 @@ filter them by category or date, and analyze their financial habits. It is writt
 ### Summary of Contributions
 * __New Feature:__ Added the ability to delete Expenses:
   * What it does: This feature allows users to delete their expenses by providing a command `delete-expense`. The user 
-  then has to enter `delete-expense [DESCRIPTION]`, which will then delete the corresponding entry from the list.
+  then has to enter `delete-expense [INDEX]`, which will then delete the corresponding entry from the list.
   * Justification: This feature helps users to be able to delete expenses that were wrongly accounted for.
 
 * __New Feature:__ Added the ability to delete Income:
     * What it does: This feature allows users to delete their expenses by providing a command `delete-income`. The user
-      then has to enter `delete-income [DESCRIPTION]`, which will then delete the corresponding entry from the list.
+      then has to enter `delete-income [INDEX]`, which will then delete the corresponding entry from the list.
     * Justification: This feature helps users to be able to delete income that were wrongly accounted for.
 
 * __New Feature:__ Added the ability to update Income:
@@ -32,12 +32,17 @@ filter them by category or date, and analyze their financial habits. It is writt
   * What it does: This method allows the program to be able to accurately identify whether the dates entered by the
   user is a valid date so that all dates that are inside the program is a valid date.
 
+* __Enhancements to existing features:__
+  * Fix bugs for `delete-income` and `delete-expense` to change the methods to delete based on index 
+  instead of descriptions, so overlapping names would not be a problem.[#189](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/189) [#193](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/193)
+  * Fix bugs for `DateValidator` such that it accounts for leap years and has more accurate dates.[#189](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/189)
+
 * __Code Contributed:__ [RepoSense Link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21)__
 
 * __Documentation:__
     * User Guide:
-      * Added documentation for delete-expense, delete-income, compare expenses and update-income command [#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
+      * Added documentation for `delete-expense`, `delete-income`, `compare` and `update-income` command [#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
     * Developer Guide:
-      * Added delete-income, delete-expense, compare expenses and update-income for Implementation[#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
+      * Added `delete-income`, `delete-expense`, `compare` and `update-income` for Implementation[#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
 * __Community:__
     * PRs reviewed (with non-trivial review comments): [#98](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/98)

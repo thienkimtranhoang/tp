@@ -82,12 +82,18 @@ Expense updated: [UPDATED_CATEGORY], Description: [UPDATED_DESCRIPTION], Amount:
 **Description:** Deletes an instance of an Income entry.
 **Command:**
 ```plaintext
-delete-income <NAME OF INCOME ENTRY>
+delete-income <INDEX OF INCOME ENTRY>
 ```
+
+**Example:**
+```plaintext
+delete-income 1
+```
+
 **Output:**
 ```plaintext
-Saving goal retrieved: [REMAINING OF SAVING GOAL]
-Income deleted: [NAME OF INCOME ENTRY]
+Saving goal retrieved: <REMAINING OF SAVING GOAL>
+Income deleted: <NAME OF INCOME ENTRY>, $<AMT>
 ```
 
 ---
@@ -98,10 +104,16 @@ Income deleted: [NAME OF INCOME ENTRY]
 ```plaintext
 delete-expense <INDEX OF EXPENSE ENTRY>
 ```
+
+**Example:**
+```plaintext
+delete-expense 1
+```
+
 **Output:**
 ```plaintext
 Saving goal retrieved: <REMAINING OF SAVING GOAL>
-Income deleted: <DESCRIPTION OF EXPENSE ENTRY>, $<AMT>
+Expense deleted: <DESCRIPTION OF EXPENSE ENTRY>, $<AMT>
 ```
 
 ---
@@ -112,10 +124,15 @@ Income deleted: <DESCRIPTION OF EXPENSE ENTRY>, $<AMT>
 ```plaintext
 compare <MM-YYYY> <MM-YYYY>
 ```
+**Example:**
+```plaintext
+compare 03-2025 04-2025
+```
+
 **Output:**
 ```plaintext
-Total expenses for MM-YYYY: [AMOUNT]
-Total expenses for MM-YYYY: [AMOUNT]
+Total expenses for MM-YYYY: $<AMT>
+Total expenses for MM-YYYY: $<AMT>
 ```
 
 ---
