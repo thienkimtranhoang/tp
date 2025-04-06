@@ -124,4 +124,117 @@ public class UpdateExpenseCommandTest {
         assertEquals(15.00, updatedExpense.getAmount());
         assertEquals("05-04-2024", updatedExpense.getDate());
     }
+
+    @Test
+    void updateExpense_largeAmountBoundary() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/9999999.99");
+        command.execute(incomes, expenseList);
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals(9999999.99, updatedExpense.getAmount());
+    }
+
+    @Test
+    void updateExpense_aboveMaxAmount() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/10000000.00");
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes, expenseList));
+        assertEquals("Amount exceeds 7 digits. Please enter a number with up to 7 digits.", exception.getMessage());
+    }
+
+    @Test
+    void updateExpense_multipleInvalidUpdates() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/@Home amt/-30.50 d/32-13-2024");
+        Exception exception = assertThrows(MissingCategoryException.class, () -> command.execute(incomes, expenseList));
+        assertEquals("Error: Invalid category. It must contain only alphanumeric characters.", exception.getMessage());
+    }
+
+    @Test
+    void updateExpense_amountWithMoreThan2DecimalPlaces() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/25.123");
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes, expenseList));
+        assertEquals("Amount must have at most 2 decimal places.", exception.getMessage());
+    }
+
+    @Test
+    void updateExpense_validDateFormat() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 d/15-03-2024");
+        command.execute(incomes, expenseList);
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("15-03-2024", updatedExpense.getDate());
+    }
+
+    @Test
+    void updateExpense_noCategoryOrDescription() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/30.50");
+        command.execute(incomes, expenseList);
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("Food", updatedExpense.getCategory());  // Category should remain the same
+        assertEquals("Lunch", updatedExpense.getDescription());  // Description should remain the same
+        assertEquals(30.50, updatedExpense.getAmount());
+    }
+
+    @Test
+    void updateExpense_categoryOnlyUpdate() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Drinks");
+        command.execute(incomes, expenseList);
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("Drinks", updatedExpense.getCategory());
+        assertEquals("Lunch", updatedExpense.getDescription());
+        assertEquals(10.50, updatedExpense.getAmount());
+    }
+
+    @Test
+    void updateExpense_amountOnlyUpdate() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/50.75");
+        command.execute(incomes, expenseList);
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals(50.75, updatedExpense.getAmount());
+    }
+
+    @Test
+    void updateExpense_multipleCategories() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Transport category/Food");
+        command.execute(incomes, expenseList);
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("Food", updatedExpense.getCategory());
+    }
+
+    @Test
+    void updateExpense_validDateWithDifferentFormats() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 d/05-04-2024");
+        command.execute(incomes, expenseList);
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("05-04-2024", updatedExpense.getDate());
+    }
+
+    @Test
+    void updateExpense_invalidMultipleUpdates() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/50.00 category/Invalid#Category");
+        Exception exception = assertThrows(MissingCategoryException.class, () -> command.execute(incomes, expenseList));
+        assertEquals("Error: Invalid category. It must contain only alphanumeric characters.", exception.getMessage());
+    }
+
+    @Test
+    void updateExpense_noValidUpdatesWithMultipleSpaces() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1   ");
+        command.execute(incomes, expenseList);
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals("Food", updatedExpense.getCategory());
+        assertEquals("Lunch", updatedExpense.getDescription());
+        assertEquals(10.50, updatedExpense.getAmount());
+    }
+
+    @Test
+    void updateExpense_invalidCategoryWithSymbol() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Food#123");
+        Exception exception = assertThrows(MissingCategoryException.class, () -> command.execute(incomes, expenseList));
+        assertEquals("Error: Invalid category. It must contain only alphanumeric characters.", exception.getMessage());
+    }
+
+    @Test
+    void updateExpense_validAmountWithMaxDigits() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/9999999.99");
+        command.execute(incomes, expenseList);
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals(9999999.99, updatedExpense.getAmount());
+    }
 }
