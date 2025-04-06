@@ -1,7 +1,6 @@
 package budgetflow.command;
 
 import budgetflow.exception.FinanceException;
-import budgetflow.exception.ExceedsMaxDigitException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import org.junit.jupiter.api.Test;
@@ -43,11 +42,10 @@ class LogExpenseCommandTest {
     void logExpense_onlyCommand_returnsUsageGuide() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        // Even with extra whitespace, the trimmed input becomes "log-expense"
         Command command = new LogExpenseCommand("   log-expense   ");
         command.execute(incomes, expenseList);
-        String expectedOutput = "Usage: log-expense category/<category> desc/<description> amt/<amount> d/<date>\n" +
-                "Example: log-expense category/Food desc/Lunch amt/12.50 d/15-03-2025";
+        String expectedOutput = "Usage: log-expense category/<category> desc/<description> " +
+                "amt/<amount> d/<date>\nExample: log-expense category/Food desc/Lunch amt/12.50 d/15-03-2025";
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
@@ -135,7 +133,6 @@ class LogExpenseCommandTest {
     void logExpense_invalidAmountFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        // "invalid" does not match the expected numeric pattern, so amount remains null.
         Command command = new LogExpenseCommand(
                 "log-expense category/Dining desc/DinnerWithFriends amt/invalid d/15-03-2025");
         try {
@@ -155,15 +152,14 @@ class LogExpenseCommandTest {
     void logExpense_invalidDateFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        // Date in wrong format should trigger the incorrect date error.
         Command command = new LogExpenseCommand(
                 "log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
         try {
             command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
-            // Updated expected string to match the actual output.
-            String expectedError = "Error: Income date is in wrong format. please use DD-MM-YYYY format.";
+            String expectedError =
+                    "Error: Income date is in wrong format. please use DD-MM-YYYY format.";
             assertEquals(expectedError, e.getMessage());
         }
     }
@@ -176,7 +172,6 @@ class LogExpenseCommandTest {
     void logExpense_invalidDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        // Invalid date values should trigger the invalid date error.
         Command command = new LogExpenseCommand(
                 "log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/99-99-1234");
         try {
@@ -193,14 +188,14 @@ class LogExpenseCommandTest {
     void logExpense_exceedsIntegerDigits_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        // Amount with integer part exceeding 7 digits (e.g., 12345678)
         Command command = new LogExpenseCommand(
                 "log-expense category/Test desc/Test amt/12345678 d/15-03-2025");
         try {
             command.execute(incomes, expenseList);
             fail();
         } catch (FinanceException e) {
-            String expectedError = "Amount exceeds 7 digits. Please enter a number with up to 7 digits.";
+            String expectedError =
+                    "Amount exceeds 7 digits. Please enter a number with up to 7 digits.";
             assertEquals(expectedError, e.getMessage());
         }
     }
@@ -210,7 +205,6 @@ class LogExpenseCommandTest {
     void logExpense_exceedsDecimalDigits_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        // Amount with more than 2 decimal places (e.g., 123.456)
         Command command = new LogExpenseCommand(
                 "log-expense category/Test desc/Test amt/123.456 d/15-03-2025");
         try {
@@ -222,29 +216,29 @@ class LogExpenseCommandTest {
         }
     }
 
-    //@@author KimTran
+    //@@author IgoyAI
     @Test
     void logExpense_extraParameters_ignoresExtraParams() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        // Extra parameters after required tags should be ignored.
         Command command = new LogExpenseCommand(
                 "log-expense category/Food desc/Lunch amt/12.50 d/15-03-2025 extra/parameter");
         command.execute(incomes, expenseList);
-        String expectedOutput = "Expense logged: Food | Lunch | $12.50 | 15-03-2025";
+        String expectedOutput =
+                "Expense logged: Food | Lunch | $12.50 | 15-03-2025";
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
-    //@@author Quydatnguyen
+    //@@author IgoyAI
     @Test
     void logExpense_tagsOutOfOrder_logsExpenseCorrectly() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        // Tags provided in a different order than expected.
         Command command = new LogExpenseCommand(
                 "log-expense amt/45.75 d/15-03-2025 category/Dining desc/DinnerWithFriends");
         command.execute(incomes, expenseList);
-        String expectedOutput = "Expense logged: Dining | DinnerWithFriends | $45.75 | 15-03-2025";
+        String expectedOutput =
+                "Expense logged: Dining | DinnerWithFriends | $45.75 | 15-03-2025";
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 }

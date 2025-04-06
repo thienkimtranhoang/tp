@@ -15,7 +15,8 @@ class FilterIncomeByDateCommandTest {
     private static final String HEADER_FORMAT = "Filtered Incomes by Date (%s to %s):%n%n";
     private static final String TABLE_HEADER = "%-20s | %-10s | %-15s%n";
     private static final String SEPARATOR = "%-20s-+-%-10s-+-%-15s%n";
-    private static final String NO_INCOMES_FOUND_MESSAGE = "No incomes found in the specified date range.";
+    private static final String NO_INCOMES_FOUND_MESSAGE =
+            "No incomes found in the specified date range.";
 
     @Test
     void date_valid_returnsMatching() throws Exception {
@@ -63,8 +64,9 @@ class FilterIncomeByDateCommandTest {
                 "filter-income date from/15-03-2025");
         InvalidKeywordException exception = assertThrows(InvalidKeywordException.class,
                 () -> command.execute(incomes, expenseList));
-        String expectedMessage = "Invalid command. Correct format: Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY\n"
-                + "Example: filter-income date from/01-01-2023 to/31-12-2023";
+        String expectedMessage = "Invalid command. Correct format: Usage: filter-income date " +
+                "from/DD-MM-YYYY to/DD-MM-YYYY\nExample: filter-income date from/01-01-2023 " +
+                "to/31-12-2023";
         assertEquals(expectedMessage, exception.getMessage());
     }
 
@@ -77,9 +79,9 @@ class FilterIncomeByDateCommandTest {
                 "filter-income date from/25-03-2025 to/15-03-2025");
         InvalidKeywordException exception = assertThrows(InvalidKeywordException.class,
                 () -> command.execute(incomes, expenseList));
-        String expectedMessage = "Invalid command. Start date must be before or equal to end date.\n"
-                + "Correct format: Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY\n"
-                + "Example: filter-income date from/01-01-2023 to/31-12-2023";
+        String expectedMessage = "Invalid command. Start date must be before or equal to end date.\n" +
+                "Correct format: Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY\n" +
+                "Example: filter-income date from/01-01-2023 to/31-12-2023";
         assertEquals(expectedMessage, exception.getMessage());
     }
 
@@ -92,9 +94,9 @@ class FilterIncomeByDateCommandTest {
                 "filter-income date from/15-03-2025 to/2025-03-15");
         InvalidKeywordException exception = assertThrows(InvalidKeywordException.class,
                 () -> command.execute(incomes, expenseList));
-        String expectedMessage = "Invalid command. One or both dates are invalid. Please use DD-MM-YYYY format.\n"
-                + "Correct format: Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY\n"
-                + "Example: filter-income date from/01-01-2023 to/31-12-2023";
+        String expectedMessage = "Invalid command. One or both dates are invalid. Please use DD-MM-YYYY " +
+                "format.\nCorrect format: Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY\n" +
+                "Example: filter-income date from/01-01-2023 to/31-12-2023";
         assertEquals(expectedMessage, exception.getMessage());
     }
 
