@@ -6,7 +6,7 @@ cd "${0%/*}"
 cd ..
 
 # Clear the persistent budgetflow file
-DATA_FILE="text-ui-test/data/budgetflow.txt"
+DATA_FILE="data/budgetflow.txt"
 if [ -f "$DATA_FILE" ]; then
     > "$DATA_FILE"
 else
@@ -15,15 +15,6 @@ else
 fi
 echo "Cleared persistent file: $(realpath "$DATA_FILE")"
 
-# Clear the persistent expense log file
-EXPENSE_FILE="text-ui-test/data/expense_log.txt"
-if [ -f "$EXPENSE_FILE" ]; then
-    > "$EXPENSE_FILE"
-else
-    mkdir -p data
-    > "$EXPENSE_FILE"
-fi
-echo "Cleared expense log file: $(realpath "$EXPENSE_FILE")"
 
 ./gradlew clean shadowJar
 
