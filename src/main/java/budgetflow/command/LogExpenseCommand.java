@@ -37,7 +37,9 @@ public class LogExpenseCommand extends Command {
     // New constants for symbol validation
     private static final String ERROR_INVALID_CATEGORY = "Error: Category must contain only alphabets or digits.";
     private static final String ERROR_INVALID_DESCRIPTION = "Error: Description must contain only alphabets or digits.";
-
+    private static final String ERROR_INVALID_INTEGRER_AMOUNT = "Amount exceeds 7 digits." +
+            "Please enter a number with up to 7 digits.";
+    private static final String ERROR_INVALID_DECIMAL_AMOUNT = "Amount must have at most 2 decimal places.";
     public LogExpenseCommand(String input) {
         super(input);
         this.commandType = CommandType.CREATE;
@@ -100,15 +102,14 @@ public class LogExpenseCommand extends Command {
 
                 if (integerPart.length() > 7) {
                     logger.warning("Amount exceeds 7 digit limit: " + integerPart);
-                    throw new ExceedsMaxDigitException("Amount exceeds 7 digits. " +
-                            "Please enter a number with up to 7 digits.");
+                    throw new ExceedsMaxDigitException(ERROR_INVALID_INTEGRER_AMOUNT);
                 }
 
                 if (parts.length > 1) {
                     String decimalPart = parts[1];
                     if (decimalPart.length() > 2) {
                         logger.warning("Amount has more than 2 decimal digits: " + decimalPart);
-                        throw new ExceedsMaxDigitException("Amount must have at most 2 decimal places.");
+                        throw new ExceedsMaxDigitException(ERROR_INVALID_DECIMAL_AMOUNT);
                     }
                 }
             } catch (NumberFormatException e) {
