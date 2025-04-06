@@ -1,8 +1,8 @@
 package budgetflow.command;
 
-import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
+import budgetflow.exception.InvalidNumberFormatException;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -64,7 +64,7 @@ public class DeleteExpenseCommand extends Command {
         try {
             int index = Integer.parseInt(indexString) - CONVERT_TO_ZERO_INDEX;
 
-            checkValidIndex(expenseList, index);
+            checkValidIndex(expenseList, index, indexString);
 
             deleteExpenseAndOutput(expenseList, index);
 
@@ -80,12 +80,14 @@ public class DeleteExpenseCommand extends Command {
      *
      * @param expenseList The list of expenses to validate the index against.
      * @param index       The index to be validated.
+     * @param indexString The index entered by the user.
      * @throws InvalidNumberFormatException If the index is out of bounds.
      */
     //@@author Yikbing
-    private void checkValidIndex(ExpenseList expenseList, int index) throws InvalidNumberFormatException {
+    private void checkValidIndex(ExpenseList expenseList, int index, String indexString)
+            throws InvalidNumberFormatException {
         if (index < 0 || index >= expenseList.getSize()) {
-            logger.warning("Attempted to delete with invalid index: " + (index + 1));
+            logger.warning("Attempted to delete with invalid index: " + (indexString));
             throw new InvalidNumberFormatException(ERROR_INVALID_EXPENSE_INDEX);
         }
     }

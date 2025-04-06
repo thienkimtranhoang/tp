@@ -3,7 +3,8 @@
 participant ":ViewAllExpensesCommand" as Command
 participant "expenseList: ExpenseList" as expenseList
 participant "expense :Expense" as expense
--> Command ++:execute()
+
+-> Command ++: execute()
 Command -> expenseList ++: getSize()
 Command <-- expenseList --: size
 alt size == 0
@@ -22,5 +23,6 @@ else size != 0
     Command -> Command: add total expenses to message string
     Command -> Command: set output message as message string
 end
+return output message
 
 @enduml

@@ -1,4 +1,7 @@
+participant "InvalidNumberFormatException" as InvalidNumberFormatException
+
 @startuml
+
 
 hide circle
 skinparam classAttributeIconSize 0
@@ -11,10 +14,16 @@ package budgetflow.command {
         + DeleteIncomeCommand(String input)
         + execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundIncomeException
     }
+    abstract class "{abstract} \n Command" {
+        + Command(String input)
+        + CommandType commandType
+    }
 }
 
 package budgetflow.exception {
-    class UnfoundIncomeException
+    class InvalidNumberFormatException{
+        + InvalidNumberFormatException(String message)
+    }
 }
 
 package budgetflow.expense {
@@ -24,17 +33,15 @@ package budgetflow.expense {
 package budgetflow.income {
     class Income {
         + String getCategory()
+        + Double getAmount()
     }
 }
 
-abstract class "{abstract} \n Command" {
-    + Command(String input)
-    + CommandType commandType
-}
+
 
 DeleteIncomeCommand --|> "{abstract} \n Command"
-DeleteIncomeCommand ..> UnfoundIncomeException : throws
-DeleteIncomeCommand ..> Income : uses
-DeleteIncomeCommand ..> ExpenseList : uses
+DeleteIncomeCommand --> InvalidNumberFormatException : throws
+DeleteIncomeCommand --> Income : uses
+DeleteIncomeCommand --> ExpenseList : uses
 
 @enduml

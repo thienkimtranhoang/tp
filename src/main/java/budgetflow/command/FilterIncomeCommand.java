@@ -4,14 +4,14 @@ import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import java.util.List;
 import java.util.logging.Logger;
-
+// @@author IgoyAI
 /**
  * Displays the usage guide for filtering incomes.
  * <p>
  * When the user types only "filter-income", this command displays a user guide
  * showing the available ways to filter incomes.
  *
- * @@author IgoyAI
+ *
  */
 public class FilterIncomeCommand extends Command {
     private static final Logger logger = Logger.getLogger(FilterIncomeCommand.class.getName());
@@ -117,3 +117,4 @@ public class FilterIncomeCommand extends Command {
         return " ".repeat(padding) + text;
     }
 }
+//@@author IgoyAI (modified)

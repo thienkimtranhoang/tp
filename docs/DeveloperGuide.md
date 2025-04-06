@@ -85,7 +85,8 @@ First, **fork** this repo, and **clone** the fork into your computer.
 
 
 ## Design
-This section outlines the various comp[DeveloperGuide.md](DeveloperGuide.md)onents of the application and explains how they interact to execute the program.
+This section outlines the various components of the application and explains how they interact to execute the program.
+[DeveloperGuide.md](DeveloperGuide.md)
 ### Architecture
 ![Architecture Diagram](images/Architecture.png)  
   
@@ -106,8 +107,7 @@ The `Storage` component can save the list of incomes and expenses data in .txt f
 ### UI
 The `UI` component consists of Ui class, which handles user interactions by reading the user's input, displaying messages and show errors. 
 This serves as the main interface for communication between user and the Finance Tracker application  
-The class diagram of Ui is displayed as below  
-![UI Class Diagram](images/UI_class.png)  
+
 Some method details of Ui class is noted as below:  
 * `public void showWelcome()`: print out the welcome message for the user at the launch of application.
 * `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
@@ -124,7 +124,7 @@ The example sequence diagram below shows how `Ui` prints messages/ errors after 
 The `Parser` component consists of `Parser` class, which handles of identifying command type from user's input and return appropriate command object based of recognized command.  
 How the `Parser` works:
 * When called upon to parse user's input command, the `Parser` class compare the input with the set of several constants representing supported commands.
-* If the user's input satisfies the command's condition, it will return a corresponding command object. Otherwise, an `UnknownCommandException` error will be thrown.
+* If the user's input satisfies the command's condition, it will return a corresponding command object. Otherwise, an `UnknownCommandException` error will be thrown.  
 The sequence diagram belows further illustrates the interactions when getCommandFromInput() api is called
   ![Parser getCommandFromInput Diagram](images/Parser_getCommandFromInput.png)
 
@@ -158,7 +158,10 @@ The `ExpenseList` component:
 * stores a private member `totalExpenses` which represents the sum amount of all expenses inside the list.
 * updates the `totalExpenses` with the latest changes in expense list by calling `updateTotalExpense()`
 ## Acknowledgements
-
+BudgetFlow uses the following tools for documentation, development and testing:  
+1. [JUnit](https://junit.org/junit5/) - Used for software testing.
+2. [Gradle](https://gradle.org/) - Used for build automation. https://gradle.org/
+3. [PlantUML](https://plantuml.com/) - Used for diagram creation. https://plantuml.com/
 
 ## Implementation
 
@@ -309,11 +312,6 @@ The `ListIncomeCommand` class is a core component of the BudgetFlow application.
 The diagram below represents the class structure, relationships, and dependencies of the `ListIncomeCommand` class:
 
 ![](diagrams/ListIncomeCommandClass.png)
-
-> **Note:** The diagram is saved as a PNG image and illustrates:
-> - The inheritance relationship between `ListIncomeCommand` and the abstract `Command` class.
-> - The usage relationships with `Income`, `ExpenseList`, and `Logger`.
-> - Static members are underlined as per the coding conventions.
 
 #### Detailed Class Description
 
@@ -492,8 +490,8 @@ filter-income date from/DD-MM-YYYY to/DD-MM-YYYY
 ### Deleting an Income Entry
 
 The `DeleteIncomeCommand` class extends the `Command` class and is responsible for processing the deletion of an income
-entry based on its category. If the specified income category is not found in the list of incomes,
-the command throws an exception (`UnfoundIncomeException`) to indicate the error.
+entry based on its Index. If the specified income index is not found in the list of incomes,
+the command throws an exception (`InvalidNumberFormatException`) to indicate the error.
 
 This class adheres to the Command design pattern, 
 where each command encapsulates a specific action (in this case, deleting an income entry).
@@ -517,11 +515,13 @@ where each command encapsulates a specific action (in this case, updating an inc
 
 Below is the Class Diagram of the `UpdateIncomeCommand` Class.
 
-![Delete Income Command Class Diagram](diagrams/UpdateIncomeCommandClass.png)
+![Update Income Command Class Diagram](diagrams/UpdateIncomeCommandClass.png)
 
 Below is the Command sequence of the `UpdateIncomeCommand` Class.
 
-![Delete Income Command Sequence](diagrams/UpdateIncomeCommandSequence.png)
+![Update Income Command Sequence](diagrams/UpdateIncomeCommandSequence.png)
+
+Below is the Command sequence of the `ParseInputAndValidateIndex` Ref Box. 
 
 ![Parse Input and Validate Index ](diagrams/ParseInputAndValidateIndex.png)
 
@@ -619,9 +619,9 @@ Below is the Command sequence of the reference box `IterateExpensesSequence`.
 ### Deleting an Expense Entry
 
 The `DeleteExpenseCommand` class extends the `Command` class and is responsible for processing
-the deletion of an expense entry based on its description.
-If the specified expense description is not found in the list of expenses,
-the command throws an exception (`UnfoundExpenseException`) to indicate the error.
+the deletion of an expense entry based on its Index.
+If the specified expense Index is not found in the list of expenses,
+the command throws an exception (`InvalidNumberFormatException`) to indicate the error.
 
 This class adheres to the Command design pattern, 
 where each command encapsulates a specific action (in this case, deleting an expense entry).

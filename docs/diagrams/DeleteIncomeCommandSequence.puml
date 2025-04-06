@@ -1,47 +1,47 @@
 @startuml
-participant "User" as User
-participant "DeleteIncomeCommand" as DeleteIncomeCommand
-participant "List<Income>" as IncomeList
-participant "Logger" as Logger
-participant "ExpenseList" as ExpenseList
+actor User
+participant ":DeleteIncomeCommand" as DeleteIncomeCommand
+participant ":Income" as Income
+participant ":InvalidNumberFormatException" as InvalidNumberFormatException
 
-User -> DeleteIncomeCommand: "delete-income [INCOME_NAME]"
+User -> DeleteIncomeCommand: Create command(input)
 activate DeleteIncomeCommand
 
 
-DeleteIncomeCommand -> DeleteIncomeCommand: incomeCategory = input.substring(...).trim()
-DeleteIncomeCommand --> DeleteIncomeCommand
 
-    loop for each income
-                DeleteIncomeCommand -> IncomeList: get(i)
-                activate IncomeList
-                IncomeList --> DeleteIncomeCommand: return income
-                deactivate IncomeList
-
-                DeleteIncomeCommand -> IncomeList: getCategory()
-                activate IncomeList
-                IncomeList--> DeleteIncomeCommand: return category
-                deactivate IncomeList
-
-                    alt category matches INCOME_NAME
-                        DeleteIncomeCommand -> IncomeList: remove(i)
-                        activate IncomeList
-                        IncomeList--> DeleteIncomeCommand: return
-                        deactivate IncomeList
-                        DeleteIncomeCommand -> DeleteIncomeCommand: setOutputMessage("Income deleted: " + incomeCategory)
-                        DeleteIncomeCommand -> Logger: info("Income deleted: " + incomeCategory)
-                        note right of DeleteIncomeCommand
-                        Once income is deleted, break from the loop
-                        end note
-                	end
-
-    end
-
-
-alt income not found
-    DeleteIncomeCommand -> Logger: warning("Attempted to delete non-existent income: " + incomeCategory)
-    DeleteIncomeCommand -> DeleteIncomeCommand: throw UnfoundIncomeException
+DeleteIncomeCommand -> DeleteIncomeCommand : checkEmptyIndex(indexString)
+activate DeleteIncomeCommand
+opt incomeIndex is empty
+DeleteIncomeCommand -> InvalidNumberFormatException : throw InvalidNumberFormatException(ERROR_EMPTY_INDEX)
+activate InvalidNumberFormatException
+InvalidNumberFormatException --> DeleteIncomeCommand
+deactivate InvalidNumberFormatException
 end
+DeleteIncomeCommand --> DeleteIncomeCommand
+deactivate DeleteIncomeCommand
 
+
+DeleteIncomeCommand -> DeleteIncomeCommand : parse incomeIndex to int
+activate DeleteIncomeCommand
+DeleteIncomeCommand --> DeleteIncomeCommand
+deactivate DeleteIncomeCommand
+
+DeleteIncomeCommand -> DeleteIncomeCommand : checkValidIndex(incomes, index)
+activate DeleteIncomeCommand
+opt index < 0 || index >= incomes.size()
+DeleteIncomeCommand -> InvalidNumberFormatException : throw InvalidNumberFormatException(ERROR_INVALID_EXPENSE_INDEX)
+activate InvalidNumberFormatException
+InvalidNumberFormatException --> DeleteIncomeCommand
+deactivate InvalidNumberFormatException
+end
+DeleteIncomeCommand --> DeleteIncomeCommand
+deactivate DeleteIncomeCommand
+
+DeleteIncomeCommand -> Income: print description and amount for given index
+activate Income
+Income --> DeleteIncomeCommand
+deactivate Income
+
+DeleteIncomeCommand --> User
 deactivate DeleteIncomeCommand
 @enduml

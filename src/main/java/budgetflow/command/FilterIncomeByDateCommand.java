@@ -31,10 +31,16 @@ public class FilterIncomeByDateCommand extends Command {
             "Example: filter-income date from/01-01-2023 to/31-12-2023";
     private static final String INVALID_DATE_MESSAGE = "One or both dates are invalid. Please use DD-MM-YYYY format.";
     private static final String DATE_RANGE_ERROR_MESSAGE = "Start date must be before or equal to end date.";
-    private static final String FILTER_HEADER_FORMAT = "Filtered Incomes by Date (%s to %s):\n";
     private static final String NO_INCOMES_FOUND_MESSAGE = "No incomes found in the specified date range.";
+
     private static final String FROM_REGEX = "from/(\\S+)";
     private static final String TO_REGEX = "to/(\\S+)";
+
+    // Format strings for table output:
+    private static final String HEADER_FORMAT = "Filtered Incomes by Date (%s to %s):%n%n";
+    private static final String TABLE_HEADER = "%-20s | %-10s | %-15s%n";
+    private static final String SEPARATOR = "%-20s-+-%-10s-+-%-15s%n";
+    private static final String ROW_FORMAT = "%-20s | $%-9.2f | %-15s%n";
 
     /**
      * Constructs a FilterIncomeByDateCommand with the specified user input.
@@ -88,8 +94,13 @@ public class FilterIncomeByDateCommand extends Command {
             logger.info("Displayed error: start date is after end date.");
             return;
         }
+
+        // Build table header and separator
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format(FILTER_HEADER_FORMAT, fromDateStr, toDateStr));
+        sb.append(String.format(HEADER_FORMAT, fromDateStr, toDateStr));
+        sb.append(String.format(TABLE_HEADER, "Category", "Amount", "Date"));
+        sb.append(String.format(SEPARATOR, "-".repeat(20), "-".repeat(10), "-".repeat(15)));
+
         boolean found = false;
         for (Income income : incomes) {
             String incomeDateStr = income.getDate();
@@ -97,12 +108,7 @@ public class FilterIncomeByDateCommand extends Command {
                 LocalDate incomeDate = LocalDate.parse(incomeDateStr, DateValidator.getFullDateFormatter());
                 if ((incomeDate.isEqual(fromDate) || incomeDate.isAfter(fromDate)) &&
                         (incomeDate.isEqual(toDate) || incomeDate.isBefore(toDate))) {
-                    sb.append(income.getCategory())
-                            .append(" | $")
-                            .append(String.format("%.2f", income.getAmount()))
-                            .append(" | ")
-                            .append(income.getDate())
-                            .append("\n");
+                    sb.append(String.format(ROW_FORMAT, income.getCategory(), income.getAmount(), income.getDate()));
                     found = true;
                 }
             }

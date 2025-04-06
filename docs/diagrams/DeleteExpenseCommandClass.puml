@@ -11,6 +11,10 @@ package budgetflow.command {
         + DeleteExpenseCommand(String input)
         + execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundExpenseException
     }
+    abstract class "{abstract} \n Command" {
+        + CommandType: commandType
+        + Command(String input)
+    }
 }
 
 package budgetflow.expense {
@@ -29,11 +33,6 @@ class budgetflow.income.Income {
 
 class budgetflow.exception.InvalidNumberFormatException {
     + InvalidNumberFormatException(String message)
-}
-
-abstract class "{abstract} \n Command" {
-    + CommandType: commandType
-    + Command(String input)
 }
 
 
