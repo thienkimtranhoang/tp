@@ -12,13 +12,7 @@ package "budgetflow.command" {
         - Expense extractExpense(String input) throws InvalidNumberFormatException,
           MissingCategoryException, MissingAmountException, MissingDateException,
           MissingDescriptionException, MissingExpenseException, ExceedsMaxDigitException
-        - String extractPattern(String input, String regex)
-        - {static} void verifyMissingOrIncorrect(String input) throws MissingDateException
     }
-}
-
-abstract class "{abstract} \n Command" {
-    + CommandType
 }
 
 class Expense {
@@ -37,7 +31,6 @@ class DateValidator {
     + static boolean isValidDate(String date)
 }
 
-LogExpenseCommand --|> "{abstract} \n Command" : extends
 LogExpenseCommand --> Expense : creates
 LogExpenseCommand --> ExpenseList : modifies
 LogExpenseCommand --> DateValidator : uses

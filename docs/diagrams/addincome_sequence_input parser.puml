@@ -2,6 +2,7 @@
 actor User
 participant ":UI" as UI
 participant ":Parser" as Parser
+participant ":AddIncomeCommand" as AddIncomeCommand
 
 User -> UI : "add category/Salary amt/2500.00 d/01-01-2024"
 activate UI
@@ -10,7 +11,9 @@ UI -> Parser : getCommandFromInput("add category/Salary amt/2500.00 d/01-01-2024
 activate Parser
 
 Parser -> Parser : Check if input starts with "add category/"
-Parser --> UI : new AddIncomeCommand(input)
+Parser --> UI : return AddIncomeCommand(input)
+UI --> User : display result
 deactivate Parser
+deactivate UI
 
 @enduml
