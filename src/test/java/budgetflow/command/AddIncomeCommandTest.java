@@ -108,7 +108,7 @@ class AddIncomeCommandTest {
         try {
             command.execute(incomes, expenseList);
         } catch (FinanceException e) {
-            String expectedError = "Error: Date is not a valid date";
+            String expectedError = "Error: Date is not a valid date. Please use DD-MM-YYYY format.";
             assertEquals(expectedError, e.getMessage());
         }
     }

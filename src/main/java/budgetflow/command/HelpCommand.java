@@ -130,9 +130,12 @@ public class HelpCommand extends Command {
         helpMessage.append("       Example: filter-income category/Salary")
                 .append(System.lineSeparator());
         helpMessage.append(System.lineSeparator());
-
+        //11. Saving Goal
+        helpMessage.append("12. Set Saving Goal:").append(System.lineSeparator());
+        helpMessage.append("    Syntax : set-saving-goal [AMOUNT]").append(System.lineSeparator());
+        helpMessage.append("    Example: set-saving-goal 100000").append(System.lineSeparator());
         // 12. Exit
-        helpMessage.append("12. Exit:").append(System.lineSeparator());
+        helpMessage.append("13. Exit:").append(System.lineSeparator());
         helpMessage.append("    Syntax : exit").append(System.lineSeparator());
         helpMessage.append("    Example: exit").append(System.lineSeparator());
         helpMessage.append(System.lineSeparator());
