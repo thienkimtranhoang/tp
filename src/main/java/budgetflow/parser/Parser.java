@@ -56,186 +56,115 @@ import java.util.logging.Logger;
  *   <li>Help: "help" </li>
  * </ul>
  *
- * @author IgoyAI (modified)
+ * @author IgoyAI
  * @version 2.1
  */
 public class Parser {
-    private static final Logger logger =
-            Logger.getLogger(Parser.class.getName());
+  private static final Logger logger =
+    Logger.getLogger(Parser.class.getName());
 
-    // Command constants
+  // Command constants
+  private static final String COMMAND_ADD_INCOME = "add category/";
+  private static final String COMMAND_SET_SAVING_GOAL = "set-saving-goal";
+  private static final String COMMAND_LOG_EXPENSE = "log-expense";
+  private static final String COMMAND_DELETE_INCOME = "delete-income";
+  private static final String COMMAND_LIST_INCOME = "list income";
+  private static final String COMMAND_DELETE_EXPENSE = "delete-expense";
+  private static final String COMMAND_VIEW_ALL_EXPENSES = "view-all-expense";
+  private static final String COMMAND_FIND_EXPENSE = "find-expense";
+  private static final String COMMAND_EXIT = "exit";
+  private static final String COMMAND_COMPARE = "compare";
+  private static final String COMMAND_UPDATE_EXPENSE = "update-expense";
+  private static final String COMMAND_UPDATE_INCOME = "update-income";
+  private static final String COMMAND_HELP = "help";
 
-    /**
-     * Constant representing the add income command prefix.
-     */
-    private static final String COMMAND_ADD_INCOME = "add category/";
+  // New command constants for filtering incomes
+  private static final String COMMAND_FILTER_INCOME = "filter-income";
+  private static final String COMMAND_FILTER_INCOME_DATE = "date";
+  private static final String COMMAND_FILTER_INCOME_AMOUNT = "amount";
+  private static final String COMMAND_FILTER_INCOME_CATEGORY = "category";
 
-    /**
-     * Constant representing the set saving goal command.
-     */
-    private static final String COMMAND_SET_SAVING_GOAL = "set-saving-goal";
+  private static final String ERROR_UNKNOWN_COMMAND =
+    "Unknown command received: ";
 
-    /**
-     * Constant representing the log expense command prefix.
-     */
-    private static final String COMMAND_LOG_EXPENSE = "log-expense";
+  /**
+   * Parses the user's input and returns the corresponding {@code Command} object.
+   *
+   * <p>This method tokenizes the trimmed input string and uses the first token to determine
+   * which command to execute. For the "filter-income" command, it further checks for a secondary
+   * token to distinguish between filtering by date, amount, or category. If the input does not
+   * match any known command, an {@code UnknownCommandException} is thrown.</p>
+   *
+   * @param input the user's input command string.
+   * @return the corresponding {@code Command} instance.
+   * @throws UnknownCommandException if the input command is not recognized.
+   */
+  public static Command getCommandFromInput(String input)
+    throws UnknownCommandException {
+    logger.info("Processing command: " + input);
+    String trimmedInput = input.trim();
+    String[] tokens = trimmedInput.split("\\s+");
+    String firstToken = tokens[0];
 
-    /**
-     * Constant representing the delete income command prefix.
-     */
-    private static final String COMMAND_DELETE_INCOME = "delete-income";
-
-    /**
-     * Constant representing the list income command.
-     */
-    private static final String COMMAND_LIST_INCOME = "list income";
-
-    /**
-     * Constant representing the delete expense command prefix.
-     */
-    private static final String COMMAND_DELETE_EXPENSE = "delete-expense";
-
-    /**
-     * Constant representing the view all expenses command.
-     */
-    private static final String COMMAND_VIEW_ALL_EXPENSES = "view-all-expense";
-
-    /**
-     * Constant representing the find expense command prefix.
-     */
-    private static final String COMMAND_FIND_EXPENSE = "find-expense";
-
-    /**
-     * Constant representing the exit command.
-     */
-    private static final String COMMAND_EXIT = "exit";
-
-    /**
-     * Constant representing the compare expenses command prefix.
-     */
-    private static final String COMMAND_COMPARE = "compare";
-
-    /**
-     * Constant representing the update expense command prefix.
-     */
-    private static final String COMMAND_UPDATE_EXPENSE = "update-expense";
-
-    /**
-     * Constant representing the update income command prefix.
-     */
-    private static final String COMMAND_UPDATE_INCOME = "update-income";
-
-    /**
-     * Constant representing the help command.
-     */
-    private static final String COMMAND_HELP = "help";
-
-    // New command constants for filtering incomes
-
-    /**
-     * Constant representing the filter income command.
-     */
-    private static final String COMMAND_FILTER_INCOME = "filter-income";
-
-    /**
-     * Constant representing the specification for filtering by date.
-     */
-    private static final String COMMAND_FILTER_INCOME_DATE = "date";
-
-    /**
-     * Constant representing the specification for filtering by amount.
-     */
-    private static final String COMMAND_FILTER_INCOME_AMOUNT = "amount";
-
-    /**
-     * Constant representing the specification for filtering by category.
-     */
-    private static final String COMMAND_FILTER_INCOME_CATEGORY = "category";
-
-    /**
-     * Constant error message for unknown commands.
-     */
-    private static final String ERROR_UNKNOWN_COMMAND =
-            "Unknown command received: ";
-
-    /**
-     * Parses the user's input and returns the corresponding {@code Command} object.
-     *
-     * <p>This method tokenizes the trimmed input string and uses the first token to determine
-     * which command to execute. For the "filter-income" command, it further checks for a secondary
-     * token to distinguish between filtering by date, amount, or category. If the input does not
-     * match any known command, an {@code UnknownCommandException} is thrown.</p>
-     *
-     * @param input the user's input command string.
-     * @return the corresponding {@code Command} instance.
-     * @throws UnknownCommandException if the input command is not recognized.
-     */
-    public static Command getCommandFromInput(String input)
-            throws UnknownCommandException {
-        logger.info("Processing command: " + input);
-        String trimmedInput = input.trim();
-        String[] tokens = trimmedInput.split("\\s+");
-        String firstToken = tokens[0];
-
-        switch (firstToken) {
-            case "add":
-                if (trimmedInput.startsWith(COMMAND_ADD_INCOME)) {
-                    return new AddIncomeCommand(input);
-                }
-                break;
-            case "set-saving-goal":
-                return new SetSavingGoalCommand(input);
-            case "log-expense":
-                return new LogExpenseCommand(input);
-            case "delete-income":
-                return new DeleteIncomeCommand(input);
-            case "list":
-                if (trimmedInput.equals(COMMAND_LIST_INCOME)) {
-                    return new ListIncomeCommand();
-                }
-                break;
-            case "delete-expense":
-                return new DeleteExpenseCommand(input);
-            case "view-all-expense":
-                if (trimmedInput.equals(COMMAND_VIEW_ALL_EXPENSES)) {
-                    return new ViewAllExpensesCommand();
-                }
-                break;
-            case "find-expense":
-                return new FindExpenseCommand(input);
-            case "exit":
-                if (trimmedInput.equals(COMMAND_EXIT)) {
-                    return new ExitCommand();
-                }
-                break;
-            case "compare":
-                return new CompareExpenseCommand(input);
-            case "update-expense":
-                return new UpdateExpenseCommand(input);
-            case "update-income":
-                return new UpdateIncomeCommand(input);
-            case "filter-income":
-                if (tokens.length == 1) {
-                    return new FilterIncomeCommand(input);
-                } else {
-                    String secondToken = tokens[1];
-                    switch (secondToken) {
-                        case COMMAND_FILTER_INCOME_DATE:
-                            return new FilterIncomeByDateCommand(input);
-                        case COMMAND_FILTER_INCOME_AMOUNT:
-                            return new FilterIncomeByAmountCommand(input);
-                        case COMMAND_FILTER_INCOME_CATEGORY:
-                            return new FilterIncomeByCategoryCommand(input);
-                        default:
-                            return new FilterIncomeCommand(input);
-                    }
-                }
-            case "help":
-                return new HelpCommand();
-            default:
-                break;
+    switch (firstToken) {
+      case "add":
+        if (trimmedInput.startsWith(COMMAND_ADD_INCOME)) {
+          return new AddIncomeCommand(input);
         }
-        logger.warning(ERROR_UNKNOWN_COMMAND + input);
-        throw new UnknownCommandException();
+        break;
+      case "set-saving-goal":
+        return new SetSavingGoalCommand(input);
+      case "log-expense":
+        return new LogExpenseCommand(input);
+      case "delete-income":
+        return new DeleteIncomeCommand(input);
+      case "list":
+        if (trimmedInput.equals(COMMAND_LIST_INCOME)) {
+          return new ListIncomeCommand();
+        }
+        break;
+      case "delete-expense":
+        return new DeleteExpenseCommand(input);
+      case "view-all-expense":
+        if (trimmedInput.equals(COMMAND_VIEW_ALL_EXPENSES)) {
+          return new ViewAllExpensesCommand();
+        }
+        break;
+      case "find-expense":
+        return new FindExpenseCommand(input);
+      case "exit":
+        if (trimmedInput.equals(COMMAND_EXIT)) {
+          return new ExitCommand();
+        }
+        break;
+      case "compare":
+        return new CompareExpenseCommand(input);
+      case "update-expense":
+        return new UpdateExpenseCommand(input);
+      case "update-income":
+        return new UpdateIncomeCommand(input);
+      case "filter-income":
+        if (tokens.length == 1) {
+          return new FilterIncomeCommand(input);
+        } else {
+          String secondToken = tokens[1];
+          switch (secondToken) {
+            case COMMAND_FILTER_INCOME_DATE:
+              return new FilterIncomeByDateCommand(input);
+            case COMMAND_FILTER_INCOME_AMOUNT:
+              return new FilterIncomeByAmountCommand(input);
+            case COMMAND_FILTER_INCOME_CATEGORY:
+              return new FilterIncomeByCategoryCommand(input);
+            default:
+              return new FilterIncomeCommand(input);
+          }
+        }
+      case "help":
+        return new HelpCommand();
+      default:
+        break;
     }
+    logger.warning(ERROR_UNKNOWN_COMMAND + input);
+    throw new UnknownCommandException();
+  }
 }
