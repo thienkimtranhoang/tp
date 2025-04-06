@@ -1,0 +1,168 @@
+[1mdiff --git a/docs/diagrams/CompareExpenseCommandClass.png b/docs/diagrams/CompareExpenseCommandClass.png[m
+[1mindex 71e9900..506d6a9 100644[m
+Binary files a/docs/diagrams/CompareExpenseCommandClass.png and b/docs/diagrams/CompareExpenseCommandClass.png differ
+[1mdiff --git a/docs/diagrams/CompareExpenseCommandClass.puml b/docs/diagrams/CompareExpenseCommandClass.puml[m
+[1mindex 46ce9b6..d709d52 100644[m
+[1m--- a/docs/diagrams/CompareExpenseCommandClass.puml[m
+[1m+++ b/docs/diagrams/CompareExpenseCommandClass.puml[m
+[36m@@ -2,45 +2,52 @@[m
+ [m
+ hide circle[m
+ skinparam classAttributeIconSize 0[m
+[31m-[m
+[31m-[m
+[31m-class CompareExpenseCommand {[m
+[31m-    + CompareExpenseCommand(String input)[m
+[31m-    + execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException[m
+[31m-    - String[] parseAndValidateInput(String input) throws FinanceException[m
+[31m-    - LocalDate[] getValidatedDateRange(String monthYear) throws FinanceException[m
+[31m-    - {static} String getCompareMessage(String monthYear1, double totalMonth1, String monthYear2, double totalMonth2)[m
+[31m-    - double calculateTotalExpenses(ExpenseList expenseList, LocalDate startDate, LocalDate endDate)[m
+[31m-}[m
+[31m-[m
+[31m-abstract class "{abstract} \n Command" {[m
+[31m-    - String input[m
+[31m-    - CommandType commandType[m
+[31m-}[m
+[31m-[m
+[31m-class ExpenseList {[m
+[31m-    + int getSize()[m
+[31m-    + Expense get(int index)[m
+[31m-}[m
+[31m-[m
+[31m-class Expense {[m
+[31m-    + String getDate()[m
+[31m-    + double getAmount()[m
+[31m-}[m
+[31m-[m
+[31m-class Income {}[m
+[31m-[m
+[31m-class DateValidator {[m
+[31m-    + {static} boolean isValidMonthYear(String monthYear)[m
+[31m-    + {static} LocalDate[] getMonthRange(String monthYear)[m
+[31m-    + {static} DateTimeFormatter getFullDateFormatter()[m
+[32m+[m[32mpackage budgetflow{[m
+[32m+[m[32m    package budgetflow.command {[m
+[32m+[m[32m        class CompareExpenseCommand {[m
+[32m+[m[32m            + CompareExpenseCommand(String input)[m
+[32m+[m[32m            + execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException[m
+[32m+[m[32m            - String[] parseAndValidateInput(String input) throws FinanceException[m
+[32m+[m[32m            - LocalDate[] getValidatedDateRange(String monthYear) throws FinanceException[m
+[32m+[m[32m            - {static} String getCompareMessage(String monthYear1, double totalMonth1, String monthYear2, double totalMonth2)[m
+[32m+[m[32m            - double calculateTotalExpenses(ExpenseList expenseList, LocalDate startDate, LocalDate endDate)[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m
+[32m+[m[32m        abstract class "{abstract} \n Command" {[m
+[32m+[m[32m            - String input[m
+[32m+[m[32m            - CommandType commandType[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    package expense{[m
+[32m+[m[32m        class ExpenseList {[m
+[32m+[m[32m            + int getSize()[m
+[32m+[m[32m            + Expense get(int index)[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        class Expense {[m
+[32m+[m[32m            + String getDate()[m
+[32m+[m[32m            + double getAmount()[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    class DateValidator {[m
+[32m+[m[32m        + {static} boolean isValidMonthYear(String monthYear)[m
+[32m+[m[32m        + {static} LocalDate[] getMonthRange(String monthYear)[m
+[32m+[m[32m        + {static} DateTimeFormatter getFullDateFormatter()[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    class Income {}[m
+[32m+[m
+[32m+[m[32m    class FinanceException{}[m
+ }[m
+ [m
+ [m
+[31m-CompareExpenseCommand --|> Command[m
+[31m-CompareExpenseCommand --> ExpenseList[m
+[31m-CompareExpenseCommand --> Expense[m
+[31m-CompareExpenseCommand --> Income[m
+[31m-CompareExpenseCommand --> DateValidator[m
+[31m-CompareExpenseCommand --> FinanceException[m
+[32m+[m[32mCompareExpenseCommand --|> "{abstract} \n Command" : extends[m
+[32m+[m[32mCompareExpenseCommand --> ExpenseList : uses[m
+[32m+[m[32mCompareExpenseCommand --> Expense : uses[m
+[32m+[m[32mCompareExpenseCommand --> Income : uses[m
+[32m+[m[32mCompareExpenseCommand --> DateValidator : uses[m
+[32m+[m[32mCompareExpenseCommand --> FinanceException : throws[m
+ @enduml[m
+[1mdiff --git a/docs/diagrams/CompareExpenseCommandSequence.png b/docs/diagrams/CompareExpenseCommandSequence.png[m
+[1mindex eef5daa..bf2a165 100644[m
+Binary files a/docs/diagrams/CompareExpenseCommandSequence.png and b/docs/diagrams/CompareExpenseCommandSequence.png differ
+[1mdiff --git a/docs/diagrams/CompareExpenseCommandSequence.puml b/docs/diagrams/CompareExpenseCommandSequence.puml[m
+[1mindex 3350c8c..c41fb6c 100644[m
+[1m--- a/docs/diagrams/CompareExpenseCommandSequence.puml[m
+[1m+++ b/docs/diagrams/CompareExpenseCommandSequence.puml[m
+[36m@@ -1,9 +1,9 @@[m
+ @startuml[m
+[31m-participant "User" as User[m
+[31m-participant "CompareExpenseCommand" as CompareExpenseCommand[m
+[31m-participant "ExpenseList" as ExpenseList[m
+[31m-participant "DateValidator" as DateValidator[m
+[31m-participant "Expense" as Expense[m
+[32m+[m[32mparticipant ":User" as User[m
+[32m+[m[32mparticipant ":CompareExpenseCommand" as CompareExpenseCommand[m
+[32m+[m[32mparticipant ":ExpenseList" as ExpenseList[m
+[32m+[m[32mparticipant ":DateValidator" as DateValidator[m
+[32m+[m[32mparticipant ":Expense" as Expense[m
+ [m
+ [m
+ User -> CompareExpenseCommand : execute(incomes, expenseList)[m
+[1mdiff --git a/docs/diagrams/DeleteExpenseCommandClass.png b/docs/diagrams/DeleteExpenseCommandClass.png[m
+[1mindex d8dad64..5ec1a3a 100644[m
+Binary files a/docs/diagrams/DeleteExpenseCommandClass.png and b/docs/diagrams/DeleteExpenseCommandClass.png differ
+[1mdiff --git a/docs/diagrams/DeleteExpenseCommandClass.puml b/docs/diagrams/DeleteExpenseCommandClass.puml[m
+[1mindex 3c4201a..b84f6ef 100644[m
+[1m--- a/docs/diagrams/DeleteExpenseCommandClass.puml[m
+[1m+++ b/docs/diagrams/DeleteExpenseCommandClass.puml[m
+[36m@@ -11,6 +11,10 @@[m [mpackage budgetflow.command {[m
+         + DeleteExpenseCommand(String input)[m
+         + execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundExpenseException[m
+     }[m
+[32m+[m[32m    abstract class "{abstract} \n Command" {[m
+[32m+[m[32m        + CommandType: commandType[m
+[32m+[m[32m        + Command(String input)[m
+[32m+[m[32m    }[m
+ }[m
+ [m
+ package budgetflow.expense {[m
+[36m@@ -31,11 +35,6 @@[m [mclass budgetflow.exception.InvalidNumberFormatException {[m
+     + InvalidNumberFormatException(String message)[m
+ }[m
+ [m
+[31m-abstract class "{abstract} \n Command" {[m
+[31m-    + CommandType: commandType[m
+[31m-    + Command(String input)[m
+[31m-}[m
+[31m-[m
+ [m
+ DeleteExpenseCommand --|> "{abstract} \n Command" : extends[m
+ DeleteExpenseCommand --> ExpenseList : uses[m
+[1mdiff --git a/docs/diagrams/DeleteExpenseCommandSequence.png b/docs/diagrams/DeleteExpenseCommandSequence.png[m
+[1mindex f2c43f6..540923c 100644[m
+Binary files a/docs/diagrams/DeleteExpenseCommandSequence.png and b/docs/diagrams/DeleteExpenseCommandSequence.png differ
+[1mdiff --git a/docs/diagrams/DeleteExpenseCommandSequence.puml b/docs/diagrams/DeleteExpenseCommandSequence.puml[m
+[1mindex 60a2aa6..2b576df 100644[m
+[1m--- a/docs/diagrams/DeleteExpenseCommandSequence.puml[m
+[1m+++ b/docs/diagrams/DeleteExpenseCommandSequence.puml[m
+[36m@@ -1,8 +1,8 @@[m
+ @startuml[m
+ actor User[m
+[31m-participant "DeleteExpenseCommand" as DeleteExpenseCommand[m
+[31m-participant "ExpenseList" as ExpenseList[m
+[31m-participant "InvalidNumberFormatException" as InvalidNumberFormatException[m
+[32m+[m[32mparticipant ":DeleteExpenseCommand" as DeleteExpenseCommand[m
+[32m+[m[32mparticipant ":ExpenseList" as ExpenseList[m
+[32m+[m[32mparticipant ":InvalidNumberFormatException" as InvalidNumberFormatException[m
+ [m
+ User -> DeleteExpenseCommand: Create command(input)

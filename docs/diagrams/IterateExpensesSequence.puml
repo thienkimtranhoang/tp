@@ -1,17 +1,17 @@
 @startuml
 loop iterate expenses
 
-    CompareExpenseCommand -> ExpenseList : get(i)
-    activate ExpenseList
-    ExpenseList --> CompareExpenseCommand : return Expense
-    deactivate ExpenseList
-    CompareExpenseCommand -> Expense : getDate()
-    activate Expense
-    Expense --> CompareExpenseCommand : return date
-    deactivate Expense
-    CompareExpenseCommand -> Expense : getAmount()
-    activate Expense
-    Expense --> CompareExpenseCommand : return amount
-    deactivate Expense
+    ":CompareExpenseCommand" -> ":ExpenseList" : get(i)
+    activate ":ExpenseList"
+    ":ExpenseList" --> ":CompareExpenseCommand" : return Expense
+    deactivate ":ExpenseList"
+    ":CompareExpenseCommand" -> ":Expense" : getDate()
+    activate ":Expense"
+    ":Expense" --> ":CompareExpenseCommand" : return date
+    deactivate ":Expense"
+    ":CompareExpenseCommand" -> ":Expense" : getAmount()
+    activate ":Expense"
+    ":Expense" --> ":CompareExpenseCommand" : return amount
+    deactivate ":Expense"
 end
 @enduml
