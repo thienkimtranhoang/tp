@@ -1,6 +1,6 @@
 # Developer Guide
 <br><br>
-![](images/icon.png)<br>
+![](images/Icon.png)<br>
 
 Anak Agung Gde Yogi Pramana<br>
 
@@ -32,7 +32,7 @@ Tran Hoang Thien Kim<br>
   * [Listing All Expenses](#listing-all-expenses) <br>
   * [Listing All Incomes](#listing-all-incomes) <br>
   * [Filtering Expenses](#filtering-expenses) <br>
-  * [Filtering Incomes by Amount or by Category](#filtering-incomes-by-amount-or-by-category) <br>
+  * [Filtering Incomes by Amount or by Category](#filtering-incomes) <br>
   * [Deleting an Income Entry](#deleting-an-income-entry) <br>
   * [Updating an Expense Entry](#deleting-an-expense-entry) <br>
   * [Set Saving Goal](#set-saving-goal) <br>
@@ -105,16 +105,10 @@ The `Storage` component can save the list of incomes and expenses data in .txt f
 
 ### UI
 The `UI` component consists of Ui class, which handles user interactions by reading the user's input, displaying messages and show errors. 
-This serves as the main interface for communication between user and the Finance Tracker application  
-The class diagram of Ui is displayed as below  
-![UI Class Diagram](images/UI_class.png)  
+This serves as the main interface for communication between user and the Finance Tracker application
 Some method details of Ui class is noted as below:  
 * `public void showWelcome()`: print out the welcome message for the user at the launch of application.
 * `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
-The sequence diagram below illustrates iteractions within Ui component under `readCommand()` call.  
-  ![UI read command Diagram](images/UI_readCommandSequence.png)  
-If no input is parsed by user, the programme continues to wait for new input and repeat scanning as shown below:  
-  ![ref Diagram](images/refGetCommand.png)  
 * `public void printError(String error)`: print out the error message for user by passing the string error message.
 * `public void printMessage(String message)`: print out the message as a String for user.  
 The example sequence diagram below shows how `Ui` prints messages/ errors after the `Command` execution  
@@ -277,13 +271,12 @@ Additionally, this command also holds dependency on `ExpenseList` and call `Expe
 The following sequence diagram shows how `execution()` goes through `FindExpenseCommand` component  
 ![FindExpenseCommand execute() Diagram](images/FindExpenseCommand.png)  
 There are currently 6 tags supported for filtering, which serves for different filtering conditions. There can only be 1 tag used per command. These tags and their purposes are:  
-* `/category`: filter all expenses with exact match to the query category (for example: `find-expense /category food` looking for all expenses with category `food`). 
-The category keyword used for filtering is __case sensitive__.
-* `/desc`: filter all expenses with description that contains the keyword (for example: `find-expense /desc many` looking for all expenses with `many` in their description). The keyword is __case sensitive__
-* `/amt`: filter all expenses with amount that exactly matches with the keyword. The keyword used for filtering must be at integer or decimal format.
-* `/d`: filter all expenses of the exact date as the keyword. The keyword used to filtering must match exact dd-MM-yyyy pattern. (for example: `find-expense /desc 01-10-2005` looking for expense on 1st October 2025).  
-* `/amtrange`: filter all expenses with amount in the listed range (for example: `find-expense /amt 10.00 20.00` find for expenses with amount from 10.00 to 20.00).
-* `/drange`: filter all expenses within the the date range (for example: `find-expense /desc 01-10-2005 30-10-2004` looking for expenses from 1st Oct 2025 to 30th Oct 2025).
+* `/category`: filter all expenses with exact match to the query category (for example: `filter-expense /category food` looking for all expenses with category `food`).
+* `/desc`: filter all expenses with description that contains the keyword (for example: `filter-expense /desc many` looking for all expenses with `many` in their description). 
+* `/amt`: filter all expenses with amount that exactly matches with the keyword.
+* `/d`: filter all expenses of the exact date as the keyword based on dd-MM-yyyy pattern. (for example: `filter-expense /desc 01-10-2005` looking for expense on 1st October 2025).  
+* `/amtrange`: filter all expenses with amount in the listed range (for example: `filter-expense /amt 10.00 20.00` find for expenses with amount from 10.00 to 20.00).
+* `/drange`: filter all expenses within the date range (for example: `filter-expense /desc 01-10-2005 30-10-2004` looking for expenses from 1st Oct 2025 to 30th Oct 2025).
 
 ### Listing All Incomes
 #### Overview

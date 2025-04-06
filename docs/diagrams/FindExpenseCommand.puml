@@ -14,5 +14,6 @@ else
     command -> command ++: set output message to matching expenses
     command --> command --:
 end
+<-- command --:
 
 @enduml
