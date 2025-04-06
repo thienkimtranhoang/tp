@@ -721,48 +721,51 @@ Given below are instructions to test the app manually:
 
 5. Filter expense based on category: matching cases
   * Prerequisites: List all expense use `list-expense`. Multiple expense in the list.
-  * Test case: `filter-expense \category <category>` where <category> is the existing category in the list
+  * Test case: `filter-expense /category <category>` where <category> is the existing category in the list
   * Expected: Output message displaying all expenses with category matches the keyword.
-  * Test case: `filter-expense \category <category>` where <category> is the non-matching category
+  * Test case: `filter-expense /category <category>` where <category> is the non-matching category
   * Expected: Output message informing no matching keyword.
-  * Test case: `filter-expense \category`
+  * Test case: `filter-expense /category`
   * Expected: Missing keyword error with error message shown.
 6. Filter expense based on description
-  * Test case: `filter-expense \desc <desc>` where <desc> is the description's keyword to that results in matching expenses in list.
+  * Test case: `filter-expense /desc <desc>` where <desc> is the description's keyword to that results in matching expenses in list.
   * Expected: Output message display all expenses with description containing the keyword, or error message informing no matching found otherwise.
-  * Test case: `filter-expense \desc <desc>` where <desc> is the non-matching keyword
+  * Test case: `filter-expense /desc <desc>` where <desc> is the non-matching keyword
   * Expected: Output message informing no matching keyword.
-  * Test case: `filter-expense \desc`
+  * Test case: `filter-expense /desc`
   * Expected: Missing keyword error with error message shown.
 7. Filter expense based on amount
-  * Test case: `filter-expense \amt <amt>` where <amt> is the valid amount number to filter on
+  * Test case: `filter-expense /amt <amt>` where <amt> is the valid amount number to filter on
   * Expected: Output message display all expenses with matching amount, or output message informing no matching expenses otherwise.
-  * Test case: `filter-expense \amt <amt>` where <amt> is not at double format 
+  * Test case: `filter-expense /amt <amt>` where <amt> is not at double format 
   * Expected: Error message requires to enter valid keyword format for tag /amt
-  * Test case: `filter-expense \amt`
+  * Test case: `filter-expense /amt`
   * Expected: Missing keyword error with error message shown.
 8. Filter expense based on amount range
-  * Test case: `filter-expense \amtrange <startAmt> <endAmt>` where <startAmt>, <endAmt> are valid amount number indicating start and end range of amount to filter on
+  * Test case: `filter-expense /amtrange <startAmt> <endAmt>` where <startAmt>, <endAmt> are valid amount number indicating start and end range of amount to filter on
   * Expected: Output message display all expenses with matching amount, or output message informing no matching expenses otherwise.
-  * Test case: `filter-expense \amt <amt>` where only 1 amount is entered, or amount is not a valid number.
+  * Test case: `filter-expense /amt <amt>` where only 1 amount is entered, or amount is not a valid number.
   * Expected: Error message requires to enter valid keyword format for tag /amtrange
-  * Test case: `filter-expense \amt`
+  * Test case: `filter-expense /amt`
   * Expected: Missing keyword error with error message shown.
 9. Filter expense based on date.
-  * Test case: `filter-expense \d <d>` where <d> is the valid date to filter on
+  * Test case: `filter-expense /d <d>` where <d> is the valid date to filter on
   * Expected: Output message display all expenses with matching date, or output message informing no matching expenses otherwise.
-  * Test case: `filter-expense \d <d>` where <amt> is not at valid date format
+  * Test case: `filter-expense /d <d>` where <amt> is not at valid date format
   * Expected: Error message requires to enter valid keyword format for tag /d
-  * Test case: `filter-expense \d`
+  * Test case: `filter-expense /d`
   * Expected: Missing keyword error with error message shown.
 10. Filter expense based on date range
-  * Test case: `filter-expense \drange <startDate> <endDate>` where <startDate>, <endDate> are valid amount date indicating start and end range of date to filter on
+  * Test case: `filter-expense /drange <startDate> <endDate>` where <startDate>, <endDate> are valid amount date indicating start and end range of date to filter on
   * Expected: Output message display all expenses with matching dates, or output message informing no matching expenses otherwise.
-  * Test case: `filter-expense \drange <drange>` where only 1 date is entered, or amount is not a valid date.
+  * Test case: `filter-expense /drange <drange>` where only 1 date is entered, or amount is not a valid date.
   * Expected: Error message requires to enter valid keyword format for tag /drange
-  * Test case: `filter-expense \drange`
+  * Test case: `filter-expense /drange`
   * Expected: Missing keyword error with error message shown.
-11. **Listing All Incomes**
+11. Filter expense with incorrect tag
+  * Test case: `filter-expense /<foo>` where <foo> is a name of unknown tag.
+  * Expected: Error showing unrecognizable finding condition and list of valid tags.
+12. **Listing All Incomes**
   - **Test case:** `list-income`
     - **Expected:**
       - If incomes exist, the output should display each income’s details (category, amount, date), followed by the total income.
