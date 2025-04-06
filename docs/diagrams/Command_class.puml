@@ -3,7 +3,7 @@
 hide circle
 skinparam classAttributeIconSize 0
 package budgetflow.command {
-    abstract class Command {
+    abstract class "{abstract} \n Command" {
         #input: String
         #outputMessage: String
         #isExit: boolean = false
@@ -29,11 +29,11 @@ class Income
 class ExpenseList
 
 class FinanceException
-DifferentCommands -up-|> Command
-Command ..> "0..*" Income:  uses
-Command ..> "1" ExpenseList: uses
-Command --> "1" CommandType: commandType
-Command ..> FinanceException: throws
+DifferentCommands -up-|> "{abstract} \n Command"
+"{abstract} \n Command" ..> "0..*" Income:  uses
+"{abstract} \n Command" ..> "1" ExpenseList: uses
+"{abstract} \n Command" --> "1" CommandType: commandType
+"{abstract} \n Command" ..> FinanceException: throws
 
 
 @enduml
