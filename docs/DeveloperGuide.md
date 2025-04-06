@@ -108,7 +108,8 @@ The `UI` component consists of Ui class, which handles user interactions by read
 This serves as the main interface for communication between user and the Finance Tracker application
 Some method details of Ui class is noted as below:  
 * `public void showWelcome()`: print out the welcome message for the user at the launch of application.
-* `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
+* `publc String readCommand()`: read the command entered by the user using Scanner object and return the input. If the user's input without trailing/ leading spaces is empty, the Ui will wait until non-empty input is scanned and then return it as demonstrated by sequence diagram below:
+ ![Ui read command sequence](images/Ui_readCommandSequence.png)
 * `public void printError(String error)`: print out the error message for user by passing the string error message.
 * `public void printMessage(String message)`: print out the message as a String for user.  
 The example sequence diagram below shows how `Ui` prints messages/ errors after the `Command` execution  
