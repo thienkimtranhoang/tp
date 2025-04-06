@@ -29,7 +29,7 @@ import java.util.logging.Logger;
  * It supports commands for managing incomes, expenses, filtering incomes,
  * setting saving goals, and other functionalities of the Budgetflow application.
  * The parsing is done by tokenizing the input string and selecting the
- * appropriate command based on predefined command constant.
+ * appropriate command based on predefined command constants.
  * </p>
  *
  * <p>Supported commands include:</p>
