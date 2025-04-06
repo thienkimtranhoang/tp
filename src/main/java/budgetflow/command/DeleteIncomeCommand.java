@@ -1,7 +1,6 @@
 package budgetflow.command;
 
 import budgetflow.exception.InvalidNumberFormatException;
-import budgetflow.exception.UnfoundIncomeException;
 import budgetflow.exception.InvalidKeywordException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -24,8 +23,8 @@ public class DeleteIncomeCommand extends Command {
     private static final String ERROR_INVALID_INCOME_INDEX = "Error: Invalid Income index.";
     private static final String LOG_INCOME_DELETED = "Income deleted: ";
     private static final String ERROR_INVALID_NUMBER = "Error: Please enter a valid numeric index.";
-    public static final String LOG_INVALID_INDEX = "Invalid index format: ";
-    public static final String LOG_ATTEMPT_TO_DELETE_INVALID_INDEX = "Attempted to delete with invalid index: ";
+    private static final String LOG_INVALID_INDEX = "Invalid index format: ";
+    private static final String LOG_ATTEMPT_TO_DELETE_INVALID_INDEX = "Attempted to delete with invalid index: ";
     private static final int CONVERT_TO_ZERO_INDEX = 1;
 
     /**
@@ -92,7 +91,8 @@ public class DeleteIncomeCommand extends Command {
      * @throws InvalidNumberFormatException If the index is out of bounds.
      */
     //@@author Yikbing
-    private static void checkValidIndex(List<Income> incomes, int index, String incomeIndex) throws InvalidNumberFormatException {
+    private static void checkValidIndex(List<Income> incomes, int index, String incomeIndex)
+            throws InvalidNumberFormatException {
         if (index < 0 || index >= incomes.size()) {
             logger.warning(LOG_ATTEMPT_TO_DELETE_INVALID_INDEX + incomeIndex);
             throw new InvalidNumberFormatException(ERROR_INVALID_INCOME_INDEX);
