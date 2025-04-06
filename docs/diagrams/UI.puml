@@ -6,6 +6,6 @@ skinparam classAttributeIconSize 0
         +showWelcome()
         +readCommand(): String
         +printError(String)
-        +printMessage(String)
+        +printCommandMessage(String)
     }
 @enduml

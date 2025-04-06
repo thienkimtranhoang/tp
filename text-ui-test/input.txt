@@ -1,6 +1,6 @@
 add category/Salary amt/1000.00 d/06-03-2025
 log-expense category/Coffee desc/Coffee amt/3.50 d/06-03-2025
-view-all-expense
+list-expense
 list income
 filter-income date from/01-03-2025 to/31-03-2025
 filter-income amount from/500 to/1500
@@ -10,11 +10,10 @@ update-expense 1 category/drink amt/4.00 d/06-04-2025
 compare 03-2025 04-2025
 delete-expense 1
 log-expense category/drink desc/Coffee amt/3.50 d/06-04-2025
-find-expense /category drink
-find-expense /desc Coffee
-find-expense /amt 4.00
-find-expense /amtrange 0.00 5.00
-find-expense /d 06-04-2025
-find-expense /drange 01-04-2025 10-04-2025
-set-saving-goal 1000.50
+filter-expense /category drink
+filter-expense /desc Coffee
+filter-expense /amt 4.00
+filter-expense /amtrange 0.00 5.00
+filter-expense /d 06-04-2025
+filter-expense /drange 01-04-2025 10-04-2025
 exit

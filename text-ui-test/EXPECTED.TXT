@@ -9,10 +9,10 @@
            Type 'help' to see available commands.
 ============================================================
 What would you like to do?
-Saving goal retrieved: 1000.5
+Saving goal retrieved: 0.0
 Income added: Salary, Amount: $1000.00, Date: 06-03-2025
 What would you like to do?
-Saving goal retrieved: 1000.5
+Saving goal retrieved: 0.0
 Expense logged: Coffee | Coffee | $3.50 | 06-03-2025
 What would you like to do?
 Expenses log:

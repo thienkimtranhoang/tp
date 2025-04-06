@@ -20,13 +20,9 @@ import budgetflow.command.HelpCommand;
 import budgetflow.exception.UnknownCommandException;
 
 import java.util.logging.Logger;
-
+//@@author QuyDatNguyen
 /**
  * Parses the user's input and extracts the corresponding command.
- *
- * <p>New filtering commands for income (by date, amount, and category) have been added.
- *
- * @@author IgoyAI (modified)
  */
 public class Parser {
     private static final Logger logger = Logger.getLogger(Parser.class.getName());
