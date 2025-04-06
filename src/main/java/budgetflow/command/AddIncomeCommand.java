@@ -25,7 +25,8 @@ public class AddIncomeCommand extends Command {
     private static final String ERROR_MISSING_INCOME_DATE = "Error: Income date is required.";
     private static final String ERROR_INCORRECT_INCOME_DATE = "Error: Income date is in wrong format." +
             "please use DD-MM-YYYY format.";
-    private static final String ERROR_INCORRECT_YEAR_FORMAT = "Error: Year must be exactly 4 digits in the format YYYY.";
+    private static final String ERROR_INCORRECT_YEAR_FORMAT = "Error: Year must be exactly " +
+            "4 digits in the format YYYY.";
 
 
 

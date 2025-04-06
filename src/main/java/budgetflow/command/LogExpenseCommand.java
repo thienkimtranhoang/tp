@@ -34,7 +34,8 @@ public class LogExpenseCommand extends Command{
     private static final String ERROR_MISSING_EXPENSE_DATE = "Error: Expense date is required.";
     private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Income date is in wrong format." +
             "please use DD-MM-YYYY format.";
-    private static final String ERROR_INCORRECT_YEAR_FORMAT = "Error: Year must be exactly 4 digits in the format YYYY.";
+    private static final String ERROR_INCORRECT_YEAR_FORMAT = "Error: Year must be exactly " +
+            "4 digits in the format YYYY.";
     public LogExpenseCommand(String input) {
         super(input);
         this.commandType = CommandType.CREATE;
