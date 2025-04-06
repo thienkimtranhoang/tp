@@ -688,6 +688,7 @@ By combining ease of use, goal-driven features, and actionable insights, Budgetf
 ## Appendix C: Non-Functional Requirements
 
 1. This application works on any computers that are Windows, macOS or Unix that has Java17.
+2. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 ## Glossary
 
 * *glossary item* - Definition

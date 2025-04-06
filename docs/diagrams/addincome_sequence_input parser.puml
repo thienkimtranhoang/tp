@@ -16,4 +16,6 @@ UI --> User : display result
 deactivate Parser
 deactivate UI
 
+deactivate UI
+
 @enduml
