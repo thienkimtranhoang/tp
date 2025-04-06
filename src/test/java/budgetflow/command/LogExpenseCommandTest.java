@@ -157,7 +157,7 @@ class LogExpenseCommandTest {
         try {
             command.execute(incomes, expenseList);
         } catch (FinanceException e) {
-            String expectedError = "Error: Income date is in wrong format." +
+            String expectedError = "Error: Expense date is in wrong format." +
                     "please use DD-MM-YYYY format.";
             assertEquals(expectedError, e.getMessage());
         }
