@@ -1,9 +1,11 @@
 package budgetflow.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
+import budgetflow.exception.InvalidKeywordException;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,25 +48,29 @@ class FilterIncomeByAmountCommandTest {
     }
 
     @Test
-    void amount_invalidFormat_returnsUsageGuide() throws Exception {
+    void amount_invalidFormat_throwsException() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
         // Missing the "to/<maxAmount>" part
         Command command = new FilterIncomeByAmountCommand("filter-income amount from/2500");
-        command.execute(incomes, expenseList);
-        String expectedOutput = "Usage: filter-income amount from/<minAmount> to/<maxAmount>\n"
+        InvalidKeywordException exception = assertThrows(InvalidKeywordException.class,
+                () -> command.execute(incomes, expenseList));
+        String expectedMessage = "Invalid command. Correct format: Usage: filter-income amount from/<minAmount> to/<maxAmount>\n"
                 + "Example: filter-income amount from/1000 to/5000";
-        assertEquals(expectedOutput, command.getOutputMessage());
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
-    void amount_rangeInvalid_returnsErrorMessage() throws Exception {
+    void amount_rangeInvalid_throwsException() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
         // Invalid range: minAmount > maxAmount
         Command command = new FilterIncomeByAmountCommand("filter-income amount from/3000 to/2500");
-        command.execute(incomes, expenseList);
-        String expectedOutput = "Minimum amount should not be greater than maximum amount.";
-        assertEquals(expectedOutput, command.getOutputMessage());
+        InvalidKeywordException exception = assertThrows(InvalidKeywordException.class,
+                () -> command.execute(incomes, expenseList));
+        String expectedMessage = "Invalid command. Minimum amount should not be greater than maximum amount.\n"
+                + "Correct format: Usage: filter-income amount from/<minAmount> to/<maxAmount>\n"
+                + "Example: filter-income amount from/1000 to/5000";
+        assertEquals(expectedMessage, exception.getMessage());
     }
 }

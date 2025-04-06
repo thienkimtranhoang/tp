@@ -19,7 +19,8 @@ import java.util.regex.Pattern;
 import java.util.logging.Logger;
 
 //@@author thienkimtranhoang
-public class LogExpenseCommand extends Command{
+// Modified by @IgoyAI to support tag extraction in any order and improve fault tolerance.
+public class LogExpenseCommand extends Command {
     public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
 
     private static final Logger logger = Logger.getLogger(LogExpenseCommand.class.getName());
@@ -31,8 +32,11 @@ public class LogExpenseCommand extends Command{
     private static final String ERROR_MISSING_EXPENSE_DESCRIPTION = "Error: Expense description is required.";
     private static final String ERROR_MISSING_EXPENSE_AMOUNT = "Error: Expense amount is required.";
     private static final String ERROR_MISSING_EXPENSE_DATE = "Error: Expense date is required.";
-    private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Income date is in wrong format." +
-            "please use DD-MM-YYYY format.";
+    private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Income date is in wrong format. please use DD-MM-YYYY format.";
+
+    // Usage guide for the log-expense command
+    private static final String USAGE_GUIDE = "Usage: log-expense category/<category> desc/<description> amt/<amount> d/<date>\n"
+            + "Example: log-expense category/Food desc/Lunch amt/12.50 d/15-03-2025";
 
     public LogExpenseCommand(String input) {
         super(input);
@@ -40,26 +44,40 @@ public class LogExpenseCommand extends Command{
     }
 
     /**
-     * Logs new user expense into the expense list
+     * Logs new user expense into the expense list.
+     * If the user types only "log-expense" (even with extra whitespace),
+     * the usage guide is returned.
+     *
      * @param expenseList the list storing all expenses
-     * @throws MissingDateException if user miss the date of expense or date tag
+     * @throws MissingDateException if user misses the date of expense or date tag
      * @throws InvalidNumberFormatException if amount does not follow valid number format
-     * @throws MissingAmountException if user miss the amount of expense or amount tag
-     * @throws MissingCategoryException if user miss the category of expense or expense tag
-     * @throws MissingDescriptionException if user miss description of expense or expense tag
+     * @throws MissingAmountException if user misses the amount of expense or amount tag
+     * @throws MissingCategoryException if user misses the category of expense or expense tag
+     * @throws MissingDescriptionException if user misses description of expense or expense tag
+     * @throws MissingExpenseException if expense details are missing entirely
+     * @throws ExceedsMaxDigitException if the expense amount exceeds digit limitations
      */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
             InvalidNumberFormatException, MissingAmountException, MissingCategoryException,
-            MissingDescriptionException, MissingExpenseException,ExceedsMaxDigitException {
+            MissingDescriptionException, MissingExpenseException, ExceedsMaxDigitException {
+        // If user enters only "log-expense", show the usage guide.
+        if (input.trim().equals("log-expense")) {
+            this.outputMessage = USAGE_GUIDE;
+            return;
+        }
         Expense expense = extractExpense(input);
         expenseList.add(expense);
         this.outputMessage = "Expense logged: " + expense.getCategory() + " | " + expense.getDescription() +
                 " | $" + String.format("%.2f", expense.getAmount()) + " | " + expense.getDate();
     }
 
-    //@@author dariusyawningwhiz
-    private Expense extractExpense (String input) throws InvalidNumberFormatException,
+    /**
+     * Extracts the expense details from the given input string.
+     * Modified by @IgoyAI to use improved lookahead-based regex patterns,
+     * supporting tags in any order.
+     */
+    private Expense extractExpense(String input) throws InvalidNumberFormatException,
             MissingCategoryException, MissingAmountException, MissingDateException,
             MissingDescriptionException, MissingExpenseException, ExceedsMaxDigitException {
         assert input != null && !input.isEmpty() : "Expense input should not be empty";
@@ -76,25 +94,26 @@ public class LogExpenseCommand extends Command{
         Double amount = null;
         String date = null;
 
-        String categoryPattern = "category/(.*?) (desc/|amt/|d/|$)";
-        String descPattern = "desc/(.*?) (amt/|d/|$)";
+        // Updated regex patterns using lookahead to capture tag values regardless of order.
+        String categoryPattern = "category/(.*?)(?=(\\s+(desc/|amt/|d/)|$))";
+        String descPattern = "desc/(.*?)(?=(\\s+(amt/|d/|category/)|$))";
         String amtPattern = "amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])";
         String datePattern = "d/\\s*(\\d{2}-\\d{2}-\\d{4})";
 
-        java.util.regex.Pattern pattern;
-        java.util.regex.Matcher matcher;
+        Pattern pattern;
+        Matcher matcher;
 
-        pattern = java.util.regex.Pattern.compile(categoryPattern);
+        pattern = Pattern.compile(categoryPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             category = matcher.group(1).trim();
         }
-        pattern = java.util.regex.Pattern.compile(descPattern);
+        pattern = Pattern.compile(descPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             description = matcher.group(1).trim();
         }
-        pattern = java.util.regex.Pattern.compile(amtPattern);
+        pattern = Pattern.compile(amtPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             try {
@@ -104,8 +123,7 @@ public class LogExpenseCommand extends Command{
 
                 if (integerPart.length() > 7) {
                     logger.warning("Amount exceeds 7 digit limit: " + integerPart);
-                    throw new ExceedsMaxDigitException("Amount exceeds 7 digits. " +
-                            "Please enter a number with up to 7 digits.");
+                    throw new ExceedsMaxDigitException("Amount exceeds 7 digits. Please enter a number with up to 7 digits.");
                 }
 
                 if (parts.length > 1) {
@@ -120,7 +138,7 @@ public class LogExpenseCommand extends Command{
                 throw new InvalidNumberFormatException();
             }
         }
-        pattern = java.util.regex.Pattern.compile(datePattern);
+        pattern = Pattern.compile(datePattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             date = matcher.group(1).trim();
@@ -154,10 +172,10 @@ public class LogExpenseCommand extends Command{
     }
 
     private static void verifyMissingOrIncorrect(String input) throws MissingDateException {
-        java.util.regex.Pattern pattern;
-        java.util.regex.Matcher matcher;
+        Pattern pattern;
+        Matcher matcher;
         String invalidDatePattern = "d/(\\S+)";
-        pattern = java.util.regex.Pattern.compile(invalidDatePattern);
+        pattern = Pattern.compile(invalidDatePattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             String invalidDate = matcher.group(1).trim();
@@ -168,5 +186,4 @@ public class LogExpenseCommand extends Command{
             throw new MissingDateException(ERROR_MISSING_EXPENSE_DATE);
         }
     }
-
 }

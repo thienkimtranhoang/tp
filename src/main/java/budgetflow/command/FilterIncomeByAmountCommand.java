@@ -1,6 +1,7 @@
 package budgetflow.command;
 
 import budgetflow.exception.FinanceException;
+import budgetflow.exception.InvalidKeywordException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import java.util.List;
@@ -16,8 +17,8 @@ import java.util.stream.Collectors;
  * <code>filter-income amount from/&lt;minAmount&gt; to/&lt;maxAmount&gt;</code>
  * <p>
  * This command extracts the minimum and maximum amounts, validates them, and displays all incomes
- * whose amounts fall within the specified range in a table format. If the input is incomplete,
- * the usage guide is displayed.
+ * whose amounts fall within the specified range in a table format. If the input is incomplete or
+ * invalid, an InvalidKeywordException is thrown with the correct format.
  *
  * @@author IgoyAI
  */
@@ -57,7 +58,7 @@ public class FilterIncomeByAmountCommand extends Command {
 
     /**
      * Executes the command to filter incomes by amount range.
-     * If the input is incomplete or in an invalid format, the usage guide is displayed.
+     * If the input is incomplete or invalid, an InvalidKeywordException is thrown.
      *
      * @param incomes     list of incomes.
      * @param expenseList expense list (unused).
@@ -67,11 +68,10 @@ public class FilterIncomeByAmountCommand extends Command {
     public void execute(List<Income> incomes, ExpenseList expenseList)
             throws FinanceException {
         String trimmedInput = input.trim();
-        // Check for incomplete input: "filter-income" or "filter-income amount" (no parameters).
+        // Incomplete input: "filter-income" or "filter-income amount" (no parameters)
         if (trimmedInput.equals("filter-income") || trimmedInput.equals(COMMAND_PREFIX)) {
-            this.outputMessage = USAGE_GUIDE;
-            logger.info("Displayed usage guide for filter-income amount command.");
-            return;
+            logger.info("Invalid command: Incomplete input for filter-income amount command.");
+            throw new InvalidKeywordException("Invalid command. Correct format: " + USAGE_GUIDE);
         }
 
         // Extract parameters after the command prefix.
@@ -79,17 +79,16 @@ public class FilterIncomeByAmountCommand extends Command {
         Matcher fromMatcher = FROM_PATTERN.matcher(params);
         Matcher toMatcher = TO_PATTERN.matcher(params);
         if (!fromMatcher.find() || !toMatcher.find()) {
-            this.outputMessage = USAGE_GUIDE;
-            logger.info("Displayed usage guide for filter-income amount command due to invalid format.");
-            return;
+            logger.info("Invalid command: Missing 'from' or 'to' parameter for filter-income amount command.");
+            throw new InvalidKeywordException("Invalid command. Correct format: " + USAGE_GUIDE);
         }
 
         double minAmount = Double.parseDouble(fromMatcher.group(1));
         double maxAmount = Double.parseDouble(toMatcher.group(1));
         if (minAmount > maxAmount) {
-            this.outputMessage = ERROR_MIN_GREATER_THAN_MAX;
-            logger.info("Displayed error: Minimum amount is greater than maximum amount.");
-            return;
+            logger.info("Invalid command: Minimum amount is greater than maximum amount.");
+            throw new InvalidKeywordException("Invalid command. " + ERROR_MIN_GREATER_THAN_MAX
+                    + "\nCorrect format: " + USAGE_GUIDE);
         }
 
         // Filter incomes within the given amount range using Java streams.
