@@ -29,7 +29,7 @@ import java.util.logging.Logger;
  * It supports commands for managing incomes, expenses, filtering incomes,
  * setting saving goals, and other functionalities of the Budgetflow application.
  * The parsing is done by tokenizing the input string and selecting the
- * appropriate command based on predefined command constants.
+ * appropriate command based on predefined command constant.
  * </p>
  *
  * <p>Supported commands include:</p>
@@ -90,62 +90,62 @@ public class Parser {
     String firstToken = tokens[0];
 
     switch (firstToken) {
-      case "add":
-        if (trimmedInput.startsWith(COMMAND_ADD_INCOME)) {
-          return new AddIncomeCommand(input);
-        }
-        break;
-      case "set-saving-goal":
-        return new SetSavingGoalCommand(input);
-      case "log-expense":
-        return new LogExpenseCommand(input);
-      case "delete-income":
-        return new DeleteIncomeCommand(input);
-      case "list":
-        if (trimmedInput.equals(COMMAND_LIST_INCOME)) {
-          return new ListIncomeCommand();
-        }
-        break;
-      case "delete-expense":
-        return new DeleteExpenseCommand(input);
-      case "view-all-expense":
-        if (trimmedInput.equals(COMMAND_VIEW_ALL_EXPENSES)) {
-          return new ViewAllExpensesCommand();
-        }
-        break;
-      case "find-expense":
-        return new FindExpenseCommand(input);
-      case "exit":
-        if (trimmedInput.equals(COMMAND_EXIT)) {
-          return new ExitCommand();
-        }
-        break;
-      case "compare":
-        return new CompareExpenseCommand(input);
-      case "update-expense":
-        return new UpdateExpenseCommand(input);
-      case "update-income":
-        return new UpdateIncomeCommand(input);
-      case "filter-income":
-        if (tokens.length == 1) {
+    case "add":
+      if (trimmedInput.startsWith(COMMAND_ADD_INCOME)) {
+        return new AddIncomeCommand(input);
+      }
+      break;
+    case "set-saving-goal":
+      return new SetSavingGoalCommand(input);
+    case "log-expense":
+      return new LogExpenseCommand(input);
+    case "delete-income":
+      return new DeleteIncomeCommand(input);
+    case "list":
+      if (trimmedInput.equals(COMMAND_LIST_INCOME)) {
+        return new ListIncomeCommand();
+      }
+      break;
+    case "delete-expense":
+      return new DeleteExpenseCommand(input);
+    case "view-all-expense":
+      if (trimmedInput.equals(COMMAND_VIEW_ALL_EXPENSES)) {
+        return new ViewAllExpensesCommand();
+      }
+      break;
+    case "find-expense":
+      return new FindExpenseCommand(input);
+    case "exit":
+      if (trimmedInput.equals(COMMAND_EXIT)) {
+        return new ExitCommand();
+      }
+      break;
+    case "compare":
+      return new CompareExpenseCommand(input);
+    case "update-expense":
+      return new UpdateExpenseCommand(input);
+    case "update-income":
+      return new UpdateIncomeCommand(input);
+    case "filter-income":
+      if (tokens.length == 1) {
+        return new FilterIncomeCommand(input);
+      } else {
+        String secondToken = tokens[1];
+        switch (secondToken) {
+        case COMMAND_FILTER_INCOME_DATE:
+          return new FilterIncomeByDateCommand(input);
+        case COMMAND_FILTER_INCOME_AMOUNT:
+          return new FilterIncomeByAmountCommand(input);
+        case COMMAND_FILTER_INCOME_CATEGORY:
+          return new FilterIncomeByCategoryCommand(input);
+        default:
           return new FilterIncomeCommand(input);
-        } else {
-          String secondToken = tokens[1];
-          switch (secondToken) {
-            case COMMAND_FILTER_INCOME_DATE:
-              return new FilterIncomeByDateCommand(input);
-            case COMMAND_FILTER_INCOME_AMOUNT:
-              return new FilterIncomeByAmountCommand(input);
-            case COMMAND_FILTER_INCOME_CATEGORY:
-              return new FilterIncomeByCategoryCommand(input);
-            default:
-              return new FilterIncomeCommand(input);
-          }
         }
-      case "help":
-        return new HelpCommand();
-      default:
-        break;
+      }
+    case "help":
+      return new HelpCommand();
+    default:
+      break;
     }
     logger.warning(ERROR_UNKNOWN_COMMAND + input);
     throw new UnknownCommandException();
