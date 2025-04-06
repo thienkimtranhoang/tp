@@ -564,25 +564,25 @@ A: Yes! You can use the `update-expense` or `delete-expense` commands to modify 
 
 ## Command Summary
 
-| **Command**                                                                                                           | **Description**                                                          |
-|-----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| `add category/<CATEGORY> amt/<AMOUNT> d/<DATE>`                                                                       | Adds an income entry with the specified category, amount, and date.      |
-| `log-expense category/<CATEGORY> desc/<DESCRIPTION> amt/<AMOUNT> d/<DATE>`                                            | Logs an expense entry with details.                                      |
-| `view-all-expense`                                                                                                    | Displays all logged expenses.                                            |
-| `list income`                                                                                                         | Shows all recorded incomes.                                              |
-| `update-expense [INDEX] category/[UPDATED_CATEGORY] desc/[UPDATED_DESCRIPTION] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]` | Updates an expense entry at index `<INDEX>`.                             |
-| `find-expense /category <CATEGORY>`                                                                                   | Filters expense based on category                                        |
-| `find-expense /desc <DESCRIPTION>`                                                                                    | Filters expense based on description                                     |
-| `find-expense /amt <AMT>`                                                                                             | Filters expense based on amount                                          |
-| `find-expense /amtrange <AMT1> <AMT2>`                                                                                | Filters expense within an amount range                                   |
-| `find-expense /d <DATE>`                                                                                              | Filters expense based on date                                            |
-| `find-expense /drange <DATE1> <DATE2>`                                                                                | Filters expense within a date range                                      |
-| `filter-income date from/<DATE1> to/<DATE2>`                                                                          | Filters income entries within a specific date range.                     |
-| `filter-income amount from/<AMOUNT1> to/<AMOUNT1>`                                                                    | Filters income entries within a specified amount range.                  |
-| `filter-income category/<CATEGORY>`                                                                                   | Filters income by category.                                              |
-| `delete-income <NAME OF INCOME ENTRY>`                                                                                | Deletes an income entry with the category `<NAME OF INCOME ENTRY>`.      |
-| `delete-expense <NAME OF EXPENSE ENTRY>`                                                                              | Deletes an expense entry with the description `<NAME OF EXPENSE ENTRY>`. |
-| `update-income [INDEX] category/[UPDATED_CATEGORY] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]`                             | Updates an income entry at index `<INDEX>`.                              |
-| `compare <Month1> <Month2>`                                                                                           | Compares total expenses between `<Month1>` and `<Month2>`.               | 
-| `exit`                                                                                                                | Exits the application safely.                                            |
-| `help`                                                                                                                | Displays a comprehensive list of all commands                            |
+| **Command**                                                                                                           | **Description**                                                     |
+|-----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| `add category/<CATEGORY> amt/<AMOUNT> d/<DATE>`                                                                       | Adds an income entry with the specified category, amount, and date. |
+| `log-expense category/<CATEGORY> desc/<DESCRIPTION> amt/<AMOUNT> d/<DATE>`                                            | Logs an expense entry with details.                                 |
+| `view-all-expense`                                                                                                    | Displays all logged expenses.                                       |
+| `list income`                                                                                                         | Shows all recorded incomes.                                         |
+| `update-expense [INDEX] category/[UPDATED_CATEGORY] desc/[UPDATED_DESCRIPTION] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]` | Updates an expense entry at index `<INDEX>`.                        |
+| `find-expense /category <CATEGORY>`                                                                                   | Filters expense based on category                                   |
+| `find-expense /desc <DESCRIPTION>`                                                                                    | Filters expense based on description                                |
+| `find-expense /amt <AMT>`                                                                                             | Filters expense based on amount                                     |
+| `find-expense /amtrange <AMT1> <AMT2>`                                                                                | Filters expense within an amount range                              |
+| `find-expense /d <DATE>`                                                                                              | Filters expense based on date                                       |
+| `find-expense /drange <DATE1> <DATE2>`                                                                                | Filters expense within a date range                                 |
+| `filter-income date from/<DATE1> to/<DATE2>`                                                                          | Filters income entries within a specific date range.                |
+| `filter-income amount from/<AMOUNT1> to/<AMOUNT1>`                                                                    | Filters income entries within a specified amount range.             |
+| `filter-income category/<CATEGORY>`                                                                                   | Filters income by category.                                         |
+| `delete-income <INDEX OF INCOME ENTRY>`                                                                               | Deletes an income entry with the given index.                       |
+| `delete-expense <INDEX OF EXPENSE ENTRY>`                                                                             | Deletes an expense entry with the given index.                      |
+| `update-income <INDEX> category/<UPDATED_CATEGORY> amt/<UPDATED_AMOUNT> d/<UPDATED_DATE>`                             | Updates an income entry at index `<INDEX>`.                         |
+| `compare <Month1> <Month2>`                                                                                           | Compares total expenses between `<Month1>` and `<Month2>`.          | 
+| `exit`                                                                                                                | Exits the application safely.                                       |
+| `help`                                                                                                                | Displays a comprehensive list of all commands                       |

@@ -36,7 +36,7 @@ public class HelpCommand extends Command {
                 " d/<DD-MM-YYYY>\n" + RESET);
         helpMessage.append("To View all expenses: view-all-expense\n" + CYAN);
         helpMessage.append("To view all Income: list income\n" + RESET);
-        helpMessage.append("To delete an Expense: delete-expense <INDEX>>\n" + CYAN);
+        helpMessage.append("To delete an Expense: delete-expense <INDEX>\n" + CYAN);
         helpMessage.append("To delete an Income: delete-income <INDEX>\n" + RESET);
         helpMessage.append("To find an Expense:\n" + CYAN +
                 "find-expense /desc <DESCRIPTION>\n" + YELLOW +
