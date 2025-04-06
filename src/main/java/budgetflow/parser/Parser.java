@@ -48,6 +48,8 @@ public class Parser {
     private static final String COMMAND_FILTER_INCOME_CATEGORY = "category";
 
     private static final String ERROR_UNKNOWN_COMMAND = "Unknown command received: ";
+    private static final String COMMAND_ADD = "add";
+    private static final String COMMAND_LIST = "list";
 
     //@@author QuyDatNguyen
     /**
@@ -64,7 +66,7 @@ public class Parser {
         String firstToken = tokens[0];
 
         switch (firstToken) {
-        case "add":
+        case COMMAND_ADD:
             if (trimmedInput.startsWith(COMMAND_ADD_INCOME)) {
                 return new AddIncomeCommand(input);
             }
@@ -75,7 +77,7 @@ public class Parser {
             return new LogExpenseCommand(input);
         case COMMAND_DELETE_INCOME:
             return new DeleteIncomeCommand(input);
-        case "list":
+        case COMMAND_LIST:
             if (trimmedInput.equals(COMMAND_LIST_INCOME)) {
                 return new ListIncomeCommand();
             }

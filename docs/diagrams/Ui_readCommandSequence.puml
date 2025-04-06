@@ -9,7 +9,7 @@ loop empty trimmed Input
     ui -> ui ++: scan next line
     ui --> ui --: scanned input
     ui -> ui ++: trim input
-    ui -> ui --: trimmed input
+    ui --> ui --: trimmed input
 end
 FinanceTracker <-- ui --: trimmed input
 @enduml

@@ -8,9 +8,11 @@ command -> command ++: extract tag and keyword
 command --> command --: tag, keyword
 command -> expenseList ++: get expenses based on tag and keyword
 command <-- expenseList --: matching expenses
+command -> command ++: get number of matching expenses
+command --> command --: number of matching expenses
 alt no matching expenses
     <-- command: unfound expense exception
-else
+else number of matching expenses > 0
     command -> command ++: set output message to matching expenses
     command --> command --:
 end

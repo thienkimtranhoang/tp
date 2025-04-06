@@ -5,16 +5,21 @@ participant ":Parser" as Parser
 participant ":Command" as Command
 participant ":UnknownCommandException" as Exception
 -> Parser ++: getCommandFromInput(input)
-alt matching command
+Parser -> Parser ++: trim input
+Parser --> Parser --:
+Parser -> Parser ++: break input into words
+Parser --> Parser --: group of input's words
+
+alt input's words matching command's input condition
     create Command
     Parser -> Command ++: new Command()
     Parser <-- Command --:
     <-- Parser: matchingCommand
-else no matching command
+else input's words not matching any commands' input condition
     create Exception
     Parser -> Exception ++: new UnknownCommandException()
     Parser <-- Exception --
-    <-- Parser --: throw UnknownCommandException
+    <-- Parser: throw UnknownCommandException
 end
-
+<-- Parser --:
 @enduml
