@@ -21,10 +21,12 @@ import budgetflow.command.ViewAllExpensesCommand;
 import budgetflow.exception.UnknownCommandException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ParserTest {
-// @@author(IgoyAI) (MODIFIED)
+    // @@author(IgoyAI) (MODIFIED)
     @Test
     void testAddIncomeCommand() throws UnknownCommandException {
         String input = "add category/Salary amt/5000 d/15-03-2023";
