@@ -32,7 +32,6 @@ import java.util.logging.Logger;
 public class Parser {
     private static final Logger logger = Logger.getLogger(Parser.class.getName());
 
-    // Command constant
     private static final String COMMAND_ADD_INCOME = "add category/";
     private static final String COMMAND_SET_SAVING_GOAL = "set-saving-goal";
     private static final String COMMAND_LOG_EXPENSE = "log-expense";
@@ -46,12 +45,12 @@ public class Parser {
     private static final String COMMAND_UPDATE_EXPENSE = "update-expense";
     private static final String COMMAND_UPDATE_INCOME = "update-income";
     private static final String COMMAND_HELP = "help";
-    // New command constants for filtering incomes
-    private static final String COMMAND_FILTER_INCOME_DATE = "filter-income date";
-    private static final String COMMAND_FILTER_INCOME_AMOUNT = "filter-income amount";
-    private static final String COMMAND_FILTER_INCOME_CATEGORY = "filter-income category";
-    // New command constant for saving goal
-    private static final String COMMAND_SET_SAVING_GOAL = "set-saving-goal";
+
+    private static final String COMMAND_FILTER_INCOME = "filter-income";
+    private static final String COMMAND_FILTER_INCOME_DATE = "date";
+    private static final String COMMAND_FILTER_INCOME_AMOUNT = "amount";
+    private static final String COMMAND_FILTER_INCOME_CATEGORY = "category";
+
     private static final String ERROR_UNKNOWN_COMMAND = "Unknown command received: ";
 
     /**
@@ -63,41 +62,70 @@ public class Parser {
      */
     public static Command getCommandFromInput(String input) throws UnknownCommandException {
         logger.info("Processing command: " + input);
-        if (input.startsWith(COMMAND_ADD_INCOME)) {
-            return new AddIncomeCommand(input);
-        } else if (input.startsWith(COMMAND_SET_SAVING_GOAL)) {
+        String trimmedInput = input.trim();
+        String[] tokens = trimmedInput.split("\\s+");
+        String firstToken = tokens[0];
+
+        switch (firstToken) {
+        case "add":
+            if (trimmedInput.startsWith(COMMAND_ADD_INCOME)) {
+                return new AddIncomeCommand(input);
+            }
+            break;
+        case "set-saving-goal":
             return new SetSavingGoalCommand(input);
-        } else if (input.startsWith(COMMAND_LOG_EXPENSE)) {
+        case "log-expense":
             return new LogExpenseCommand(input);
-        } else if (input.startsWith(COMMAND_DELETE_INCOME)) {
+        case "delete-income":
             return new DeleteIncomeCommand(input);
-        } else if (COMMAND_LIST_INCOME.equals(input)) {
-            return new ListIncomeCommand();
-        } else if (input.startsWith(COMMAND_DELETE_EXPENSE)) {
+        case "list":
+            if (trimmedInput.equals(COMMAND_LIST_INCOME)) {
+                return new ListIncomeCommand();
+            }
+            break;
+        case "delete-expense":
             return new DeleteExpenseCommand(input);
-        } else if (input.equals(COMMAND_VIEW_ALL_EXPENSES)) {
-            return new ViewAllExpensesCommand();
-        } else if (input.startsWith(COMMAND_FIND_EXPENSE)) {
+        case "view-all-expense":
+            if (trimmedInput.equals(COMMAND_VIEW_ALL_EXPENSES)) {
+                return new ViewAllExpensesCommand();
+            }
+            break;
+        case "find-expense":
             return new FindExpenseCommand(input);
-        } else if (input.equals(COMMAND_EXIT)) {
-            return new ExitCommand();
-        } else if (input.startsWith(COMMAND_COMPARE)) {
+        case "exit":
+            if (trimmedInput.equals(COMMAND_EXIT)) {
+                return new ExitCommand();
+            }
+            break;
+        case "compare":
             return new CompareExpenseCommand(input);
-        } else if (input.startsWith(COMMAND_UPDATE_EXPENSE)) {
+        case "update-expense":
             return new UpdateExpenseCommand(input);
-        }else if (input.startsWith(COMMAND_UPDATE_INCOME)) {
+        case "update-income":
             return new UpdateIncomeCommand(input);
-        } else if (input.startsWith(COMMAND_FILTER_INCOME_DATE)) {
-            return new FilterIncomeByDateCommand(input);
-        }  else if (input.startsWith(COMMAND_HELP)) {
+        case "filter-income":
+            if (tokens.length == 1) {
+                return new FilterIncomeCommand(input);
+            } else {
+                String secondToken = tokens[1];
+                // Split on "/" to extract the filter type
+                String filterType = secondToken.contains("/") ? secondToken.split("/")[0] : secondToken;
+                if (filterType.equals(COMMAND_FILTER_INCOME_DATE)) {
+                    return new FilterIncomeByDateCommand(input);
+                } else if (filterType.equals(COMMAND_FILTER_INCOME_AMOUNT)) {
+                    return new FilterIncomeByAmountCommand(input);
+                } else if (filterType.equals(COMMAND_FILTER_INCOME_CATEGORY)) {
+                    return new FilterIncomeByCategoryCommand(input);
+                } else {
+                    return new FilterIncomeCommand(input);
+                }
+            }
+        case "help":
             return new HelpCommand();
-        } else if (input.startsWith(COMMAND_FILTER_INCOME_AMOUNT)) {
-            return new FilterIncomeByAmountCommand(input);
-        } else if (input.startsWith(COMMAND_FILTER_INCOME_CATEGORY)) {
-            return new FilterIncomeByCategoryCommand(input);
-        } else {
-            logger.warning(ERROR_UNKNOWN_COMMAND + input);
-            throw new UnknownCommandException();
+        default:
+            break;
         }
+        logger.warning(ERROR_UNKNOWN_COMMAND + input);
+        throw new UnknownCommandException();
     }
 }
