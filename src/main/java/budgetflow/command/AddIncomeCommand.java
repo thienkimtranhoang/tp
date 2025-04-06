@@ -17,6 +17,9 @@ import budgetflow.parser.DateValidator;
 //@@author IgoyAI
 // Modified: Added error message with example usage in extractIncome() when wrong command is entered.
 public class AddIncomeCommand extends Command {
+    public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date. " +
+            "Please use DD-MM-YYYY format." ;
+    private static final Logger logger = Logger.getLogger(AddIncomeCommand.class.getName());
     public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
 
     private static final Logger logger = Logger.getLogger(
@@ -33,6 +36,8 @@ public class AddIncomeCommand extends Command {
     private static final String ERROR_INCORRECT_INCOME_DATE =
             "Error: Income date is in wrong format." +
                     "please use DD-MM-YYYY format.";
+    private static final String ERROR_INCORRECT_YEAR_FORMAT = "Error: Year must be exactly " +
+            "4 digits in the format YYYY.";
 
     // Example usage constant
     private static final String EXAMPLE_USAGE =
@@ -83,7 +88,7 @@ public class AddIncomeCommand extends Command {
 
         String categoryPattern = "category/(.*?) (amt/|d/|$)";
         String amtPattern = "amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])";
-        String datePattern = "d/\\s*(\\d{2}-\\d{2}-\\d{4})";
+        String datePattern = "d/\\s*(\\d{2}-\\d{2}-\\d+)";
 
         java.util.regex.Pattern pattern =
                 java.util.regex.Pattern.compile(categoryPattern);
@@ -125,6 +130,8 @@ public class AddIncomeCommand extends Command {
                 logger.warning("Invalid date input: " + date);
                 throw new MissingDateException(ERROR_INVALID_DATE);
             }
+            // Check for exact 4-digit year format
+            validateYearFormat(date);
         } else {
             verifyMissingOrIncorrect(input);
         }
@@ -139,6 +146,25 @@ public class AddIncomeCommand extends Command {
         }
         return new Income(category, amount, date);
     }
+    /**
+     * Validates that the year part of the date is exactly 4 digits.
+     *
+     * @param date The date to validate in DD-MM-YYYY format
+     * @throws MissingDateException if the year does not have exactly 4 digits
+     */
+    private void validateYearFormat(String date) throws MissingDateException {
+        // Split the date to get the year part
+        String[] dateParts = date.split("-");
+        if (dateParts.length == 3) {
+            String year = dateParts[2];
+            // Check if year is exactly 4 digits
+            if (year.length() != 4) {
+                logger.warning("Invalid year format (not 4 digits): " + year);
+                throw new MissingDateException(ERROR_INCORRECT_YEAR_FORMAT);
+            }
+        }
+    }
+    private static void verifyMissingOrIncorrect(String input) throws MissingDateException {
 
     private static void verifyMissingOrIncorrect(String input)
             throws MissingDateException {

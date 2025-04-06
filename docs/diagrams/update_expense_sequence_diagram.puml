@@ -31,7 +31,7 @@ alt Index is valid
 
     UpdateCmd -> DateValidator: isValidDate("01-04-2025")
     activate DateValidator
-    DateValidator --> UpdateCmd: return boolean
+    DateValidator --> UpdateCmd: return boolean (true)
     deactivate DateValidator
 
     alt Date is valid
@@ -40,7 +40,7 @@ alt Index is valid
         Expense --> UpdateCmd: return updated date
         deactivate Expense
     else Invalid date format
-        UpdateCmd -> User: "Error: Invalid date format"
+        UpdateCmd -> User: "Error: Invalid date format. Usage: DD-MM-YYYY"
         deactivate UpdateCmd
     end
 else Index out of bounds

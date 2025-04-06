@@ -1,8 +1,8 @@
 @startuml
 actor User
-participant "DeleteExpenseCommand" as DeleteExpenseCommand
-participant "ExpenseList" as ExpenseList
-participant "InvalidNumberFormatException" as InvalidNumberFormatException
+participant ":DeleteExpenseCommand" as DeleteExpenseCommand
+participant ":ExpenseList" as ExpenseList
+participant ":InvalidNumberFormatException" as InvalidNumberFormatException
 
 User -> DeleteExpenseCommand: Create command(input)
 activate DeleteExpenseCommand

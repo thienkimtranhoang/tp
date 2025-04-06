@@ -25,6 +25,13 @@ import java.util.logging.Logger;
 // Original Parser implementation
 //@@author IgoyAI
 // Modified: Updated "add" branch to accept "add" command without parameters.
+/**
+ * Parses the user's input and extracts the corresponding command.
+ *
+ * <p>New filtering commands for income (by date, amount, and category) have been added.
+ *
+ * @@author IgoyAI (modified)
+ */
 public class Parser {
     private static final Logger logger = Logger.getLogger(Parser.class.getName());
 
@@ -49,8 +56,14 @@ public class Parser {
 
     private static final String ERROR_UNKNOWN_COMMAND = "Unknown command received: ";
 
-    public static Command getCommandFromInput(String input)
-            throws UnknownCommandException {
+    /**
+     * Parses the user's input and extracts the corresponding command.
+     *
+     * @param input the user's input command.
+     * @return the corresponding command for the user's input.
+     * @throws UnknownCommandException if the user's command is unrecognizable.
+     */
+    public static Command getCommandFromInput(String input) throws UnknownCommandException {
         logger.info("Processing command: " + input);
         String trimmedInput = input.trim();
         String[] tokens = trimmedInput.split("\\s+");
@@ -61,37 +74,42 @@ public class Parser {
             // Modified by IgoyAI: Accept "add" command even when no parameters are given.
             return new AddIncomeCommand(input);
         case "set-saving-goal":
+            if (trimmedInput.startsWith(COMMAND_ADD_INCOME)) {
+                return new AddIncomeCommand(input);
+            }
+            break;
+        case COMMAND_SET_SAVING_GOAL:
             return new SetSavingGoalCommand(input);
-        case "log-expense":
+        case COMMAND_LOG_EXPENSE:
             return new LogExpenseCommand(input);
-        case "delete-income":
+        case COMMAND_DELETE_INCOME:
             return new DeleteIncomeCommand(input);
         case "list":
             if (trimmedInput.equals(COMMAND_LIST_INCOME)) {
                 return new ListIncomeCommand();
             }
             break;
-        case "delete-expense":
+        case COMMAND_DELETE_EXPENSE:
             return new DeleteExpenseCommand(input);
-        case "view-all-expense":
+        case COMMAND_VIEW_ALL_EXPENSES:
             if (trimmedInput.equals(COMMAND_VIEW_ALL_EXPENSES)) {
                 return new ViewAllExpensesCommand();
             }
             break;
-        case "find-expense":
+        case COMMAND_FIND_EXPENSE:
             return new FindExpenseCommand(input);
-        case "exit":
+        case COMMAND_EXIT:
             if (trimmedInput.equals(COMMAND_EXIT)) {
                 return new ExitCommand();
             }
             break;
-        case "compare":
+        case COMMAND_COMPARE:
             return new CompareExpenseCommand(input);
-        case "update-expense":
+        case COMMAND_UPDATE_EXPENSE:
             return new UpdateExpenseCommand(input);
-        case "update-income":
+        case COMMAND_UPDATE_INCOME:
             return new UpdateIncomeCommand(input);
-        case "filter-income":
+        case COMMAND_FILTER_INCOME:
             if (tokens.length == 1) {
                 return new FilterIncomeCommand(input);
             } else {
@@ -109,7 +127,7 @@ public class Parser {
                     return new FilterIncomeCommand(input);
                 }
             }
-        case "help":
+        case COMMAND_HELP:
             return new HelpCommand();
         default:
             break;

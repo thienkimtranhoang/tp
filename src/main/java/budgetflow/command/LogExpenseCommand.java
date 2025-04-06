@@ -7,6 +7,7 @@ import budgetflow.exception.MissingCategoryException;
 import budgetflow.exception.MissingDescriptionException;
 import budgetflow.exception.MissingExpenseException;
 import budgetflow.exception.ExceedsMaxDigitException;
+
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.logging.Logger;
-
 //@@author thienkimtranhoang
 // Modified by @IgoyAI to support tag extraction in any order and improve fault tolerance.
 public class LogExpenseCommand extends Command {
@@ -25,6 +25,9 @@ public class LogExpenseCommand extends Command {
 
     private static final Logger logger =
             Logger.getLogger(LogExpenseCommand.class.getName());
+public class LogExpenseCommand extends Command {
+    public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date. Please use DD-MM-YYYY format.";
+    private static final Logger logger = Logger.getLogger(LogExpenseCommand.class.getName());
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
     private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH =
             LOG_EXPENSE_COMMAND_PREFIX.length();
@@ -46,6 +49,12 @@ public class LogExpenseCommand extends Command {
             "Usage: log-expense category/<category> desc/<description> amt/<amount> d/<date>\n" +
                     "Example: log-expense category/Food desc/Lunch amt/12.50 d/15-03-2025";
 
+    // New constants for symbol validation
+    private static final String ERROR_INVALID_CATEGORY = "Error: Category must contain only alphabets or digits.";
+    private static final String ERROR_INVALID_DESCRIPTION = "Error: Description must contain only alphabets or digits.";
+    private static final String ERROR_INVALID_INTEGRER_AMOUNT = "Amount exceeds 7 digits." +
+            "Please enter a number with up to 7 digits.";
+    private static final String ERROR_INVALID_DECIMAL_AMOUNT = "Amount must have at most 2 decimal places.";
     public LogExpenseCommand(String input) {
         super(input);
         this.commandType = CommandType.CREATE;
@@ -125,11 +134,14 @@ public class LogExpenseCommand extends Command {
         if (matcher.find()) {
             category = matcher.group(1).trim();
         }
+
         pattern = Pattern.compile(descPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             description = matcher.group(1).trim();
         }
+
+
         pattern = Pattern.compile(amtPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -140,16 +152,14 @@ public class LogExpenseCommand extends Command {
 
                 if (integerPart.length() > 7) {
                     logger.warning("Amount exceeds 7 digit limit: " + integerPart);
-                    throw new ExceedsMaxDigitException(
-                            "Amount exceeds 7 digits. Please enter a number with up to 7 digits.");
+                    throw new ExceedsMaxDigitException(ERROR_INVALID_INTEGRER_AMOUNT);
                 }
 
                 if (parts.length > 1) {
                     String decimalPart = parts[1];
                     if (decimalPart.length() > 2) {
                         logger.warning("Amount has more than 2 decimal digits: " + decimalPart);
-                        throw new ExceedsMaxDigitException(
-                                "Amount must have at most 2 decimal places.");
+                        throw new ExceedsMaxDigitException(ERROR_INVALID_DECIMAL_AMOUNT);
                     }
                 }
             } catch (NumberFormatException e) {
@@ -157,6 +167,7 @@ public class LogExpenseCommand extends Command {
                 throw new InvalidNumberFormatException();
             }
         }
+
         pattern = Pattern.compile(datePattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
@@ -165,6 +176,7 @@ public class LogExpenseCommand extends Command {
                 logger.warning("Invalid date input: " + date);
                 throw new MissingDateException(ERROR_INVALID_DATE);
             }
+            validateYearFormat(date);
         } else {
             verifyMissingOrIncorrect(input);
         }
@@ -172,15 +184,28 @@ public class LogExpenseCommand extends Command {
         if (category == null || category.isEmpty()) {
             throw new MissingCategoryException(ERROR_MISSING_EXPENSE_CATEGORY);
         }
+
+        // New: check for symbols in category
+        if (!category.matches("^[a-zA-Z0-9]+$")) {
+            throw new MissingCategoryException(ERROR_INVALID_CATEGORY);
+        }
+
         if (description == null || description.isEmpty()) {
             throw new MissingDescriptionException(ERROR_MISSING_EXPENSE_DESCRIPTION);
         }
+
+        // New: check for symbols in description
+        if (!description.matches("^[a-zA-Z0-9]+$")) {
+            throw new MissingDescriptionException(ERROR_INVALID_DESCRIPTION);
+        }
+
         if (amount == null) {
             throw new MissingAmountException(ERROR_MISSING_EXPENSE_AMOUNT);
         }
         if (date == null) {
             throw new MissingDateException(ERROR_MISSING_EXPENSE_DATE);
         }
+
         return new Expense(category, description, amount, date);
     }
 
@@ -190,7 +215,20 @@ public class LogExpenseCommand extends Command {
         return matcher.find() ? matcher.group(1).trim() : null;
     }
 
-    private static void verifyMissingOrIncorrect(String input)
+    private void validateYearFormat(String date) throws MissingDateException {
+        String[] dateParts = date.split("-");
+        if (dateParts.length == 3) {
+            String year = dateParts[2];
+            if (year.length() != 4) {
+                logger.warning("Invalid year format (not 4 digits): " + year);
+                throw new MissingDateException(ERROR_INCORRECT_YEAR_FORMAT);
+            }
+        }
+    }
+
+    private static void verifyMissingOrIncorrect(String input) throws MissingDateException {
+        Pattern pattern = Pattern.compile("d/(\\S+)");
+        Matcher matcher = pattern.matcher(input);
             throws MissingDateException {
         Pattern pattern;
         Matcher matcher;

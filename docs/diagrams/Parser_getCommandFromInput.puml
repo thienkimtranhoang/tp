@@ -4,17 +4,22 @@
 participant "Parser" as Parser
 participant ":Command" as Command
 participant ":UnknownCommandException" as Exception
+
 -> Parser ++: getCommandFromInput(input)
+
 alt matching command
     create Command
     Parser -> Command ++: new Command()
     Parser <-- Command --:
+    deactivate Command
     <-- Parser: matchingCommand
 else no matching command
     create Exception
     Parser -> Exception ++: new UnknownCommandException()
-    Parser <-- Exception --
+    Parser <-- Exception --:
+    deactivate Exception
     <-- Parser: throw UnknownCommandException
 end
 
+deactivate Parser
 @enduml

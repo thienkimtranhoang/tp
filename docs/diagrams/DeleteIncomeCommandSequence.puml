@@ -1,8 +1,8 @@
 @startuml
 actor User
-participant "DeleteIncomeCommand" as DeleteIncomeCommand
-participant "Income" as Income
-participant "InvalidNumberFormatException" as InvalidNumberFormatException
+participant ":DeleteIncomeCommand" as DeleteIncomeCommand
+participant ":Income" as Income
+participant ":InvalidNumberFormatException" as InvalidNumberFormatException
 
 User -> DeleteIncomeCommand: Create command(input)
 activate DeleteIncomeCommand

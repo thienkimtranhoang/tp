@@ -13,5 +13,5 @@ alt no matching expenses
 else
     command -> command: set output message to matching expenses
 end
-
+return result
 @enduml

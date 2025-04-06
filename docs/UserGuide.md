@@ -199,7 +199,7 @@ Income updated: [UPDATED_CATEGORY], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DAT
 ```
 
 ### 8. Setting a Savings Goal
-**Description:** Sets a savings goal with a specified amount and optional target date.  
+**Description:** Sets a savings goal with a specified amount and optional target date. Users are allowed to set saving goal to 0 in case they do not want to set a goal yet.
 **Command:**
 ```plaintext
 set-saving-goal <GOAL_AMOUNT> 
