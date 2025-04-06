@@ -1,8 +1,8 @@
 package budgetflow.command;
 
-import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
+import budgetflow.exception.InvalidNumberFormatException;
 
 import java.util.List;
 import java.util.logging.Logger;
