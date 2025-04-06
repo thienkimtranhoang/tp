@@ -22,43 +22,6 @@ import budgetflow.exception.UnknownCommandException;
 
 import java.util.logging.Logger;
 
-/**
- * The {@code Parser} class is responsible for parsing user input strings
- * and instantiating the corresponding {@code Command} objects.
- * <p>
- * It supports commands for managing incomes, expenses, filtering incomes,
- * setting saving goals, and other functionalities of the Budgetflow application.
- * The parsing is done by tokenizing the input string and selecting the
- * appropriate command based on predefined command constant.
- * </p>
- *
- * <p>Supported commands include:</p>
- * <ul>
- *   <li>Add Income: "add category/..."</li>
- *   <li>Set Saving Goal: "set-saving-goal ..." </li>
- *   <li>Log Expense: "log-expense ..." </li>
- *   <li>Delete Income: "delete-income ..." </li>
- *   <li>List Income: "list income" </li>
- *   <li>Delete Expense: "delete-expense ..." </li>
- *   <li>View All Expenses: "view-all-expense" </li>
- *   <li>Find Expense: "find-expense ..." </li>
- *   <li>Exit: "exit" </li>
- *   <li>Compare Expenses: "compare ..." </li>
- *   <li>Update Expense: "update-expense ..." </li>
- *   <li>Update Income: "update-income ..." </li>
- *   <li>Filter Income: "filter-income" optionally followed by:
- *       <ul>
- *         <li>"date ..." for filtering by date,</li>
- *         <li>"amount ..." for filtering by amount,</li>
- *         <li>"category ..." for filtering by category.</li>
- *       </ul>
- *   </li>
- *   <li>Help: "help" </li>
- * </ul>
- *
- * @author IgoyAI
- * @version 2.1
- */
 public class Parser {
     private static final Logger logger = Logger.getLogger(Parser.class.getName());
 
@@ -131,14 +94,15 @@ public class Parser {
                 return new FilterIncomeCommand(input);
             } else {
                 String secondToken = tokens[1];
-                switch (secondToken) {
-                case COMMAND_FILTER_INCOME_DATE:
+                // Split on "/" to extract the filter type
+                String filterType = secondToken.contains("/") ? secondToken.split("/")[0] : secondToken;
+                if (filterType.equals(COMMAND_FILTER_INCOME_DATE)) {
                     return new FilterIncomeByDateCommand(input);
-                case COMMAND_FILTER_INCOME_AMOUNT:
+                } else if (filterType.equals(COMMAND_FILTER_INCOME_AMOUNT)) {
                     return new FilterIncomeByAmountCommand(input);
-                case COMMAND_FILTER_INCOME_CATEGORY:
+                } else if (filterType.equals(COMMAND_FILTER_INCOME_CATEGORY)) {
                     return new FilterIncomeByCategoryCommand(input);
-                default:
+                } else {
                     return new FilterIncomeCommand(input);
                 }
             }
