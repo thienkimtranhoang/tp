@@ -249,8 +249,6 @@ public class UpdateExpenseCommand extends Command {
             }
             return extractedDate;
         }
-        // Throw an exception if the date is missing from the input
-//        throw new InvalidDateException(ERROR_WRONG_DATE_FORMAT);
         return currentDate;
     }
 
