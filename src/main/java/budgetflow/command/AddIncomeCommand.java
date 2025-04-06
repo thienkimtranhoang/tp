@@ -1,12 +1,19 @@
 package budgetflow.command;
 
-import budgetflow.exception.*;
+import budgetflow.exception.MissingDateException;
+import budgetflow.exception.InvalidNumberFormatException;
+import budgetflow.exception.MissingAmountException;
+import budgetflow.exception.MissingCategoryException;
+import budgetflow.exception.MissingIncomeException;
+import budgetflow.exception.ExceedsMaxDigitException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import budgetflow.parser.DateValidator;
 
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Original implementation of AddIncomeCommand.java
@@ -63,8 +70,8 @@ public class AddIncomeCommand extends Command {
 
     private static void verifyMissingOrIncorrect(String input) throws MissingDateException {
         String invalidDatePattern = "d/(\\S+)";
-        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(invalidDatePattern);
-        java.util.regex.Matcher matcher = pattern.matcher(input);
+        Pattern pattern = Pattern.compile(invalidDatePattern);
+        Matcher matcher = pattern.matcher(input);
         if (matcher.find()) {
             String invalidDate = matcher.group(1).trim();
             logger.warning("Invalid date input: " + invalidDate);
@@ -96,13 +103,13 @@ public class AddIncomeCommand extends Command {
         String amtPattern = "amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])";
         String datePattern = "d/\\s*(\\d{2}-\\d{2}-\\d+)";
 
-        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(categoryPattern);
-        java.util.regex.Matcher matcher = pattern.matcher(input);
+        Pattern pattern = Pattern.compile(categoryPattern);
+        Matcher matcher = pattern.matcher(input);
         if (matcher.find()) {
             category = matcher.group(1).trim();
         }
 
-        pattern = java.util.regex.Pattern.compile(amtPattern);
+        pattern = Pattern.compile(amtPattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             try {
@@ -127,7 +134,7 @@ public class AddIncomeCommand extends Command {
             }
         }
 
-        pattern = java.util.regex.Pattern.compile(datePattern);
+        pattern = Pattern.compile(datePattern);
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             date = matcher.group(1).trim();

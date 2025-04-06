@@ -1,6 +1,12 @@
 package budgetflow.command;
 
-import budgetflow.exception.*;
+import budgetflow.exception.MissingDateException;
+import budgetflow.exception.InvalidNumberFormatException;
+import budgetflow.exception.MissingAmountException;
+import budgetflow.exception.MissingCategoryException;
+import budgetflow.exception.MissingDescriptionException;
+import budgetflow.exception.MissingExpenseException;
+import budgetflow.exception.ExceedsMaxDigitException;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -15,30 +21,41 @@ import java.util.regex.Pattern;
  * Modified by @IgoyAI to support tag extraction in any order and improve fault tolerance.
  */
 public class LogExpenseCommand extends Command {
-    // Updated constant to match test expectation.
     public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
-    private static final Logger logger = Logger.getLogger(LogExpenseCommand.class.getName());
+    private static final Logger logger =
+            Logger.getLogger(LogExpenseCommand.class.getName());
 
     private static final String LOG_EXPENSE_COMMAND_PREFIX = "log-expense ";
-    private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH = LOG_EXPENSE_COMMAND_PREFIX.length();
+    private static final int LOG_EXPENSE_COMMAND_PREFIX_LENGTH =
+            LOG_EXPENSE_COMMAND_PREFIX.length();
 
     private static final String ERROR_EMPTY_EXPENSE = "Expense should not be empty";
-    private static final String ERROR_MISSING_EXPENSE_CATEGORY = "Error: Expense category is required.";
-    private static final String ERROR_MISSING_EXPENSE_DESCRIPTION = "Error: Expense description is required.";
-    private static final String ERROR_MISSING_EXPENSE_AMOUNT = "Error: Expense amount is required.";
-    private static final String ERROR_MISSING_EXPENSE_DATE = "Error: Expense date is required.";
-    private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Income date is in wrong format. please use DD-MM-YYYY format.";
-    private static final String ERROR_INCORRECT_YEAR_FORMAT = "Error: Year must be exactly 4 digits in the format YYYY.";
+    private static final String ERROR_MISSING_EXPENSE_CATEGORY =
+            "Error: Expense category is required.";
+    private static final String ERROR_MISSING_EXPENSE_DESCRIPTION =
+            "Error: Expense description is required.";
+    private static final String ERROR_MISSING_EXPENSE_AMOUNT =
+            "Error: Expense amount is required.";
+    private static final String ERROR_MISSING_EXPENSE_DATE =
+            "Error: Expense date is required.";
+    private static final String ERROR_INCORRECT_EXPENSE_DATE =
+            "Error: Income date is in wrong format. please use DD-MM-YYYY format.";
+    private static final String ERROR_INCORRECT_YEAR_FORMAT =
+            "Error: Year must be exactly 4 digits in the format YYYY.";
 
     private static final String USAGE_GUIDE =
-            "Usage: log-expense category/<category> desc/<description> amt/<amount> d/<date>\n" +
-                    "Example: log-expense category/Food desc/Lunch amt/12.50 d/15-03-2025";
+            "Usage: log-expense category/<category> desc/<description> amt/<amount> d/<date>\n"
+                    + "Example: log-expense category/Food desc/Lunch amt/12.50 d/15-03-2025";
 
     // New constants for symbol validation
-    private static final String ERROR_INVALID_CATEGORY = "Error: Category must contain only alphabets or digits.";
-    private static final String ERROR_INVALID_DESCRIPTION = "Error: Description must contain only alphabets or digits.";
-    private static final String ERROR_INVALID_INTEGRER_AMOUNT = "Amount exceeds 7 digits. Please enter a number with up to 7 digits.";
-    private static final String ERROR_INVALID_DECIMAL_AMOUNT = "Amount must have at most 2 decimal places.";
+    private static final String ERROR_INVALID_CATEGORY =
+            "Error: Category must contain only alphabets or digits.";
+    private static final String ERROR_INVALID_DESCRIPTION =
+            "Error: Description must contain only alphabets or digits.";
+    private static final String ERROR_INVALID_INTEGRER_AMOUNT =
+            "Amount exceeds 7 digits. Please enter a number with up to 7 digits.";
+    private static final String ERROR_INVALID_DECIMAL_AMOUNT =
+            "Amount must have at most 2 decimal places.";
 
     public LogExpenseCommand(String input) {
         super(input);
@@ -62,8 +79,8 @@ public class LogExpenseCommand extends Command {
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList)
             throws MissingDateException, InvalidNumberFormatException, MissingAmountException,
-            MissingCategoryException, MissingDescriptionException,
-            MissingExpenseException, ExceedsMaxDigitException {
+            MissingCategoryException, MissingDescriptionException, MissingExpenseException,
+            ExceedsMaxDigitException {
         if (input.trim().equals("log-expense")) {
             this.outputMessage = USAGE_GUIDE;
             return;
@@ -76,7 +93,8 @@ public class LogExpenseCommand extends Command {
                 expense.getDate();
     }
 
-    private static void verifyMissingOrIncorrect(String input) throws MissingDateException {
+    private static void verifyMissingOrIncorrect(String input)
+            throws MissingDateException {
         String invalidDatePattern = "d/(\\S+)";
         Pattern pattern = Pattern.compile(invalidDatePattern);
         Matcher matcher = pattern.matcher(input);
@@ -103,11 +121,11 @@ public class LogExpenseCommand extends Command {
      */
     private Expense extractExpense(String input)
             throws InvalidNumberFormatException, MissingCategoryException,
-            MissingAmountException, MissingDateException,
-            MissingDescriptionException, MissingExpenseException,
-            ExceedsMaxDigitException {
+            MissingAmountException, MissingDateException, MissingDescriptionException,
+            MissingExpenseException, ExceedsMaxDigitException {
         assert input != null && !input.isEmpty() : "Expense input should not be empty";
-        assert input.startsWith(LOG_EXPENSE_COMMAND_PREFIX) : "Invalid log expense format";
+        assert input.startsWith(LOG_EXPENSE_COMMAND_PREFIX) :
+                "Invalid log expense format";
 
         input = input.substring(LOG_EXPENSE_COMMAND_PREFIX_LENGTH).trim();
 

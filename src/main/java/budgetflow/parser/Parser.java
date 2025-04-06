@@ -1,6 +1,22 @@
 package budgetflow.parser;
 
-import budgetflow.command.*;
+import budgetflow.command.AddIncomeCommand;
+import budgetflow.command.SetSavingGoalCommand;
+import budgetflow.command.LogExpenseCommand;
+import budgetflow.command.DeleteIncomeCommand;
+import budgetflow.command.ListIncomeCommand;
+import budgetflow.command.DeleteExpenseCommand;
+import budgetflow.command.ViewAllExpensesCommand;
+import budgetflow.command.FindExpenseCommand;
+import budgetflow.command.ExitCommand;
+import budgetflow.command.CompareExpenseCommand;
+import budgetflow.command.UpdateExpenseCommand;
+import budgetflow.command.UpdateIncomeCommand;
+import budgetflow.command.FilterIncomeCommand;
+import budgetflow.command.FilterIncomeByDateCommand;
+import budgetflow.command.FilterIncomeByAmountCommand;
+import budgetflow.command.FilterIncomeByCategoryCommand;
+import budgetflow.command.HelpCommand;
 import budgetflow.exception.UnknownCommandException;
 
 import java.util.logging.Logger;
@@ -43,7 +59,8 @@ public class Parser {
      * @return the corresponding command for the user's input.
      * @throws UnknownCommandException if the user's command is unrecognizable.
      */
-    public static Command getCommandFromInput(String input) throws UnknownCommandException {
+    public static Command getCommandFromInput(String input)
+            throws UnknownCommandException {
         logger.info("Processing command: " + input);
         String trimmedInput = input.trim();
         String[] tokens = trimmedInput.split("\\s+");
@@ -90,7 +107,8 @@ public class Parser {
             } else {
                 String secondToken = tokens[1];
                 // Split on "/" to extract the filter type.
-                String filterType = secondToken.contains("/") ? secondToken.split("/")[0] : secondToken;
+                String filterType = secondToken.contains("/") ?
+                        secondToken.split("/")[0] : secondToken;
                 if (filterType.equals(COMMAND_FILTER_INCOME_DATE)) {
                     return new FilterIncomeByDateCommand(input);
                 } else if (filterType.equals(COMMAND_FILTER_INCOME_AMOUNT)) {
