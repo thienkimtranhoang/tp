@@ -9,14 +9,15 @@ import budgetflow.command.ExitCommand;
 import budgetflow.command.FilterIncomeByAmountCommand;
 import budgetflow.command.FilterIncomeByCategoryCommand;
 import budgetflow.command.FilterIncomeByDateCommand;
+import budgetflow.command.FilterIncomeCommand;
 import budgetflow.command.FindExpenseCommand;
+import budgetflow.command.HelpCommand;
 import budgetflow.command.ListIncomeCommand;
 import budgetflow.command.LogExpenseCommand;
 import budgetflow.command.SetSavingGoalCommand;
 import budgetflow.command.UpdateExpenseCommand;
 import budgetflow.command.UpdateIncomeCommand;
 import budgetflow.command.ViewAllExpensesCommand;
-import budgetflow.command.HelpCommand;
 import budgetflow.exception.UnknownCommandException;
 
 import java.util.logging.Logger;
@@ -33,7 +34,8 @@ public class Parser {
 
     // Command constant
     private static final String COMMAND_ADD_INCOME = "add category/";
-    private static final String COMMAND_LOG_EXPENSE = "log-expense ";
+    private static final String COMMAND_SET_SAVING_GOAL = "set-saving-goal";
+    private static final String COMMAND_LOG_EXPENSE = "log-expense";
     private static final String COMMAND_DELETE_INCOME = "delete-income";
     private static final String COMMAND_LIST_INCOME = "list income";
     private static final String COMMAND_DELETE_EXPENSE = "delete-expense";
@@ -88,7 +90,7 @@ public class Parser {
         } else if (input.startsWith(COMMAND_FILTER_INCOME_DATE)) {
             return new FilterIncomeByDateCommand(input);
         }  else if (input.startsWith(COMMAND_HELP)) {
-            return new HelpCommand(input);
+            return new HelpCommand();
         } else if (input.startsWith(COMMAND_FILTER_INCOME_AMOUNT)) {
             return new FilterIncomeByAmountCommand(input);
         } else if (input.startsWith(COMMAND_FILTER_INCOME_CATEGORY)) {
