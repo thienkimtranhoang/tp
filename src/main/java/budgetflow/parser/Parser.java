@@ -88,7 +88,7 @@ public class Parser {
         } else if (input.startsWith(COMMAND_FILTER_INCOME_DATE)) {
             return new FilterIncomeByDateCommand(input);
         }  else if (input.startsWith(COMMAND_HELP)) {
-            return new HelpCommand();
+            return new HelpCommand(input);
         } else if (input.startsWith(COMMAND_FILTER_INCOME_AMOUNT)) {
             return new FilterIncomeByAmountCommand(input);
         } else if (input.startsWith(COMMAND_FILTER_INCOME_CATEGORY)) {
