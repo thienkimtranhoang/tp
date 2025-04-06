@@ -189,5 +189,4 @@ public class LogExpenseCommand extends Command{
             throw new MissingDateException(ERROR_MISSING_EXPENSE_DATE);
         }
     }
-
 }
