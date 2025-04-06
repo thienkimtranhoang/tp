@@ -1,10 +1,13 @@
 package budgetflow.command;
 
 import budgetflow.exception.FinanceException;
+import budgetflow.exception.InvalidKeywordException;
+
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 
 import java.util.List;
+
 
 //@@ author Yikbing
 /**
@@ -21,6 +24,7 @@ public class HelpCommand extends Command {
     private static final String CYAN = "\u001B[36m";
     private static final String YELLOW = "\u001B[33m";
     private static final String RESET = "\u001B[0m";
+    private static final String HELP_PATTERN = "help";
 
     public HelpCommand() {
         super();
@@ -29,14 +33,19 @@ public class HelpCommand extends Command {
 
     //@@ author Yikbing
     @Override
-    public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException {
+    public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException{
+
+        if(input != HELP_PATTERN) {
+            throw new InvalidKeywordException("Invalid command. Did you mean 'help'?");
+        }
+
         StringBuilder helpMessage = new StringBuilder();
         helpMessage.append("To add an Income: add category/<CATEGORY> amt/<AMOUNT> d/<DD-MM-YYYY>\n" + CYAN);
         helpMessage.append("To add an Expense: log-expense category/<CATEGORY> desc/<DESCRIPTION> amt/<AMOUNT>" +
                 " d/<DD-MM-YYYY>\n" + RESET);
         helpMessage.append("To View all expenses: view-all-expense\n" + CYAN);
         helpMessage.append("To view all Income: list income\n" + RESET);
-        helpMessage.append("To delete an Expense: delete-expense <INDEX>>\n" + CYAN);
+        helpMessage.append("To delete an Expense: delete-expense <INDEX>\n" + CYAN);
         helpMessage.append("To delete an Income: delete-income <INDEX>\n" + RESET);
         helpMessage.append("To find an Expense:\n" + CYAN +
                 "find-expense /desc <DESCRIPTION>\n" + YELLOW +

@@ -48,8 +48,10 @@ Category             | Amount     | Date
 Salary               | $1000.00   | 06-03-2025
 
 What would you like to do?
+Income updated: Salary, Amount: $2000.00, Date: 06-03-2025
+What would you like to do?
 Saving goal retrieved: 0.0
-Income deleted: Salary
+Income deleted: Salary, $2000.0
 What would you like to do?
 Expense updated: drink, Description: Coffee, Amount: $4.00, Date: 06-04-2025
 What would you like to do?

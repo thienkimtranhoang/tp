@@ -1,4 +1,7 @@
+participant "InvalidNumberFormatException" as InvalidNumberFormatException
+
 @startuml
+
 
 hide circle
 skinparam classAttributeIconSize 0
@@ -14,7 +17,9 @@ package budgetflow.command {
 }
 
 package budgetflow.exception {
-    class UnfoundIncomeException
+    class InvalidNumberFormatException{
+        + InvalidNumberFormatException(String message)
+    }
 }
 
 package budgetflow.expense {
@@ -24,6 +29,7 @@ package budgetflow.expense {
 package budgetflow.income {
     class Income {
         + String getCategory()
+        + Double getAmount()
     }
 }
 
@@ -33,7 +39,7 @@ abstract class "{abstract} \n Command" {
 }
 
 DeleteIncomeCommand --|> "{abstract} \n Command"
-DeleteIncomeCommand ..> UnfoundIncomeException : throws
+DeleteIncomeCommand ..> InvalidNumberFormatException : throws
 DeleteIncomeCommand ..> Income : uses
 DeleteIncomeCommand ..> ExpenseList : uses
 

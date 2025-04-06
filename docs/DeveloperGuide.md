@@ -492,8 +492,8 @@ filter-income date from/DD-MM-YYYY to/DD-MM-YYYY
 ### Deleting an Income Entry
 
 The `DeleteIncomeCommand` class extends the `Command` class and is responsible for processing the deletion of an income
-entry based on its category. If the specified income category is not found in the list of incomes,
-the command throws an exception (`UnfoundIncomeException`) to indicate the error.
+entry based on its Index. If the specified income index is not found in the list of incomes,
+the command throws an exception (`InvalidNumberFormatException`) to indicate the error.
 
 This class adheres to the Command design pattern, 
 where each command encapsulates a specific action (in this case, deleting an income entry).
@@ -517,11 +517,13 @@ where each command encapsulates a specific action (in this case, updating an inc
 
 Below is the Class Diagram of the `UpdateIncomeCommand` Class.
 
-![Delete Income Command Class Diagram](diagrams/UpdateIncomeCommandClass.png)
+![Update Income Command Class Diagram](diagrams/UpdateIncomeCommandClass.png)
 
 Below is the Command sequence of the `UpdateIncomeCommand` Class.
 
-![Delete Income Command Sequence](diagrams/UpdateIncomeCommandSequence.png)
+![Update Income Command Sequence](diagrams/UpdateIncomeCommandSequence.png)
+
+Below is the Command sequence of the `ParseInputAndValidateIndex` Ref Box. 
 
 ![Parse Input and Validate Index ](diagrams/ParseInputAndValidateIndex.png)
 
@@ -619,9 +621,9 @@ Below is the Command sequence of the reference box `IterateExpensesSequence`.
 ### Deleting an Expense Entry
 
 The `DeleteExpenseCommand` class extends the `Command` class and is responsible for processing
-the deletion of an expense entry based on its description.
-If the specified expense description is not found in the list of expenses,
-the command throws an exception (`UnfoundExpenseException`) to indicate the error.
+the deletion of an expense entry based on its Index.
+If the specified expense Index is not found in the list of expenses,
+the command throws an exception (`InvalidNumberFormatException`) to indicate the error.
 
 This class adheres to the Command design pattern, 
 where each command encapsulates a specific action (in this case, deleting an expense entry).
