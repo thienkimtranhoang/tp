@@ -29,7 +29,7 @@ public class LogExpenseCommand extends Command {
     private static final String ERROR_MISSING_EXPENSE_DESCRIPTION = "Error: Expense description is required.";
     private static final String ERROR_MISSING_EXPENSE_AMOUNT = "Error: Expense amount is required.";
     private static final String ERROR_MISSING_EXPENSE_DATE = "Error: Expense date is required.";
-    private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Income date is in wrong format. " +
+    private static final String ERROR_INCORRECT_EXPENSE_DATE = "Error: Expense date is in wrong format. " +
             "Please use DD-MM-YYYY format.";
     private static final String ERROR_INCORRECT_YEAR_FORMAT = "Error: Year must be exactly " +
             "4 digits in the format YYYY.";
