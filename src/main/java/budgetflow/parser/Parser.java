@@ -19,9 +19,10 @@ import budgetflow.command.UpdateExpenseCommand;
 import budgetflow.command.UpdateIncomeCommand;
 import budgetflow.command.ViewAllExpensesCommand;
 import budgetflow.exception.UnknownCommandException;
-
 import java.util.logging.Logger;
 
+//@@author thienkimtranhoang
+// Original Parser implementation
 //@@author IgoyAI
 // Modified: Updated "add" branch to accept "add" command without parameters.
 public class Parser {
@@ -48,7 +49,8 @@ public class Parser {
 
     private static final String ERROR_UNKNOWN_COMMAND = "Unknown command received: ";
 
-    public static Command getCommandFromInput(String input) throws UnknownCommandException {
+    public static Command getCommandFromInput(String input)
+            throws UnknownCommandException {
         logger.info("Processing command: " + input);
         String trimmedInput = input.trim();
         String[] tokens = trimmedInput.split("\\s+");
@@ -95,7 +97,8 @@ public class Parser {
             } else {
                 String secondToken = tokens[1];
                 // Split on "/" to extract the filter type.
-                String filterType = secondToken.contains("/") ? secondToken.split("/")[0] : secondToken;
+                String filterType = secondToken.contains("/")
+                        ? secondToken.split("/")[0] : secondToken;
                 if (filterType.equals(COMMAND_FILTER_INCOME_DATE)) {
                     return new FilterIncomeByDateCommand(input);
                 } else if (filterType.equals(COMMAND_FILTER_INCOME_AMOUNT)) {
