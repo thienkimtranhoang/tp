@@ -28,6 +28,8 @@ Filtered Incomes by Category (Salary):
 Salary | $1000.00 | 06-03-2025
 
 What would you like to do?
+Income updated: Salary, Amount: $2000.00, Date: 06-03-2025
+What would you like to do?
 Saving goal retrieved: 0.0
 Income deleted: Salary
 What would you like to do?
