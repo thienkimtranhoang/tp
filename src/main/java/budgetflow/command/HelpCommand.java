@@ -26,17 +26,13 @@ public class HelpCommand extends Command {
     private static final String RESET = "\u001B[0m";
     private static final String HELP_PATTERN = "help";
 
-    public HelpCommand(String input) {
-        super(input );
+    public HelpCommand() {
+        super();
         this.commandType = CommandType.READ;
     }
 
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException{
-
-        if(!Objects.equals(input.toLowerCase(), HELP_PATTERN)) {
-            throw new InvalidKeywordException("Invalid command. Did you mean 'help'?");
-        }
 
         StringBuilder helpMessage = new StringBuilder();
 
