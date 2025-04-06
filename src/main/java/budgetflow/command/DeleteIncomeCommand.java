@@ -45,7 +45,6 @@ public class DeleteIncomeCommand extends Command {
      *
      * @param incomes      The list of income entries.
      * @param expenseList  The list of expense entries (unused in this command but required for consistency).
-     * @throws UnfoundIncomeException If the specified income category is not found.
      */
     //@@author Yikbing
     @Override
