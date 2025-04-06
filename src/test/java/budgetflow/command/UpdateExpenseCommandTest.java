@@ -33,27 +33,33 @@ public class UpdateExpenseCommandTest {
     void updateExpense_invalidCategoryFormat() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Food#123");
         Exception exception = assertThrows(MissingCategoryException.class, () -> command.execute(incomes, expenseList));
-        assertEquals("Error: Invalid category. It must contain only alphanumeric characters.", exception.getMessage());
+        assertEquals("Error: Invalid category. It must contain only alphanumeric characters.",
+                exception.getMessage());
     }
 
     @Test
     void updateExpense_invalidDescriptionFormat() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 desc/Lunch!!!");
-        Exception exception = assertThrows(MissingDescriptionException.class, () -> command.execute(incomes, expenseList));
-        assertEquals("Error: Invalid description. It must contain only alphanumeric characters.", exception.getMessage());
+        Exception exception = assertThrows(MissingDescriptionException.class, () -> command.execute(incomes,
+                expenseList));
+        assertEquals("Error: Invalid description. It must contain only alphanumeric characters.",
+                exception.getMessage());
     }
 
     @Test
     void updateExpense_amountExceeds7Digits() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/10000000.00");
-        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes, expenseList));
-        assertEquals("Amount exceeds 7 digits. Please enter a number with up to 7 digits.", exception.getMessage());
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes,
+                expenseList));
+        assertEquals("Amount exceeds 7 digits. Please enter a number with up to 7 digits.", exception.
+                getMessage());
     }
 
     @Test
     void updateExpense_amountMoreThan2DecimalPlaces() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/10.123");
-        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes, expenseList));
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes,
+                expenseList));
         assertEquals("Amount must have at most 2 decimal places.", exception.getMessage());
     }
 
@@ -78,7 +84,8 @@ public class UpdateExpenseCommandTest {
 
     @Test
     void updateExpense_storageUpdateCalled() throws Exception {
-        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Entertainment amt/20.00");
+        UpdateExpenseCommand command = new UpdateExpenseCommand(
+                "update-expense 1 category/Entertainment amt/20.00");
         command.execute(incomes, expenseList);
 
         Expense updatedExpense = expenseList.get(0);
@@ -89,34 +96,39 @@ public class UpdateExpenseCommandTest {
     @Test
     void updateExpense_missingIndex() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense");
-        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes, expenseList));
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes,
+                expenseList));
         assertEquals("Error: Index is required.", exception.getMessage());
     }
 
     @Test
     void updateExpense_nonNumericIndex() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense abc category/Food");
-        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes, expenseList));
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes,
+                expenseList));
         assertEquals("Error: Index must be a number.", exception.getMessage());
     }
 
     @Test
     void updateExpense_indexOutOfBounds() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 5 category/Food");
-        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes, expenseList));
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes,
+                expenseList));
         assertEquals("Error: Expense entry not found.", exception.getMessage());
     }
     @Test
     void updateExpense_emptyExpenseList() {
         ExpenseList emptyExpenseList = new ExpenseList();
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Food");
-        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes, emptyExpenseList));
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes,
+                emptyExpenseList));
         assertEquals("Error: No expense entries exist to update.", exception.getMessage());
     }
 
     @Test
     void updateExpense_multipleValidUpdates() throws Exception {
-        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Entertainment desc/Movie amt/15.00 d/05-04-2024");
+        UpdateExpenseCommand command = new UpdateExpenseCommand(
+                "update-expense 1 category/Entertainment desc/Movie amt/15.00 d/05-04-2024");
         command.execute(incomes, expenseList);
         Expense updatedExpense = expenseList.get(0);
         assertEquals("Entertainment", updatedExpense.getCategory());
@@ -136,21 +148,27 @@ public class UpdateExpenseCommandTest {
     @Test
     void updateExpense_aboveMaxAmount() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/10000000.00");
-        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes, expenseList));
-        assertEquals("Amount exceeds 7 digits. Please enter a number with up to 7 digits.", exception.getMessage());
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes,
+                expenseList));
+        assertEquals("Amount exceeds 7 digits. Please enter a number with up to 7 digits.",
+                exception.getMessage());
     }
 
     @Test
     void updateExpense_multipleInvalidUpdates() {
-        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/@Home amt/-30.50 d/32-13-2024");
-        Exception exception = assertThrows(MissingCategoryException.class, () -> command.execute(incomes, expenseList));
-        assertEquals("Error: Invalid category. It must contain only alphanumeric characters.", exception.getMessage());
+        UpdateExpenseCommand command = new UpdateExpenseCommand(
+                "update-expense 1 category/@Home amt/-30.50 d/32-13-2024");
+        Exception exception = assertThrows(MissingCategoryException.class, () -> command.execute(incomes,
+                expenseList));
+        assertEquals("Error: Invalid category. It must contain only alphanumeric characters.",
+                exception.getMessage());
     }
 
     @Test
     void updateExpense_amountWithMoreThan2DecimalPlaces() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/25.123");
-        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes, expenseList));
+        Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes,
+                expenseList));
         assertEquals("Amount must have at most 2 decimal places.", exception.getMessage());
     }
 
@@ -192,7 +210,8 @@ public class UpdateExpenseCommandTest {
 
     @Test
     void updateExpense_multipleCategories() throws Exception {
-        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Transport category/Food");
+        UpdateExpenseCommand command = new UpdateExpenseCommand(
+                "update-expense 1 category/Transport category/Food");
         command.execute(incomes, expenseList);
         Expense updatedExpense = expenseList.get(0);
         assertEquals("Food", updatedExpense.getCategory());
@@ -208,9 +227,12 @@ public class UpdateExpenseCommandTest {
 
     @Test
     void updateExpense_invalidMultipleUpdates() {
-        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/50.00 category/Invalid#Category");
-        Exception exception = assertThrows(MissingCategoryException.class, () -> command.execute(incomes, expenseList));
-        assertEquals("Error: Invalid category. It must contain only alphanumeric characters.", exception.getMessage());
+        UpdateExpenseCommand command = new UpdateExpenseCommand(
+                "update-expense 1 amt/50.00 category/Invalid#Category");
+        Exception exception = assertThrows(MissingCategoryException.class, () -> command.execute(incomes,
+                expenseList));
+        assertEquals("Error: Invalid category. It must contain only alphanumeric characters.",
+                exception.getMessage());
     }
 
     @Test
@@ -226,8 +248,10 @@ public class UpdateExpenseCommandTest {
     @Test
     void updateExpense_invalidCategoryWithSymbol() {
         UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 category/Food#123");
-        Exception exception = assertThrows(MissingCategoryException.class, () -> command.execute(incomes, expenseList));
-        assertEquals("Error: Invalid category. It must contain only alphanumeric characters.", exception.getMessage());
+        Exception exception = assertThrows(MissingCategoryException.class, () -> command.execute(incomes,
+                expenseList));
+        assertEquals("Error: Invalid category. It must contain only alphanumeric characters.",
+                exception.getMessage());
     }
 
     @Test
@@ -236,5 +260,12 @@ public class UpdateExpenseCommandTest {
         command.execute(incomes, expenseList);
         Expense updatedExpense = expenseList.get(0);
         assertEquals(9999999.99, updatedExpense.getAmount());
+    }
+
+    @Test
+    void updateExpense_invalidDateFormat() {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 d/31-04-2024");
+        Exception exception = assertThrows(InvalidDateException.class, () -> command.execute(incomes, expenseList));
+        assertEquals("Error: Invalid date format. Usage: DD-MM-YYYY", exception.getMessage());
     }
 }
