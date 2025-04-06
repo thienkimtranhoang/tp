@@ -18,21 +18,43 @@ even compare monthly expenses at ease.
   * [Deleting an Income](#3-deleting-an-income)
   * [Deleting an Expense](#4-deleting-an-expense)
   * [Comparing two Monthly Expenses](#5-comparing-two-monthly-expenses-)
-  * [Updating an Income](#6-updating-an-income)
-  * [Setting a Savings Goal](#7-setting-a-savings-goal)
-  * [Viewing all expenses](#8-viewing-all-expenses)
-  * [Filtering expenses](#9-filtering-expenses)
-    * [Filtering expenses based on category](#91-filtering-expenses-based-on-category)
-    * [Filtering expenses based on description](#92-filtering-expenses-based-on-description)
-    * [Filtering expenses based on amount](#93-filtering-expenses-based-on-amount)
-    * [Filtering expenses based on amount range](#94-filtering-expenses-based-on-amount-range)
-    * [Filtering expenses based on date](#95-filtering-expenses-based-on-date)
-    * [Filtering expenses based on date range](#96-filtering-expenses-based-on-date-range)
-  * [Exiting the Application](#10-exiting-the-application)
-  * [help](#16-help)
+  * [Adding an Income](#6-adding-an-income)
+  * [Updating an Income](#7-updating-an-income-)
+  * [Setting a Savings Goal](#8-setting-a-savings-goal)
+  * [Viewing all expenses](#9-viewing-all-expenses)
+  * [Filtering expenses](#10-filtering-expenses)
+    * [Filtering expenses based on category](#101-filtering-expenses-based-on-category)
+    * [Filtering expenses based on description](#102-filtering-expenses-based-on-description)
+    * [Filtering expenses based on amount](#103-filtering-expenses-based-on-amount)
+    * [Filtering expenses based on amount range](#104-filtering-expenses-based-on-amount-range)
+    * [Filtering expenses based on date](#105-filtering-expenses-based-on-date)
+    * [Filtering expenses based on date range](#106-filtering-expenses-based-on-date-range)
+  * [Listing Income](#11-listing-income)
+  * [Filter Income](#12-filtering-incomes)
+    * [Filtering Income by Category](#121-filtering-income-by-category)
+    * [Filtering Income by Amount](#122-filtering-income-by-amount)
+    * [Filtering Income by Amount Range](#123-filtering-income-by-amount-range)
+    * [Filtering Income by Date](#124-filtering-income-by-date)
+  * [Exiting the Application](#13-exiting-the-application)
+  * [help](#14-help)
 * [FAQ](#faq)
 * [Command Summary](#command-summary)
 ---
+
+Notes about the command format:
+* When entering commands in the system, please ensure you include a space between each parameter.
+  Example of incorrect format:
+  ```add category/1amt/1.125456789 d/11-11-2025```
+  Example of correct format:
+ ```add category/1amt 1.125456789 d/11-11-2025```
+This note applies to all commands. The above is an example of add income command.
+  The system expects space separation between the category parameter, amount value, and date parameter. Without proper spacing, the system may misinterpret your input or generate unexpected results.
+* For all commands involving monetary amounts (e.g., income or expense entries), the following rules apply:
+✅ The integer part of the amount must not exceed 7 digits.
+✅ The decimal part must not exceed 2 digits (i.e., cents).
+These constraints reflect realistic daily usage for students, the primary target users of this application. As such, it is unlikely that users would need to record transactions involving more than 7 digits, and dollar amounts conventionally support up to 2 decimal places.
+* This app is meant for users who prefer to type in CLI-command in English. For other language characters, the chatbot may not be able to parse them. 
+
 ## Features
 
 ### 1. Logging an Expense
@@ -58,13 +80,17 @@ Expense logged: Coffee | Coffee | $3.50 | 06-03-2025
 **Description:** Updates an instance of an Expense entry.  
 **How it works:** The user only has to write the index and the part they would like to update.  
 For example, if the user only wants to update the amount, they can run:
+
 ```plaintext
 update-expense INDEX amt/[UPDATED_AMOUNT]
 ```
+
 if user only wants to update the category and amount, they can run:
+
 ```plaintext
 update-expense INDEX amt/[UPDATED_AMOUNT] category/[UPDATED_CATEGORY]
 ```
+
 Note: `amount`, `category`, `date` and `description` can be in any order
 
 **Input:**
@@ -154,7 +180,7 @@ Income added: Salary, Amount: $2000.00, Date: 06-03-2025
 
 ---
 
-### 7. Updating an Income (Not expense)
+### 7. Updating an Income 
 **Description:** Updates an instance of an Income entry.  
 **How it works** The user only has to write the Index and the thing that the user would like to update (note: need spacing between each part).  
 E.g. If the user only wants to update the amt, he can run `update-income INDEX amt/[UPDATED_AMOUNT]`  
@@ -172,20 +198,19 @@ update-income [INDEX] category/[UPDATED_CATEGORY], amt/[UPDATED_AMOUNT] d/[UPDAT
 Income updated: [UPDATED_CATEGORY], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DATE]
 ```
 
----
 ### 8. Setting a Savings Goal
 **Description:** Sets a savings goal with a specified amount and optional target date.  
 **Command:**
 ```plaintext
-set-saving-goal amt/<GOAL_AMOUNT> 
+set-saving-goal <GOAL_AMOUNT> 
 ```
 **Example:**
 ```plaintext
-set-saving-goal amt/5000
+set-saving-goal 100000
 ```
 **Output:**
 ```plaintext
-Savings goal set: $5000 by 31-12-2025.
+Saving goal set to: $100000.00
 ```
 ---
 
@@ -394,141 +419,134 @@ Freelance | Website Development | $500.00 | 05-04-2025
 
 ---
 
-### 12. Filtering Income by Category
+### 12. Filtering incomes
+**Overview:** Filters incomes based the keyword and given condition.
 
+#### 12.1 Filtering income by Category
 **Description:** Filters all income entries that exactly match the provided category keyword.
 
 **Command:**
 
 ```plaintext
-find-income /category <CATEGORY>
+filter-income category/category
 ```
-
-- tag `/category` indicates filtering by category.
-- keyword `<CATEGORY>` contains the name of the category for filtering.
-- **NOTE**: the tag and keywords are **CASE SENSITIVE**.
-
+- Tag category/ specifies the category for filtering.
+- Tag and keyword are CASE INSENSITIVE.
+- The keyword <category> must not be empty.
+- 
 **Output:**
 
 ```plaintext
-Here are all matching income entries:
-[INFORMATION OF MATCHING INCOME ENTRIES]
+Filtered Incomes by Category: <category>
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+[Matching income entries displayed here]
+
+If no entries match, the output will be:
+No incomes found under the specified category.
 ```
 
 **Example:**
 
 ```plaintext
-find-income /category Salary
-Here are all matching income entries:
-Salary | Monthly Salary | $3000.00 | 01-04-2025
+filter-income category/Salary
+
+Filtered Incomes by Category: Salary
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+Salary               | $3000.00   | 01-04-2025   
 ---
 ```
 
 ---
 
-### 13. Filtering Income by Amount
+#### 12.2 Filtering Income by Amount
 
-**Description:** Filters all income entries matching the specified amount.
+**Description:** Filters income entries within a specified amount range.
 
 **Command:**
 
 ```plaintext
-find-income /amt <AMT>
+filter-income amount from/<minAmount> to/<maxAmount>
 ```
-
-- tag `/amt` indicates filtering by amount.
-- keyword `<AMT>` contains the specific amount value.
-- **NOTE**:
-  - the tag is **CASE SENSITIVE**.
-  - Value of `<AMT>` must be a valid integer or decimal number with digit before dot. Invalid examples: `string`, `.12`, `5..6`.
+- Tag from/ specifies the minimum amount.
+- Tag to/ specifies the maximum amount.
+- Both tags and values are CASE SENSITIVE.
+- Values must be valid integers or decimal numbers, starting with a digit (valid: 100, 500.50; invalid: string, .50, 3..2).
+- The minimum amount must be less than or equal to the maximum amount.
 
 **Output:**
 
 ```plaintext
-Here are all matching income entries:
-[INFORMATION OF MATCHING INCOME ENTRIES]
+Filtered Incomes by Amount Range: <minAmount> to <maxAmount>
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+[Matching income entries displayed here]
+
+If no entries match, the output will be:
+No incomes found in the specified amount range.
 ```
 
 **Example:**
 
 ```plaintext
-find-income /amt 500.00
-Here are all matching income entries:
-Freelance | Website Development | $500.00 | 05-04-2025
+filter-income amount from/100.00 to/1000.00
+
+Filtered Incomes by Amount Range: 100.00 to 1000.00
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+Freelance            | $500.00    | 05-04-2025     
+Salary               | $900.00    | 01-04-2025     
 ---
 ```
 
 ---
 
-### 14. Filtering Income by Amount Range
+### 14. Filtering Income by Date
 
-**Description:** Filters all income entries with amount values within a specified range.
+**Description:** Filters income entries within a specified date range.
 
 **Command:**
 
 ```plaintext
-find-income /amtrange <AMT1> <AMT2>
+filter-income date from/DD-MM-YYYY to/DD-MM-YYYY
 ```
-
-- tag `/amtrange` indicates filtering by amount range.
-- keywords `<AMT1>` and `<AMT2>` represent the range for filtering.
-  - `<AMT1>`: Lower bound of the range.
-  - `<AMT2>`: Upper bound of the range.
-- **NOTE**:
-  - the tag is **CASE SENSITIVE**.
-  - Values of `<AMT1>` and `<AMT2>` must be valid integers or decimals with digit before dot. Invalid examples: `string`, `.12`, `5..6`.
-  - `<AMT1>` and `<AMT2>` must be separated by at least one space ` `.
+- Tag from/ specifies the start date of the range.
+- Tag to/ specifies the end date of the range.
+- Both tags and date values are CASE SENSITIVE.
+- Dates must follow the format DD-MM-YYYY and must be valid calendar dates (valid: 01-01-2025; invalid: 31-02-2025, string, 12/12/2025).
+- The start date must be earlier than or equal to the end date.
 
 **Output:**
 
 ```plaintext
-Here are all matching income entries:
-[INFORMATION OF MATCHING INCOME ENTRIES]
+Output:
+
+Filtered Incomes by Date: <fromDate> to <toDate>
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+[Matching income entries displayed here]
+
+If no entries match, the output will be:
+No incomes found in the specified date range. 
 ```
 
 **Example:**
 
 ```plaintext
-find-income /amtrange 400.00 3000.00
-Here are all matching income entries:
-Salary | Monthly Salary | $3000.00 | 01-04-2025
-Freelance | Website Development | $500.00 | 05-04-2025
+Filtered Incomes by Date (01-03-2025 to 31-03-2025)
+
+Category             | Amount     | Date           
+---------------------+------------+----------------
+Salary               | $1000.00   | 06-03-2025     
 ---
 ```
 
----
-
-### 15. Filtering Income by Date
-
-**Description:** Filters all income entries recorded on a specific date.
-
-**Command:**
-
-```plaintext
-find-income /date <DATE>
-```
-
-- tag `/date` indicates filtering by date.
-- keyword `<DATE>` must follow the format `DD-MM-YYYY`.
-- **NOTE**:
-  - the tag is **CASE SENSITIVE**.
-  - Date must be valid. Invalid examples: `31-02-2025`, `string`, `12/12/2025`.
-
-**Output:**
-
-```plaintext
-Here are all matching income entries:
-[INFORMATION OF MATCHING INCOME ENTRIES]
-```
-
-**Example:**
-
-```plaintext
-find-income /date 01-04-2025
-Here are all matching income entries:
-Salary | Monthly Salary | $3000.00 | 01-04-2025
----
-```
 ### 16. Exiting the Application
 **Description:** Safely exits the BudgetFlow application.  
 **Command:**
@@ -537,10 +555,13 @@ exit
 ```
 **Output:**
 ```plaintext
-Goodbye!
+============================================================
+              Thank you for using Budgetflow!
+                          Goodbye!
+============================================================
 ```
 
-### 17. help
+### 14. help
 **Description:** The `help` Command provides users with a comprehensive list of all available commands 
 and their syntax for managing incomes and expenses within the budget management system.
 **Command:**
@@ -563,7 +584,6 @@ A: Yes! You can use the `update-expense` or `delete-expense` commands to modify 
 ---
 
 ## Command Summary
-
 | **Command**                                                                                                           | **Description**                                                          |
 |-----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
 | `add category/<CATEGORY> amt/<AMOUNT> d/<DATE>`                                                                       | Adds an income entry with the specified category, amount, and date.      |
@@ -586,3 +606,4 @@ A: Yes! You can use the `update-expense` or `delete-expense` commands to modify 
 | `compare <Month1> <Month2>`                                                                                           | Compares total expenses between `<Month1>` and `<Month2>`.               | 
 | `exit`                                                                                                                | Exits the application safely.                                            |
 | `help`                                                                                                                | Displays a comprehensive list of all commands                            |
+

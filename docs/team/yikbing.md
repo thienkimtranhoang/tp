@@ -29,8 +29,8 @@ filter them by category or date, and analyze their financial habits. It is writt
   the description of the features given in the help function. 
 
 * __New Feature:__ Added a DateValidator method:
-  * What it does: This method allows the program to be able to accurately identify whether the dates entered by the
-  user is a valid date so that all dates that are inside the program is a valid date.
+    * What it does: This method allows the program to be able to accurately identify whether the dates entered by the
+      user is a valid date so that all dates that are inside the program is a valid date.
 
 * __Enhancements to existing features:__
   * Fix bugs for `delete-income` and `delete-expense` to change the methods to delete based on index 

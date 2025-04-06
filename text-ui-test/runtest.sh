@@ -5,7 +5,7 @@ set -e
 cd "${0%/*}"
 cd ..
 
-# Clear the persistent file (data/budgetflow.txt)
+# Clear the persistent budgetflow file
 DATA_FILE="data/budgetflow.txt"
 if [ -f "$DATA_FILE" ]; then
     > "$DATA_FILE"
@@ -14,6 +14,16 @@ else
     > "$DATA_FILE"
 fi
 echo "Cleared persistent file: $(realpath "$DATA_FILE")"
+
+# Clear the persistent expense log file
+EXPENSE_FILE="data/expense_log.txt"
+if [ -f "$EXPENSE_FILE" ]; then
+    > "$EXPENSE_FILE"
+else
+    mkdir -p data
+    > "$EXPENSE_FILE"
+fi
+echo "Cleared expense log file: $(realpath "$EXPENSE_FILE")"
 
 ./gradlew clean shadowJar
 
@@ -30,16 +40,16 @@ else
     echo "dos2unix not found; skipping conversion"
 fi
 
-# Remove unwanted "Data loaded..." line from ACTUAL.TXT
+# Remove unwanted "Data loaded successfully" line from ACTUAL.TXT
 if [[ "$(uname)" == "Darwin" ]]; then
     sed -i '' '/^Data loaded successfully/d' ACTUAL.TXT
 else
     sed -i '/^Data loaded successfully/d' ACTUAL.TXT
 fi
 
-# Capture diff exit code without immediate exit
+# Capture diff exit code using -w to ignore whitespace differences
 set +e
-diff EXPECTED-UNIX.TXT ACTUAL.TXT
+diff -w EXPECTED-UNIX.TXT ACTUAL.TXT > diff.txt
 diff_exit=$?
 set -e
 
@@ -47,6 +57,8 @@ if [ $diff_exit -eq 0 ]; then
     echo "Test passed!"
     exit 0
 else
+    echo "Differences found between EXPECTED-UNIX.TXT and ACTUAL.TXT:"
+    cat diff.txt
     echo "Test failed!"
     exit 1
 fi

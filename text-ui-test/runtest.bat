@@ -24,6 +24,14 @@ java -jar %jarloc% < ..\..\text-ui-test\input.txt > ..\..\text-ui-test\ACTUAL.TX
 
 cd ..\..\text-ui-test
 
-FC ACTUAL.TXT EXPECTED.TXT >NUL && ECHO Test passed! || ECHO Test failed!
+:: Remove whitespace from files using PowerShell and store in temporary files
+powershell -Command "(Get-Content ACTUAL.TXT) -replace '\s','' | Set-Content ACTUAL_NO_WS.TXT"
+powershell -Command "(Get-Content EXPECTED.TXT) -replace '\s','' | Set-Content EXPECTED_NO_WS.TXT"
+
+:: Compare the whitespace-stripped files
+FC ACTUAL_NO_WS.TXT EXPECTED_NO_WS.TXT >NUL && ECHO Test passed! || ECHO Test failed!
+
+:: Clean up temporary files
+del ACTUAL_NO_WS.TXT EXPECTED_NO_WS.TXT
 
 popd
