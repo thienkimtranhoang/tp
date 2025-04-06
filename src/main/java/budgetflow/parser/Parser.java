@@ -22,6 +22,8 @@ import budgetflow.exception.UnknownCommandException;
 
 import java.util.logging.Logger;
 
+//@@author IgoyAI
+// Modified: Updated "add" branch to accept "add" command without parameters.
 public class Parser {
     private static final Logger logger = Logger.getLogger(Parser.class.getName());
 
@@ -54,10 +56,8 @@ public class Parser {
 
         switch (firstToken) {
         case "add":
-            if (trimmedInput.startsWith(COMMAND_ADD_INCOME)) {
-                return new AddIncomeCommand(input);
-            }
-            break;
+            // Modified by IgoyAI: Accept "add" command even when no parameters are given.
+            return new AddIncomeCommand(input);
         case "set-saving-goal":
             return new SetSavingGoalCommand(input);
         case "log-expense":
@@ -94,7 +94,7 @@ public class Parser {
                 return new FilterIncomeCommand(input);
             } else {
                 String secondToken = tokens[1];
-                // Split on "/" to extract the filter type
+                // Split on "/" to extract the filter type.
                 String filterType = secondToken.contains("/") ? secondToken.split("/")[0] : secondToken;
                 if (filterType.equals(COMMAND_FILTER_INCOME_DATE)) {
                     return new FilterIncomeByDateCommand(input);
