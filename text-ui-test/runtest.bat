@@ -5,7 +5,7 @@ pushd %~dp0
 cd ..
 
 :: Clear the persistent file (data\budgetflow.txt)
-if exist data\budgetflow.txt (
+if exist text-ui-test\data\budgetflow.txt (
     type nul > data\budgetflow.txt
 ) else (
     mkdir data

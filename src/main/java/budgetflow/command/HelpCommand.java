@@ -15,7 +15,7 @@ import java.util.Objects;
  * Represents the Help Command which provides detailed instructions on how to use Budgetflow.
  * <p>
  * The help menu is structured into sections and displays the command syntax along with examples.
- * It is designed to be clear, comprehensive, and easy to read.
+ * It is designed to be clear, comprehensive, and easy to reads.
  *
  * @author IgoyAI
  * @author Yikbing
