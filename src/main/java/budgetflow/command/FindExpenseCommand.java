@@ -24,14 +24,13 @@ import static budgetflow.parser.DateValidator.isValidDate;
  */
 public class FindExpenseCommand extends Command {
     private static final String AMT_PATTERN = "\\d{1,7}(\\.\\d{1,2})?";
-    private static final String DATE_PATTERN = "\\d{2}-\\d{2}-\\d{4}";
     private static final Logger logger = Logger.getLogger(FindExpenseCommand.class.getName());
-    private static final String COMMAND_FIND_EXPENSE = "find-expense";
+    private static final String COMMAND_FIND_EXPENSE = "filter-expense";
     private static final String ERROR_UNFOUNDED_KEYWORD = "Sorry, I cannot find any expenses matching your keyword: ";
     private static final String MATCHING_EXPENSES_MESSAGE = "Here are all matching expenses:";
 
     private static final Pattern COMMAND_PATTERN = Pattern.compile(
-            "find-expense\s+(/desc|/d|/amt|/category|/amtrange|/drange)\s+(.+)");
+            "filter-expense\s+(/desc|/d|/amt|/category|/amtrange|/drange)\s+(.+)");
     private static final String ERROR_INVALID_KEYWORD_FORMAT = "Please enter correct keyword format for tag ";
     private static final String WARMING_NO_TAG = "Invalid or missing tag in find-expense command";
     private static final String WARMING_NO_KEYWORD = "Missing keyword in find-expense command";
@@ -49,7 +48,7 @@ public class FindExpenseCommand extends Command {
     private static final int END_AMT_PART = 1;
     private static final int START_DATE_PART = 0;
     private static final int END_DATE_PART = 1;
-    public static final String COMMAND_TAG_PATTERN = "find-expense\\s+(/desc|/d|/amt|/category|/amtrange|/drange).*";
+    public static final String COMMAND_TAG_PATTERN = "filter-expense\\s+(/desc|/d|/amt|/category|/amtrange|/drange).*";
     private static final String ERROR_INVALID_OR_MISSING_TAG = "I cannot recognise your finding condition. " +
             "Please use valid tags for finding expenses: /desc, /d, /amt, /category, /amtrange, /drange";
     private static final String ERROR_MISSING_KEYWORD = "Sorry, please enter the finding keyword after your tag";

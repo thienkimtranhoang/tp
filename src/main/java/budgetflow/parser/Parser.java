@@ -37,8 +37,8 @@ public class Parser {
     private static final String COMMAND_DELETE_INCOME = "delete-income";
     private static final String COMMAND_LIST_INCOME = "list income";
     private static final String COMMAND_DELETE_EXPENSE = "delete-expense";
-    private static final String COMMAND_VIEW_ALL_EXPENSES = "view-all-expense";
-    private static final String COMMAND_FIND_EXPENSE = "find-expense";
+    private static final String COMMAND_VIEW_ALL_EXPENSES = "list-expense";
+    private static final String COMMAND_FIND_EXPENSE = "filter-expense";
     private static final String COMMAND_EXIT = "exit";
     private static final String COMMAND_COMPARE = "compare";
     private static final String COMMAND_UPDATE_EXPENSE = "update-expense";
