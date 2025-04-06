@@ -17,12 +17,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.logging.Logger;
 
+/**
+ * Command to update an existing expense entry.
+ * This command extracts and updates specified attributes of an expense entry
+ * such as category, description, amount, and date.
+ */
 public class UpdateExpenseCommand extends Command {
     public static final String CATEGORY_REGEX = "^[a-zA-Z0-9]+$";
     public static final String DESCRIPTION_REGEX = "^[a-zA-Z0-9]+$";
     public static final int MAX_DIGITS = 7;
     public static final int MAX_DECIMAL_PLACES = 2;
 
+    /** Logger for tracking updates. */
     private static final Logger logger = Logger.getLogger(UpdateExpenseCommand.class.getName());
 
     private static final String UPDATE_EXPENSE_COMMAND_PREFIX = "update-expense ";
@@ -51,11 +57,28 @@ public class UpdateExpenseCommand extends Command {
     private static final int MINIMUM_INDEX = 0;
     private static final int UPDATE_PARAMETER_GROUP = 1;
 
+    /**
+     * Constructs an UpdateExpenseCommand with the given input.
+     *
+     * @param input The command input string.
+     */
     public UpdateExpenseCommand(String input) {
         super(input);
         this.commandType = CommandType.UPDATE;
     }
 
+    /**
+     * Executes the command by updating an expense entry in the list.
+     *
+     * @param incomes      List of incomes (not used in this command but required by signature).
+     * @param expenseList  List of expenses where the update will be performed.
+     * @throws MissingDateException If the date is missing.
+     * @throws InvalidNumberFormatException If an invalid number format is found.
+     * @throws MissingAmountException If the amount is missing.
+     * @throws MissingCategoryException If the category is missing.
+     * @throws MissingDescriptionException If the description is missing.
+     * @throws InvalidDateException If the date format is invalid.
+     */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList)
             throws MissingDateException, InvalidNumberFormatException, MissingAmountException,
@@ -105,11 +128,23 @@ public class UpdateExpenseCommand extends Command {
         logger.info("Expense updated successfully: " + existingExpense);
     }
 
+    /**
+     * Saves the updated expense list to storage.
+     *
+     * @param incomes List of incomes.
+     * @param expenseList List of expenses.
+     */
     private static void updateStorage(List<Income> incomes, ExpenseList expenseList) {
         Storage storage = new Storage();
         storage.saveData(incomes, expenseList);
     }
 
+    /**
+     * Extracts and applies updated attributes to an existing expense entry.
+     *
+     * @param input The input string containing updated fields.
+     * @param existingExpense The expense entry to update.
+     */
     private void extractUpdatedExpense(String input, Expense existingExpense)
             throws MissingAmountException, MissingDateException, MissingCategoryException, MissingDescriptionException,
             InvalidDateException, InvalidNumberFormatException {
@@ -120,6 +155,14 @@ public class UpdateExpenseCommand extends Command {
         existingExpense.setDate(getUpdatedDate(input, existingExpense.getDate()));
     }
 
+    /**
+     * Extracts the updated category from input.
+     *
+     * @param input The input string containing category update.
+     * @param currentCategory The current category of the expense.
+     * @return The updated category.
+     * @throws MissingCategoryException If the category is missing or invalid.
+     */
     private static String getUpdatedCategory(String input, String currentCategory)
             throws MissingCategoryException {
         // Matcher for the category in the input
@@ -144,6 +187,14 @@ public class UpdateExpenseCommand extends Command {
         return currentCategory;  // Return current category if valid
     }
 
+    /**
+     * Extracts the updated description from input.
+     *
+     * @param input The input string containing description update.
+     * @param currentDescription The current description of the expense.
+     * @return The updated description.
+     * @throws MissingDescriptionException If the description is missing or invalid.
+     */
     private static String getUpdatedDescription(String input, String currentDescription)
             throws MissingDescriptionException {
         Matcher matcher = DESC_PATTERN.matcher(input);
@@ -166,19 +217,47 @@ public class UpdateExpenseCommand extends Command {
         return currentDescription;
     }
 
+    /**
+     * Extracts and validates the updated date from the input string.
+     * If a valid date is found, it is returned. Otherwise, the current date is retained.
+     *
+     * @param input       The user input containing potential date update.
+     * @param currentDate The current date of the expense.
+     * @return The updated date if found and valid, otherwise the current date.
+     * @throws InvalidDateException If the extracted date is in an invalid format.
+     */
     private static String getUpdatedDate(String input, String currentDate)
             throws InvalidDateException {
         Matcher matcher = DATE_PATTERN.matcher(input);
         if (matcher.find()) {
             String extractedDate = matcher.group(UPDATE_PARAMETER_GROUP).trim();
+
+            // Ensure extracted date follows the correct DD-MM-YYYY format strictly
+            if (!extractedDate.matches("\\d{2}-\\d{2}-\\d{4}")) {
+                throw new InvalidDateException(ERROR_WRONG_DATE_FORMAT);
+            }
+
+            // Validate if the date itself is valid (e.g., not 32-13-9999)
             if (!DateValidator.isValidDate(extractedDate)) {
                 throw new InvalidDateException(ERROR_WRONG_DATE_FORMAT);
             }
             return extractedDate;
         }
-        return currentDate;
+
+        // Throw an exception if the date is missing from the input
+        throw new InvalidDateException(ERROR_WRONG_DATE_FORMAT);
     }
 
+    /**
+     * Extracts and validates the updated amount from the input string.
+     * If a valid amount is found, it is returned. Otherwise, the current amount is retained.
+     *
+     * @param input         The user input containing potential amount update.
+     * @param currentAmount The current amount of the expense.
+     * @return The updated amount if found and valid, otherwise the current amount.
+     * @throws InvalidNumberFormatException If the extracted amount is not a valid number, exceeds
+     *                                      the maximum number of digits, or has too many decimal places.
+     */
     private static Double getUpdatedAmount(String input, Double currentAmount)
             throws InvalidNumberFormatException {
         Matcher matcher = AMT_PATTERN.matcher(input);

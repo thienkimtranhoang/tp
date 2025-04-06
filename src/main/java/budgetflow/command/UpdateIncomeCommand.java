@@ -261,4 +261,3 @@ public class UpdateIncomeCommand extends Command {
         return category;
     }
 }
-
