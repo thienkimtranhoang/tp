@@ -1,30 +1,10 @@
 package budgetflow.parser;
 
-import budgetflow.command.AddIncomeCommand;
-import budgetflow.command.Command;
-import budgetflow.command.CompareExpenseCommand;
-import budgetflow.command.DeleteExpenseCommand;
-import budgetflow.command.DeleteIncomeCommand;
-import budgetflow.command.ExitCommand;
-import budgetflow.command.FilterIncomeByAmountCommand;
-import budgetflow.command.FilterIncomeByCategoryCommand;
-import budgetflow.command.FilterIncomeByDateCommand;
-import budgetflow.command.FilterIncomeCommand;
-import budgetflow.command.FindExpenseCommand;
-import budgetflow.command.HelpCommand;
-import budgetflow.command.ListIncomeCommand;
-import budgetflow.command.LogExpenseCommand;
-import budgetflow.command.SetSavingGoalCommand;
-import budgetflow.command.UpdateExpenseCommand;
-import budgetflow.command.UpdateIncomeCommand;
-import budgetflow.command.ViewAllExpensesCommand;
+import budgetflow.command.*;
 import budgetflow.exception.UnknownCommandException;
+
 import java.util.logging.Logger;
 
-//@@author thienkimtranhoang
-// Original Parser implementation
-//@@author IgoyAI
-// Modified: Updated "add" branch to accept "add" command without parameters.
 /**
  * Parses the user's input and extracts the corresponding command.
  *
@@ -73,11 +53,6 @@ public class Parser {
         case "add":
             // Modified by IgoyAI: Accept "add" command even when no parameters are given.
             return new AddIncomeCommand(input);
-        case "set-saving-goal":
-            if (trimmedInput.startsWith(COMMAND_ADD_INCOME)) {
-                return new AddIncomeCommand(input);
-            }
-            break;
         case COMMAND_SET_SAVING_GOAL:
             return new SetSavingGoalCommand(input);
         case COMMAND_LOG_EXPENSE:
@@ -115,8 +90,7 @@ public class Parser {
             } else {
                 String secondToken = tokens[1];
                 // Split on "/" to extract the filter type.
-                String filterType = secondToken.contains("/")
-                        ? secondToken.split("/")[0] : secondToken;
+                String filterType = secondToken.contains("/") ? secondToken.split("/")[0] : secondToken;
                 if (filterType.equals(COMMAND_FILTER_INCOME_DATE)) {
                     return new FilterIncomeByDateCommand(input);
                 } else if (filterType.equals(COMMAND_FILTER_INCOME_AMOUNT)) {

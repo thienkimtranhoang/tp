@@ -9,8 +9,7 @@ import java.util.logging.Logger;
  * Command to set a saving goal for the budget application.
  */
 public class SetSavingGoalCommand extends Command {
-    private static final Logger logger = Logger.getLogger(
-            SetSavingGoalCommand.class.getName());
+    private static final Logger logger = Logger.getLogger(SetSavingGoalCommand.class.getName());
     private double savingGoalAmount;
 
     /**
@@ -33,8 +32,7 @@ public class SetSavingGoalCommand extends Command {
             }
             this.savingGoalAmount = Double.parseDouble(amountStr);
             if (this.savingGoalAmount < 0) {
-                throw new IllegalArgumentException(
-                        "Saving goal amount cannot be negative");
+                throw new IllegalArgumentException("Saving goal amount cannot be negative");
             }
             ListIncomeCommand.setSavingGoal(this.savingGoalAmount);
         } catch (IllegalArgumentException e) {
@@ -52,8 +50,12 @@ public class SetSavingGoalCommand extends Command {
      */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
-        this.outputMessage = "Saving goal set to: $" +
-                String.format("%.2f", savingGoalAmount);
+        // If an error message is already set (by the constructor), do not override it.
+        if (this.outputMessage != null) {
+            logger.info("Saving goal error: " + this.outputMessage);
+            return;
+        }
+        this.outputMessage = "Saving goal set to: $" + String.format("%.2f", savingGoalAmount);
         logger.info("Saving goal set to: " + savingGoalAmount);
     }
 

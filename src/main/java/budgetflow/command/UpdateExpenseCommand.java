@@ -1,21 +1,16 @@
 package budgetflow.command;
 
-import budgetflow.exception.InvalidDateException;
-import budgetflow.exception.InvalidNumberFormatException;
-import budgetflow.exception.MissingAmountException;
-import budgetflow.exception.MissingDateException;
-import budgetflow.exception.MissingCategoryException;
-import budgetflow.exception.MissingDescriptionException;
+import budgetflow.exception.*;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
-import budgetflow.storage.Storage;
 import budgetflow.parser.DateValidator;
+import budgetflow.storage.Storage;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.logging.Logger;
 
 /**
  * Command to update an existing expense entry.
@@ -28,7 +23,9 @@ public class UpdateExpenseCommand extends Command {
     public static final int MAX_DIGITS = 7;
     public static final int MAX_DECIMAL_PLACES = 2;
 
-    /** Logger for tracking updates. */
+    /**
+     * Logger for tracking updates.
+     */
     private static final Logger logger = Logger.getLogger(UpdateExpenseCommand.class.getName());
 
     private static final String UPDATE_EXPENSE_COMMAND_PREFIX = "update-expense ";
@@ -68,67 +65,6 @@ public class UpdateExpenseCommand extends Command {
     }
 
     /**
-     * Executes the command by updating an expense entry in the list.
-     *
-     * @param incomes      List of incomes (not used in this command but required by signature).
-     * @param expenseList  List of expenses where the update will be performed.
-     * @throws MissingDateException If the date is missing.
-     * @throws InvalidNumberFormatException If an invalid number format is found.
-     * @throws MissingAmountException If the amount is missing.
-     * @throws MissingCategoryException If the category is missing.
-     * @throws MissingDescriptionException If the description is missing.
-     * @throws InvalidDateException If the date format is invalid.
-     */
-    @Override
-    public void execute(List<Income> incomes, ExpenseList expenseList)
-            throws MissingDateException, InvalidNumberFormatException, MissingAmountException,
-            MissingCategoryException, MissingDescriptionException, InvalidDateException {
-
-        if (input.length() <= UPDATE_EXPENSE_COMMAND_PREFIX_LENGTH) {
-            throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
-        }
-
-        String commandArgs = input.substring(UPDATE_EXPENSE_COMMAND_PREFIX_LENGTH).trim();
-        if (commandArgs.isEmpty()) {
-            throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
-        }
-
-        String[] parts = commandArgs.split(EMPTY_SPACE, 2);
-        if (parts.length < 1) {
-            throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
-        }
-
-        if (expenseList.getSize() == MINIMUM_INDEX) {
-            throw new InvalidNumberFormatException(ERROR_EMPTY_EXPENSE_LIST);
-        }
-
-        int index;
-        try {
-            index = Integer.parseInt(parts[0]) - 1;
-        } catch (NumberFormatException e) {
-            throw new InvalidNumberFormatException(ERROR_WRONG_INDEX_FORMAT);
-        }
-
-        if (index < MINIMUM_INDEX || index >= expenseList.getSize()) {
-            throw new InvalidNumberFormatException(ERROR_EXPENSE_ENTRY_NOT_FOUND);
-        }
-
-        Expense existingExpense = expenseList.get(index);
-
-        if (parts.length > 1) {
-            extractUpdatedExpense(parts[1], existingExpense);
-        }
-
-        expenseList.updateTotalExpenses();
-        updateStorage(incomes, expenseList);
-
-        this.outputMessage = "Expense updated: " + existingExpense.getCategory() + ", Description: " +
-                existingExpense.getDescription() + ", Amount: $" + String.format("%.2f", existingExpense.getAmount()) +
-                ", Date: " + existingExpense.getDate();
-        logger.info("Expense updated successfully: " + existingExpense);
-    }
-
-    /**
      * Saves the updated expense list to storage.
      *
      * @param incomes List of incomes.
@@ -137,22 +73,6 @@ public class UpdateExpenseCommand extends Command {
     private static void updateStorage(List<Income> incomes, ExpenseList expenseList) {
         Storage storage = new Storage();
         storage.saveData(incomes, expenseList);
-    }
-
-    /**
-     * Extracts and applies updated attributes to an existing expense entry.
-     *
-     * @param input The input string containing updated fields.
-     * @param existingExpense The expense entry to update.
-     */
-    private void extractUpdatedExpense(String input, Expense existingExpense)
-            throws MissingAmountException, MissingDateException, MissingCategoryException, MissingDescriptionException,
-            InvalidDateException, InvalidNumberFormatException {
-
-        existingExpense.setCategory(getUpdatedCategory(input, existingExpense.getCategory()));
-        existingExpense.setAmount(getUpdatedAmount(input, existingExpense.getAmount()));
-        existingExpense.setDescription(getUpdatedDescription(input, existingExpense.getDescription()));
-        existingExpense.setDate(getUpdatedDate(input, existingExpense.getDate()));
     }
 
     /**
@@ -284,5 +204,82 @@ public class UpdateExpenseCommand extends Command {
             }
         }
         return currentAmount;
+    }
+
+    /**
+     * Executes the command by updating an expense entry in the list.
+     *
+     * @param incomes      List of incomes (not used in this command but required by signature).
+     * @param expenseList  List of expenses where the update will be performed.
+     * @throws MissingDateException If the date is missing.
+     * @throws InvalidNumberFormatException If an invalid number format is found.
+     * @throws MissingAmountException If the amount is missing.
+     * @throws MissingCategoryException If the category is missing.
+     * @throws MissingDescriptionException If the description is missing.
+     * @throws InvalidDateException If the date format is invalid.
+     */
+    @Override
+    public void execute(List<Income> incomes, ExpenseList expenseList)
+            throws MissingDateException, InvalidNumberFormatException, MissingAmountException,
+            MissingCategoryException, MissingDescriptionException, InvalidDateException {
+
+        if (input.length() <= UPDATE_EXPENSE_COMMAND_PREFIX_LENGTH) {
+            throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
+        }
+
+        String commandArgs = input.substring(UPDATE_EXPENSE_COMMAND_PREFIX_LENGTH).trim();
+        if (commandArgs.isEmpty()) {
+            throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
+        }
+
+        String[] parts = commandArgs.split(EMPTY_SPACE, 2);
+        if (parts.length < 1) {
+            throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
+        }
+
+        if (expenseList.getSize() == MINIMUM_INDEX) {
+            throw new InvalidNumberFormatException(ERROR_EMPTY_EXPENSE_LIST);
+        }
+
+        int index;
+        try {
+            index = Integer.parseInt(parts[0]) - 1;
+        } catch (NumberFormatException e) {
+            throw new InvalidNumberFormatException(ERROR_WRONG_INDEX_FORMAT);
+        }
+
+        if (index < MINIMUM_INDEX || index >= expenseList.getSize()) {
+            throw new InvalidNumberFormatException(ERROR_EXPENSE_ENTRY_NOT_FOUND);
+        }
+
+        Expense existingExpense = expenseList.get(index);
+
+        if (parts.length > 1) {
+            extractUpdatedExpense(parts[1], existingExpense);
+        }
+
+        expenseList.updateTotalExpenses();
+        updateStorage(incomes, expenseList);
+
+        this.outputMessage = "Expense updated: " + existingExpense.getCategory() + ", Description: " +
+                existingExpense.getDescription() + ", Amount: $" + String.format("%.2f", existingExpense.getAmount()) +
+                ", Date: " + existingExpense.getDate();
+        logger.info("Expense updated successfully: " + existingExpense);
+    }
+
+    /**
+     * Extracts and applies updated attributes to an existing expense entry.
+     *
+     * @param input The input string containing updated fields.
+     * @param existingExpense The expense entry to update.
+     */
+    private void extractUpdatedExpense(String input, Expense existingExpense)
+            throws MissingAmountException, MissingDateException, MissingCategoryException, MissingDescriptionException,
+            InvalidDateException, InvalidNumberFormatException {
+
+        existingExpense.setCategory(getUpdatedCategory(input, existingExpense.getCategory()));
+        existingExpense.setAmount(getUpdatedAmount(input, existingExpense.getAmount()));
+        existingExpense.setDescription(getUpdatedDescription(input, existingExpense.getDescription()));
+        existingExpense.setDate(getUpdatedDate(input, existingExpense.getDate()));
     }
 }
