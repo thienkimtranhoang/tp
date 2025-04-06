@@ -268,7 +268,8 @@ class FindExpenseCommandTest {
             Command c = new FindExpenseCommand("filter-expense");
             c.execute(incomes, expenseList);
         } catch (FinanceException e) {
-            String expectedError = "I cannot recognise your finding condition. Please use valid tags for finding expenses: /desc, /d, /amt, /category, /amtrange, /drange";
+            String expectedError = "I cannot recognise your finding condition. " +
+                    "Please use valid tags for finding expenses: /desc, /d, /amt, /category, /amtrange, /drange";
             assertEquals(expectedError, e.getMessage());
         }
     }

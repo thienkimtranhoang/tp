@@ -48,7 +48,7 @@ public class FindExpenseCommand extends Command {
     private static final int END_AMT_PART = 1;
     private static final int START_DATE_PART = 0;
     private static final int END_DATE_PART = 1;
-    public static final String COMMAND_TAG_PATTERN = "filter-expense\\s+(/desc|/d|/amt|/category|/amtrange|/drange).*";
+    private static final String COMMAND_TAG_PATTERN = "filter-expense\\s+(/desc|/d|/amt|/category|/amtrange|/drange).*";
     private static final String ERROR_INVALID_OR_MISSING_TAG = "I cannot recognise your finding condition. " +
             "Please use valid tags for finding expenses: /desc, /d, /amt, /category, /amtrange, /drange";
     private static final String ERROR_MISSING_KEYWORD = "Sorry, please enter the finding keyword after your tag";

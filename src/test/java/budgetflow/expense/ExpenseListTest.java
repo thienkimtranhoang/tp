@@ -1,6 +1,10 @@
 package budgetflow.expense;
 
-import budgetflow.exception.*;
+import budgetflow.exception.ExceedsMaxTotalExpense;
+import budgetflow.exception.InvalidDateException;
+import budgetflow.exception.InvalidTagException;
+import budgetflow.exception.InvalidNumberFormatException;
+import budgetflow.exception.FinanceException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

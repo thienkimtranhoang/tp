@@ -31,7 +31,8 @@ public class ExpenseList {
     private static final String ERROR_INVALID_TAG = "Please enter valid tag: /desc | /amt| /d| /category";
     private static final String ERROR_INVALID_AMOUNT_FORMAT = "Please enter valid float number after /amt";
     private static final double MAX_TOTAL_EXPENSE = 9999999.99;
-    private static final String ERROR_EXCEED_MAX_TOTAL_EXPENSE = "Max total expense is $9999999.99. Please clear some old expenses before adding new one";
+    private static final String ERROR_EXCEED_MAX_TOTAL_EXPENSE =
+            "Max total expense is $9999999.99. Please clear some old expenses before adding new one";
     private final ArrayList<Expense> innerList = new ArrayList<>();
     private double totalExpenses;
 
@@ -102,7 +103,8 @@ public class ExpenseList {
         return outExpenses;
     }
 
-    private ExpenseList getExpenseByAmountRange(String keyword) throws InvalidNumberFormatException, ExceedsMaxTotalExpense {
+    private ExpenseList getExpenseByAmountRange(String keyword) throws InvalidNumberFormatException,
+            ExceedsMaxTotalExpense {
         ExpenseList outExpenses = new ExpenseList();
 
         String[] amountRange = keyword.split("\\s+");
