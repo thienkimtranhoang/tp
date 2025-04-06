@@ -380,24 +380,41 @@ Coffee | Coffee | $3.50 | 06-03-2025
 **Command:**
 
 ```plaintext
-list-income
+list income
 ```
 
 **Output:**
 
 ```plaintext
-Here are all recorded income entries:
-[INFORMATION OF ALL INCOME ENTRIES]
+=======================================================================
+                              INCOME LOG
+=======================================================================
+Category             | Amount     | Date           
+=====================+-===========+-===============
+                     | -          |    
+
+Summary:
+Total Income    | Saving Goal     | Current Savings   | Progress       
+================+-================+-==================+-===============
+                |                 |                   |       
+
 ```
 
 **Example:**
 
 ```plaintext
-list-income
-Here are all recorded income entries:
-Salary | Monthly Salary | $3000.00 | 01-04-2025
-Freelance | Website Development | $500.00 | 05-04-2025
----
+=======================================================================
+                              INCOME LOG
+=======================================================================
+Category             | Amount     | Date           
+=====================+-===========+-===============
+Salary               | $1000.00   | 06-03-2025     
+
+Summary:
+Total Income    | Saving Goal     | Current Savings   | Progress       
+================+-================+-==================+-===============
+$1000.00        | $30000.00       | $1000.00          | 3.33%          
+
 ```
 
 ---
