@@ -38,16 +38,7 @@ package budgetflow.income {
     }
 }
 
-package java.util {
-    interface List
-}
-
-enum CommandType {
-    READ
-    // Other command types...
-}
-
-package java.util.logging {
+package logging {
     class Logger
 }
 

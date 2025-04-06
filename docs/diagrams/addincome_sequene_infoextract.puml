@@ -29,4 +29,6 @@ end
 AddCommand -> AddCommand : Validate category is not empty
 AddCommand -> AddCommand : Validate amount is not null
 
+deactivate AddCommand
+
 @enduml
