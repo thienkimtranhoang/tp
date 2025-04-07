@@ -81,7 +81,8 @@ class ViewAllExpensesCommandTest {
     void viewAllExpenses_longDescription_loggedCorrectly() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        String longDesc = "Bought lots of supplies from the supermarket including rice, noodles, milk, bread, and snacks.";
+        String longDesc = "Bought lots of supplies from the supermarket including rice, " +
+                "noodles, milk, bread, and snacks.";
         expenseList.add(new Expense("grocery", longDesc, 78.45, "15-03-2025"));
         Command command = new ViewAllExpensesCommand();
         command.execute(incomes, expenseList);
