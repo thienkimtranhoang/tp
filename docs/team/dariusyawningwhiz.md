@@ -31,10 +31,11 @@ filter them by category or date, and analyze their financial habits. It is writt
     * Hide log messages [#70](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/70)
     * Improve `update-expense` command to update expense details in any order and with any number of details [#107](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/107)
     `update-expense 1 category/Food` instead of full command `update-expense 1 category/Food desc/Lunch amt/15.00 d/08-04-2025`
+    * Test and fix bugs for `update-expense` and `log-expense` for invalid category, description (ie.symbols), amount (ie.more than 2dp) and date (ie.not DD-MM-YYYY) [#202](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/202)
 * __Code Contributed:__ [RepoSense Link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=Darius&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21)
     <br><br>
 * __Project Management:__
-    * Managed releases `v1.0` - `v2.0` (2 releases) on GitHub
+    * Managed releases `v1.0` - `v2.1` (3 releases) on GitHub
     <br>
 * __Documentation:__
     * User Guide:

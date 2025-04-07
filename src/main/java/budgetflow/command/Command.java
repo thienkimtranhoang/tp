@@ -9,7 +9,8 @@ import java.util.List;
 /**
  * Represents an abstract base class for commands in the BudgetFlow application.
  * This class defines the basic structure and behavior that all commands should follow.
- * Each specific command (e.g., `AddExpenseCommand`, `UpdateExpenseCommand`) will extend this class and implement its own logic.
+ * Each specific command (e.g., `AddExpenseCommand`, `UpdateExpenseCommand`) will extend this class and implement its
+ * own logic.
  */
 public abstract class Command {
 
