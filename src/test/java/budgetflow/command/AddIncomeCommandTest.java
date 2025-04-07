@@ -11,7 +11,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-//@@author thienkimtranhoang
 class AddIncomeCommandTest {
     @Test
     void addIncome_validInput_addsIncome() throws FinanceException {
@@ -44,6 +43,7 @@ class AddIncomeCommandTest {
         Command command = new AddIncomeCommand("add category/Salary d/15-03-2025");
         try {
             command.execute(incomes, expenseList);
+            fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Income amount is required.";
             assertEquals(expectedError, e.getMessage());
@@ -57,6 +57,7 @@ class AddIncomeCommandTest {
         Command command = new AddIncomeCommand("add category/Salary amt/2500.00");
         try {
             command.execute(incomes, expenseList);
+            fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Income date is required.";
             assertEquals(expectedError, e.getMessage());
@@ -70,12 +71,13 @@ class AddIncomeCommandTest {
         Command command = new AddIncomeCommand("add category/Salary amt/invalid d/15-03-2025");
         try {
             command.execute(incomes, expenseList);
+            fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Income amount is required.";
             assertEquals(expectedError, e.getMessage());
         }
     }
-    
+
     @Test
     void addIncome_extraParameters_ignoresExtraParams() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -93,9 +95,10 @@ class AddIncomeCommandTest {
         Command command = new AddIncomeCommand("add category/Salary amt/5000 d/2025-03-15");
         try {
             command.execute(incomes, expenseList);
+            fail();
         } catch (FinanceException e) {
-            String expectedError = "Error: Income date is in wrong format." +
-                    "please use DD-MM-YYYY format.";
+            // Updated expected error message to match actual output (with a space after the period).
+            String expectedError = "Error: Income date is in wrong format. Please use DD-MM-YYYY format.";
             assertEquals(expectedError, e.getMessage());
         }
     }
@@ -107,10 +110,10 @@ class AddIncomeCommandTest {
         Command command = new AddIncomeCommand("add category/Salary amt/5000 d/99-99-1234");
         try {
             command.execute(incomes, expenseList);
+            fail();
         } catch (FinanceException e) {
             String expectedError = "Error: Date is not a valid date. Please use DD-MM-YYYY format.";
             assertEquals(expectedError, e.getMessage());
         }
     }
-
 }

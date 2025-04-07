@@ -1,8 +1,6 @@
 package budgetflow.command;
 
 import budgetflow.exception.FinanceException;
-
-
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 
