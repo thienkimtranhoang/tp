@@ -37,6 +37,9 @@ application {
 shadowJar {
     archiveBaseName.set("tp")
     archiveClassifier.set("")
+    manifest {
+        attributes('Main-Class': 'budgetflow.MainTracker')
+    }
 }
 
 checkstyle {
