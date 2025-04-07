@@ -1,5 +1,6 @@
 package budgetflow.parser;
 
+import budgetflow.command.Command;
 import budgetflow.command.AddIncomeCommand;
 import budgetflow.command.SetSavingGoalCommand;
 import budgetflow.command.LogExpenseCommand;
