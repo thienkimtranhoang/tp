@@ -116,6 +116,7 @@ class AddIncomeCommandTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
+
     @Test
     void addIncome_whitespaceInInput_trimsAndAddsCorrectly() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -173,4 +174,5 @@ class AddIncomeCommandTest {
         command.execute(incomes, expenseList);
         assertEquals("Income added: Gift🎁, Amount: $150.00, Date: 01-04-2025", command.getOutputMessage());
     }
+
 }

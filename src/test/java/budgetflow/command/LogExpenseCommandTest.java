@@ -189,7 +189,7 @@ class LogExpenseCommandTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
-
+    //@@author thienkimtranhoang
     @Test
     void logExpense_exceedsDecimalDigits_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -228,6 +228,7 @@ class LogExpenseCommandTest {
                 "Expense logged: Dining | DinnerWithFriends | $45.75 | 15-03-2025";
         assertEquals(expectedOutput, command.getOutputMessage());
     }
+
     @Test
     void logExpense_negativeAmount_showsError() {
         ExpenseList expenseList = new ExpenseList();
