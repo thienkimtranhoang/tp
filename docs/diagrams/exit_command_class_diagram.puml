@@ -1,0 +1,22 @@
+@startuml
+class Command {
+    + CommandType commandType
+    + execute(List<Income>, ExpenseList)
+}
+
+class ExitCommand {
+    + ExitCommand()
+    + execute(List<Income>, ExpenseList)
+    - centerText(String, int): String
+}
+
+enum CommandType {
+    ADD_EXPENSE
+    DELETE_EXPENSE
+    EXIT
+}
+
+Command <|-- ExitCommand
+ExitCommand --> CommandType
+
+@enduml

@@ -635,6 +635,20 @@ Below is the Command sequence of the `DeleteExpenseCommand` Class.
 ![Delete Expense Command Sequence](diagrams/DeleteExpenseCommandSequence.png)
 
 ### Exiting the Application
+The `ExitCommand` class extends the `command` class and is responsible for handling the termination of the application.
+When executed, this command sets an exit flag and displays a formatted farewell message to the user.
+
+Since this command does not modify any data (such as expenses or incomes), it simply updates the command state to indicate that the program should terminate gracefully.
+
+This class adheres to the Command design pattern,
+where each command encapsulates a specific action (in this case, exiting the application).
+The `execute` method implements the core logic for displaying a goodbye message and setting the exit flag.
+
+Below is the Class Diagram of the `ExitCommand` Class.
+![exit_command_class_diagram](diagrams/exit_command_class_diagram.png)
+
+Below is the Command sequence of the `ExitCommand` Class.
+![exit_command_sequence_diagram](diagrams/exit_command_sequence_diagram.png)
 
 ## Documentation
 

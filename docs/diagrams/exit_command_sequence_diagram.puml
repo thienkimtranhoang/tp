@@ -1,0 +1,20 @@
+@startuml
+actor User
+participant "Budgetflow" as B
+participant "ExitCommand" as E
+
+User -> B: issues exit command
+activate B
+
+B -> E: execute()
+activate E
+
+E -> E: set isExit = true
+E -> E: generate farewell message
+E -> B: return outputMessage
+deactivate E
+
+B -> User: display farewell message
+deactivate B
+
+@enduml
