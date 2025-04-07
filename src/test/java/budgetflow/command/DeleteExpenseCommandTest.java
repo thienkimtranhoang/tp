@@ -33,7 +33,7 @@ class DeleteExpenseCommandTest {
         assertEquals("Expense deleted: Lunch, $12.5", command.getOutputMessage());
     }
 
-    //@@author Yikbing
+    //@@author dariusyawningwhiz
     @Test
     void deleteExpense_invalidNumericIndex_throwsException() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
@@ -63,7 +63,7 @@ class DeleteExpenseCommandTest {
         }
     }
 
-    //@@author Yikbing
+    //@@author dariusyawningwhiz
     @Test
     void deleteExpense_noIndex_throwsException() throws FinanceException {
         ExpenseList expenseList = getListWith3Expenses();
