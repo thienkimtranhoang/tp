@@ -3,7 +3,7 @@
 hide circle
 skinparam classAttributeIconSize 0
 
-package budgetflow.command {
+
     class DeleteExpenseCommand {
         # String input
         # CommandType commandType
@@ -15,23 +15,23 @@ package budgetflow.command {
         + CommandType: commandType
         + Command(String input)
     }
-}
 
-package budgetflow.expense {
+
+
     class ExpenseList {
         + int getSize()
         + Expense get(int index)
         + void delete(int index)
         + double getAmount()
     }
+
+
+class Income {
+
 }
 
-class budgetflow.income.Income {
 
-}
-
-
-class budgetflow.exception.InvalidNumberFormatException {
+class InvalidNumberFormatException {
     + InvalidNumberFormatException(String message)
 }
 

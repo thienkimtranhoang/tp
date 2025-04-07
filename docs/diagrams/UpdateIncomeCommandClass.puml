@@ -3,8 +3,7 @@
 hide circle
 skinparam classAttributeIconSize 0
 
-package budgetflow{
-    package "budgetflow.command" {
+
         class UpdateIncomeCommand {
 
             + UpdateIncomeCommand(String input)
@@ -19,7 +18,7 @@ package budgetflow{
         abstract class "{abstract} \n Command" {
             + CommandType commandType
         }
-    }
+
 
 
 
@@ -39,7 +38,7 @@ package budgetflow{
     class DateValidator {
         + static boolean isValidDate(String date)
     }
-}
+
 
 UpdateIncomeCommand --|> "{abstract} \n Command" : extends
 UpdateIncomeCommand --> Income : uses

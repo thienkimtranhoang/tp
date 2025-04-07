@@ -6,7 +6,7 @@ participant "InvalidNumberFormatException" as InvalidNumberFormatException
 hide circle
 skinparam classAttributeIconSize 0
 
-package budgetflow.command {
+
     class DeleteIncomeCommand {
         # String input
         # CommandType commandType
@@ -18,24 +18,24 @@ package budgetflow.command {
         + Command(String input)
         + CommandType commandType
     }
-}
 
-package budgetflow.exception {
+
+
     class InvalidNumberFormatException{
         + InvalidNumberFormatException(String message)
     }
-}
 
-package budgetflow.expense {
+
+
     class ExpenseList
-}
 
-package budgetflow.income {
+
+
     class Income {
         + String getCategory()
         + Double getAmount()
     }
-}
+
 
 
 
