@@ -1,6 +1,7 @@
 package budgetflow.command;
 
 import budgetflow.exception.FinanceException;
+import budgetflow.exception.InvalidKeywordException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import budgetflow.parser.DateValidator;
@@ -17,8 +18,8 @@ import java.util.regex.Pattern;
  * <code>filter-income date from/DD-MM-YYYY to/DD-MM-YYYY</code>
  * <p>
  * This command parses the start and end dates, validates them, and displays all incomes whose
- * dates fall within the specified range. If the input is incomplete,
- * the usage guide is displayed.
+ * dates fall within the specified range. If the input is incomplete or invalid,
+ * an InvalidKeywordException is thrown with the correct format.
  *
  * @@author IgoyAI
  */
@@ -54,7 +55,7 @@ public class FilterIncomeByDateCommand extends Command {
 
     /**
      * Executes the command to filter incomes by date range.
-     * If the input is incomplete or invalid, the usage guide is displayed.
+     * If the input is incomplete or invalid, an InvalidKeywordException is thrown.
      *
      * @param incomes     list of incomes.
      * @param expenseList expense list (unused).
@@ -63,11 +64,10 @@ public class FilterIncomeByDateCommand extends Command {
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException {
         String trimmedInput = input.trim();
-        // Check for incomplete input: "filter-income" or "filter-income date" (no parameters).
+        // Incomplete input: "filter-income" or "filter-income date" (no parameters).
         if (trimmedInput.equals("filter-income") || trimmedInput.equals("filter-income date")) {
-            this.outputMessage = USAGE_GUIDE;
-            logger.info("Displayed usage guide for filter-income date command.");
-            return;
+            logger.info("Invalid command: Incomplete input for filter-income date command.");
+            throw new InvalidKeywordException("Invalid command. Correct format: " + USAGE_GUIDE);
         }
         // Remove the command prefix and trim remaining parameters.
         String params = input.substring(COMMAND_PREFIX.length()).trim();
@@ -76,23 +76,22 @@ public class FilterIncomeByDateCommand extends Command {
         Pattern toPattern = Pattern.compile(TO_REGEX);
         Matcher toMatcher = toPattern.matcher(params);
         if (!fromMatcher.find() || !toMatcher.find()) {
-            this.outputMessage = USAGE_GUIDE;
-            logger.info("Displayed usage guide for filter-income date command due to invalid format.");
-            return;
+            logger.info("Invalid command: Missing 'from' or 'to' parameter for filter-income date command.");
+            throw new InvalidKeywordException("Invalid command. Correct format: " + USAGE_GUIDE);
         }
         String fromDateStr = fromMatcher.group(1);
         String toDateStr = toMatcher.group(1);
         if (!DateValidator.isValidDate(fromDateStr) || !DateValidator.isValidDate(toDateStr)) {
-            this.outputMessage = INVALID_DATE_MESSAGE;
-            logger.info("Displayed error: one or both dates are invalid.");
-            return;
+            logger.info("Invalid command: One or both dates are invalid.");
+            throw new InvalidKeywordException("Invalid command. " + INVALID_DATE_MESSAGE
+                    + "\nCorrect format: " + USAGE_GUIDE);
         }
         LocalDate fromDate = LocalDate.parse(fromDateStr, DateValidator.getFullDateFormatter());
         LocalDate toDate = LocalDate.parse(toDateStr, DateValidator.getFullDateFormatter());
         if (fromDate.isAfter(toDate)) {
-            this.outputMessage = DATE_RANGE_ERROR_MESSAGE;
-            logger.info("Displayed error: start date is after end date.");
-            return;
+            logger.info("Invalid command: Start date is after end date.");
+            throw new InvalidKeywordException("Invalid command. " + DATE_RANGE_ERROR_MESSAGE
+                    + "\nCorrect format: " + USAGE_GUIDE);
         }
 
         // Build table header and separator

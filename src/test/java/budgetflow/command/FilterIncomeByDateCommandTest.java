@@ -1,9 +1,11 @@
 package budgetflow.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
+import budgetflow.exception.InvalidKeywordException;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,8 @@ class FilterIncomeByDateCommandTest {
     private static final String HEADER_FORMAT = "Filtered Incomes by Date (%s to %s):%n%n";
     private static final String TABLE_HEADER = "%-20s | %-10s | %-15s%n";
     private static final String SEPARATOR = "%-20s-+-%-10s-+-%-15s%n";
-    private static final String NO_INCOMES_FOUND_MESSAGE = "No incomes found in the specified date range.";
+    private static final String NO_INCOMES_FOUND_MESSAGE =
+            "No incomes found in the specified date range.";
 
     @Test
     void date_valid_returnsMatching() throws Exception {
@@ -53,40 +56,48 @@ class FilterIncomeByDateCommandTest {
     }
 
     @Test
-    void date_invalidFormat_returnsUsageGuide() throws Exception {
+    void date_invalidFormat_throwsException() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
         // Missing the "to/..." part makes the format invalid.
         Command command = new FilterIncomeByDateCommand(
                 "filter-income date from/15-03-2025");
-        command.execute(incomes, expenseList);
-        String expectedOutput = "Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY\n"
-                + "Example: filter-income date from/01-01-2023 to/31-12-2023";
-        assertEquals(expectedOutput, command.getOutputMessage());
+        InvalidKeywordException exception = assertThrows(InvalidKeywordException.class,
+                () -> command.execute(incomes, expenseList));
+        String expectedMessage = "Invalid command. Correct format: Usage: filter-income date " +
+                "from/DD-MM-YYYY to/DD-MM-YYYY\nExample: filter-income date from/01-01-2023 " +
+                "to/31-12-2023";
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
-    void date_rangeInvalid_returnsErrorMessage() throws Exception {
+    void date_rangeInvalid_throwsException() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
         // Invalid range: start date is after end date.
         Command command = new FilterIncomeByDateCommand(
                 "filter-income date from/25-03-2025 to/15-03-2025");
-        command.execute(incomes, expenseList);
-        String expectedOutput = "Start date must be before or equal to end date.";
-        assertEquals(expectedOutput, command.getOutputMessage());
+        InvalidKeywordException exception = assertThrows(InvalidKeywordException.class,
+                () -> command.execute(incomes, expenseList));
+        String expectedMessage = "Invalid command. Start date must be before or equal to end date.\n" +
+                "Correct format: Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY\n" +
+                "Example: filter-income date from/01-01-2023 to/31-12-2023";
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
-    void date_badFormat_returnsErrorMessage() throws Exception {
+    void date_badFormat_throwsException() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
         // "to" date is in bad format.
         Command command = new FilterIncomeByDateCommand(
                 "filter-income date from/15-03-2025 to/2025-03-15");
-        command.execute(incomes, expenseList);
-        String expectedOutput = "One or both dates are invalid. Please use DD-MM-YYYY format.";
-        assertEquals(expectedOutput, command.getOutputMessage());
+        InvalidKeywordException exception = assertThrows(InvalidKeywordException.class,
+                () -> command.execute(incomes, expenseList));
+        String expectedMessage = "Invalid command. One or both dates are invalid. Please use DD-MM-YYYY " +
+                "format.\nCorrect format: Usage: filter-income date from/DD-MM-YYYY to/DD-MM-YYYY\n" +
+                "Example: filter-income date from/01-01-2023 to/31-12-2023";
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
