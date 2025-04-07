@@ -189,7 +189,7 @@ class LogExpenseCommandTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
-
+    //@@author thienkimtranhoang
     @Test
     void logExpense_exceedsDecimalDigits_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -227,5 +227,35 @@ class LogExpenseCommandTest {
         String expectedOutput =
                 "Expense logged: Dining | DinnerWithFriends | $45.75 | 15-03-2025";
         assertEquals(expectedOutput, command.getOutputMessage());
+    }
+
+    @Test
+    void logExpense_negativeAmount_showsError() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new LogExpenseCommand(
+                "log-expense category/Dining desc/Dinner amt/-50.00 d/15-03-2025");
+        try {
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Expense amount is required.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void logExpense_zeroAmount_showsError() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new LogExpenseCommand(
+                "log-expense category/Dining desc/Dinner amt/0 d/15-03-2025");
+        try {
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Expense amount is required.";
+            assertEquals(expectedError, e.getMessage());
+        }
     }
 }

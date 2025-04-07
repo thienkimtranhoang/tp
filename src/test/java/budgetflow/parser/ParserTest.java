@@ -156,4 +156,23 @@ class ParserTest {
         String expectedMessage = "I don't understand that command. Try again.";
         assertEquals(expectedMessage, exception.getMessage());
     }
+
+    //@@author thienkimtranhoang
+    @Test
+    void parse_addIncomeCommand_stillReturnsCommand() throws UnknownCommandException {
+        Command command = Parser.getCommandFromInput("add category/Salary");
+        assertInstanceOf(AddIncomeCommand.class, command);
+    }
+
+    @Test
+    void parse_commandWithExtraSpaces_success() throws UnknownCommandException {
+        Command command = Parser.getCommandFromInput("   exit   ");
+        assertInstanceOf(ExitCommand.class, command);
+    }
+
+    @Test
+    void parse_partialKeyword_failure() {
+        assertThrows(UnknownCommandException.class, () ->
+                Parser.getCommandFromInput("list in"));
+    }
 }

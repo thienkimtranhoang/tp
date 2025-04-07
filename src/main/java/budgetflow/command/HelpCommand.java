@@ -16,6 +16,7 @@ import java.util.List;
  *
  * @author IgoyAI
  * @author Yikbing
+ * @author thienkimtranhoang
  */
 public class HelpCommand extends Command {
 
