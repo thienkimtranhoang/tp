@@ -3,24 +3,21 @@
 hide circle
 skinparam classAttributeIconSize 0
 
-package budgetflow{
-    package budgetflow.command{
+
         class CompareExpenseCommand {
             + CompareExpenseCommand(String input)
-            + execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException
-            - String[] parseAndValidateInput(String input) throws FinanceException
-            - LocalDate[] getValidatedDateRange(String monthYear) throws FinanceException
+            + execute(List<Income> incomes, ExpenseList expenseList)
+            - String[] parseAndValidateInput(String input)
+            - LocalDate[] getValidatedDateRange(String monthYear)
             - {static} String getCompareMessage(String monthYear1, double totalMonth1, String monthYear2, double totalMonth2)
             - double calculateTotalExpenses(ExpenseList expenseList, LocalDate startDate, LocalDate endDate)
         }
+            abstract class "{abstract} \n Command" {
+                - String input
+                - CommandType commandType
+            }
 
-        abstract class "{abstract} \n Command" {
-            - String input
-            - CommandType commandType
-        }
-    }
-
-    package budgetflow.expense{
+    package expense{
         class ExpenseList {
             + int getSize()
             + Expense get(int index)
@@ -40,10 +37,10 @@ package budgetflow{
         + {static} DateTimeFormatter getFullDateFormatter()
     }
 
-    package budgetflow.exception{
+
         class FinanceException{}
-    }
-}
+
+
 
 CompareExpenseCommand --|> "{abstract} \n Command"
 CompareExpenseCommand --> ExpenseList

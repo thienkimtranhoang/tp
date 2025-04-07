@@ -1,8 +1,6 @@
 package budgetflow.command;
 
 import budgetflow.exception.FinanceException;
-
-
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 
@@ -18,6 +16,7 @@ import java.util.List;
  *
  * @author IgoyAI
  * @author Yikbing
+ * @author thienkimtranhoang
  */
 public class HelpCommand extends Command {
 

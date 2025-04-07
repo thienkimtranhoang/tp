@@ -85,6 +85,7 @@ First, **fork** this repo, and **clone** the fork into your computer.
 
 
 ## Design
+
 This section outlines the various components of the application and explains how they interact to execute the program.
 [DeveloperGuide.md](DeveloperGuide.md)
 ### Architecture
@@ -124,7 +125,8 @@ The example sequence diagram below shows how `Ui` prints messages/ errors after 
 The `Parser` component consists of `Parser` class, which handles of identifying command type from user's input and return appropriate command object based of recognized command.  
 How the `Parser` works:
 * When called upon to parse user's input command, the `Parser` class compare the input with the set of several constants representing supported commands.
-* If the user's input satisfies the command's condition, it will return a corresponding command object. Otherwise, an `UnknownCommandException` error will be thrown.  
+* If the user's input satisfies the command's condition, it will return a corresponding command object. Otherwise, an
+  `UnknownCommandException` error will be thrown.  
 The sequence diagram belows further illustrates the interactions when getCommandFromInput() api is called
   ![Parser getCommandFromInput Diagram](images/Parser_getCommandFromInput.png)
 
@@ -158,7 +160,9 @@ The `ExpenseList` component:
 * stores a private member `totalExpenses` which represents the sum amount of all expenses inside the list.
 * updates the `totalExpenses` with the latest changes in expense list by calling `updateTotalExpense()`
 ## Acknowledgements
-BudgetFlow uses the following tools for documentation, development and testing:  
+
+BudgetFlow uses the following tools for documentation, development and testing:
+
 1. [JUnit](https://junit.org/junit5/) - Used for software testing.
 2. [Gradle](https://gradle.org/) - Used for build automation. https://gradle.org/
 3. [PlantUML](https://plantuml.com/) - Used for diagram creation. https://plantuml.com/
@@ -693,7 +697,8 @@ By combining ease of use, goal-driven features, and actionable insights, Budgetf
 ## Appendix C: Non-Functional Requirements
 
 1. This application works on any computers that are Windows, macOS or Unix that has Java17.
-2. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+2. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be
+   able to accomplish most of the tasks faster using commands than using the mouse.
 ## Glossary
 
 * *glossary item* - Definition

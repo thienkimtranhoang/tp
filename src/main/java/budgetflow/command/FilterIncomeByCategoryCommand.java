@@ -1,6 +1,7 @@
 package budgetflow.command;
 
 import budgetflow.exception.FinanceException;
+import budgetflow.exception.InvalidKeywordException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import java.util.List;
@@ -13,8 +14,8 @@ import java.util.logging.Logger;
  * <code>filter-income category/&lt;category&gt;</code>
  * <p>
  * This command extracts the category from the input and displays all incomes
- * that match the provided category (case-insensitive). If the input is incomplete,
- * it displays the usage guide.
+ * that match the provided category (case-insensitive). If the input is incomplete
+ * or invalid, an InvalidKeywordException is thrown with the correct format.
  *
  * @@author IgoyAI
  */
@@ -42,7 +43,7 @@ public class FilterIncomeByCategoryCommand extends Command {
 
     /**
      * Executes the command to filter incomes based on the provided category.
-     * If the command is incomplete, the usage guide is displayed.
+     * If the input is incomplete or invalid, an InvalidKeywordException is thrown.
      *
      * @param incomes     list of incomes.
      * @param expenseList expense list (unused).
@@ -51,18 +52,16 @@ public class FilterIncomeByCategoryCommand extends Command {
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException {
         String trimmedInput = input.trim();
-        // Check for incomplete input: "filter-income" or "filter-income category/" (no category provided).
+        // Incomplete input: "filter-income" or "filter-income category/" (no category provided).
         if (trimmedInput.equals("filter-income") || trimmedInput.equals(COMMAND_PREFIX)) {
-            this.outputMessage = USAGE_GUIDE;
-            logger.info("Displayed usage guide for filter-income category command.");
-            return;
+            logger.info("Invalid command: Incomplete input for filter-income category command.");
+            throw new InvalidKeywordException("Invalid command. Correct format: " + USAGE_GUIDE);
         }
         // Remove the command prefix and trim to extract the category.
         String category = input.substring(COMMAND_PREFIX.length()).trim();
         if (category.isEmpty()) {
-            this.outputMessage = USAGE_GUIDE;
-            logger.info("Displayed usage guide for filter-income category command due to empty category.");
-            return;
+            logger.info("Invalid command: Empty category provided for filter-income category command.");
+            throw new InvalidKeywordException("Invalid command. Correct format: " + USAGE_GUIDE);
         }
 
         StringBuilder sb = new StringBuilder();
