@@ -83,4 +83,63 @@ class FilterIncomeByAmountCommandTest {
                 "Example: filter-income amount from/1000 to/5000";
         assertEquals(expectedMessage, exception.getMessage());
     }
+
+    //@@author thienkimtranhoang
+    @Test
+    void amount_noIncomesBelowMinimum_returnsEmpty() throws Exception {
+        // Testing where no incomes match the minimum amount
+        List<Income> incomes = new ArrayList<>();
+        incomes.add(new Income("Salary", 2000.00, "15-03-2025"));
+        incomes.add(new Income("Bonus", 2500.00, "20-03-2025"));
+        ExpenseList expenseList = new ExpenseList();
+
+        Command command = new FilterIncomeByAmountCommand("filter-income amount from/3000 to/4000");
+        command.execute(incomes, expenseList);
+        String expectedOutput = String.format("Filtered Incomes by Amount Range: %.2f to %.2f%n%n", 3000.0, 4000.0)
+                + String.format("%-20s | %-10s | %-15s%n", "Category", "Amount", "Date")
+                + String.format("%-20s-+-%-10s-+-%-15s%n", "-".repeat(20), "-".repeat(10), "-".repeat(15))
+                + "No incomes found in the specified amount range.";
+
+        assertEquals(expectedOutput, command.getOutputMessage());
+    }
+
+    //@@author thienkimtranhoang
+    @Test
+    void amount_exactMatch_returnsMatching() throws Exception {
+        // Testing where income amounts match the exact bounds of the range
+        List<Income> incomes = new ArrayList<>();
+        incomes.add(new Income("Salary", 3000.00, "15-03-2025"));
+        incomes.add(new Income("Bonus", 1000.00, "20-03-2025"));
+        ExpenseList expenseList = new ExpenseList();
+
+        Command command = new FilterIncomeByAmountCommand("filter-income amount from/1000 to/3000");
+        command.execute(incomes, expenseList);
+        String expectedOutput = String.format("Filtered Incomes by Amount Range: %.2f to %.2f%n%n", 1000.0, 3000.0)
+                + String.format("%-20s | %-10s | %-15s%n", "Category", "Amount", "Date")
+                + String.format("%-20s-+-%-10s-+-%-15s%n", "-".repeat(20), "-".repeat(10), "-".repeat(15))
+                + String.format("%-20s | $%-9.2f | %-15s%n", "Salary", 3000.00, "15-03-2025")
+                + String.format("%-20s | $%-9.2f | %-15s%n", "Bonus", 1000.00, "20-03-2025");
+
+        assertEquals(expectedOutput, command.getOutputMessage());
+    }
+
+    //@@author thienkimtranhoang
+    @Test
+    void amount_edgeCase_ZeroAmount_returnsMatching() throws Exception {
+        // Testing with zero as the amount, checking if it properly includes or excludes
+        List<Income> incomes = new ArrayList<>();
+        incomes.add(new Income("Freelance", 0.00, "01-01-2025"));
+        incomes.add(new Income("Bonus", 500.00, "15-02-2025"));
+        ExpenseList expenseList = new ExpenseList();
+
+        Command command = new FilterIncomeByAmountCommand("filter-income amount from/0 to/500");
+        command.execute(incomes, expenseList);
+        String expectedOutput = String.format("Filtered Incomes by Amount Range: %.2f to %.2f%n%n", 0.0, 500.0)
+                + String.format("%-20s | %-10s | %-15s%n", "Category", "Amount", "Date")
+                + String.format("%-20s-+-%-10s-+-%-15s%n", "-".repeat(20), "-".repeat(10), "-".repeat(15))
+                + String.format("%-20s | $%-9.2f | %-15s%n", "Freelance", 0.00, "01-01-2025")
+                + String.format("%-20s | $%-9.2f | %-15s%n", "Bonus", 500.00, "15-02-2025");
+
+        assertEquals(expectedOutput, command.getOutputMessage());
+    }
 }

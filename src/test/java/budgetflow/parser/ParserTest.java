@@ -164,12 +164,14 @@ class ParserTest {
         assertInstanceOf(AddIncomeCommand.class, command);
     }
 
+    //@@author thienkimtranhoang
     @Test
     void parse_commandWithExtraSpaces_success() throws UnknownCommandException {
         Command command = Parser.getCommandFromInput("   exit   ");
         assertInstanceOf(ExitCommand.class, command);
     }
 
+    //@@author thienkimtranhoang
     @Test
     void parse_partialKeyword_failure() {
         assertThrows(UnknownCommandException.class, () ->

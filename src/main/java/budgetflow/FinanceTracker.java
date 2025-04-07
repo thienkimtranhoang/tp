@@ -26,6 +26,7 @@ import java.util.List;
  * command parsing and execution, and data persistence.
  * </p>
  */
+//@@author thienkimtranhoang
 public class FinanceTracker {
     /** List to store all income records. */
     private final List<Income> incomes;
