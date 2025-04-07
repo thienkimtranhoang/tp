@@ -159,7 +159,7 @@ class ParserTest {
 
     //@@author thienkimtranhoang
     @Test
-    void parse_addIncomeCommand_missingParams_stillReturnsCommand() throws UnknownCommandException {
+    void parse_addIncomeCommand_stillReturnsCommand() throws UnknownCommandException {
         Command command = Parser.getCommandFromInput("add category/Salary");
         assertInstanceOf(AddIncomeCommand.class, command);
     }

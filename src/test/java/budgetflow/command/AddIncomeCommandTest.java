@@ -149,7 +149,7 @@ class AddIncomeCommandTest {
     }
 
     @Test
-    void addIncome_duplicateIncome_sameDayAndCategory_allowsAdding() throws FinanceException {
+    void addIncome_duplicateIncome_allowsAdding() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         Command command1 = new AddIncomeCommand("add category/Freelance amt/200 d/10-04-2025");
