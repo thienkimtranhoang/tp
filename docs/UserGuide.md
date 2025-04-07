@@ -64,8 +64,9 @@ These constraints reflect realistic daily usage for students, the primary target
 
 ### 1. Logging an Expense
 **Description:** Logs a new expense with a category, description, amount, and date.  
-Note: the inputs must follow the specified order, and there should be proper spacing between each component.  
-Important note: Description and Category must be only 1 word. If user wants more detailed description, user can stick the words together `_` e.g `Dinner_At_Bar`
+Note: the inputs must follow the specified order.  
+There must be a space between `category/<CATEGORY>`, `desc/<DESCRIPTION>`, `amt/<AMOUNT>` and `d/<DATE>`.  
+Description and Category must be only 1 word. If user wants more detailed description, user can stick the words together `_` e.g `Dinner_At_Bar`  
 **Command:**
 ```plaintext
 log-expense category/<CATEGORY> desc/<DESCRIPTION> amt/<AMOUNT> d/<DATE>
@@ -85,7 +86,9 @@ Expense logged: Coffee | Coffee | $3.50 | 06-03-2025
 ### 2. Updating an Expense Entry (Not income)
 **Description:** Updates an instance of an Expense entry.  
 **How it works:** The user only has to write the index and the part they would like to update.   
-Note: Date is strictly DD-MM-YYYY  
+Note: Date is strictly DD-MM-YYYY.  
+Description and Category must be only 1 word. If user wants more detailed description, user can stick the words together `_` e.g `Dinner_At_Bar`.    
+There must be a space between `amt/[UPDATED_AMOUNT]` and `desc/[UPDATED_DESCRIPTION]` if there are more than one part.  
 For example, if the user only wants to update the amount, they can run:
 
 ```plaintext

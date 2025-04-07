@@ -645,10 +645,12 @@ This class adheres to the Command design pattern,
 where each command encapsulates a specific action (in this case, exiting the application).
 The `execute` method implements the core logic for displaying a goodbye message and setting the exit flag.
 
-Below is the Class Diagram of the `ExitCommand` Class.
+Below is the Class Diagram of the `ExitCommand` Class.  
+
 ![exit_command_class_diagram](diagrams/exit_command_class_diagram.png)
 
-Below is the Command sequence of the `ExitCommand` Class.
+Below is the Command sequence of the `ExitCommand` Class.  
+
 ![exit_command_sequence_diagram](diagrams/exit_command_sequence_diagram.png)
 
 ## Documentation
@@ -800,8 +802,7 @@ By combining ease of use, goal-driven features, and actionable insights, Budgetf
 2. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be
    able to accomplish most of the tasks faster using commands than using the mouse.
 ## Glossary
-
-* *glossary item* - Definition
+- Mainstream OS: Windows, Linux, Unix, MacOS
 
 ## Appendix D: Instructions for manual testing
 Given below are instructions to test the app manually:
