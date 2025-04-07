@@ -6,7 +6,6 @@ import budgetflow.income.Income;
 
 import java.util.List;
 
-
 //@@ author Yikbing
 /**
  * Represents the Help Command which provides detailed instructions on how to use Budgetflow.
@@ -59,8 +58,8 @@ public class HelpCommand extends Command {
 
         // 3. View All Expenses
         helpMessage.append("3. View All Expenses:").append(System.lineSeparator());
-        helpMessage.append("   Syntax : view-all-expense").append(System.lineSeparator());
-        helpMessage.append("   Example: view-all-expense").append(System.lineSeparator());
+        helpMessage.append("   Syntax : list-expense").append(System.lineSeparator());
+        helpMessage.append("   Example: list-expense").append(System.lineSeparator());
         helpMessage.append(System.lineSeparator());
 
         // 4. View All Income
@@ -81,13 +80,13 @@ public class HelpCommand extends Command {
         helpMessage.append("   Example: delete-income Salary, $2500.0").append(System.lineSeparator());
         helpMessage.append(System.lineSeparator());
 
-        // 7. Find Expense
-        helpMessage.append("7. Find Expense:").append(System.lineSeparator());
-        helpMessage.append("   Syntax : find-expense /desc [DESCRIPTION] OR /d [DD-MM-YYYY] " +
+        // 7. Filter Expense
+        helpMessage.append("7. Filter Expense:").append(System.lineSeparator());
+        helpMessage.append("   Syntax : filter-expense /desc [DESCRIPTION] OR /d [DD-MM-YYYY] " +
                 "OR /amt [AMOUNT]").append(System.lineSeparator());
         helpMessage.append("            OR /category [CATEGORY] OR /amtrange [AMOUNT 1] " +
                 "[AMOUNT 2] OR /drange [DATE 1] [DATE 2]").append(System.lineSeparator());
-        helpMessage.append("   Example: find-expense /desc Lunch").append(System.lineSeparator());
+        helpMessage.append("   Example: filter-expense /desc Lunch").append(System.lineSeparator());
         helpMessage.append(System.lineSeparator());
 
         // 8. Compare Expenses

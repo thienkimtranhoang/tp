@@ -4,7 +4,6 @@
 participant ":FinanceTracker" as FinanceTracker
 participant ":Command" as command
 participant ":Ui" as ui
-
 FinanceTracker -> command ++: execute()
 alt failed execution
 FinanceTracker <-- command: throws error
@@ -17,6 +16,5 @@ FinanceTracker <-- command --: message
 FinanceTracker -> ui ++: printMessage(message)
 FinanceTracker <-- ui --: display result message
 end
-
 
 @enduml

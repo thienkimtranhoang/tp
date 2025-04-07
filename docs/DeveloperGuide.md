@@ -1,6 +1,6 @@
 # Developer Guide
 <br><br>
-![](images/icon.png)<br>
+![](images/Icon.png)<br>
 
 Anak Agung Gde Yogi Pramana<br>
 
@@ -29,7 +29,7 @@ Tran Hoang Thien Kim<br>
 * [Implementation](#Implementation) <br>
   * [Adding Income](#adding-income) <br>
   * [Logging an Expense](#logging-an-expense) <br>
-  * [Viewing All Expenses](#viewing-all-expenses) <br>
+  * [Listing All Expenses](#listing-all-expenses) <br>
   * [Listing All Incomes](#listing-all-incomes) <br>
   * [Filtering Expenses](#filtering-expenses) <br>
   * [Filtering Incomes by Amount, Category, or Date](#filtering-incomes-by-amount-or-by-category) <br>
@@ -107,15 +107,11 @@ The `Storage` component can save the list of incomes and expenses data in .txt f
 
 ### UI
 The `UI` component consists of Ui class, which handles user interactions by reading the user's input, displaying messages and show errors. 
-This serves as the main interface for communication between user and the Finance Tracker application  
-
+This serves as the main interface for communication between user and the Finance Tracker application
 Some method details of Ui class is noted as below:  
 * `public void showWelcome()`: print out the welcome message for the user at the launch of application.
-* `publc String readCommand()`: read the command entered by the user using Scanner object and return the input.
-The sequence diagram below illustrates iteractions within Ui component under `readCommand()` call.  
-  ![UI read command Diagram](images/UI_readCommandSequence.png)  
-If no input is parsed by user, the programme continues to wait for new input and repeat scanning as shown below:  
-  ![ref Diagram](images/refGetCommand.png)  
+* `publc String readCommand()`: read the command entered by the user using Scanner object and return the input. If the user's input without trailing/ leading spaces is empty, the Ui will wait until non-empty input is scanned and then return it as demonstrated by sequence diagram below:   
+ ![Ui read command sequence](images/Ui_readCommandSequence.png)
 * `public void printError(String error)`: print out the error message for user by passing the string error message.
 * `public void printMessage(String message)`: print out the message as a String for user.  
 The example sequence diagram below shows how `Ui` prints messages/ errors after the `Command` execution  
@@ -265,7 +261,7 @@ Below is the Sequence Diagram of the `LogExpenseCommand` Class.
 
 ![log_expense_command sequence_diagram](diagrams/log_expense_command_sequence_diagram.png)
 
-### Viewing All Expenses
+### Listing All Expenses
 This feature allows users to view all current expenses and relevant information about them (current index inside the list, category, description, amount and date)  
 The execution of this feature is facilitated by `ViewAllExpensesCommand`. It extends `Command` with `commandType = CommandType.READ` and overwrite `execute()` to send all expenses' information from `ExpenseList` to the output message
  upon successful execution, which will be displayed to user through UI.  
@@ -284,13 +280,12 @@ Additionally, this command also holds dependency on `ExpenseList` and call `Expe
 The following sequence diagram shows how `execution()` goes through `FindExpenseCommand` component  
 ![FindExpenseCommand execute() Diagram](images/FindExpenseCommand.png)  
 There are currently 6 tags supported for filtering, which serves for different filtering conditions. There can only be 1 tag used per command. These tags and their purposes are:  
-* `/category`: filter all expenses with exact match to the query category (for example: `find-expense /category food` looking for all expenses with category `food`). 
-The category keyword used for filtering is __case sensitive__.
-* `/desc`: filter all expenses with description that contains the keyword (for example: `find-expense /desc many` looking for all expenses with `many` in their description). The keyword is __case sensitive__
-* `/amt`: filter all expenses with amount that exactly matches with the keyword. The keyword used for filtering must be at integer or decimal format.
-* `/d`: filter all expenses of the exact date as the keyword. The keyword used to filtering must match exact dd-MM-yyyy pattern. (for example: `find-expense /desc 01-10-2005` looking for expense on 1st October 2025).  
-* `/amtrange`: filter all expenses with amount in the listed range (for example: `find-expense /amt 10.00 20.00` find for expenses with amount from 10.00 to 20.00).
-* `/drange`: filter all expenses within the the date range (for example: `find-expense /desc 01-10-2005 30-10-2004` looking for expenses from 1st Oct 2025 to 30th Oct 2025).
+* `/category`: filter all expenses with exact match to the query category (for example: `filter-expense /category food` looking for all expenses with category `food`).
+* `/desc`: filter all expenses with description that contains the keyword (for example: `filter-expense /desc many` looking for all expenses with `many` in their description). 
+* `/amt`: filter all expenses with amount that exactly matches with the keyword.
+* `/d`: filter all expenses of the exact date as the keyword based on dd-MM-yyyy pattern. (for example: `filter-expense /desc 01-10-2005` looking for expense on 1st October 2025).  
+* `/amtrange`: filter all expenses with amount in the listed range (for example: `filter-expense /amt 10.00 20.00` find for expenses with amount from 10.00 to 20.00).
+* `/drange`: filter all expenses within the date range (for example: `filter-expense /desc 01-10-2005 30-10-2004` looking for expenses from 1st Oct 2025 to 30th Oct 2025).
 
 ### Listing All Incomes
 #### Overview
@@ -721,54 +716,57 @@ Given below are instructions to test the app manually:
   * Test case: `update-expense index/<index> category/drink desc/Coffee amt/4.00 d/06-04-2025` where `index` is the index of the expense list to be updated and `category`, `amt` and `d` are the category, amount and date to be changed to.
   * Expected: Confirmation message to indicate that the expense has been updated successfully.
 
-4. View all expenses
-  * Test case: `view-all-expense`
+4. List expenses
+  * Test case: `list-expense`
   * Expected: Output message displaying all expenses that matches those stored in storage file (if exist), or error message informing empty list.
 
 5. Filter expense based on category: matching cases
-  * Prerequisites: List all expense use `view-all-expense`. Multiple expense in the list.
-  * Test case: `find-expense \category <category>` where <category> is the existing category in the list
+  * Prerequisites: List all expense use `list-expense`. Multiple expense in the list.
+  * Test case: `filter-expense /category <category>` where <category> is the existing category in the list
   * Expected: Output message displaying all expenses with category matches the keyword.
-  * Test case: `find-expense \category <category>` where <category> is the non-matching category
+  * Test case: `filter-expense /category <category>` where <category> is the non-matching category
   * Expected: Output message informing no matching keyword.
-  * Test case: `find-expense \category`
+  * Test case: `filter-expense /category`
   * Expected: Missing keyword error with error message shown.
 6. Filter expense based on description
-  * Test case: `find-expense \desc <desc>` where <desc> is the description's keyword to that results in matching expenses in list.
+  * Test case: `filter-expense /desc <desc>` where <desc> is the description's keyword to that results in matching expenses in list.
   * Expected: Output message display all expenses with description containing the keyword, or error message informing no matching found otherwise.
-  * Test case: `find-expense \desc <desc>` where <desc> is the non-matching keyword
+  * Test case: `filter-expense /desc <desc>` where <desc> is the non-matching keyword
   * Expected: Output message informing no matching keyword.
-  * Test case: `find-expense \desc`
+  * Test case: `filter-expense /desc`
   * Expected: Missing keyword error with error message shown.
 7. Filter expense based on amount
-  * Test case: `find-expense \amt <amt>` where <amt> is the valid amount number to filter on
+  * Test case: `filter-expense /amt <amt>` where <amt> is the valid amount number to filter on
   * Expected: Output message display all expenses with matching amount, or output message informing no matching expenses otherwise.
-  * Test case: `find-expense \amt <amt>` where <amt> is not at double format 
+  * Test case: `filter-expense /amt <amt>` where <amt> is not at double format 
   * Expected: Error message requires to enter valid keyword format for tag /amt
-  * Test case: `find-expense \amt`
+  * Test case: `filter-expense /amt`
   * Expected: Missing keyword error with error message shown.
 8. Filter expense based on amount range
-  * Test case: `find-expense \amtrange <startAmt> <endAmt>` where <startAmt>, <endAmt> are valid amount number indicating start and end range of amount to filter on
+  * Test case: `filter-expense /amtrange <startAmt> <endAmt>` where <startAmt>, <endAmt> are valid amount number indicating start and end range of amount to filter on
   * Expected: Output message display all expenses with matching amount, or output message informing no matching expenses otherwise.
-  * Test case: `find-expense \amt <amt>` where only 1 amount is entered, or amount is not a valid number.
+  * Test case: `filter-expense /amt <amt>` where only 1 amount is entered, or amount is not a valid number.
   * Expected: Error message requires to enter valid keyword format for tag /amtrange
-  * Test case: `find-expense \amt`
+  * Test case: `filter-expense /amt`
   * Expected: Missing keyword error with error message shown.
 9. Filter expense based on date.
-  * Test case: `find-expense \d <d>` where <d> is the valid date to filter on
+  * Test case: `filter-expense /d <d>` where <d> is the valid date to filter on
   * Expected: Output message display all expenses with matching date, or output message informing no matching expenses otherwise.
-  * Test case: `find-expense \d <d>` where <amt> is not at valid date format
+  * Test case: `filter-expense /d <d>` where <amt> is not at valid date format
   * Expected: Error message requires to enter valid keyword format for tag /d
-  * Test case: `find-expense \d`
+  * Test case: `filter-expense /d`
   * Expected: Missing keyword error with error message shown.
 10. Filter expense based on date range
-  * Test case: `find-expense \drange <startDate> <endDate>` where <startDate>, <endDate> are valid amount date indicating start and end range of date to filter on
+  * Test case: `filter-expense /drange <startDate> <endDate>` where <startDate>, <endDate> are valid amount date indicating start and end range of date to filter on
   * Expected: Output message display all expenses with matching dates, or output message informing no matching expenses otherwise.
-  * Test case: `find-expense \drange <drange>` where only 1 date is entered, or amount is not a valid date.
+  * Test case: `filter-expense /drange <drange>` where only 1 date is entered, or amount is not a valid date.
   * Expected: Error message requires to enter valid keyword format for tag /drange
-  * Test case: `find-expense \drange`
+  * Test case: `filter-expense /drange`
   * Expected: Missing keyword error with error message shown.
-11. **Listing All Incomes**
+11. Filter expense with incorrect tag
+  * Test case: `filter-expense /<foo>` where <foo> is a name of unknown tag.
+  * Expected: Error showing unrecognizable finding condition and list of valid tags.
+12. **Listing All Incomes**
   - **Test case:** `list-income`
     - **Expected:**
       - If incomes exist, the output should display each income’s details (category, amount, date), followed by the total income.

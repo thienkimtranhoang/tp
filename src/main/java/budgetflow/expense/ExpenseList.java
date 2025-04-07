@@ -1,5 +1,6 @@
 package budgetflow.expense;
 
+import budgetflow.exception.ExceedsMaxTotalExpense;
 import budgetflow.exception.InvalidDateException;
 import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.InvalidTagException;
@@ -12,8 +13,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+//@@author QuyDatNguyen
 public class ExpenseList {
-    private static final String AMT_PATTERN = "[0-9]+(\\.[0-9]*)?";
+    private static final String AMT_PATTERN = "\\d{1,7}(\\.\\d{1,2})?";
     private static final String DATE_PATTERN = "dd-MM-yyyy";
     private static final String EMPTY_EXPENSE_LIST_MESSAGE =
             "There is currently no expense in your list right now. Please add more expenses to continue";
@@ -28,6 +30,9 @@ public class ExpenseList {
     private static final String TAG_DATE_RANGE = "/drange";
     private static final String ERROR_INVALID_TAG = "Please enter valid tag: /desc | /amt| /d| /category";
     private static final String ERROR_INVALID_AMOUNT_FORMAT = "Please enter valid float number after /amt";
+    private static final double MAX_TOTAL_EXPENSE = 9999999.99;
+    private static final String ERROR_EXCEED_MAX_TOTAL_EXPENSE =
+            "Max total expense is $9999999.99. Please clear some old expenses before adding new one";
     private final ArrayList<Expense> innerList = new ArrayList<>();
     private double totalExpenses;
 
@@ -68,7 +73,7 @@ public class ExpenseList {
      * @throws InvalidDateException if keyword for tag /d does not follow dd-MM-yyyy format
      */
     public ExpenseList getByTag(String tag, String keyword) throws InvalidTagException,
-            InvalidNumberFormatException, InvalidDateException {
+            InvalidNumberFormatException, InvalidDateException, ExceedsMaxTotalExpense {
         return switch (tag) {
         case TAG_DESCRIPTION -> getExpenseByDesc(keyword);
         case TAG_CATEGORY -> getExpenseByCategory(keyword);
@@ -80,7 +85,7 @@ public class ExpenseList {
         };
     }
 
-    private ExpenseList getExpenseByDateRange(String keyword) throws InvalidDateException {
+    private ExpenseList getExpenseByDateRange(String keyword) throws InvalidDateException, ExceedsMaxTotalExpense {
         String[] dateRange = keyword.split("\\s+");
         if (!DateValidator.isValidDate(dateRange[0]) || !DateValidator.isValidDate(dateRange[1])) {
             throw new InvalidDateException(ERROR_INVALID_DATE_FORMAT);
@@ -98,7 +103,8 @@ public class ExpenseList {
         return outExpenses;
     }
 
-    private ExpenseList getExpenseByAmountRange(String keyword) throws InvalidNumberFormatException {
+    private ExpenseList getExpenseByAmountRange(String keyword) throws InvalidNumberFormatException,
+            ExceedsMaxTotalExpense {
         ExpenseList outExpenses = new ExpenseList();
 
         String[] amountRange = keyword.split("\\s+");
@@ -126,7 +132,7 @@ public class ExpenseList {
      * @param keyword keyword to find expense
      * @return expense with des description matching keyword or null expense object if not found
      */
-    private ExpenseList getExpenseByDesc(String keyword) {
+    private ExpenseList getExpenseByDesc(String keyword) throws ExceedsMaxTotalExpense {
         ExpenseList outExpenses = new ExpenseList();
         for (int i = 0; i < this.getSize(); i++) {
             String desc = this.get(i).getDescription();
@@ -142,7 +148,7 @@ public class ExpenseList {
      * @param keyword the category user wishes to find from
      * @return all expenses from the category if found, null otherwise
      */
-    private ExpenseList getExpenseByCategory(String keyword) {
+    private ExpenseList getExpenseByCategory(String keyword) throws ExceedsMaxTotalExpense {
         ExpenseList outExpenses = new ExpenseList();
         for (int i = 0; i < this.getSize(); i++) {
             String category = this.get(i).getCategory();
@@ -159,7 +165,7 @@ public class ExpenseList {
      * @return all expenses with matching amount
      * @throws InvalidNumberFormatException if amount keyword is not at valid amount format
      */
-    private ExpenseList getExpenseByAmount(String keyword) throws InvalidNumberFormatException {
+    private ExpenseList getExpenseByAmount(String keyword) throws InvalidNumberFormatException, ExceedsMaxTotalExpense {
         if (!keyword.matches(AMT_PATTERN)) {
             throw new InvalidNumberFormatException(ERROR_INVALID_AMOUNT_FORMAT);
         }
@@ -179,7 +185,7 @@ public class ExpenseList {
         return outExpenses;
     }
 
-    private ExpenseList getExpenseByDate(String keyword) throws InvalidDateException {
+    private ExpenseList getExpenseByDate(String keyword) throws InvalidDateException, ExceedsMaxTotalExpense {
         if (!DateValidator.isValidDate(keyword)) {
             throw new InvalidDateException(ERROR_INVALID_DATE_FORMAT);
         }
@@ -201,10 +207,14 @@ public class ExpenseList {
     }
 
     /**
-     * Adding an expense to the expense list
-     * @param expense the expense object to be added
+     * Adds new expense to the list
+     * @param expense the new expense to be added
+     * @throws ExceedsMaxTotalExpense if total expense will pass maximum capacity after adding new expense
      */
-    public void add(Expense expense) {
+    public void add(Expense expense) throws ExceedsMaxTotalExpense {
+        if (totalExpenses + expense.getAmount() > MAX_TOTAL_EXPENSE) {
+            throw new ExceedsMaxTotalExpense(ERROR_EXCEED_MAX_TOTAL_EXPENSE);
+        }
         innerList.add(expense);
         totalExpenses += expense.getAmount();
     }

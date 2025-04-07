@@ -71,14 +71,14 @@ class ParserTest {
 
     @Test
     void testViewAllExpensesCommand() throws UnknownCommandException {
-        String input = "view-all-expense";
+        String input = "list-expense";
         Command command = Parser.getCommandFromInput(input);
         assertInstanceOf(ViewAllExpensesCommand.class, command);
     }
 
     @Test
     void testFindExpenseCommand() throws UnknownCommandException {
-        String input = "find-expense /desc Lunch";
+        String input = "filter-expense /desc Lunch";
         Command command = Parser.getCommandFromInput(input);
         assertInstanceOf(FindExpenseCommand.class, command);
     }

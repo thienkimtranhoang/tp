@@ -21,7 +21,7 @@ import budgetflow.command.HelpCommand;
 import budgetflow.exception.UnknownCommandException;
 
 import java.util.logging.Logger;
-
+//@@author QuyDatNguyen
 /**
  * Parses the user's input and extracts the corresponding command.
  *
@@ -38,8 +38,8 @@ public class Parser {
     private static final String COMMAND_DELETE_INCOME = "delete-income";
     private static final String COMMAND_LIST_INCOME = "list income";
     private static final String COMMAND_DELETE_EXPENSE = "delete-expense";
-    private static final String COMMAND_VIEW_ALL_EXPENSES = "view-all-expense";
-    private static final String COMMAND_FIND_EXPENSE = "find-expense";
+    private static final String COMMAND_VIEW_ALL_EXPENSES = "list-expense";
+    private static final String COMMAND_FIND_EXPENSE = "filter-expense";
     private static final String COMMAND_EXIT = "exit";
     private static final String COMMAND_COMPARE = "compare";
     private static final String COMMAND_UPDATE_EXPENSE = "update-expense";
@@ -52,7 +52,10 @@ public class Parser {
     private static final String COMMAND_FILTER_INCOME_CATEGORY = "category";
 
     private static final String ERROR_UNKNOWN_COMMAND = "Unknown command received: ";
+    private static final String COMMAND_ADD = "add";
+    private static final String COMMAND_LIST = "list";
 
+    //@@author QuyDatNguyen
     /**
      * Parses the user's input and extracts the corresponding command.
      *

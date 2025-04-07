@@ -22,6 +22,7 @@ class LogExpenseCommandTest {
      *
      * @throws FinanceException if an error occurs while executing the command
      */
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_validInput_logsExpense() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -36,6 +37,7 @@ class LogExpenseCommandTest {
     /**
      * Tests if an input with only the command returns the usage guide.
      */
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_onlyCommand_returnsUsageGuide() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -50,6 +52,7 @@ class LogExpenseCommandTest {
     /**
      * Tests if the absence of a category results in an error message.
      */
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_missingCategory_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -68,6 +71,7 @@ class LogExpenseCommandTest {
     /**
      * Tests if the absence of a description results in an error message.
      */
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_missingDescription_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -86,6 +90,7 @@ class LogExpenseCommandTest {
     /**
      * Tests if the absence of an amount results in an error message.
      */
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_missingAmount_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -104,6 +109,7 @@ class LogExpenseCommandTest {
     /**
      * Tests if the absence of a date results in an error message.
      */
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_missingDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -122,6 +128,7 @@ class LogExpenseCommandTest {
     /**
      * Tests if an invalid amount format results in an error message.
      */
+    //@@author dariusyawningwhiz
     @Test
     void logExpense_invalidAmountFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -189,6 +196,26 @@ class LogExpenseCommandTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
+
+    //@@author QuyDatNguyen
+    @Test
+    void logExpense_exceedMaxTotalExpense() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        try {
+            Command command1 = new LogExpenseCommand(
+                    "log-expense category/Dining desc/DinnerWithFriends amt/9999998.00 d/15-03-2025");
+            command1.execute(incomes, expenseList);
+            Command command2 = new LogExpenseCommand(
+                    "log-expense category/Dining desc/DinnerWithFriends amt/2.00 d/13-11-2025");
+            command2.execute(incomes, expenseList);
+        } catch (FinanceException e) {
+            String expectedError = "Max total expense is $9999999.99. " +
+                    "Please clear some old expenses before adding new one";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
     //@@author thienkimtranhoang
     @Test
     void logExpense_exceedsDecimalDigits_showsError() {

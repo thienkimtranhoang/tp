@@ -1,5 +1,6 @@
 package budgetflow.command;
 
+import budgetflow.exception.ExceedsMaxTotalExpense;
 import budgetflow.exception.InvalidDateException;
 import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.MissingCategoryException;
@@ -21,7 +22,7 @@ public class UpdateExpenseCommandTest {
     private List<Income> incomes;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws ExceedsMaxTotalExpense {
         expenseList = new ExpenseList();
         incomes = new ArrayList<>();
 
@@ -116,6 +117,14 @@ public class UpdateExpenseCommandTest {
         assertEquals("Movie", updatedExpense.getDescription());
         assertEquals(15.00, updatedExpense.getAmount());
         assertEquals("05-04-2024", updatedExpense.getDate());
+    }
+
+    @Test
+    void updateExpense_largeAmountBoundary() throws Exception {
+        UpdateExpenseCommand command = new UpdateExpenseCommand("update-expense 1 amt/9999997.99");
+        command.execute(incomes, expenseList);
+        Expense updatedExpense = expenseList.get(0);
+        assertEquals(9999997.99, updatedExpense.getAmount());
     }
 
     @Test
