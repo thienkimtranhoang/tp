@@ -3,19 +3,19 @@
 hide circle
 skinparam classAttributeIconSize 0
 
-package "budgetflow.command" {
+
     class UpdateExpenseCommand {
         + UpdateExpenseCommand(String input)
-        + void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException
+        + void execute(List<Income> incomes, ExpenseList expenseList)
         - {static} void updateStorage(List<Income> incomes, ExpenseList expenseList)
-        - {static} String getUpdatedCategory(String input, String currentCategory) throws MissingCategoryException
-        - {static} String getUpdatedDescription(String input, String currentDescription) throws MissingDescriptionException
-        - {static} String getUpdatedDate(String input, String currentDate) throws InvalidDateException
-        - {static} Double getUpdatedAmount(String input, Double currentAmount) throws InvalidNumberFormatException
+        - {static} String getUpdatedCategory(String input, String currentCategory)
+        - {static} String getUpdatedDescription(String input, String currentDescription)
+        - {static} String getUpdatedDate(String input, String currentDate)
+        - {static} Double getUpdatedAmount(String input, Double currentAmount)
     }
-}
 
-abstract class Command {
+
+abstract class "{abstract}\nCommand" {
     + CommandType commandType
 }
 
@@ -44,10 +44,14 @@ class DateValidator {
     + static boolean isValidDate(String date)
 }
 
-UpdateExpenseCommand --|> Command : extends
+class FinanceException {
+}
+
+UpdateExpenseCommand --|> "{abstract}\nCommand" : extends
 UpdateExpenseCommand --> Expense : updates
 UpdateExpenseCommand --> ExpenseList : modifies
 UpdateExpenseCommand --> Storage : uses
 UpdateExpenseCommand --> DateValidator : uses
+UpdateExpenseCommand --> FinanceException : throws
 
 @enduml

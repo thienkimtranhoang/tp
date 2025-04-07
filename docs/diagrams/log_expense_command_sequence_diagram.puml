@@ -1,11 +1,11 @@
 @@startuml
 
  actor User
- participant "LogExpenseCommand" as LogCmd
- participant "ExpenseList" as ExpenseList
- participant "Expense" as Expense
- participant "Storage" as Storage
- participant "DateValidator" as DateValidator
+ participant ":LogExpenseCommand" as LogCmd
+ participant ":ExpenseList" as ExpenseList
+ participant ":Expense" as Expense
+ participant ":Storage" as Storage
+ participant ":DateValidator" as DateValidator
 
  User -> LogCmd: log-expense category/Food desc/Lunch amt/12.5 d/02-04-2025
  activate LogCmd

@@ -3,7 +3,7 @@ hide circle
 skinparam classAttributeIconSize 0
 
 package budgetflow.command {
-    abstract class Command {
+    abstract class "{abstract}\nCommand" {
         - input: String
         - outputMessage: String
         + Command(String input)
@@ -17,7 +17,7 @@ package budgetflow.command {
         + execute(List<Income>, ExpenseList) throws FinanceException
     }
 
-    FilterIncomeByCategoryCommand --|> Command
+    FilterIncomeByCategoryCommand --|> "{abstract}\nCommand"
 }
 
 package budgetflow.exception {

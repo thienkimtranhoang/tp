@@ -2,11 +2,11 @@
 hide circle
 skinparam participantIconSize 0
 
-actor "User" as User
-participant "ListIncomeCommand" as LIC
-participant "Income" as Income
-participant "ExpenseList" as ExpenseList
-participant "Logger" as Logger
+actor ":User" as User
+participant ":ListIncomeCommand" as LIC
+participant ":Income" as Income
+participant ":ExpenseList" as ExpenseList
+participant ":Logger" as Logger
 
 User -> LIC: execute(incomes, expenseList)
 activate LIC

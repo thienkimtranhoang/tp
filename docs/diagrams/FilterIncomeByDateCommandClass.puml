@@ -2,7 +2,7 @@
 hide circle
 skinparam classAttributeIconSize 0
 
-package budgetflow.command {
+package command {
     class "{abstract} \n Command" {
         - input: String
         - commandType: CommandType
@@ -21,28 +21,28 @@ package budgetflow.command {
     "FilterIncomeByDateCommand" --|> "{abstract} \n Command"
 }
 
-package budgetflow.exception {
+
     class "FinanceException"
-}
 
-package budgetflow.expense {
+
+
     class ExpenseList
-}
 
-package budgetflow.income {
+
+
     class Income {
         + getDate(): String
         + getCategory(): String
         + getAmount(): double
     }
-}
 
-package budgetflow.parser {
+
+
     class DateValidator {
         + static boolean isValidDate(String date)
         + static getFullDateFormatter(): java.time.format.DateTimeFormatter
     }
-}
+
 
 package java.util {
     interface List
