@@ -51,6 +51,7 @@ filter them by category or date, and analyze their financial habits. It is writt
         * Added documentation for ```add income``` command and ```set saving goal``` command 
         * Added documentation for ```FinanceTracker``` class 
         * Added documentation for ```Income``` class
+        * Added documentation for `Documentation` part
         * Updated more information for non-functional requirement
           <br><br>
 * __Community:__
