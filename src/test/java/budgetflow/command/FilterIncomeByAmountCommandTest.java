@@ -125,7 +125,7 @@ class FilterIncomeByAmountCommandTest {
 
     //@@author thienkimtranhoang
     @Test
-    void amount_edgeCase_ZeroAmount() throws Exception {
+    void amount_edge_case_zero_amount() throws Exception {
         // Testing with zero as the amount, checking if it properly includes or excludes
         List<Income> incomes = new ArrayList<>();
         incomes.add(new Income("Freelance", 0.00, "01-01-2025"));
