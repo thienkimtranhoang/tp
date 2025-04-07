@@ -39,6 +39,8 @@ public class UpdateExpenseCommand extends Command {
     private static final int UPDATE_EXPENSE_COMMAND_PREFIX_LENGTH =
             UPDATE_EXPENSE_COMMAND_PREFIX.length();
 
+    private static final String ERROR_INPUT_LENGTH_GREATER_THAN_PREFIX =
+            "Input length must be greater than command prefix length.";
     private static final String ERROR_MISSING_INDEX = "Error: Index is required.";
     private static final String ERROR_EXPENSE_ENTRY_NOT_FOUND =
             "Error: Expense entry not found.";
@@ -104,6 +106,7 @@ public class UpdateExpenseCommand extends Command {
      */
     private static String getUpdatedCategory(String input, String currentCategory)
             throws MissingCategoryException {
+        assert input != null : "Input string must not be null.";
         if (input.contains("/category ")) {
             throw new MissingCategoryException(ERROR_CATEGORY_INPUT_FORMAT);
         }
@@ -132,6 +135,7 @@ public class UpdateExpenseCommand extends Command {
      */
     private static String getUpdatedDescription(String input, String currentDescription)
             throws MissingDescriptionException {
+        assert input != null : "Input string must not be null.";
         if (input.contains("/desc ")) {
             throw new MissingDescriptionException(ERROR_DESCRIPTION_INPUT_FORMAT);
         }
@@ -162,6 +166,7 @@ public class UpdateExpenseCommand extends Command {
      */
     private static String getUpdatedDate(String input, String currentDate)
             throws InvalidDateException {
+        assert input != null : "Input string must not be null.";
         if (input.contains("/d ")) {
             throw new InvalidDateException(ERROR_DATE_INPUT_FORMAT);
         }
@@ -195,6 +200,7 @@ public class UpdateExpenseCommand extends Command {
      */
     private static Double getUpdatedAmount(String input, Double currentAmount)
             throws InvalidNumberFormatException {
+        assert input != null : "Input string must not be null.";
         if (input.contains("/amount ")) {
             throw new InvalidNumberFormatException(ERROR_AMOUNT_INPUT_FORMAT);
         }

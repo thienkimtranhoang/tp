@@ -78,5 +78,48 @@ class DeleteExpenseCommandTest {
         }
     }
 
+    //@@author dariusyawningwhiz
+    @Test
+    void deleteExpense_lastExpense_deletedCorrectly() throws FinanceException {
+        ExpenseList expenseList = getListWith3Expenses();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new DeleteExpenseCommand("delete-expense 3");
+        command.execute(incomes, expenseList);
+        assertEquals("Expense deleted: Groceries, $25.0", command.getOutputMessage());
+    }
 
+    //@@author dariusyawningwhiz
+    @Test
+    void deleteExpense_listSizeAfterDeletion_correct() throws FinanceException {
+        ExpenseList expenseList = getListWith3Expenses();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new DeleteExpenseCommand("delete-expense 2");
+        command.execute(incomes, expenseList);
+        assertEquals(2, expenseList.getSize());
+    }
+
+    //@@author dariusyawningwhiz
+    @Test
+    void deleteExpense_firstExpense_deletedCorrectly() throws FinanceException {
+        ExpenseList expenseList = getListWith3Expenses();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new DeleteExpenseCommand("delete-expense 1");
+        command.execute(incomes, expenseList);
+        assertEquals("Expense deleted: Lunch, $12.5", command.getOutputMessage());
+    }
+
+    //@@author dariusyawningwhiz
+    @Test
+    void deleteExpense_emptyList_throwsException() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new DeleteExpenseCommand("delete-expense 1");
+        try {
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Invalid expense index.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
 }
