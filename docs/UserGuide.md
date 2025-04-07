@@ -203,7 +203,9 @@ Income updated: [UPDATED_CATEGORY], Amount: [UPDATED_AMOUNT], Date: [UPDATED_DAT
 ```
 
 ### 8. Setting a Savings Goal
-**Description:** Sets a savings goal with a specified amount and optional target date. Users are allowed to set saving goal to 0 in case they do not want to set a goal yet.
+
+**Description:** Sets a savings goal with a specified amount and optional target date. Users are allowed to set saving
+goal to 0 in case they do not want to set a goal yet.
 **Command:**
 ```plaintext
 set-saving-goal <GOAL_AMOUNT> 
@@ -399,24 +401,41 @@ Coffee | Coffee | $3.50 | 06-03-2025
 **Command:**
 
 ```plaintext
-list-income
+list income
 ```
 
 **Output:**
 
 ```plaintext
-Here are all recorded income entries:
-[INFORMATION OF ALL INCOME ENTRIES]
+=======================================================================
+                              INCOME LOG
+=======================================================================
+Category             | Amount     | Date           
+=====================+-===========+-===============
+                     | -          |    
+
+Summary:
+Total Income    | Saving Goal     | Current Savings   | Progress       
+================+-================+-==================+-===============
+                |                 |                   |       
+
 ```
 
 **Example:**
 
 ```plaintext
-list-income
-Here are all recorded income entries:
-Salary | Monthly Salary | $3000.00 | 01-04-2025
-Freelance | Website Development | $500.00 | 05-04-2025
----
+=======================================================================
+                              INCOME LOG
+=======================================================================
+Category             | Amount     | Date           
+=====================+-===========+-===============
+Salary               | $1000.00   | 06-03-2025     
+
+Summary:
+Total Income    | Saving Goal     | Current Savings   | Progress       
+================+-================+-==================+-===============
+$1000.00        | $30000.00       | $1000.00          | 3.33%          
+
 ```
 
 ---

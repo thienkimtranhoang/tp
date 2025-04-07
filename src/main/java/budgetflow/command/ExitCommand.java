@@ -10,6 +10,7 @@ import java.util.List;
  * When executed, this command sets the exit flag and displays a formatted farewell message.
  *
  * @@author IgoyAI
+ * @@author thienkimtranhoang
  */
 public class ExitCommand extends Command {
     private static final int OUTPUT_WIDTH = 60;

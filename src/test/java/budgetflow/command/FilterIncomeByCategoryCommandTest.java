@@ -1,11 +1,12 @@
 package budgetflow.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
+import budgetflow.exception.InvalidKeywordException;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,16 +50,15 @@ class FilterIncomeByCategoryCommandTest {
     }
 
     @Test
-    void category_missing_returnsUsageGuide() throws Exception {
+    void category_missing_throwsException() {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = new ExpenseList();
 
         Command command = new FilterIncomeByCategoryCommand("filter-income category/");
-        command.execute(incomes, expenseList);
-
-        String expectedOutput = "Usage: filter-income category/<category>\n" +
-                "Example: filter-income category/Salary";
-
-        assertEquals(expectedOutput, command.getOutputMessage());
+        InvalidKeywordException exception = assertThrows(InvalidKeywordException.class,
+                () -> command.execute(incomes, expenseList));
+        String expectedMessage = "Invalid command. Correct format: Usage: filter-income category/<category>\n"
+                + "Example: filter-income category/Salary";
+        assertEquals(expectedMessage, exception.getMessage());
     }
 }

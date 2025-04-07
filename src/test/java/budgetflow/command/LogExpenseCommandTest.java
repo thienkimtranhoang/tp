@@ -35,22 +35,18 @@ class LogExpenseCommandTest {
     }
 
     /**
-     * Tests handling of an empty input command.
-     * Ensures that an appropriate exception is thrown.
+     * Tests if an input with only the command returns the usage guide.
      */
     //@@author dariusyawningwhiz
     @Test
-    void logExpense_emptyInputTest() {
+    void logExpense_onlyCommand_returnsUsageGuide() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command command = new LogExpenseCommand("log-expense ");
-        try {
-            command.execute(incomes, expenseList);
-            fail();
-        } catch (FinanceException e) {
-            String expectedError = "Expense should not be empty";
-            assertEquals(expectedError, e.getMessage());
-        }
+        Command command = new LogExpenseCommand("   log-expense   ");
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Usage: log-expense category/<category> desc/<description> " +
+                "amt/<amount> d/<date>\nExample: log-expense category/Food desc/Lunch amt/12.50 d/15-03-2025";
+        assertEquals(expectedOutput, command.getOutputMessage());
     }
 
     /**
@@ -148,6 +144,9 @@ class LogExpenseCommandTest {
         }
     }
 
+    /**
+     * Tests if an invalid date format results in an error message.
+     */
     @Test
     void logExpense_invalidDateFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -156,13 +155,17 @@ class LogExpenseCommandTest {
                 "log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/2025-03-15");
         try {
             command.execute(incomes, expenseList);
+            fail();
         } catch (FinanceException e) {
-            String expectedError = "Error: Expense date is in wrong format. " +
-                    "Please use DD-MM-YYYY format.";
+            String expectedError =
+                    "Error: Income date is in wrong format. please use DD-MM-YYYY format.";
             assertEquals(expectedError, e.getMessage());
         }
     }
 
+    /**
+     * Tests if an invalid date value results in an error message.
+     */
     @Test
     void logExpense_invalidDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -171,8 +174,25 @@ class LogExpenseCommandTest {
                 "log-expense category/Dining desc/DinnerWithFriends amt/45.75 d/99-99-1234");
         try {
             command.execute(incomes, expenseList);
+            fail();
         } catch (FinanceException e) {
-            String expectedError = "Error: Date is not a valid date. Please use DD-MM-YYYY format.";
+            String expectedError = "Error: Date is not a valid date";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void logExpense_exceedsIntegerDigits_showsError() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new LogExpenseCommand(
+                "log-expense category/Test desc/Test amt/12345678 d/15-03-2025");
+        try {
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError =
+                    "Amount exceeds 7 digits. Please enter a number with up to 7 digits.";
             assertEquals(expectedError, e.getMessage());
         }
     }
@@ -198,14 +218,71 @@ class LogExpenseCommandTest {
 
     //@@author thienkimtranhoang
     @Test
-    void addIncome_extraParameters_ignoresExtraParams() throws FinanceException {
+    void logExpense_exceedsDecimalDigits_showsError() {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
-        Command command = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025 extra/parameter");
+        Command command = new LogExpenseCommand(
+                "log-expense category/Test desc/Test amt/123.456 d/15-03-2025");
+        try {
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Amount must have at most 2 decimal places.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void logExpense_extraParameters_ignoresExtraParams() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new LogExpenseCommand(
+                "log-expense category/Food desc/Lunch amt/12.50 d/15-03-2025 extra/parameter");
         command.execute(incomes, expenseList);
-        String expectedOutput = "Income added: Salary, Amount: $2500.00, Date: 15-03-2025";
+        String expectedOutput =
+                "Expense logged: Food | Lunch | $12.50 | 15-03-2025";
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
+    @Test
+    void logExpense_tagsOutOfOrder_logsExpenseCorrectly() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new LogExpenseCommand(
+                "log-expense amt/45.75 d/15-03-2025 category/Dining desc/DinnerWithFriends");
+        command.execute(incomes, expenseList);
+        String expectedOutput =
+                "Expense logged: Dining | DinnerWithFriends | $45.75 | 15-03-2025";
+        assertEquals(expectedOutput, command.getOutputMessage());
+    }
 
+    @Test
+    void logExpense_negativeAmount_showsError() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new LogExpenseCommand(
+                "log-expense category/Dining desc/Dinner amt/-50.00 d/15-03-2025");
+        try {
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Expense amount is required.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void logExpense_zeroAmount_showsError() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new LogExpenseCommand(
+                "log-expense category/Dining desc/Dinner amt/0 d/15-03-2025");
+        try {
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Expense amount is required.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
 }
