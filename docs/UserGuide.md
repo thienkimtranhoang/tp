@@ -40,7 +40,7 @@ even compare monthly expenses at ease.
   
 * [FAQ](#faq)
 * [Data Privacy](#data--privacy)
-* [Command Summary](#command-summary-)
+* [Command Summary](#command-summary)
 
 ---
 
@@ -640,8 +640,7 @@ Budgetflow stores your data **locally** in a secure file. No data is uploaded on
 You can clear all data with the `reset` command (if implemented).
 
 ---
-## Command Summary  
-  
+## Command Summary
 
 | **Command**                                                                                                           | **Description**                                                          |
 |-----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
