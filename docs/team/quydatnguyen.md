@@ -10,7 +10,7 @@ filter them by category or date, and analyze their financial habits. It is writt
 * __New features:__ Added ability to view all expenses
   * __What it does:__ This feature allows user to view all existing expenses that have been logged into the application.
   * __Justification:__ This feature helps user to keep track of all expenses that have been logged in, provides important information about their logged expenses. 
-This plays an important assistance role in managing expenses for user.
+This plays an important assistance role in managing expenses for user, include viewing list changes after logging in new expenses or delete/ update an existing expenses.
   * __Highlights:__ The displayed information from this feature mostly matches with the keyword syntax for category, date, amount and description, which also assists
 user in logging in commands. This feature also display the total expenses amount, which even helps user to quickly calculate total amount of expenses. 
 
@@ -19,15 +19,16 @@ user in logging in commands. This feature also display the total expenses amount
   * __Justification:__ This feature aim to assist querying expenses, allowing user to only display certain expenses after filtering. In addition, it helps user to search
 for an expense quicker and help in managing expenses by filtering and focusing on smaller group of expenses. 
   * __Highlights:__ The filter for description allows partial matching, which helps user to even find expense based on description even if they don't exactly remember the description. 
-The filter for amount and date also allows both exact matching and filtering from a range value.
+The filter for amount and date also allows both exact matching and filtering from a range value, serving 
 
 * __Documentation:__ 
   * __User Guide:__
-    * Added documentation for `Viewing all expenses` and `Filtering expenses`.
+    * Added documentation for `Listing expenses` and `Filtering expenses`.
     * Adjusted command summary.
     * Added outline for User Guide.
   * __Developer Guide:__
-    * Added documentation for `Architecture`, `Ui`, `Parser`, `Command`, `ExpenseList`, `Viewing All Expenses`, `Filtering Expenses`
+    * Added documentation for `Architecture`, `Ui`, `Parser`, `Command`, `ExpenseList`, `Listing All Expenses`, `Filtering Expenses`
+    * Added manual test instructions for `list expenses` and `filter expenses`  
     * Added introduction and prerequisites
 
 * __Community:__
