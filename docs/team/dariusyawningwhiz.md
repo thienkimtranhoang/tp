@@ -39,7 +39,6 @@ filter them by category or date, and analyze their financial habits. It is writt
     <br>
 * __Documentation:__
     * User Guide:
-        * Added command summary and welcome message [#101](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/101)
         * Added documentation for log-expense and update-expense command [#101](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/101)
         * Added solutions in Q&A section [#213](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/213)
     * Developer Guide:
