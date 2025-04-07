@@ -1,11 +1,11 @@
 @startuml
 actor User
-participant "FilterIncomeByDateCommand" as Command
-participant "Regex Matcher from" as MatcherFrom
-participant "Regex Matcher to" as MatcherTo
-participant "DateValidator" as DV
-participant "Income" as Income
-participant "Logger" as Logger
+participant ":FilterIncomeByDateCommand" as Command
+participant ":Regex Matcher from" as MatcherFrom
+participant ":Regex Matcher to" as MatcherTo
+participant ":DateValidator" as DV
+participant ":Income" as Income
+participant ":Logger" as Logger
 
 '--------------------------
 ' 1) Parameter Extraction

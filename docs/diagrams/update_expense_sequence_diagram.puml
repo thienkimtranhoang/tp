@@ -1,12 +1,12 @@
 @startuml
 actor User
-participant "MainTracker" as Main
-participant "FinanceTracker" as Finance
-participant "UpdateExpenseCommand" as UpdateCmd
-participant "ExpenseList" as ExpenseList
-participant "Expense" as Expense
-participant "Storage" as Storage
-participant "DateValidator" as DateValidator
+participant ":MainTracker" as Main
+participant ":FinanceTracker" as Finance
+participant ":UpdateExpenseCommand" as UpdateCmd
+participant ":ExpenseList" as ExpenseList
+participant ":Expense" as Expense
+participant ":Storage" as Storage
+participant ":DateValidator" as DateValidator
 
 User -> Main: start application
 activate Main

@@ -1,5 +1,9 @@
 @startuml
-class Command {
+
+hide circle
+skinparam classAttributeIconSize 0
+
+class "{abstract}\nCommand" {
     + CommandType commandType
     + execute(List<Income>, ExpenseList)
 }
@@ -16,7 +20,7 @@ enum CommandType {
     EXIT
 }
 
-Command <|-- ExitCommand
+"{abstract}\nCommand" <|-- ExitCommand
 ExitCommand --> CommandType
 
 @enduml
