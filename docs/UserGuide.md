@@ -41,6 +41,7 @@ even compare monthly expenses at ease.
 * [FAQ](#faq)
 * [Data Privacy](#data--privacy)
 * [Command Summary](#command-summary)
+
 ---
 
 ## Notes to users:
@@ -639,7 +640,9 @@ Budgetflow stores your data **locally** in a secure file. No data is uploaded on
 You can clear all data with the `reset` command (if implemented).
 
 ---
-## Command Summary
+## Command Summary  
+  
+
 | **Command**                                                                                                           | **Description**                                                          |
 |-----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
 | `add category/<CATEGORY> amt/<AMOUNT> d/<DATE>`                                                                       | Adds an income entry with the specified category, amount, and date.      |
@@ -661,5 +664,6 @@ You can clear all data with the `reset` command (if implemented).
 | `update-income <INDEX> category/<UPDATED_CATEGORY> amt/<UPDATED_AMOUNT> d/<UPDATED_DATE>`                             | Updates an income entry at index `<INDEX>`.                              |
 | `compare <Month1> <Month2>`                                                                                           | Compares total expenses between `<Month1>` and `<Month2>`.               | 
 | `exit`                                                                                                                | Exits the application safely.                                            |
-| `help`                                                                                                                | Displays a comprehensive list of all commands                            |
+| `help`                                                                                                                | Displays a comprehensive list of all commands                            |  
 
+  
