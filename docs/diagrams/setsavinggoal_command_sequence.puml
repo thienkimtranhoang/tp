@@ -1,9 +1,9 @@
 @startuml
 
 actor User
-participant "SetSavingGoalCommand" as SSG
-participant "ListIncomeCommand" as LIC
-participant "Logger" as Log
+participant ":SetSavingGoalCommand" as SSG
+participant ":ListIncomeCommand" as LIC
+participant ":Logger" as Log
 
 User -> SSG : set-saving-goal 1000
 activate SSG

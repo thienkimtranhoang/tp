@@ -1,9 +1,9 @@
 @startuml
 actor User
-participant "FilterIncomeByAmountCommand" as Command
-participant "Regex Matcher" as Matcher
-participant "Income" as Income
-participant "Logger" as Logger
+participant ":FilterIncomeByAmountCommand" as Command
+participant ":Regex Matcher" as Matcher
+participant ":Income" as Income
+participant ":Logger" as Logger
 
 User -> Command: execute(incomes, expenseList)
 activate Command

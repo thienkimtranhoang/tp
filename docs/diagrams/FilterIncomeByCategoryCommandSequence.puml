@@ -1,8 +1,8 @@
 @startuml
 actor User
-participant "FilterIncomeByCategoryCommand" as Command
-participant "Income" as Income
-participant "Logger" as Logger
+participant ":FilterIncomeByCategoryCommand" as Command
+participant ":Income" as Income
+participant ":Logger" as Logger
 
 User -> Command: execute(incomes, expenseList)
 activate Command
