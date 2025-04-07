@@ -12,14 +12,24 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-
+//@@author thienkimtranhoang
 /**
  * Handles the storage operations for the BudgetFlow application.
- * Responsible for saving and loading finance data to/from persistent storage.
+ * Responsible for saving and loading finance data (incomes and expenses)
+ * to and from persistent storage in a plain text format.
  */
+//@@author thienkimtranhoang
 public class Storage {
     private static final String DATA_FILE_PATH = "./data/budgetflow.txt";
 
+    /**
+     * Saves the list of incomes and expenses to a file.
+     * Creates the data directory if it does not already exist.
+     * Each income and expense is written in a pipe-delimited format.
+     *
+     * @param incomes     The list of income entries to be saved.
+     * @param expenseList The list of expense entries to be saved.
+     */
     public void saveData(List<Income> incomes, ExpenseList expenseList) {
         try {
             File directory = new File("./data");
@@ -54,6 +64,14 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads income and expense data from a file and populates the provided lists.
+     * If the data file does not exist, the method exits silently.
+     * Lines that do not conform to the expected format are skipped.
+     *
+     * @param incomes     The list to populate with loaded income entries.
+     * @param expenseList The list to populate with loaded expense entries.
+     */
     public void loadData(List<Income> incomes, ExpenseList expenseList) {
         File file = new File(DATA_FILE_PATH);
         if (!file.exists()) {

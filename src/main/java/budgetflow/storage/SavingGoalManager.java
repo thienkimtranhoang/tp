@@ -11,12 +11,21 @@ import java.util.logging.Logger;
 
 /**
  * Handles the saving and loading of the saving goal for the BudgetFlow application.
+ * This class reads and writes the saving goal to a text file located at ./data/saving_goal.txt.
  */
+//@@author thienkimtranhoang
 public class SavingGoalManager {
     private static final Logger logger = Logger.getLogger(
             SavingGoalManager.class.getName());
     private static final String SAVING_GOAL_FILE_PATH = "./data/saving_goal.txt";
 
+    /**
+     * Saves the specified saving goal to a file.
+     * If the file or directory does not exist, it is created.
+     *
+     * @param savingGoal The saving goal to be saved.
+     */
+    //@@author thienkimtranhoang
     public void saveSavingGoal(double savingGoal) {
         try {
             File directory = new File("./data");
@@ -35,6 +44,11 @@ public class SavingGoalManager {
         }
     }
 
+    /**
+     * Loads the saving goal from the file and sets it in {@link ListIncomeCommand}.
+     * If the file does not exist or contains invalid data, the method handles the error gracefully.
+     */
+    //@@author thienkimtranhoang
     public void loadSavingGoal() {
         File file = new File(SAVING_GOAL_FILE_PATH);
         if (!file.exists()) {

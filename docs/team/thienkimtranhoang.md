@@ -35,7 +35,7 @@ filter them by category or date, and analyze their financial habits. It is writt
 
       *__Enhancements to existing features:__
     * Added add-on information of saving goal and saving progress to list income command  [#97](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/97)
-  * Enhance date validator for add income and log-expense command, ensuring the year format stay resonable with 4 digits
+    * Enhance date validator for add income and log-expense command, ensuring the year format stay resonable with 4 digits
 * __Code Contributed:__ [RepoSense Link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=thienkim&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21)
   <br><br>
 * __Project Management:__
@@ -43,12 +43,14 @@ filter them by category or date, and analyze their financial habits. It is writt
       <br><br>
 * __Documentation:__
     * User Guide:
-        * Added documentation for add income command and set saving goal command
+        * Added documentation for ```add income``` and ```set saving goal``` command
+        * Updated documentation for other commands sequence diagram
         * Added comprehensive notes for command formats
     * Developer Guide:
         * Added Setting-up instructions
-        * Added documentation for add income command and set saving goal command 
-        * Added documentation for FinanceTracker class
+        * Added documentation for ```add income``` command and ```set saving goal``` command 
+        * Added documentation for ```FinanceTracker``` class 
+        * Added documentation for ```Income``` class
         * Updated more information for non-functional requirement
           <br><br>
 * __Community:__

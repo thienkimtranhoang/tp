@@ -1,10 +1,12 @@
 package budgetflow.command;
 
+
 import budgetflow.exception.ExceedsMaxTotalExpense;
-import budgetflow.exception.InvalidDateException;
 import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.MissingCategoryException;
 import budgetflow.exception.MissingDescriptionException;
+import budgetflow.exception.InvalidDateException;
+import budgetflow.exception.FinanceException;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -16,7 +18,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
+//@@author dariusyawningwhiz
 public class UpdateExpenseCommandTest {
     private ExpenseList expenseList;
     private List<Income> incomes;
@@ -248,5 +252,103 @@ public class UpdateExpenseCommandTest {
         Exception exception = assertThrows(InvalidNumberFormatException.class, () -> command.execute(incomes,
                 emptyExpenseList));
         assertEquals("Error: No expense entries exist to update.", exception.getMessage());
+    }
+    @Test
+    public void testCompareExpenseCommand_validInputBothMonths() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c1 = new LogExpenseCommand(
+                "log-expense category/Dining desc/spendA amt/100 d/15-03-2025");
+        Command c2 = new LogExpenseCommand(
+                "log-expense category/Dining desc/spendB amt/500 d/15-04-2025");
+        c1.execute(incomes, expenseList);
+        c2.execute(incomes, expenseList);
+
+        Command c3 = new CompareExpenseCommand("compare 03-2025 04-2025");
+        c3.execute(incomes, expenseList);
+        String expectedOutput = "Total expenses for 03-2025: $100.00" + System.lineSeparator() +
+                "Total expenses for 04-2025: $500.00" + System.lineSeparator();
+        assertEquals(expectedOutput, c3.getOutputMessage());
+    }
+
+    @Test
+    public void testCompareExpenseCommand_emptyInputOneMonth() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c1 = new LogExpenseCommand(
+                "log-expense category/Dining desc/spendA amt/100 d/15-03-2025");
+        c1.execute(incomes, expenseList);
+        Command c2 = new CompareExpenseCommand("compare 03-2025 04-2025");
+        c2.execute(incomes, expenseList);
+        String expectedOutput = "Total expenses for 03-2025: $100.00" + System.lineSeparator() +
+                "Total expenses for 04-2025: $0.00" + System.lineSeparator();
+        assertEquals(expectedOutput, c2.getOutputMessage());
+    }
+
+    @Test
+    public void testCompareExpenseCommand_incorrectMonthFormat() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c1 = new LogExpenseCommand(
+                "log-expense category/Dining desc/spendA amt/100 d/15-03-2025");
+        Command c2 = new LogExpenseCommand(
+                "log-expense category/Dining desc/spendB amt/500 d/15-04-2025");
+        c1.execute(incomes, expenseList);
+        c2.execute(incomes, expenseList);
+        Command c3 = new CompareExpenseCommand("compare 2025-03 2025-04");
+        try {
+            c3.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Invalid input format. Usage: compare MM-YYYY MM-YYYY";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    public void testCompareExpenseCommand_multipleExpensesPerMonth() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c1 = new LogExpenseCommand("log-expense category/Food desc/Lunch amt/50 d/10-03-2025");
+        Command c2 = new LogExpenseCommand("log-expense category/Transport desc/Taxi amt/30 d/12-03-2025");
+        Command c3 = new LogExpenseCommand("log-expense category/Groceries desc/Supermarket amt/70 d/20-04-2025");
+        c1.execute(incomes, expenseList);
+        c2.execute(incomes, expenseList);
+        c3.execute(incomes, expenseList);
+
+        Command compare = new CompareExpenseCommand("compare 03-2025 04-2025");
+        compare.execute(incomes, expenseList);
+        String expectedOutput = "Total expenses for 03-2025: $80.00" + System.lineSeparator() +
+                "Total expenses for 04-2025: $70.00" + System.lineSeparator();
+        assertEquals(expectedOutput, compare.getOutputMessage());
+    }
+
+    @Test
+    public void testCompareExpenseCommand_noExpensesAtAll() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command compare = new CompareExpenseCommand("compare 03-2025 04-2025");
+        try {
+            compare.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            assertEquals("No expenses in range", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testCompareExpenseCommand_largeExpenses() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c1 = new LogExpenseCommand("log-expense category/Travel desc/Flight amt/5000 d/10-03-2025");
+        Command c2 = new LogExpenseCommand("log-expense category/Rent desc/Apartment amt/2000 d/15-04-2025");
+        c1.execute(incomes, expenseList);
+        c2.execute(incomes, expenseList);
+
+        Command compare = new CompareExpenseCommand("compare 03-2025 04-2025");
+        compare.execute(incomes, expenseList);
+        String expectedOutput = "Total expenses for 03-2025: $5000.00" + System.lineSeparator() +
+                "Total expenses for 04-2025: $2000.00" + System.lineSeparator();
+        assertEquals(expectedOutput, compare.getOutputMessage());
     }
 }

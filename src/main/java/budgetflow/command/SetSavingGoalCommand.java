@@ -45,6 +45,7 @@ public class SetSavingGoalCommand extends Command {
      * @param incomes     The list of incomes (not used in this command).
      * @param expenseList The list of expenses (not used in this command).
      */
+    //@@author thienkimtranhoang
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) {
         // If an error message is already set (by the constructor), do not override it.

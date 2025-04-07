@@ -64,6 +64,8 @@ public class LogExpenseCommand extends Command {
         this.commandType = CommandType.CREATE;
     }
 
+    //@@author thienkimtranhoang
+    //@@author dariusyawningwhiz
     /**
      * Logs new user expense into the expense list.
      * If the user types only "log-expense" (even with extra whitespace),
@@ -78,6 +80,8 @@ public class LogExpenseCommand extends Command {
      * @throws MissingExpenseException if expense details are missing entirely
      * @throws ExceedsMaxDigitException if the expense amount exceeds digit limitations
      */
+    //@@author thienkimtranhoang
+    //@@author dariusyawningwhiz
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList)
             throws MissingDateException, InvalidNumberFormatException, MissingAmountException,
@@ -95,6 +99,7 @@ public class LogExpenseCommand extends Command {
                 expense.getDate();
     }
 
+    //@@author thienkimtranhoang
     private static void verifyMissingOrIncorrect(String input)
             throws MissingDateException {
         String invalidDatePattern = "d/(\\S+)";
@@ -109,7 +114,7 @@ public class LogExpenseCommand extends Command {
             throw new MissingDateException(ERROR_MISSING_EXPENSE_DATE);
         }
     }
-
+    //@@author thienkimtranhoang
     private String extractPattern(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
@@ -121,6 +126,7 @@ public class LogExpenseCommand extends Command {
      * Modified by @IgoyAI to use improved lookahead-based regex patterns,
      * supporting tags in any order.
      */
+    //@@author thienkimtranhoang
     private Expense extractExpense(String input)
             throws InvalidNumberFormatException, MissingCategoryException,
             MissingAmountException, MissingDateException, MissingDescriptionException,
@@ -228,6 +234,7 @@ public class LogExpenseCommand extends Command {
         return new Expense(category, description, amount, date);
     }
 
+    //@@author thienkimtranhoang
     private void validateYearFormat(String date) throws MissingDateException {
         String[] dateParts = date.split("-");
         if (dateParts.length == 3) {

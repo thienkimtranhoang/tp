@@ -16,6 +16,7 @@ import java.util.List;
  * @author IgoyAI
  * @author Yikbing
  * @author thienkimtranhoang
+ * @author dariusyawningwhiz
  */
 public class HelpCommand extends Command {
 
@@ -97,17 +98,17 @@ public class HelpCommand extends Command {
 
         // 9. Update Expense
         helpMessage.append("9. Update Expense:").append(System.lineSeparator());
-        helpMessage.append("   Syntax : update-expense category/[CATEGORY] OR amt/[AMOUNT] " +
+        helpMessage.append("   Syntax : update-expense [INDEX] category/[CATEGORY] OR amt/[AMOUNT] " +
                 "OR desc/[DESCRIPTION] d/[DD-MM-YYYY]").append(System.lineSeparator());
-        helpMessage.append("   Example: update-expense desc/Brunch amt/20 d/21-03-2023")
+        helpMessage.append("   Example: update-expense 1 desc/Brunch amt/20 d/21-03-2023")
                 .append(System.lineSeparator());
         helpMessage.append(System.lineSeparator());
 
         // 10. Update Income
         helpMessage.append("10. Update Income:").append(System.lineSeparator());
-        helpMessage.append("    Syntax : update-income category/[CATEGORY] OR amt/[AMOUNT] " +
+        helpMessage.append("    Syntax : update-income [INDEX] category/[CATEGORY] OR amt/[AMOUNT] " +
                 "OR d/[DD-MM-YYYY]").append(System.lineSeparator());
-        helpMessage.append("    Example: update-income amt/5500").append(System.lineSeparator());
+        helpMessage.append("    Example: update-income 1 amt/5500").append(System.lineSeparator());
         helpMessage.append(System.lineSeparator());
 
         // 11. Filter Income

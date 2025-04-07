@@ -15,7 +15,7 @@ even compare monthly expenses at ease.
 * [Notes to users](#notes-to-users)
 * [Features](#features)
   * [Logging an Expense](#1-logging-an-expense)
-  * [Updating an Expense Entry](#2-updating-an-expense-entry)
+  * [Updating an Expense Entry](#2-updating-an-expense-entry-not-income)
   * [Deleting an Income](#3-deleting-an-income)
   * [Deleting an Expense](#4-deleting-an-expense)
   * [Comparing two Monthly Expenses](#5-comparing-two-monthly-expenses-)
@@ -34,11 +34,12 @@ even compare monthly expenses at ease.
   * [Filter Income](#12-filtering-incomes)
     * [Filtering Income by Category](#121-filtering-income-by-category)
     * [Filtering Income by Amount](#122-filtering-income-by-amount)
-    * [Filtering Income by Amount Range](#123-filtering-income-by-amount-range)
-    * [Filtering Income by Date](#124-filtering-income-by-date)
-  * [Exiting the Application](#13-exiting-the-application)
-  * [help](#14-help)
+    * [Filtering Income by Date](#123-filtering-income-by-date)
+  * [help](#13-help)
+  * [Exiting the Application](#14-exiting-the-application)
+  
 * [FAQ](#faq)
+* [Data Privacy](#data--privacy)
 * [Command Summary](#command-summary)
 ---
 
@@ -82,7 +83,8 @@ Expense logged: Coffee | Coffee | $3.50 | 06-03-2025
 
 ### 2. Updating an Expense Entry (Not income)
 **Description:** Updates an instance of an Expense entry.  
-**How it works:** The user only has to write the index and the part they would like to update.  
+**How it works:** The user only has to write the index and the part they would like to update.   
+Note: Date is strictly DD-MM-YYYY  
 For example, if the user only wants to update the amount, they can run:
 
 ```plaintext
@@ -109,7 +111,7 @@ Expense updated: [UPDATED_CATEGORY], Description: [UPDATED_DESCRIPTION], Amount:
 ---
 
 ### 3. Deleting an Income
-**Description:** Deletes an instance of an Income entry.
+**Description:** Deletes an instance of an Income entry.  
 **Command:**
 ```plaintext
 delete-income <INDEX OF INCOME ENTRY>
@@ -527,7 +529,7 @@ Salary               | $900.00    | 01-04-2025
 
 ---
 
-### 14. Filtering Income by Date
+### 12.3 Filtering Income by Date
 
 **Description:** Filters income entries within a specified date range.
 
@@ -576,7 +578,20 @@ Here are all matching income entries:
 Salary | Monthly Salary | $3000.00 | 01-04-2025
 ---
 ```
-### 16. Exiting the Application
+
+### 13. help
+**Description:** The `help` Command provides users with a comprehensive list of all available commands
+and their syntax for managing incomes and expenses within the budget management system.
+**Command:**
+```plaintext
+help
+```
+**Output:**
+```plaintext
+<ALL COMMANDS>
+```
+
+### 14. Exiting the Application
 **Description:** Safely exits the BudgetFlow application.  
 **Command:**
 ```plaintext
@@ -589,19 +604,6 @@ exit
                           Goodbye!
 ============================================================
 ```
-
-### 14. help
-**Description:** The `help` Command provides users with a comprehensive list of all available commands 
-and their syntax for managing incomes and expenses within the budget management system.
-**Command:**
-```plaintext
-help
-```
-**Output:**
-```plaintext
-<ALL COMMANDS>
-```
-
 ## FAQ
 
 **Q: Does BudgetFlow support multiple currencies?**  
@@ -610,7 +612,30 @@ A: Currently, BudgetFlow only supports tracking in one currency at a time.
 **Q: Can I edit or delete an entry after logging it?**  
 A: Yes! You can use the `update-expense` or `delete-expense` commands to modify or remove an expense entry. Similarly, you can use `delete-income` to remove an income entry.
 
+**Q: How can I track my income?**  
+A: You can use the `add-income` command to log income entries. Simply provide the amount, category, description, and date when entering the command.
+
+**Q: Can I specify the date format for my entries?**  
+A: Yes! The date must follow the `DD-MM-YYYY` format. If the date is in the wrong format, an error message will be displayed.
+
+**Q: Is there a limit to the number of expenses or incomes I can add?**  
+A: No, BudgetFlow does not impose a limit on the number of entries. You can keep adding entries as needed.
+
+**Q: How do I view a list of my expenses or incomes?**  
+A: Use the `list-expenses` or `list-incomes` commands to view your recorded entries. You can filter them by date or category as needed.
+
+**Q: What happens if I input an invalid command?**  
+A: If you input an invalid command or incorrect format, BudgetFlow will show an error message specifying what went wrong. Please double-check the command format for correct usage.
+
+**Q: Can I view a summary of my total expenses?**  
+A: Yes, BudgetFlow calculates your total expenses and displays them automatically when you update your entries.
 ---
+## Data & Privacy
+Budgetflow stores your data **locally** in a secure file. No data is uploaded online.
+You can clear all data with the `reset` command (if implemented).
+
+---
+
 
 ## Command Summary
 | **Command**                                                                                                           | **Description**                                                          |
