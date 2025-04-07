@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+//@@author dariusyawningwhiz
 /**
  * Command to update an existing expense entry.
  * This command extracts and updates specified attributes of an expense entry
@@ -38,6 +39,8 @@ public class UpdateExpenseCommand extends Command {
     private static final int UPDATE_EXPENSE_COMMAND_PREFIX_LENGTH =
             UPDATE_EXPENSE_COMMAND_PREFIX.length();
 
+    private static final String ERROR_INPUT_LENGTH_GREATER_THAN_PREFIX =
+            "Input length must be greater than command prefix length.";
     private static final String ERROR_MISSING_INDEX = "Error: Index is required.";
     private static final String ERROR_EXPENSE_ENTRY_NOT_FOUND =
             "Error: Expense entry not found.";
@@ -47,20 +50,25 @@ public class UpdateExpenseCommand extends Command {
     private static final String ERROR_WRONG_DATE_FORMAT =
             "Error: Invalid date format. Usage: DD-MM-YYYY";
     private static final String ERROR_INVALID_AMOUNT = "Error: Invalid amount format.";
-    private static final String ERROR_INVALID_CATEGORY = "Error: Invalid category. "
-            + "It must contain only alphanumeric characters.";
-    private static final String ERROR_INVALID_DESCRIPTION = "Error: Invalid description. "
-            + "It must contain only alphanumeric characters.";
-    private static final Pattern CATEGORY_PATTERN =
-            Pattern.compile("category/([^\\s]+)\\s*(desc/|amt/|d/|$)");
-    private static final Pattern AMT_PATTERN =
-            Pattern.compile("amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])");
-    private static final Pattern DESC_PATTERN =
-            Pattern.compile("desc/([^\\s]+)\\s*(amt/|d/|$)");
-    private static final Pattern DATE_PATTERN =
-            Pattern.compile("d/\\s*(\\d{2}-\\d{2}-\\d{4,})");
-    private static final String ERROR_MORE_THAN_7_DIGITS = "Amount exceeds 7 digits. "
-            + "Please enter a number with up to 7 digits.";
+    private static final String ERROR_DATE_INPUT_FORMAT = "Error: Invalid date format. Use 'd/' instead of '/d'.";
+    private static final String ERROR_AMOUNT_INPUT_FORMAT =
+            "Error: Invalid amount format. Use 'amount/' instead of '/amount'.";
+    private static final String ERROR_DESCRIPTION_INPUT_FORMAT =
+            "Error: Invalid description format. Use 'desc/' instead of '/desc'.";
+    private static final String ERROR_CATEGORY_INPUT_FORMAT =
+            "Error: Invalid category format. Use 'category/' instead of '/category'.";
+    private static final String ERROR_INVALID_CATEGORY = "Error: Invalid category. " +
+            "It must contain only alphanumeric characters.";
+    private static final String ERROR_INVALID_DESCRIPTION = "Error: Invalid description. " +
+            "It must contain only alphanumeric characters.";
+    private static final Pattern CATEGORY_PATTERN = Pattern.compile("category/([^\\s]+)\\s*(desc/|amt/|d/|$)");
+    private static final Pattern AMT_PATTERN = Pattern.compile(
+            "amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])");
+    private static final Pattern DESC_PATTERN = Pattern.compile("desc/([^\\s]+)\\s*(amt/|d/|$)");
+    private static final Pattern DATE_PATTERN = Pattern.compile("d/\\s*(\\d{1,2}-\\d{1,2}-\\d{4,})");
+    private static final String ERROR_MORE_THAN_7_DIGITS = "Amount exceeds 7 digits. " +
+            "Please enter a number with up to 7 digits.";
+
     private static final String ERROR_MORE_THAN_2_DP = "Amount must have at most 2 decimal places.";
     private static final String EMPTY_SPACE = " ";
 
@@ -98,6 +106,10 @@ public class UpdateExpenseCommand extends Command {
      */
     private static String getUpdatedCategory(String input, String currentCategory)
             throws MissingCategoryException {
+        assert input != null : "Input string must not be null.";
+        if (input.contains("/category ")) {
+            throw new MissingCategoryException(ERROR_CATEGORY_INPUT_FORMAT);
+        }
         Matcher matcher = CATEGORY_PATTERN.matcher(input);
         if (matcher.find()) {
             String extractedCategory = matcher.group(UPDATE_PARAMETER_GROUP).trim();
@@ -123,6 +135,10 @@ public class UpdateExpenseCommand extends Command {
      */
     private static String getUpdatedDescription(String input, String currentDescription)
             throws MissingDescriptionException {
+        assert input != null : "Input string must not be null.";
+        if (input.contains("/desc ")) {
+            throw new MissingDescriptionException(ERROR_DESCRIPTION_INPUT_FORMAT);
+        }
         Matcher matcher = DESC_PATTERN.matcher(input);
         if (matcher.find()) {
             String extractedDescription = matcher.group(UPDATE_PARAMETER_GROUP).trim();
@@ -150,6 +166,10 @@ public class UpdateExpenseCommand extends Command {
      */
     private static String getUpdatedDate(String input, String currentDate)
             throws InvalidDateException {
+        assert input != null : "Input string must not be null.";
+        if (input.contains("/d ")) {
+            throw new InvalidDateException(ERROR_DATE_INPUT_FORMAT);
+        }
         Matcher matcher = DATE_PATTERN.matcher(input);
         if (matcher.find()) {
             String extractedDate = matcher.group(UPDATE_PARAMETER_GROUP).trim();
@@ -159,9 +179,12 @@ public class UpdateExpenseCommand extends Command {
             if (!DateValidator.isValidDate(extractedDate)) {
                 throw new InvalidDateException(ERROR_WRONG_DATE_FORMAT);
             }
+
             return extractedDate;
         }
-        throw new InvalidDateException(ERROR_WRONG_DATE_FORMAT);
+
+        return currentDate;
+
     }
 
     /**
@@ -177,6 +200,10 @@ public class UpdateExpenseCommand extends Command {
      */
     private static Double getUpdatedAmount(String input, Double currentAmount)
             throws InvalidNumberFormatException {
+        assert input != null : "Input string must not be null.";
+        if (input.contains("/amount ")) {
+            throw new InvalidNumberFormatException(ERROR_AMOUNT_INPUT_FORMAT);
+        }
         Matcher matcher = AMT_PATTERN.matcher(input);
         if (matcher.find()) {
             try {
@@ -213,6 +240,7 @@ public class UpdateExpenseCommand extends Command {
      * @throws MissingDescriptionException If the description is missing.
      * @throws InvalidDateException If the date format is invalid.
      */
+    //@@author dariusyawningwhiz
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList)
             throws MissingDateException, InvalidNumberFormatException,
@@ -265,6 +293,7 @@ public class UpdateExpenseCommand extends Command {
         logger.info("Expense updated successfully: " + existingExpense);
     }
 
+    //@@author dariusyawningwhiz
     /**
      * Extracts and applies updated attributes to an existing expense entry.
      *

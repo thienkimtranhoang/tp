@@ -2,7 +2,7 @@
 hide circle
 skinparam classAttributeIconSize 0
 
-package budgetflow.command {
+package command {
     class ListIncomeCommand {
         # CommandType commandType
         # String outputMessage
@@ -14,6 +14,10 @@ package budgetflow.command {
         + <u>getSavingGoal(): double</u>
         - calculateSavingProgress(totalIncome: double, totalExpenses: double): double
         + execute(List<Income> incomes, ExpenseList expenseList)
+    }
+    abstract class "{abstract} \n Command" {
+        + CommandType: commandType
+        + Command()
     }
 }
 
@@ -27,12 +31,9 @@ package budgetflow.income {
 
 class Logger
 
-abstract class "{abstract} \n Command" {
-    + CommandType: commandType
-    + Command()
-}
 
-ListIncomeCommand --|> "{abstract} \n Command"
+
+ "{abstract} \n Command" <|-- ListIncomeCommand
 ListIncomeCommand ..> Income : uses
 ListIncomeCommand ..> ExpenseList : uses
 ListIncomeCommand ..> Logger : uses

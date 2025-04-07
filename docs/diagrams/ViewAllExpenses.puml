@@ -23,6 +23,5 @@ else size != 0
     Command -> Command: add total expenses to message string
     Command -> Command: set output message as message string
 end
-return output message
-
+<-- Command --:
 @enduml

@@ -1,65 +1,64 @@
 @startuml
 actor User
-participant "MainTracker" as Main
-participant "FinanceTracker" as Finance
-participant "UpdateExpenseCommand" as UpdateCmd
-participant "ExpenseList" as ExpenseList
-participant "Expense" as Expense
-participant "Storage" as Storage
-participant "DateValidator" as DateValidator
+participant ":MainTracker" as Main
+participant ":FinanceTracker" as Finance
+participant ":UpdateExpenseCommand" as UpdateCmd
+participant ":ExpenseList" as ExpenseList
+participant ":Expense" as Expense
+participant ":Storage" as Storage
+participant ":DateValidator" as DateValidator
 
-User -> Main: starts application
+User -> Main: start application
 activate Main
 Main -> Finance: run()
 deactivate Main
 
-User -> Finance: types "update-expense 2 amt/50.0 d/01-04-2025"
+User -> Finance: "update-expense 2 amt/50.0 d/01-04-2025"
 activate Finance
 Finance -> UpdateCmd: execute(2, 50.0, "01-04-2025")
 activate UpdateCmd
 
-alt Index is valid
+alt Index valid
     UpdateCmd -> ExpenseList: get(2)
     activate ExpenseList
-    ExpenseList --> UpdateCmd: return Expense
+    ExpenseList --> UpdateCmd: Expense
     deactivate ExpenseList
 
     UpdateCmd -> Expense: updateAmount(50.0)
     activate Expense
-    Expense --> UpdateCmd: return updated amount
+    Expense --> UpdateCmd: updated amount
     deactivate Expense
 
     UpdateCmd -> DateValidator: isValidDate("01-04-2025")
     activate DateValidator
-    DateValidator --> UpdateCmd: return boolean (true)
+    DateValidator --> UpdateCmd: true
     deactivate DateValidator
 
-    alt Date is valid
-        UpdateCmd -> Expense: updateDate("01-04-2025")
-        activate Expense
-        Expense --> UpdateCmd: return updated date
-        deactivate Expense
-    else Invalid date format
-        UpdateCmd -> User: "Error: Invalid date format. Usage: DD-MM-YYYY"
-        deactivate UpdateCmd
-    end
+    UpdateCmd -> Expense: updateDate("01-04-2025")
+    activate Expense
+    Expense --> UpdateCmd: updated date
+    deactivate Expense
+
+    UpdateCmd -> ExpenseList: updateTotalExpenses()
+    activate ExpenseList
+    ExpenseList --> UpdateCmd: updated total
+    deactivate ExpenseList
+
+    UpdateCmd -> Storage: saveData()
+    activate Storage
+    Storage --> UpdateCmd: confirmation
+    deactivate Storage
+
+    UpdateCmd --> User: "Expense updated"
+deactivate UpdateCmd
+
 else Index out of bounds
-    UpdateCmd -> User: "Error: Expense entry not found"
+    UpdateCmd -> User: "Error: Expense not found"
+    deactivate UpdateCmd
+else Invalid date
+    UpdateCmd -> User: "Error: Invalid date format"
     deactivate UpdateCmd
 end
 
-UpdateCmd -> ExpenseList: updateTotalExpenses()
-activate ExpenseList
-ExpenseList --> UpdateCmd: return updated total
-deactivate ExpenseList
-
-UpdateCmd -> Storage: saveData()
-activate Storage
-Storage --> UpdateCmd: return save confirmation
-deactivate Storage
-
-UpdateCmd --> User: "Expense updated successfully"
-deactivate UpdateCmd
 deactivate Finance
-
 @enduml

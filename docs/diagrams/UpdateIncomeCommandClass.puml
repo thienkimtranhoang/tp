@@ -3,23 +3,21 @@
 hide circle
 skinparam classAttributeIconSize 0
 
-package budgetflow{
-    package "budgetflow.command" {
+
         class UpdateIncomeCommand {
 
             + UpdateIncomeCommand(String input)
-            + void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
-             InvalidNumberFormatException, MissingAmountException
+            + void execute(List<Income> incomes, ExpenseList expenseList)
             - {static} void updateStorage(List<Income> incomes, ExpenseList expenseList)
-            - Income extractUpdatedIncome(String input, Income existingIncome) throws MissingAmountException, MissingDateException
-            - {static} String getUpdatedDate(String input, Pattern datePattern, String date) throws MissingDateException
-            - {static} Double getUpdatedAmount(String input, Pattern amtPattern, Double amount) throws MissingAmountException
+            - Income extractUpdatedIncome(String input, Income existingIncome)
+            - {static} String getUpdatedDate(String input, Pattern datePattern, String date)
+            - {static} Double getUpdatedAmount(String input, Pattern amtPattern, Double amount)
             - {static} String getUpdatedCategory(String input, Pattern categoryPattern, String category)
         }
         abstract class "{abstract} \n Command" {
             + CommandType commandType
         }
-    }
+
 
 
 
@@ -39,12 +37,18 @@ package budgetflow{
     class DateValidator {
         + static boolean isValidDate(String date)
     }
-}
+
+    class FinanceException {
+        + InvalidNumberFormatException(String message)
+        + MissingAmountException(String message)
+    }
+
 
 UpdateIncomeCommand --|> "{abstract} \n Command" : extends
 UpdateIncomeCommand --> Income : uses
 UpdateIncomeCommand --> ExpenseList : uses
 UpdateIncomeCommand --> Storage : uses
 UpdateIncomeCommand --> DateValidator : uses
+UpdateIncomeCommand --> FinanceException: throws
 
 @enduml

@@ -1,25 +1,25 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-participant "Parser" as Parser
+participant ":Parser" as Parser
 participant ":Command" as Command
 participant ":UnknownCommandException" as Exception
-
 -> Parser ++: getCommandFromInput(input)
+Parser -> Parser ++: trim input
+Parser --> Parser --:
+Parser -> Parser ++: break input into words
+Parser --> Parser --: group of input's words
 
-alt matching command
+alt input's words matching command's input condition
     create Command
     Parser -> Command ++: new Command()
     Parser <-- Command --:
-    deactivate Command
     <-- Parser: matchingCommand
-else no matching command
+else input's words not matching any commands' input condition
     create Exception
     Parser -> Exception ++: new UnknownCommandException()
-    Parser <-- Exception --:
-    deactivate Exception
+    Parser <-- Exception --
     <-- Parser: throw UnknownCommandException
 end
-
-deactivate Parser
+<-- Parser --:
 @enduml

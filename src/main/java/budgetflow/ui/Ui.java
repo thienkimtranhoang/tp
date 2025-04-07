@@ -12,6 +12,7 @@ public class Ui {
     private static final int SCREEN_WIDTH = 60;
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    //@@author IgoyAI
     /**
      * Displays a robust welcome screen with a prominent header, borders, and clear instructions.
      */
@@ -29,6 +30,7 @@ public class Ui {
         System.out.println(border);
     }
 
+    //@@author IgoyAI
     /**
      * Centers the provided text within the given width.
      *
@@ -44,6 +46,7 @@ public class Ui {
         return " ".repeat(padding) + text;
     }
 
+    //@@author QuyDatNguyen
     /**
      * Reads the text entered by the user, ignoring all leading and trailing whitespace.
      *
@@ -58,6 +61,7 @@ public class Ui {
         return input;
     }
 
+    //@@author QuyDatNguyen
     /**
      * Displays an error message to the user.
      *
@@ -67,6 +71,7 @@ public class Ui {
         System.out.println(error);
     }
 
+    //@@author QuyDatNguyen
     /**
      * Prints out the result or message to the user after successfully executing a command.
      *

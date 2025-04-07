@@ -12,16 +12,17 @@ or planning your monthly expenses, Budgetflow ensures you stay in control.
 With a **simple, command-based interface**, Budgetflow is lightweight, efficient, and fast—perfect for students who
 prefer typing over navigating complex apps. You can log your transactions, filter them based on category or date, and
 even compare monthly expenses at ease.  
+* [Notes to users](#notes-to-users)
 * [Features](#features)
   * [Logging an Expense](#1-logging-an-expense)
-  * [Updating an Expense Entry](#2-updating-an-expense-entry)
+  * [Updating an Expense Entry](#2-updating-an-expense-entry-not-income)
   * [Deleting an Income](#3-deleting-an-income)
   * [Deleting an Expense](#4-deleting-an-expense)
   * [Comparing two Monthly Expenses](#5-comparing-two-monthly-expenses-)
   * [Adding an Income](#6-adding-an-income)
   * [Updating an Income](#7-updating-an-income-)
   * [Setting a Savings Goal](#8-setting-a-savings-goal)
-  * [Viewing all expenses](#9-viewing-all-expenses)
+  * [Listing expenses](#9-listing-expenses)
   * [Filtering expenses](#10-filtering-expenses)
     * [Filtering expenses based on category](#101-filtering-expenses-based-on-category)
     * [Filtering expenses based on description](#102-filtering-expenses-based-on-description)
@@ -33,35 +34,40 @@ even compare monthly expenses at ease.
   * [Filter Income](#12-filtering-incomes)
     * [Filtering Income by Category](#121-filtering-income-by-category)
     * [Filtering Income by Amount](#122-filtering-income-by-amount)
-    * [Filtering Income by Amount Range](#123-filtering-income-by-amount-range)
-    * [Filtering Income by Date](#124-filtering-income-by-date)
-  * [Exiting the Application](#13-exiting-the-application)
-  * [help](#14-help)
+    * [Filtering Income by Date](#123-filtering-income-by-date)
+  * [help](#13-help)
+  * [Exiting the Application](#14-exiting-the-application)
+  
 * [FAQ](#faq)
 * [Data Privacy](#data--privacy)
 * [Command Summary](#command-summary)
+
 ---
 
+## Notes to users:
 Notes about the command format:
 * When entering commands in the system, please ensure you include a space between each parameter.
   Example of incorrect format:
-  ```add category/1amt/1.125456789 d/11-11-2025```
+  ```add category/1amt/1.12 d/11-11-2025```
   Example of correct format:
- ```add category/1amt 1.125456789 d/11-11-2025```
+ ```add category/1 amt/1.12 d/11-11-2025```
 This note applies to all commands. The above is an example of add income command.
-  The system expects space separation between the category parameter, amount value, and date parameter. Without proper spacing, the system may misinterpret your input or generate unexpected results.
-* For all commands involving monetary amounts (e.g., income or expense entries), the following rules apply:
-✅ The integer part of the amount must not exceed 7 digits.
-✅ The decimal part must not exceed 2 digits (i.e., cents).
+  The system expects space separation between the category parameter, amount value, and date parameter. Without proper spacing, the system may misinterpret your input or generate unexpected results.  
+* For all commands involving monetary amounts (e.g., income or expense entries), the following rules apply:   
+✅ The integer part of the amount must not exceed 7 digits.   
+✅ The decimal part must not exceed 2 digits (i.e., cents).  
 These constraints reflect realistic daily usage for students, the primary target users of this application. As such, it is unlikely that users would need to record transactions involving more than 7 digits, and dollar amounts conventionally support up to 2 decimal places.
+* The current limit for total expenses amount is __$9,999,999.99__ (Nine million, nine hundred ninety-nine thousand, nine hundred ninety-nine dollars and ninety-nine cents). As such, users will not be able to log or update expense amounts that exceed this maximum total expense.  
+  This maximum capacity is sufficient for tracking tuition fees, rent, and other typical expenses for several years of a student’s studies.
 * This app is meant for users who prefer to type in CLI-command in English. For other language characters, the chatbot may not be able to parse them. 
 
 ## Features
 
 ### 1. Logging an Expense
 **Description:** Logs a new expense with a category, description, amount, and date.  
-Note: the inputs must follow the specified order, and there should be proper spacing between each component.  
-Important note: Description and Category must be only 1 word. If user wants more detailed description, user can stick the words together `_` e.g `Dinner_At_Bar`
+Note: the inputs must follow the specified order.  
+There must be a space between `category/<CATEGORY>`, `desc/<DESCRIPTION>`, `amt/<AMOUNT>` and `d/<DATE>`.  
+Description and Category must be only 1 word. If user wants more detailed description, user can stick the words together `_` e.g `Dinner_At_Bar`  
 **Command:**
 ```plaintext
 log-expense category/<CATEGORY> desc/<DESCRIPTION> amt/<AMOUNT> d/<DATE>
@@ -80,7 +86,10 @@ Expense logged: Coffee | Coffee | $3.50 | 06-03-2025
 
 ### 2. Updating an Expense Entry (Not income)
 **Description:** Updates an instance of an Expense entry.  
-**How it works:** The user only has to write the index and the part they would like to update.  
+**How it works:** The user only has to write the index and the part they would like to update.   
+Note: Date is strictly DD-MM-YYYY.  
+Description and Category must be only 1 word. If user wants more detailed description, user can stick the words together `_` e.g `Dinner_At_Bar`.    
+There must be a space between `amt/[UPDATED_AMOUNT]` and `desc/[UPDATED_DESCRIPTION]` if there are more than one part.  
 For example, if the user only wants to update the amount, they can run:
 
 ```plaintext
@@ -107,7 +116,7 @@ Expense updated: [UPDATED_CATEGORY], Description: [UPDATED_DESCRIPTION], Amount:
 ---
 
 ### 3. Deleting an Income
-**Description:** Deletes an instance of an Income entry.
+**Description:** Deletes an instance of an Income entry.  
 **Command:**
 ```plaintext
 delete-income <INDEX OF INCOME ENTRY>
@@ -218,11 +227,11 @@ Saving goal set to: $100000.00
 ```
 ---
 
-### 9. Viewing all expenses
-**Description:** Views all existing expenses that have been logged with the total sum of expenses' amount.   
+### 9. Listing expenses
+**Description:** List all existing expenses that have been logged with the total sum of expenses' amount.   
 **Command:**
 ```plaintext
-view-all-expense
+list-expense
 ```
 **Output:**
 * For empty list:
@@ -251,7 +260,7 @@ Total Expenses: $10.00
 **Description:** Filters all expenses with category that exactly match with keyword.
 **Command:**
 ```plaintext
-find-expense /category <CATEGORY>
+filter-expense /category <CATEGORY>
 ```
 * tag `/category` indicates filtering by category.
 * keyword `<CATEGORY>` containing the name of category we want to find expenses from.
@@ -264,7 +273,7 @@ Here are all matching expenses:
 ```
 **Example:**
 ```plaintext
-find-expense /category drink
+filter-expense /category drink
 Here are all matching expenses:
 drink | Juice | $6.50 | 06-04-2015
 ```
@@ -272,7 +281,7 @@ drink | Juice | $6.50 | 06-04-2015
 **Description:** Filters all expenses with description that contain keyword.
 **Command:**
 ```plaintext
-find-expense /desc <DESC>
+filter-expense /desc <DESC>
 ```
 * tag `/desc` indicates filtering by description
 * keyword `<DESC>` containing the name of category we want to find expenses from.
@@ -285,7 +294,7 @@ Here are all matching expenses:
 ```
 **Example:**
 ```plaintext
-find-expense /desc Coffee
+filter-expense /desc Coffee
 Here are all matching expenses:
 Coffee | Coffee | $3.50 | 06-03-2025
 ```
@@ -293,13 +302,12 @@ Coffee | Coffee | $3.50 | 06-03-2025
 **Description:** Filters all expenses that matches certain amount value.
 **Command:**
 ```plaintext
-find-expense /amt <AMT>
+filter-expense /amt <AMT>
 ```
 * tag `/amt` indicates filtering by amount
-* keyword `<AMT>` containing the amount value of expenses we want to search from.
+* keyword `<AMT>` containing the amount value of expenses we want to search from. The integer and/or decimal part of the keyword MUST NOT be blank.
 * __NOTE__: 
-  * the tag is __CASE SENSITIVE__. 
-  * Value of `<AMT>` must be a valid integer or decimal number with digit before dot. Some examples of keyword that may lead to error: `string`, `.12` (no digit before dot), `5..6` (multiple dots).
+  * the tag is __CASE SENSITIVE__.
 
 **Output:**
 ```plaintext
@@ -308,7 +316,7 @@ Here are all matching expenses:
 ```
 **Example:**
 ```plaintext
-find-expense /amt 3.50
+filter-expense /amt 3.50
 Here are all matching expenses:
 Coffee | Coffee | $3.50 | 06-03-2025
 ---
@@ -317,16 +325,15 @@ Coffee | Coffee | $3.50 | 06-03-2025
 **Description:** Filters all expenses with amount value within indicated range.
 **Command:**
 ```plaintext
-find-expense /amtrange <AMT1> <AMT2>
+filter-expense /amtrange <AMT1> <AMT2>
 ```
 * tag `/amtrange` indicates filtering by amount range.
-* keywords `<AMT1>` and `<AMT2>` indicating the range of amount value we want to filter expenses from.
+* keywords `<AMT1>` and `<AMT2>` indicating the range of amount value we want to filter expenses from.  
   * `<AMT1>`: The lower bound of value range used for filtering.
-  * `<AMT2>`: The upper bound of value range used for filtering.
+  * `<AMT2>`: The upper bound of value range used for filtering.  
 * __NOTE__:
     * the tag is __CASE SENSITIVE__.
-    * Values of `<AMT1>` and `<AMT2>` must be valid integer or decimal number with digit before dot. Some examples of keyword that may lead to error: `string`, `.12` (no digit before dot), `5..6` (multiple dots).
-    * `<AMT1>` and `<AMT2>` must be separated by at least 1 space ` `.
+    * `<AMT1>` and `<AMT2>` must be separated by at least 1 space ` `. The integer and/or decimal part of the keyword MUST NOT be blank.
 
 **Output:**
 ```plaintext
@@ -335,7 +342,7 @@ Here are all matching expenses:
 ```
 **Example:**
 ```plaintext
-find-expense /amtrange 3.00 6.50
+filter-expense /amtrange 3.00 6.50
 Here are all matching expenses:
 Coffee | Coffee | $3.50 | 06-03-2025
 drink | Juice | $6.50 | 06-04-2015
@@ -346,7 +353,7 @@ drink | Juice | $6.50 | 06-04-2015
 **Description:** Filters all expenses that matches a certain date.
 **Command:**
 ```plaintext
-find-expense /d <DATE>
+filter-expense /d <DATE>
 ```
 * tag `/d` indicates filtering by date.
 * keyword `<DATE>` indicate the date to filter expenses from.
@@ -361,7 +368,7 @@ Here are all matching expenses:
 ```
 **Example:**
 ```plaintext
-find-expense /d 06-03-2025
+filter-expense /d 06-03-2025
 Here are all matching expenses:
 Coffee | Coffee | $3.50 | 06-03-2025
 ---
@@ -370,7 +377,7 @@ Coffee | Coffee | $3.50 | 06-03-2025
 **Description:** Filters all expenses with the date lies within an indicated date range.
 **Command:**
 ```plaintext
-find-expense /drange <DATE1> <DATE2>
+filter-expense /drange <DATE1> <DATE2>
 ```
 * tag `/drange` indicates filtering by date range.
 * keywords `<DATE1>` and `<DATE2>` respectively indicating the first date to start searching from and the last date to search to.
@@ -386,7 +393,7 @@ Here are all matching expenses:
 ```
 **Example:**
 ```plaintext
-find-expense /drange 06-03-2022 07-12-2025
+filter-expense /drange 06-03-2022 07-12-2025
 Here are all matching expenses:
 Coffee | Coffee | $3.50 | 06-03-2025
 ---
@@ -527,7 +534,7 @@ Salary               | $900.00    | 01-04-2025
 
 ---
 
-### 14. Filtering Income by Date
+### 12.3 Filtering Income by Date
 
 **Description:** Filters income entries within a specified date range.
 
@@ -576,7 +583,20 @@ Here are all matching income entries:
 Salary | Monthly Salary | $3000.00 | 01-04-2025
 ---
 ```
-### 16. Exiting the Application
+
+### 13. help
+**Description:** The `help` Command provides users with a comprehensive list of all available commands
+and their syntax for managing incomes and expenses within the budget management system.
+**Command:**
+```plaintext
+help
+```
+**Output:**
+```plaintext
+<ALL COMMANDS>
+```
+
+### 14. Exiting the Application
 **Description:** Safely exits the BudgetFlow application.  
 **Command:**
 ```plaintext
@@ -589,19 +609,6 @@ exit
                           Goodbye!
 ============================================================
 ```
-
-### 14. help
-**Description:** The `help` Command provides users with a comprehensive list of all available commands 
-and their syntax for managing incomes and expenses within the budget management system.
-**Command:**
-```plaintext
-help
-```
-**Output:**
-```plaintext
-<ALL COMMANDS>
-```
-
 ## FAQ
 
 **Q: Does BudgetFlow support multiple currencies?**  
@@ -610,28 +617,44 @@ A: Currently, BudgetFlow only supports tracking in one currency at a time.
 **Q: Can I edit or delete an entry after logging it?**  
 A: Yes! You can use the `update-expense` or `delete-expense` commands to modify or remove an expense entry. Similarly, you can use `delete-income` to remove an income entry.
 
+**Q: How can I track my income?**  
+A: You can use the `add-income` command to log income entries. Simply provide the amount, category, description, and date when entering the command.
+
+**Q: Do I have to specify the date format for my entries?**  
+A: Yes! The date must follow the `DD-MM-YYYY` format. If the date is in the wrong format, an error message will be displayed.
+
+**Q: Is there a limit to the number of expenses or incomes I can add?**  
+A: No, BudgetFlow does not impose a limit on the number of entries. You can keep adding entries as needed.
+
+**Q: How do I view a list of my expenses or incomes?**  
+A: Use the `list-expenses` or `list-incomes` commands to view your recorded entries. You can also filter them as needed using `filter-expense` and `filter-income` command.
+
+**Q: What happens if I input an invalid command?**  
+A: If you input an invalid command or incorrect format, BudgetFlow will show an error message specifying what went wrong. Please double-check the command format for correct usage.
+
+**Q: Can I view a summary of my total expenses?**  
+A: Yes, BudgetFlow calculates your total expenses and displays them automatically when you update your entries.
 ---
 ## Data & Privacy
 Budgetflow stores your data **locally** in a secure file. No data is uploaded online.
 You can clear all data with the `reset` command (if implemented).
 
 ---
-
-
 ## Command Summary
+
 | **Command**                                                                                                           | **Description**                                                          |
 |-----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
 | `add category/<CATEGORY> amt/<AMOUNT> d/<DATE>`                                                                       | Adds an income entry with the specified category, amount, and date.      |
 | `log-expense category/<CATEGORY> desc/<DESCRIPTION> amt/<AMOUNT> d/<DATE>`                                            | Logs an expense entry with details.                                      |
-| `view-all-expense`                                                                                                    | Displays all logged expenses.                                            |
+| `list-expense`                                                                                                        | Displays all logged expenses.                                            |
 | `list income`                                                                                                         | Shows all recorded incomes.                                              |
 | `update-expense [INDEX] category/[UPDATED_CATEGORY] desc/[UPDATED_DESCRIPTION] amt/[UPDATED_AMOUNT] d/[UPDATED_DATE]` | Updates an expense entry at index `<INDEX>`.                             |
-| `find-expense /category <CATEGORY>`                                                                                   | Filters expense based on category                                        |
-| `find-expense /desc <DESCRIPTION>`                                                                                    | Filters expense based on description                                     |
-| `find-expense /amt <AMT>`                                                                                             | Filters expense based on amount                                          |
-| `find-expense /amtrange <AMT1> <AMT2>`                                                                                | Filters expense within an amount range                                   |
-| `find-expense /d <DATE>`                                                                                              | Filters expense based on date                                            |
-| `find-expense /drange <DATE1> <DATE2>`                                                                                | Filters expense within a date range                                      |
+| `filter-expense /category <CATEGORY>`                                                                                 | Filters expense based on category                                        |
+| `filter-expense /desc <DESCRIPTION>`                                                                                  | Filters expense based on description                                     |
+| `filter-expense /amt <AMT>`                                                                                           | Filters expense based on amount                                          |
+| `filter-expense /amtrange <AMT1> <AMT2>`                                                                              | Filters expense within an amount range                                   |
+| `filter-expense /d <DATE>`                                                                                            | Filters expense based on date                                            |
+| `filter-expense /drange <DATE1> <DATE2>`                                                                              | Filters expense within a date range                                      |
 | `filter-income date from/<DATE1> to/<DATE2>`                                                                          | Filters income entries within a specific date range.                     |
 | `filter-income amount from/<AMOUNT1> to/<AMOUNT1>`                                                                    | Filters income entries within a specified amount range.                  |
 | `filter-income category/<CATEGORY>`                                                                                   | Filters income by category.                                              |
@@ -640,5 +663,6 @@ You can clear all data with the `reset` command (if implemented).
 | `update-income <INDEX> category/<UPDATED_CATEGORY> amt/<UPDATED_AMOUNT> d/<UPDATED_DATE>`                             | Updates an income entry at index `<INDEX>`.                              |
 | `compare <Month1> <Month2>`                                                                                           | Compares total expenses between `<Month1>` and `<Month2>`.               | 
 | `exit`                                                                                                                | Exits the application safely.                                            |
-| `help`                                                                                                                | Displays a comprehensive list of all commands                            |
+| `help`                                                                                                                | Displays a comprehensive list of all commands                            |  
 
+  

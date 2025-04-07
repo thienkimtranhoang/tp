@@ -198,6 +198,26 @@ class LogExpenseCommandTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
+
+    //@@author QuyDatNguyen
+    @Test
+    void logExpense_exceedMaxTotalExpense() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        try {
+            Command command1 = new LogExpenseCommand(
+                    "log-expense category/Dining desc/DinnerWithFriends amt/9999998.00 d/15-03-2025");
+            command1.execute(incomes, expenseList);
+            Command command2 = new LogExpenseCommand(
+                    "log-expense category/Dining desc/DinnerWithFriends amt/2.00 d/13-11-2025");
+            command2.execute(incomes, expenseList);
+        } catch (FinanceException e) {
+            String expectedError = "Max total expense is $9999999.99. " +
+                    "Please clear some old expenses before adding new one";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
     //@@author thienkimtranhoang
     @Test
     void logExpense_exceedsDecimalDigits_showsError() {

@@ -1,5 +1,6 @@
 package budgetflow.storage;
 
+import budgetflow.exception.ExceedsMaxTotalExpense;
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -105,7 +106,7 @@ public class Storage {
 
             reader.close();
             System.out.println("Data loaded successfully from " + DATA_FILE_PATH);
-        } catch (IOException | NumberFormatException e) {
+        } catch (IOException | NumberFormatException | ExceedsMaxTotalExpense e) {
             System.out.println("Error loading data: " + e.getMessage());
         }
     }

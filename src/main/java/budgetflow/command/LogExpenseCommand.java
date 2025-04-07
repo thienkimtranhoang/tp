@@ -7,6 +7,8 @@ import budgetflow.exception.MissingCategoryException;
 import budgetflow.exception.MissingDescriptionException;
 import budgetflow.exception.MissingExpenseException;
 import budgetflow.exception.ExceedsMaxDigitException;
+import budgetflow.exception.ExceedsMaxTotalExpense;
+
 import budgetflow.expense.Expense;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -63,6 +65,7 @@ public class LogExpenseCommand extends Command {
     }
 
     //@@author thienkimtranhoang
+    //@@author dariusyawningwhiz
     /**
      * Logs new user expense into the expense list.
      * If the user types only "log-expense" (even with extra whitespace),
@@ -78,11 +81,12 @@ public class LogExpenseCommand extends Command {
      * @throws ExceedsMaxDigitException if the expense amount exceeds digit limitations
      */
     //@@author thienkimtranhoang
+    //@@author dariusyawningwhiz
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList)
             throws MissingDateException, InvalidNumberFormatException, MissingAmountException,
             MissingCategoryException, MissingDescriptionException, MissingExpenseException,
-            ExceedsMaxDigitException {
+            ExceedsMaxDigitException, ExceedsMaxTotalExpense {
         if (input.trim().equals("log-expense")) {
             this.outputMessage = USAGE_GUIDE;
             return;

@@ -3,7 +3,7 @@
 ## Project: BudgetFlow:
 Budgetflow is a personal finance management application designed to help students efficiently track their income,
 expenses, and savings goals. With a simple, command-based interface, Budgetflow allows users to log their transactions,
-filter them by category or date, and analyze their financial habits. It is written in Java with 4kLoC.
+filter them by category or date, and analyze their financial habits. It is written in Java with 10kLoC.
 
 ### Summary of Contributions
 * __New Feature:__ Added the ability to delete Expenses:
@@ -36,6 +36,8 @@ filter them by category or date, and analyze their financial habits. It is writt
   * Fix bugs for `delete-income` and `delete-expense` to change the methods to delete based on index 
   instead of descriptions, so overlapping names would not be a problem.[#189](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/189) [#193](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/193)
   * Fix bugs for `DateValidator` such that it accounts for leap years and has more accurate dates.[#189](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/189)
+  * Fix bugs for `UpdateIncomeCommand` such that it no longer successfully updates when
+  no valid data is entered.[#214](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/214) 
 
 * __Code Contributed:__ [RepoSense Link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21)__
 
@@ -43,6 +45,7 @@ filter them by category or date, and analyze their financial habits. It is writt
     * User Guide:
       * Added documentation for `delete-expense`, `delete-income`, `compare` and `update-income` command [#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
     * Developer Guide:
-      * Added `delete-income`, `delete-expense`, `compare` and `update-income` for Implementation[#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
+      * Added explanation, Class diagrams, and sequence diagrams for 
+      `delete-income`, `delete-expense`, `compare` and `update-income` for Implementation[#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
 * __Community:__
     * PRs reviewed (with non-trivial review comments): [#98](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/98)

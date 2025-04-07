@@ -110,4 +110,36 @@ class ViewAllExpensesCommandTest {
         assertEquals(10.00, expenseList.getTotalExpenses(), 0.01);
     }
 
+
+    //@@author dariusyawningwhiz
+    @Test
+    void viewAllExpenses_oneItem() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        expenseList.add(new Expense("food", "Dinner", 20.00, "10-03-2025"));
+        Command command = new ViewAllExpensesCommand();
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Expenses log:" + System.lineSeparator()
+                + "1 | food | Dinner | $20.00 | 10-03-2025" + System.lineSeparator()
+                + "Total Expenses: $20.00" + System.lineSeparator();
+        assertEquals(expectedOutput, command.getOutputMessage());
+        assertEquals(20.00, expenseList.getTotalExpenses(), 0.01);
+    }
+
+    //@@author dariusyawningwhiz
+    @Test
+    void viewAllExpenses_smallAmounts() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        expenseList.add(new Expense("misc", "Microtransaction", 0.01, "10-03-2025"));
+        expenseList.add(new Expense("misc", "Microtransaction", 0.01, "10-03-2025"));
+        Command command = new ViewAllExpensesCommand();
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Expenses log:" + System.lineSeparator()
+                + "1 | misc | Microtransaction | $0.01 | 10-03-2025" + System.lineSeparator()
+                + "2 | misc | Microtransaction | $0.01 | 10-03-2025" + System.lineSeparator()
+                + "Total Expenses: $0.02" + System.lineSeparator();
+        assertEquals(expectedOutput, command.getOutputMessage());
+        assertEquals(0.02, expenseList.getTotalExpenses(), 0.01);
+    }
 }

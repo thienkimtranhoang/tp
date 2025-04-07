@@ -63,7 +63,7 @@ class DeleteIncomeCommandTest {
         }
     }
 
-    //@@author Yikbing
+    //@@author dariusyawningwhiz
     @Test
     void deleteIncome_noIndex_throwsException() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -78,4 +78,55 @@ class DeleteIncomeCommandTest {
         }
     }
 
+    //@@author dariusyawningwhiz
+    @Test
+    void deleteIncome_extraSpacesStillValid() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = get3Incomes();
+        Command command = new DeleteIncomeCommand("delete-income   2   ");
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Income deleted: freelance, $100.0";
+        assertEquals(expectedOutput, command.getOutputMessage());
+    }
+
+    //@@author dariusyawningwhiz
+    @Test
+    void deleteIncome_zeroIndex_throwsException() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = get3Incomes();
+        Command command = new DeleteIncomeCommand("delete-income 0");
+        try{
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Invalid Income index.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    //@@author dariusyawningwhiz
+    @Test
+    void deleteIncome_emptyList_throwsException() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new DeleteIncomeCommand("delete-income 1");
+        try {
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Invalid Income index.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    //@@author dariusyawningwhiz
+    @Test
+    void deleteIncome_lastIndex_incomeDeleted() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = get3Incomes();
+        Command command = new DeleteIncomeCommand("delete-income 3");
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Income deleted: fulltime-job, $5000.0";
+        assertEquals(expectedOutput, command.getOutputMessage());
+    }
 }

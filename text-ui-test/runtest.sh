@@ -15,6 +15,7 @@ else
 fi
 echo "Cleared persistent file: $(realpath "$DATA_FILE")"
 
+
 ./gradlew clean shadowJar
 
 cd text-ui-test

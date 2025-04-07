@@ -5,6 +5,7 @@ import budgetflow.exception.InvalidTagException;
 import budgetflow.exception.InvalidKeywordException;
 import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.InvalidDateException;
+import budgetflow.exception.ExceedsMaxTotalExpense;
 
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
@@ -14,24 +15,25 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static budgetflow.parser.DateValidator.isValidDate;
+
 //@@author QuyDatNguyen
 /**
  * Represents a command to find expenses based on a given keyword.
  * If no matching expenses are found, an exception is thrown.
  */
 public class FindExpenseCommand extends Command {
-    private static final String AMT_PATTERN = "[0-9]+(\\.[0-9]*)?";
-    private static final String DATE_PATTERN = "\\d{2}-\\d{2}-\\d{4}";
+    private static final String AMT_PATTERN = "\\d{1,7}(\\.\\d{1,2})?";
     private static final Logger logger = Logger.getLogger(FindExpenseCommand.class.getName());
-    private static final String COMMAND_FIND_EXPENSE = "find-expense";
-    private static final String ERROR_MISSING_KEYWORD = "Error: Missing keyword";
+    private static final String COMMAND_FIND_EXPENSE = "filter-expense";
     private static final String ERROR_UNFOUNDED_KEYWORD = "Sorry, I cannot find any expenses matching your keyword: ";
     private static final String MATCHING_EXPENSES_MESSAGE = "Here are all matching expenses:";
 
     private static final Pattern COMMAND_PATTERN = Pattern.compile(
-            "find-expense\s+(/desc|/d|/amt|/category|/amtrange|/drange)\s+(.+)");
+            "filter-expense\s+(/desc|/d|/amt|/category|/amtrange|/drange)\s+(.+)");
     private static final String ERROR_INVALID_KEYWORD_FORMAT = "Please enter correct keyword format for tag ";
-    private static final String ERROR_NO_TAG_OR_KEYWORD = "Invalid or missing tag/keyword in find-expense command";
+    private static final String WARMING_NO_TAG = "Invalid or missing tag in find-expense command";
+    private static final String WARMING_NO_KEYWORD = "Missing keyword in find-expense command";
     private static final String ERROR_INVALID_TAG = "Please enter valid tag for query";
     private static final String ASSERTION_FAIL_INVALID_FIND_COMMAND = "Invalid find expense command format";
     private static final String TAG_DESCRIPTION = "/desc";
@@ -46,6 +48,11 @@ public class FindExpenseCommand extends Command {
     private static final int END_AMT_PART = 1;
     private static final int START_DATE_PART = 0;
     private static final int END_DATE_PART = 1;
+    private static final String COMMAND_TAG_PATTERN = "filter-expense\\s+(/desc|/d|/amt|/category|/amtrange|/drange).*";
+    private static final String ERROR_INVALID_OR_MISSING_TAG = "I cannot recognise your finding condition. " +
+            "Please use valid tags for finding expenses: /desc, /d, /amt, /category, /amtrange, /drange";
+    private static final String ERROR_MISSING_KEYWORD = "Sorry, please enter the finding keyword after your tag";
+    private static final String ASSERTION_MISSING_COMMAND = "Missing find-expense command";
 
     /**
      * Constructs a FindExpenseCommand with the given input.
@@ -93,7 +100,7 @@ public class FindExpenseCommand extends Command {
         ExpenseList matchingExpenses;
         try {
             matchingExpenses = expenseList.getByTag(tag, keyword);
-        } catch (InvalidDateException | InvalidNumberFormatException e) {
+        } catch (InvalidDateException | InvalidNumberFormatException | ExceedsMaxTotalExpense e) {
             throw new InvalidKeywordException(e.getMessage());
         }
         return matchingExpenses;
@@ -103,8 +110,14 @@ public class FindExpenseCommand extends Command {
             InvalidKeywordException {
         Matcher matcher = COMMAND_PATTERN.matcher(input);
         if (!matcher.matches()) {
-            logger.warning(ERROR_NO_TAG_OR_KEYWORD);
-            throw new MissingKeywordException(ERROR_MISSING_KEYWORD);
+            assert input.startsWith(COMMAND_FIND_EXPENSE) : ASSERTION_MISSING_COMMAND;
+            if (!input.matches(COMMAND_TAG_PATTERN)) {
+                logger.warning(WARMING_NO_TAG);
+                throw new InvalidTagException(ERROR_INVALID_OR_MISSING_TAG);
+            } else {
+                logger.warning(WARMING_NO_KEYWORD);
+                throw new MissingKeywordException(ERROR_MISSING_KEYWORD);
+            }
         }
         String tag = matcher.group(END_DATE_PART);
         String keyword = matcher.group(AMT_RANGE_LENGTH).trim();
@@ -124,7 +137,7 @@ public class FindExpenseCommand extends Command {
         // Validate keyword format based on the tag
         return switch (tag) {
         case TAG_DESCRIPTION -> keyword.matches(descPattern);
-        case TAG_DATE -> keyword.matches(DATE_PATTERN);
+        case TAG_DATE -> isValidDate(keyword);
         case TAG_AMOUNT -> keyword.matches(AMT_PATTERN);
         case TAG_CATEGORY -> keyword.matches(categoryPattern);
         case TAG_AMOUNT_RANGE -> isValidAmtRange(keyword);
@@ -141,7 +154,7 @@ public class FindExpenseCommand extends Command {
 
     private static boolean isValidDateRange(String keyword) {
         String[] parts = keyword.split("\\s+");
-        return parts.length == DATE_RANGE_LENGTH && parts[START_DATE_PART].matches(DATE_PATTERN)
-                && parts[END_DATE_PART].matches(DATE_PATTERN);
+        return parts.length == DATE_RANGE_LENGTH && isValidDate(parts[START_DATE_PART])
+                && isValidDate(parts[END_DATE_PART]);
     }
 }

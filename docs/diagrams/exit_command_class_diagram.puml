@@ -1,0 +1,26 @@
+@startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+
+class "{abstract}\nCommand" {
+    + CommandType commandType
+    + execute(List<Income>, ExpenseList)
+}
+
+class ExitCommand {
+    + ExitCommand()
+    + execute(List<Income>, ExpenseList)
+    - centerText(String, int): String
+}
+
+enum CommandType {
+    ADD_EXPENSE
+    DELETE_EXPENSE
+    EXIT
+}
+
+"{abstract}\nCommand" <|-- ExitCommand
+ExitCommand --> CommandType
+
+@enduml

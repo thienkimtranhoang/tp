@@ -1,19 +1,15 @@
 @startuml
 ''https://plantuml.com/sequence-diagram
 skinparam sequenceReferenceBackgroundColor #f7807c
+participant ":FinanceTracker" as FinanceTracker
 participant ":Ui" as ui
-participant "SCANNER: Scanner" as scanner
 
-
--> ui ++: readCommand()
-ui -> scanner ++: nextLine()
-ui <-- scanner --: rawInput: String
-ui -> ui ++: trim()
-ui --> ui --: trimmedInput()
-loop emptyInput
-    ref over ui, scanner
-        scanning input from user
-    end ref
+FinanceTracker -> ui ++: readCommand()
+loop empty trimmed Input
+    ui -> ui ++: scan next line
+    ui --> ui --: scanned input
+    ui -> ui ++: trim input
+    ui --> ui --: trimmed input
 end
-<-- ui --: input: String
+FinanceTracker <-- ui --: trimmed input
 @enduml
