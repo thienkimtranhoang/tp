@@ -3,10 +3,12 @@ package budgetflow.command;
 import budgetflow.exception.InvalidNumberFormatException;
 import budgetflow.exception.MissingAmountException;
 import budgetflow.exception.MissingDateException;
+import budgetflow.exception.MissingKeywordException;
 import budgetflow.expense.ExpenseList;
 import budgetflow.income.Income;
 import budgetflow.parser.DateValidator;
 import budgetflow.storage.Storage;
+
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -23,7 +25,7 @@ import java.util.regex.Pattern;
 public class UpdateIncomeCommand extends Command {
     private static final Logger logger = Logger.getLogger(UpdateIncomeCommand.class.getName());
 
-    private static final String UPDATE_COMMAND_PREFIX = "update-income ";
+    private static final String UPDATE_COMMAND_PREFIX = "update-income";
     private static final int UPDATE_COMMAND_PREFIX_LENGTH = UPDATE_COMMAND_PREFIX.length();
 
     private static final String ERROR_INVALID_DATE = "Error: Date is not a valid date";
@@ -36,6 +38,8 @@ public class UpdateIncomeCommand extends Command {
     private static final String ASSERT_EMPTY_CATEGORY = "Category cannot be empty.";
     private static final String ASSERT_POSITIVE_AMOUNT = "Amount must be a positive number.";
     private static final String ASSERT_VALID_DATE = "Date must be valid.";
+    private static final String ERROR_INPUT_FORMAT = "Error: input format is update-income " +
+            "category/<CATEGORY> amt/<AMT> d/<DD-MM-YYYY>";
 
     private static final String CATEGORY_PATTERN = "category/([^ ]+)";
     private static final String AMT_PATTERN = "amt/([^ ]+)";
@@ -47,7 +51,8 @@ public class UpdateIncomeCommand extends Command {
     private static final int INDEX_POSITION_IN_1_INDEX = 0;
     private static final int MINIMUM_INDEX = 0;
     private static final int UPDATE_PARAMETER_GROUP = 1;
-    private static final int MINIMUM_PARTS_FOR_UPDATE = 2;
+    private static final int MINIMUM_PARTS_FOR_UPDATE = 1;
+
 
 
     //@@ author Yikbing
@@ -75,15 +80,23 @@ public class UpdateIncomeCommand extends Command {
      */
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
-            InvalidNumberFormatException, MissingAmountException{
+            InvalidNumberFormatException, MissingAmountException, MissingKeywordException{
+
+        boolean checked;
+        checked = false;
+
+        checkEmptyInput();
+
         String[] parts = input.substring(UPDATE_COMMAND_PREFIX_LENGTH).trim().split(" ", 2);
         if (parts.length < MINIMUM_PARTS_FOR_UPDATE) {
             throw new InvalidNumberFormatException(ERROR_MISSING_INDEX);
         }
-
         if (incomes.isEmpty()) {
             throw new InvalidNumberFormatException(ERROR_EMPTY_INCOME_LIST);
         }
+
+
+
 
         int index;
         try {
@@ -93,10 +106,15 @@ public class UpdateIncomeCommand extends Command {
         }
         if (index < MINIMUM_INDEX || index >= incomes.size()) {
             throw new InvalidNumberFormatException(ERROR_INCOME_ENTRY_NOT_FOUND);
+
+        }
+
+        if(parts.length < 2 ) {
+            throw new InvalidNumberFormatException(ERROR_INPUT_FORMAT);
         }
 
         Income existingIncome = incomes.get(index);
-        Income updatedIncome = extractUpdatedIncome(parts[1], existingIncome);
+        Income updatedIncome = extractUpdatedIncome(parts[1], existingIncome, checked);
         incomes.set(index, updatedIncome);
 
         updateStorage(incomes, expenseList);
@@ -104,6 +122,14 @@ public class UpdateIncomeCommand extends Command {
         this.outputMessage = "Income updated: " + updatedIncome.getCategory() + ", Amount: $" +
                 String.format("%.2f", updatedIncome.getAmount()) + ", Date: " + updatedIncome.getDate();
         logger.info("Income updated successfully: " + updatedIncome);
+    }
+
+    private void checkEmptyInput() throws MissingKeywordException {
+        if(input.substring(UPDATE_COMMAND_PREFIX_LENGTH).trim().isEmpty()){
+
+            throw new MissingKeywordException(ERROR_INPUT_FORMAT);
+
+        }
     }
 
     //@@ author Yikbing
@@ -128,9 +154,9 @@ public class UpdateIncomeCommand extends Command {
      * @throws MissingAmountException If the amount is missing in the input.
      * @throws MissingDateException If the date is invalid or missing in the input.
      */
-    private Income extractUpdatedIncome(String input, Income existingIncome)
+    private Income extractUpdatedIncome(String input, Income existingIncome, boolean checked)
             throws MissingAmountException,
-             MissingDateException {
+             MissingDateException, MissingKeywordException {
         String category = existingIncome.getCategory();
         Double amount = existingIncome.getAmount();
         String date = existingIncome.getDate();
@@ -141,11 +167,28 @@ public class UpdateIncomeCommand extends Command {
         Pattern datePattern = Pattern.compile(DATE_PATTERN);
 
 
+        String oldCategory = existingIncome.getCategory();
         category = getUpdatedCategory(input, categoryPattern, category);
+        if (!category.equals(oldCategory)) {
+            checked = true;
+        }
 
+
+        Double oldAmount = existingIncome.getAmount();
         amount = getUpdatedAmount(input, amtPattern, amount);
+        if (!amount.equals(oldAmount)) {
+            checked = true;
+        }
 
+        String oldDate = existingIncome.getDate();
         date = getUpdatedDate(input, datePattern, date);
+        if (!date.equals(oldDate)) {
+            checked = true;
+        }
+
+        if (!checked) {
+            throw new MissingKeywordException(ERROR_INPUT_FORMAT);
+        }
 
         assert !category.isEmpty() : ASSERT_EMPTY_CATEGORY;
         assert amount > 0 : ASSERT_POSITIVE_AMOUNT;

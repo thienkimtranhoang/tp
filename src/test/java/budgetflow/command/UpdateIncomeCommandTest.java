@@ -72,15 +72,19 @@ public class UpdateIncomeCommandTest {
 
     //@@ author Yikbing
     @Test
-    public void updateIncome_inValidInputCategory_noChangeToIncome() throws FinanceException {
+    public void updateIncome_inValidInputCategory_throwsException() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
         List<Income> incomes = new ArrayList<>();
         Command c1 = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025");
         c1.execute(incomes, expenseList);
         Command c2 = new UpdateIncomeCommand("update-income 1 category/");
-        c2.execute(incomes, expenseList);
-        String expectedOutput = "Income updated: Salary, Amount: $2500.00, Date: 15-03-2025";
-        assertEquals(expectedOutput, c2.getOutputMessage());
+        try{
+            c2.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: input format is update-income category/<CATEGORY> amt/<AMT> d/<DD-MM-YYYY>";
+            assertEquals(expectedError, e.getMessage());
+        }
 
 
     }
@@ -195,6 +199,57 @@ public class UpdateIncomeCommandTest {
             assertEquals(expectedError, e.getMessage());
         }
 
+    }
+
+    //@@ author Yikbing
+    @Test
+    public void updateIncome_emptyInput_throwsException() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c1 = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025");
+        c1.execute(incomes, expenseList);
+        Command c2 = new UpdateIncomeCommand("update-income 1");
+        try{
+            c2.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: input format is update-income category/<CATEGORY> amt/<AMT> d/<DD-MM-YYYY>";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    //@@ author Yikbing
+    @Test
+    public void updateIncome_emptyInputInvalidIndex_throwsException() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c1 = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025");
+        c1.execute(incomes, expenseList);
+        Command c2 = new UpdateIncomeCommand("update-income 2");
+        try{
+            c2.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Income entry not found.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    //@@ author Yikbing
+    @Test
+    public void updateIncome_incorrectInputFormat_throwsException() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command c1 = new AddIncomeCommand("add category/Salary amt/2500.00 d/15-03-2025");
+        c1.execute(incomes, expenseList);
+        Command c2 = new UpdateIncomeCommand("update-income 1 cat/newcategory");
+        try{
+            c2.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: input format is update-income category/<CATEGORY> amt/<AMT> d/<DD-MM-YYYY>";
+            assertEquals(expectedError, e.getMessage());
+        }
     }
 
 }
