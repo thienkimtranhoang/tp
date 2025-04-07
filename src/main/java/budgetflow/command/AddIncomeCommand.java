@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
  * Original implementation of AddIncomeCommand.java
  * Modified: Added error message with example usage in extractIncome() when wrong command is entered.
  */
+//@@author thienkimtranhoang
 public class AddIncomeCommand extends Command {
     public static final String ERROR_INVALID_DATE = "Error: Date is not a valid date. " +
             "Please use DD-MM-YYYY format.";
@@ -42,11 +43,13 @@ public class AddIncomeCommand extends Command {
     private static final String EXAMPLE_USAGE =
             "Ex: add category/salary amt/1000.00 d/01-01-2020";
 
+    //@@author thienkimtranhoang
     public AddIncomeCommand(String input) {
         super(input);
         this.commandType = CommandType.CREATE;
     }
 
+    //@@author thienkimtranhoang
     /**
      * Adds the user income and saves it to the income list.
      *
@@ -56,6 +59,7 @@ public class AddIncomeCommand extends Command {
      * @throws MissingAmountException if the income amount is missing
      * @throws MissingCategoryException if the income category is missing
      */
+    //@@author thienkimtranhoang
     @Override
     public void execute(List<Income> incomes, ExpenseList expenseList)
             throws MissingDateException, InvalidNumberFormatException,
@@ -68,6 +72,7 @@ public class AddIncomeCommand extends Command {
         logger.info("Income added successfully: " + income);
     }
 
+    //@@author thienkimtranhoang
     private static void verifyMissingOrIncorrect(String input) throws MissingDateException {
         String invalidDatePattern = "d/(\\S+)";
         Pattern pattern = Pattern.compile(invalidDatePattern);
@@ -82,6 +87,7 @@ public class AddIncomeCommand extends Command {
         }
     }
 
+    //@@author thienkimtranhoang
     private Income extractIncome(String input)
             throws InvalidNumberFormatException, MissingCategoryException,
             MissingAmountException, MissingDateException,
@@ -165,6 +171,7 @@ public class AddIncomeCommand extends Command {
      * @param date The date to validate in DD-MM-YYYY format
      * @throws MissingDateException if the year does not have exactly 4 digits
      */
+    //@@author thienkimtranhoang
     private void validateYearFormat(String date) throws MissingDateException {
         String[] dateParts = date.split("-");
         if (dateParts.length == 3) {

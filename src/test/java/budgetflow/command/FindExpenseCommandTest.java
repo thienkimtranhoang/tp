@@ -59,7 +59,6 @@ class FindExpenseCommandTest {
     }
 
     @Test
-
     void findExpense_partialMatchDesc() throws FinanceException {
         List<Income> incomes = new ArrayList<>();
         ExpenseList expenseList = getListWith3Expenses();

@@ -87,6 +87,7 @@ class ExpenseListTest {
         assertEquals(expected.toString(), matchingExpenses.toString());
     }
 
+    //@@author thienkimtranhoang
     @Test
     void getByTag_noMatch_returnsEmptyList() throws FinanceException {
         ExpenseList testList = getListWith5Expenses();
@@ -97,6 +98,7 @@ class ExpenseListTest {
         assertEquals(expected.toString(), matchingExpenses.toString());
     }
 
+    //@@author thienkimtranhoang
     @Test
     void getByTag_categoryWithWhitespace_trimsInput() throws FinanceException {
         ExpenseList testList = getListWith5Expenses();
@@ -111,6 +113,7 @@ class ExpenseListTest {
         assertEquals(expected.toString(), matchingExpenses.toString());
     }
 
+    //@@author thienkimtranhoang
     @Test
     void getByTag_searchByCategory_exactMatch() throws FinanceException {
         ExpenseList testList = getListWith5Expenses();
