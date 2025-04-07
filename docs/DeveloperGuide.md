@@ -32,7 +32,7 @@ Tran Hoang Thien Kim<br>
   * [Viewing All Expenses](#viewing-all-expenses) <br>
   * [Listing All Incomes](#listing-all-incomes) <br>
   * [Filtering Expenses](#filtering-expenses) <br>
-  * [Filtering Incomes by Amount or by Category](#filtering-incomes-by-amount-or-by-category) <br>
+  * [Filtering Incomes by Amount, Category, or Date](#filtering-incomes-by-amount-or-by-category) <br>
   * [Deleting an Income Entry](#deleting-an-income-entry) <br>
   * [Updating an Expense Entry](#deleting-an-expense-entry) <br>
   * [Set Saving Goal](#set-saving-goal) <br>
