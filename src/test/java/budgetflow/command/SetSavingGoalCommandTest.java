@@ -10,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SetSavingGoalCommandTest {
-
+    //@@author dariusyawningwhiz
     @Test
     void setSavingGoal_validInput_expectSuccessMessage() {
         String input = "set-saving-goal 1000.50";
@@ -24,6 +24,7 @@ class SetSavingGoalCommandTest {
         assertEquals("Saving goal set to: $1000.50", command.getOutputMessage());
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void setSavingGoal_invalidInput_expectErrorMessage() {
         // Invalid saving goal input (non-numeric value)
@@ -40,6 +41,7 @@ class SetSavingGoalCommandTest {
         assertEquals("Invalid saving goal amount. Please enter a valid number.", command.getOutputMessage());
     }
 
+    //@@author dariusyawningwhiz
     @Test
     void setSavingGoal_emptyInput_expectErrorMessage() {
         String input = "set-saving-goal";

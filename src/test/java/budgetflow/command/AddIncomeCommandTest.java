@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class AddIncomeCommandTest {
-    //@@author thienkimtranhoang
+    //@@author dariusyawningwhiz
     @Test
     void addIncome_validInput_addsIncome() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -23,7 +23,7 @@ class AddIncomeCommandTest {
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
-    //@@author thienkimtranhoang
+    //@@author dariusyawningwhiz
     @Test
     void addIncome_missingCategory_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -38,7 +38,7 @@ class AddIncomeCommandTest {
         }
     }
 
-    //@@author thienkimtranhoang
+    //@@author dariusyawningwhiz
     @Test
     void addIncome_missingAmount_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -53,7 +53,7 @@ class AddIncomeCommandTest {
         }
     }
 
-    //@@author thienkimtranhoang
+    //@@author dariusyawningwhiz
     @Test
     void addIncome_missingDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -68,7 +68,7 @@ class AddIncomeCommandTest {
         }
     }
 
-    //@@author thienkimtranhoang
+    //@@author dariusyawningwhiz
     @Test
     void addIncome_invalidAmountFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -83,7 +83,7 @@ class AddIncomeCommandTest {
         }
     }
 
-    //@@author thienkimtranhoang
+    //@@author dariusyawningwhiz
     @Test
     void addIncome_extraParameters_ignoresExtraParams() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
