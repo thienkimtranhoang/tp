@@ -215,4 +215,25 @@ public class ListIncomeCommandTest {
         // Expected progress: (-100/500)*100 = -20.00%
         assertTrue(output.contains("-20.00%"), "Output should display negative progress when expenses exceed income.");
     }
+
+    //@@author thienkimtranhoang
+    @Test
+    public void testExactSavingGoalNoExpenses() {
+        ListIncomeCommand command = new ListIncomeCommand();
+        ListIncomeCommand.setSavingGoal(300.00);
+
+        List<Income> incomes = new ArrayList<>();
+        incomes.add(new DummyIncome("Scholarship", 100.00, "2025-04-01"));
+        incomes.add(new DummyIncome("Part-time", 200.00, "2025-04-02")); // Total income = 300
+
+        ExpenseList dummyExpenses = new DummyExpenseList(0.00); // No expenses
+
+        command.execute(incomes, dummyExpenses);
+        String output = command.outputMessage;
+
+        assertTrue(output.contains("100.00%"), "Progress should be exactly 100.00% when savings equal goal.");
+    }
+
+
+
 }

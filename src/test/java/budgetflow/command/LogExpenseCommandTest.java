@@ -188,6 +188,57 @@ class LogExpenseCommandTest {
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
+    @Test
+    void logExpense_negativeAmount_showsError() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new LogExpenseCommand(
+                "log-expense category/Dining desc/Dinner amt/-50.00 d/15-03-2025");
+        try {
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Expense amount is required.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void logExpense_zeroAmount_showsError() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new LogExpenseCommand(
+                "log-expense category/Dining desc/Dinner amt/0 d/15-03-2025");
+        try {
+            command.execute(incomes, expenseList);
+            fail();
+        } catch (FinanceException e) {
+            String expectedError = "Error: Expense amount is required.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void logExpense_extraParameters_ignoresExtraParams() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new LogExpenseCommand(
+                "log-expense category/Dining desc/Dinner amt/45.75 d/15-03-2025 note/with friends");
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Expense logged: Dining | Dinner | $45.75 | 15-03-2025";
+        assertEquals(expectedOutput, command.getOutputMessage());
+    }
+
+    @Test
+    void logExpense_duplicateKeys_usesFirstOccurrence() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new LogExpenseCommand(
+                "log-expense category/Food category/Drinks desc/Lunch amt/12.50 d/15-03-2025");
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Expense logged: Drinks | Lunch | $12.50 | 15-03-2025";
+        assertEquals(expectedOutput, command.getOutputMessage());
+    }
 
 
 }

@@ -112,5 +112,62 @@ class AddIncomeCommandTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
+    @Test
+    void addIncome_whitespaceInInput_trimsAndAddsCorrectly() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new AddIncomeCommand("add category/  Salary   amt/ 2500.00   d/ 15-03-2025 ");
+        command.execute(incomes, expenseList);
+        String expectedOutput = "Income added: Salary, Amount: $2500.00, Date: 15-03-2025";
+        assertEquals(expectedOutput, command.getOutputMessage());
+    }
+
+    @Test
+    void addIncome_negativeAmount_showsError() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new AddIncomeCommand("add category/Salary amt/-3000 d/15-03-2025");
+        try {
+            command.execute(incomes, expenseList);
+        } catch (FinanceException e) {
+            String expectedError = "Error: Income amount is required.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void addIncome_zeroAmount_showsError() {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new AddIncomeCommand("add category/Salary amt/0 d/15-03-2025");
+        try {
+            command.execute(incomes, expenseList);
+        } catch (FinanceException e) {
+            String expectedError = "Error: Income amount is required.";
+            assertEquals(expectedError, e.getMessage());
+        }
+    }
+
+    @Test
+    void addIncome_duplicateIncome_sameDayAndCategory_allowsAdding() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command1 = new AddIncomeCommand("add category/Freelance amt/200 d/10-04-2025");
+        Command command2 = new AddIncomeCommand("add category/Freelance amt/300 d/10-04-2025");
+
+        command1.execute(incomes, expenseList);
+        command2.execute(incomes, expenseList);
+
+        assertEquals("Income added: Freelance, Amount: $300.00, Date: 10-04-2025", command2.getOutputMessage());
+    }
+
+    @Test
+    void addIncome_categoryWithSpecialCharacters_acceptsSuccessfully() throws FinanceException {
+        ExpenseList expenseList = new ExpenseList();
+        List<Income> incomes = new ArrayList<>();
+        Command command = new AddIncomeCommand("add category/Gift🎁 amt/150 d/01-04-2025");
+        command.execute(incomes, expenseList);
+        assertEquals("Income added: Gift🎁, Amount: $150.00, Date: 01-04-2025", command.getOutputMessage());
+    }
 
 }

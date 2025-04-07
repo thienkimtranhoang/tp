@@ -52,4 +52,44 @@ class SetSavingGoalCommandTest {
         assertEquals(0.0, command.getSavingGoalAmount(), 0.01);
         assertEquals("Invalid saving goal amount. Please enter a valid number.", command.getOutputMessage());
     }
+
+    //@@author thienkimtranhoang
+    @Test
+    void setSavingGoal_largeNumberInput_expectSuccessMessage() {
+        String input = "set-saving-goal 99999999.99";
+        SetSavingGoalCommand command = new SetSavingGoalCommand(input);
+
+        List<Income> incomes = new ArrayList<>();
+        ExpenseList expenseList = new ExpenseList();
+        command.execute(incomes, expenseList);
+
+        assertEquals(99999999.99, command.getSavingGoalAmount(), 0.01);
+        assertEquals("Saving goal set to: $99999999.99", command.getOutputMessage());
+    }
+
+    @Test
+    void setSavingGoal_inputWithExtraSpaces_expectSuccessMessage() {
+        String input = "set-saving-goal    2500.75   ";
+        SetSavingGoalCommand command = new SetSavingGoalCommand(input);
+
+        List<Income> incomes = new ArrayList<>();
+        ExpenseList expenseList = new ExpenseList();
+        command.execute(incomes, expenseList);
+
+        assertEquals(2500.75, command.getSavingGoalAmount(), 0.01);
+        assertEquals("Saving goal set to: $2500.75", command.getOutputMessage());
+    }
+
+    @Test
+    void setSavingGoal_inputWithMultipleArguments_expectErrorMessage() {
+        String input = "set-saving-goal 1000 2000";
+        SetSavingGoalCommand command = new SetSavingGoalCommand(input);
+
+        List<Income> incomes = new ArrayList<>();
+        ExpenseList expenseList = new ExpenseList();
+        command.execute(incomes, expenseList);
+
+        assertEquals(0.0, command.getSavingGoalAmount(), 0.01);
+        assertEquals("Invalid saving goal amount. Please enter a valid number.", command.getOutputMessage());
+    }
 }

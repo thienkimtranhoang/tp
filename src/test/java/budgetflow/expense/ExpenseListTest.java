@@ -73,4 +73,52 @@ class ExpenseListTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
+
+    //@@author thienkimtranhoang
+    @Test
+    void getByTag_searchByDate_exactMatch() throws FinanceException {
+        ExpenseList testList = getListWith5Expenses();
+        String tag = "/d";
+        String keyword = "13-03-2025";
+        ExpenseList matchingExpenses = testList.getByTag(tag, keyword);
+        ExpenseList expected = new ExpenseList();
+        expected.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
+        assertEquals(expected.toString(), matchingExpenses.toString());
+    }
+
+    @Test
+    void getByTag_noMatch_returnsEmptyList() throws FinanceException {
+        ExpenseList testList = getListWith5Expenses();
+        String tag = "/desc";
+        String keyword = "Dinner";
+        ExpenseList matchingExpenses = testList.getByTag(tag, keyword);
+        ExpenseList expected = new ExpenseList();
+        assertEquals(expected.toString(), matchingExpenses.toString());
+    }
+
+    @Test
+    void getByTag_categoryWithWhitespace_trimsInput() throws FinanceException {
+        ExpenseList testList = getListWith5Expenses();
+        String tag = "/category";
+        String keyword = " food  ";
+        ExpenseList matchingExpenses = testList.getByTag(tag, keyword.trim());
+        ExpenseList expected = new ExpenseList();
+        expected.add(new Expense("food", "Lunch", 12.50, "13-03-2025"));
+        expected.add(new Expense("food", "LateLunch", 13.50, "14-03-2025"));
+        expected.add(new Expense("food", "Groceries", 25.0, "11-03-2025"));
+        expected.add(new Expense("food", "ExpensiveLunch", 30.00, "15-03-2025"));
+        assertEquals(expected.toString(), matchingExpenses.toString());
+    }
+
+    @Test
+    void getByTag_searchByCategory_exactMatch() throws FinanceException {
+        ExpenseList testList = getListWith5Expenses();
+        String tag = "/category";
+        String keyword = "transport";
+        ExpenseList matchingExpenses = testList.getByTag(tag, keyword);
+        ExpenseList expected = new ExpenseList();
+        expected.add(new Expense("transport", "Transport", 3.20, "12-03-2025"));
+        assertEquals(expected.toString(), matchingExpenses.toString());
+    }
+
 }
