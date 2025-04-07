@@ -3,12 +3,17 @@
 hide circle
 skinparam classAttributeIconSize 0
 
-package "budgetflow.command" {
+
     class LogExpenseCommand {
         + LogExpenseCommand(String input)
         + void execute(...)
         - Expense extractExpense(String input)
 }
+
+    abstract class "{abstract} \n Command" {
+        + CommandType: commandType
+        + Command()
+    }
 
 class Expense {
     + String getCategory()
@@ -29,5 +34,6 @@ class DateValidator {
 LogExpenseCommand --> Expense : creates
 LogExpenseCommand --> ExpenseList : modifies
 LogExpenseCommand --> DateValidator : uses
+"{abstract} \n Command" <|-- LogExpenseCommand : extends
 
 @enduml
