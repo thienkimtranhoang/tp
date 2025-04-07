@@ -1,24 +1,60 @@
 @startuml
 participant ":UpdateIncomeCommand" as UpdateIncomeCommand
+participant ":InvalidNumberFormatException" as InvalidNumberFormatException
 
-UpdateIncomeCommand -> UpdateIncomeCommand: Validate parts.length < MINIMUM_PARTS_FOR_UPDATE
 activate UpdateIncomeCommand
-UpdateIncomeCommand -> UpdateIncomeCommand: Continue
-deactivate UpdateIncomeCommand
-
-UpdateIncomeCommand -> UpdateIncomeCommand: Validate incomes.isEmpty()
+UpdateIncomeCommand -> UpdateIncomeCommand
 activate UpdateIncomeCommand
-UpdateIncomeCommand -> UpdateIncomeCommand: Continue
+opt if length < MINIMUM_PARTS_FOR_UPDATE
+UpdateIncomeCommand -> InvalidNumberFormatException : throw InvalidNumberFormatException\n for missing index
+activate InvalidNumberFormatException
+InvalidNumberFormatException --> UpdateIncomeCommand
+deactivate InvalidNumberFormatException
+UpdateIncomeCommand --> UpdateIncomeCommand
 deactivate UpdateIncomeCommand
+end
 
+
+
+UpdateIncomeCommand -> UpdateIncomeCommand
+activate UpdateIncomeCommand
+
+opt if incomes.isEmpty()
+UpdateIncomeCommand -> InvalidNumberFormatException : throw InvalidNumberFormatException\n for empty index
+activate InvalidNumberFormatException
+InvalidNumberFormatException --> UpdateIncomeCommand
+deactivate InvalidNumberFormatException
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+end
+
+
+UpdateIncomeCommand -> UpdateIncomeCommand
+activate UpdateIncomeCommand
+alt if no InvalidNumberFormatException
 UpdateIncomeCommand -> UpdateIncomeCommand: Integer.parseInt(parts[INDEX_POSITION_IN_1_INDEX]) - 1
 activate UpdateIncomeCommand
-UpdateIncomeCommand -> UpdateIncomeCommand: Continue
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+else if InvalidNumberFormatException occurs
+UpdateIncomeCommand -> InvalidNumberFormatException : throw InvalidNumberFormatException\nfor wrong index format
+activate InvalidNumberFormatException
+InvalidNumberFormatException --> UpdateIncomeCommand
+deactivate InvalidNumberFormatException
+UpdateIncomeCommand --> UpdateIncomeCommand
+deactivate UpdateIncomeCommand
+end
+
+
+opt if index < MINIMUM_INDEX || index >= incomes.size()
+UpdateIncomeCommand -> InvalidNumberFormatException: throw InvalidNumberFormatException\nfor income entry not found
+activate InvalidNumberFormatException
+InvalidNumberFormatException --> UpdateIncomeCommand
+deactivate InvalidNumberFormatException
+end
+UpdateIncomeCommand --> UpdateIncomeCommand
 deactivate UpdateIncomeCommand
 
-UpdateIncomeCommand -> UpdateIncomeCommand: Validate index < MINIMUM_INDEX || index >= incomes.size()
-activate UpdateIncomeCommand
-UpdateIncomeCommand -> UpdateIncomeCommand: Continue
-deactivate UpdateIncomeCommand
+
 
 @enduml
