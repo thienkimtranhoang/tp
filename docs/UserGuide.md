@@ -619,14 +619,14 @@ A: Yes! You can use the `update-expense` or `delete-expense` commands to modify 
 **Q: How can I track my income?**  
 A: You can use the `add-income` command to log income entries. Simply provide the amount, category, description, and date when entering the command.
 
-**Q: Can I specify the date format for my entries?**  
+**Q: Do I have to specify the date format for my entries?**  
 A: Yes! The date must follow the `DD-MM-YYYY` format. If the date is in the wrong format, an error message will be displayed.
 
 **Q: Is there a limit to the number of expenses or incomes I can add?**  
 A: No, BudgetFlow does not impose a limit on the number of entries. You can keep adding entries as needed.
 
 **Q: How do I view a list of my expenses or incomes?**  
-A: Use the `list-expenses` or `list-incomes` commands to view your recorded entries. You can filter them by date or category as needed.
+A: Use the `list-expenses` or `list-incomes` commands to view your recorded entries. You can also filter them as needed using `filter-expense` and `filter-income` command.
 
 **Q: What happens if I input an invalid command?**  
 A: If you input an invalid command or incorrect format, BudgetFlow will show an error message specifying what went wrong. Please double-check the command format for correct usage.
@@ -639,8 +639,6 @@ Budgetflow stores your data **locally** in a secure file. No data is uploaded on
 You can clear all data with the `reset` command (if implemented).
 
 ---
-
-
 ## Command Summary
 | **Command**                                                                                                           | **Description**                                                          |
 |-----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
