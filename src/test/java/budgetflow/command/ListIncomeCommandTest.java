@@ -114,6 +114,7 @@ public class ListIncomeCommandTest {
      * Test execute with a non-empty incomes list and a saving goal set.
      * The summary table should be included with correct progress calculation.
      */
+    //@@author thienkimtranhoang
     @Test
     public void testExecuteWithIncomesAndSavingGoal() {
         ListIncomeCommand command = new ListIncomeCommand();
@@ -160,6 +161,7 @@ public class ListIncomeCommandTest {
     /**
      * Test that setSavingGoal and getSavingGoal work as expected.
      */
+    //@@author thienkimtranhoang
     @Test
     public void testSetAndGetSavingGoal() {
         ListIncomeCommand.setSavingGoal(1000.00);

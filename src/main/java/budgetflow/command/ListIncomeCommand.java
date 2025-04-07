@@ -13,6 +13,7 @@ import java.util.logging.Logger;
  * A large, centered header is displayed at the top and all tables share a matching style.
  *
  * @@author IgoyAI
+ * @@author thienkimtranhoang
  */
 public class ListIncomeCommand extends Command {
     private static final Logger logger = Logger.getLogger(ListIncomeCommand.class.getName());
