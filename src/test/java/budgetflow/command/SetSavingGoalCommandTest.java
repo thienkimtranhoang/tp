@@ -67,6 +67,7 @@ class SetSavingGoalCommandTest {
         assertEquals("Saving goal set to: $99999999.99", command.getOutputMessage());
     }
 
+    //@@author thienkimtranhoang
     @Test
     void setSavingGoal_inputWithExtraSpaces_expectSuccessMessage() {
         String input = "set-saving-goal    2500.75   ";
@@ -80,6 +81,7 @@ class SetSavingGoalCommandTest {
         assertEquals("Saving goal set to: $2500.75", command.getOutputMessage());
     }
 
+    //@@author thienkimtranhoang
     @Test
     void setSavingGoal_inputWithMultipleArguments_expectErrorMessage() {
         String input = "set-saving-goal 1000 2000";

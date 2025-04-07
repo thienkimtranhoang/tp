@@ -140,6 +140,7 @@ class LogExpenseCommandTest {
     /**
      * Tests if an invalid date format results in an error message.
      */
+    //@@author thienkimtranhoang
     @Test
     void logExpense_invalidDateFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -159,6 +160,7 @@ class LogExpenseCommandTest {
     /**
      * Tests if an invalid date value results in an error message.
      */
+    //@@author thienkimtranhoang
     @Test
     void logExpense_invalidDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -173,7 +175,7 @@ class LogExpenseCommandTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
-
+    //@@author thienkimtranhoang
     @Test
     void logExpense_exceedsIntegerDigits_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -229,6 +231,7 @@ class LogExpenseCommandTest {
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
+    //@@author thienkimtranhoang
     @Test
     void logExpense_negativeAmount_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -244,6 +247,7 @@ class LogExpenseCommandTest {
         }
     }
 
+    //@@author thienkimtranhoang
     @Test
     void logExpense_zeroAmount_showsError() {
         ExpenseList expenseList = new ExpenseList();

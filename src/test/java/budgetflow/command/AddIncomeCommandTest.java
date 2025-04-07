@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class AddIncomeCommandTest {
+    //@@author thienkimtranhoang
     @Test
     void addIncome_validInput_addsIncome() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -22,6 +23,7 @@ class AddIncomeCommandTest {
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_missingCategory_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -36,6 +38,7 @@ class AddIncomeCommandTest {
         }
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_missingAmount_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -50,6 +53,7 @@ class AddIncomeCommandTest {
         }
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_missingDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -64,6 +68,7 @@ class AddIncomeCommandTest {
         }
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_invalidAmountFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -78,6 +83,7 @@ class AddIncomeCommandTest {
         }
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_extraParameters_ignoresExtraParams() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -88,6 +94,7 @@ class AddIncomeCommandTest {
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_invalidDateFormat_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -102,7 +109,7 @@ class AddIncomeCommandTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
-
+    //@@author thienkimtranhoang
     @Test
     void addIncome_invalidDate_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -117,6 +124,7 @@ class AddIncomeCommandTest {
         }
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_whitespaceInInput_trimsAndAddsCorrectly() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -127,6 +135,7 @@ class AddIncomeCommandTest {
         assertEquals(expectedOutput, command.getOutputMessage());
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_negativeAmount_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -140,6 +149,7 @@ class AddIncomeCommandTest {
         }
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_zeroAmount_showsError() {
         ExpenseList expenseList = new ExpenseList();
@@ -153,6 +163,7 @@ class AddIncomeCommandTest {
         }
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_duplicateIncome_allowsAdding() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();
@@ -166,6 +177,7 @@ class AddIncomeCommandTest {
         assertEquals("Income added: Freelance, Amount: $300.00, Date: 10-04-2025", command2.getOutputMessage());
     }
 
+    //@@author thienkimtranhoang
     @Test
     void addIncome_categoryWithSpecialCharacters_acceptsSuccessfully() throws FinanceException {
         ExpenseList expenseList = new ExpenseList();

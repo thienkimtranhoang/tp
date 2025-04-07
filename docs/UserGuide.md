@@ -38,6 +38,7 @@ even compare monthly expenses at ease.
   * [Exiting the Application](#13-exiting-the-application)
   * [help](#14-help)
 * [FAQ](#faq)
+* [Data Privacy](#data--privacy)
 * [Command Summary](#command-summary)
 ---
 
@@ -609,6 +610,12 @@ A: Currently, BudgetFlow only supports tracking in one currency at a time.
 A: Yes! You can use the `update-expense` or `delete-expense` commands to modify or remove an expense entry. Similarly, you can use `delete-income` to remove an income entry.
 
 ---
+## Data & Privacy
+Budgetflow stores your data **locally** in a secure file. No data is uploaded online.
+You can clear all data with the `reset` command (if implemented).
+
+---
+
 
 ## Command Summary
 | **Command**                                                                                                           | **Description**                                                          |
