@@ -3,7 +3,7 @@
 ## Project: BudgetFlow:
 Budgetflow is a personal finance management application designed to help students efficiently track their income,
 expenses, and savings goals. With a simple, command-based interface, Budgetflow allows users to log their transactions,
-filter them by category or date, and analyze their financial habits. It is written in Java with 4kLoC.
+filter them by category or date, and analyze their financial habits. It is written in Java with 10kLoC.
 
 ### Summary of Contributions
 * __Code contributed__ [Reposense Link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=quydatnguyen&breakdown=true)

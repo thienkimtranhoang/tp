@@ -65,6 +65,7 @@ These constraints reflect realistic daily usage for students, the primary target
 ### 1. Logging an Expense
 **Description:** Logs a new expense with a category, description, amount, and date.  
 Note: the inputs must follow the specified order, and there should be proper spacing between each component.  
+Important note: Description and Category must be only 1 word. If user wants more detailed description, user can stick the words together `_` e.g `Dinner_At_Bar`
 **Command:**
 ```plaintext
 log-expense category/<CATEGORY> desc/<DESCRIPTION> amt/<AMOUNT> d/<DATE>

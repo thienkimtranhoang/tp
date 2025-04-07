@@ -636,9 +636,113 @@ Below is the Command sequence of the `DeleteExpenseCommand` Class.
 ![Delete Expense Command Sequence](diagrams/DeleteExpenseCommandSequence.png)
 
 ### Exiting the Application
+The `ExitCommand` class extends the `command` class and is responsible for handling the termination of the application.
+When executed, this command sets an exit flag and displays a formatted farewell message to the user.
+
+Since this command does not modify any data (such as expenses or incomes), it simply updates the command state to indicate that the program should terminate gracefully.
+
+This class adheres to the Command design pattern,
+where each command encapsulates a specific action (in this case, exiting the application).
+The `execute` method implements the core logic for displaying a goodbye message and setting the exit flag.
+
+Below is the Class Diagram of the `ExitCommand` Class.
+![exit_command_class_diagram](diagrams/exit_command_class_diagram.png)
+
+Below is the Command sequence of the `ExitCommand` Class.
+![exit_command_sequence_diagram](diagrams/exit_command_sequence_diagram.png)
 
 ## Documentation
+### Documentation Guide
 
+#### Setting up and maintaining the project website
+
+We use Jekyll to manage documentation. The `docs/` folder is used for documentation.
+
+To learn how to set up and maintain the project website, follow the guide [se-edu/guides: Using Jekyll for project documentation](https://se-education.org/guides/tutorials/jekyll.html).
+
+#### Important points when adapting documentation to a different project/product:
+- The 'Site-wide settings' section of the page linked above has information on how to update site-wide elements such as the top navigation bar.
+- If you are using IntelliJ for editing documentation files, you can consider enabling 'soft wrapping' for `*.md` files, as explained in [se-edu/guides: IntelliJ IDEA - Useful settings](https://se-education.org/guides/tutorials/intellijUsefulSettings.html)
+
+#### Style guidance
+- Follow the [Google developer documentation style guide](https://developers.google.com/style).
+- Also relevant is the [se-edu/guides: Markdown coding standard](https://se-education.org/guides/conventions/markdown.html)
+
+#### Working with diagrams
+See the [se-edu/guides: Using PlantUML](https://se-education.org/guides/tutorials/plantUml.html)
+
+#### Converting a document to PDF format
+See the guide [se-edu/guides: Saving web documents as PDF files](https://se-education.org/guides/tutorials/savingPdf.html)
+
+### Configuration Guide
+Certain properties of the application can be controlled (e.g user preferences file location, logging level) through the configuration file (default: `config.`json`).
+### Logging Guide
+
+* We are using `java.util.logging` package for logging.
+* The `LogsCenter` class is used to manage the logging levels and logging destinations.
+* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level.
+* Log messages are output through the console and to a `.log` file.
+* The output logging level can be controlled using the `logLevel` setting in the configuration file (See the Configuration guide section).
+* **When choosing a level for a log message**, follow the conventions given in *[se-edu/guides] Java: Logging conventions*.
+### DevOps Guide
+
+#### Build Automation
+
+This project uses Gradle for **build automation and dependency management**. **You are recommended to read this [Gradle Tutorial](https://se-education.org/guides/tutorials/gradle.html) from the se-edu/guides**.
+
+Given below are how to use Gradle for some important project tasks:
+
+* `clean`: Deletes the files created during the previous build tasks (e.g. files in the `build` folder).  
+  e.g. `./gradlew clean`
+
+* `shadowJar`: Uses the ShadowJar plugin to create a fat JAR file in the `build/lib` folder, *if the current file is outdated*.  
+  e.g. `./gradlew shadowJar`
+
+* `run`: Builds and runs the application.
+
+* `runShadow`: Builds the application as a fat JAR, and then runs it.
+
+* `checkstyleMain`: Runs the code style check for the main code base.
+
+* `checkstyleTest`: Runs the code style check for the test code base.
+
+* `test`: Runs all tests.
+  * `./gradlew test` — Runs all tests
+  * `./gradlew clean test` — Cleans the project and runs tests
+
+#### Continuous Integration (CI)
+
+This project uses GitHub Actions for CI. The project comes with the necessary GitHub Actions configurations files (in the `.github/workflows` folder). No further setting up required.
+
+#### Code Coverage
+As part of CI, this project uses Codecov to generate coverage reports. When CI runs, it will generate code coverage data (based on the tests run by CI) and upload that data to the CodeCov website, which in turn can provide you more info about the coverage of your tests.
+However, because Codecov is known to run into intermittent problems (e.g., report upload fails) due to issues on the Codecov service side, the CI is configured to pass even if the Codecov task failed. Therefore, developers are advised to check the code coverage levels periodically and take corrective actions if the coverage level falls below desired levels.
+To enable Codecov for forks of this project, follow the steps given in this [se-edu guide](https://se-education.org/guides/tutorials/codecov.html).
+
+#### Repository-wide Checks
+In addition to running Gradle checks, CI includes some repository-wide checks. Unlike the Gradle checks which only cover files used in the build process, these repository-wide checks cover all files in the repository. They check for repository rules which are hard to enforce on development machines such as line ending requirements.
+These checks are implemented as POSIX shell scripts, and thus can only be run on POSIX-compliant operating systems such as macOS and Linux. To run all checks locally on these operating systems, execute the following in the repository root directory:
+
+```bash
+./config/travis/run-checks.sh
+```
+Any warnings or errors will be printed out to the console.
+
+**If adding new checks:**
+
+* Checks are implemented as executable `check-*` scripts within the `.github` directory. The `run-checks.sh` script will automatically pick up and run files named as such. That is, you can add more such files if you need and the CI will do the rest.
+* Check scripts should print out errors in the format `SEVERITY:FILENAME:LINE: MESSAGE`
+  * SEVERITY is either ERROR or WARN.
+  * FILENAME is the path to the file relative to the current directory.
+  * LINE is the line of the file where the error occurred and MESSAGE is the message explaining the error.
+* Check scripts must exit with a non-zero exit code if any errors occur.
+
+## Making a Release
+Here are the steps to create a new release:
+1. Go to Project Structure > Artifacts > Add a new Jar
+2. Go to Main Menu > Build > Build Artifact
+3. Tag the repo with the version number. e.g. `v0.1`
+4. Create a new release using GitHub. Upload the JAR file you created.
 ## Testing
 JUnit is used for writing tests in this project. You can learn more about JUnit [here](https://se-education.org/guides/tutorials/gradle.html).
 If you're using IntelliJ, you can run all tests by right-clicking the `test/java` folder and selecting `Run 'Tests'`, or by pressing `CRTL` + `SHIFT` + `F10`. 
