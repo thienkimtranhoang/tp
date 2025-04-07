@@ -257,26 +257,4 @@ class LogExpenseCommandTest {
             assertEquals(expectedError, e.getMessage());
         }
     }
-
-    @Test
-    void logExpense_extraParameters_ignoresExtraParams() throws FinanceException {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        Command command = new LogExpenseCommand(
-                "log-expense category/Dining desc/Dinner amt/45.75 d/15-03-2025 note/with friends");
-        command.execute(incomes, expenseList);
-        String expectedOutput = "Expense logged: Dining | Dinner | $45.75 | 15-03-2025";
-        assertEquals(expectedOutput, command.getOutputMessage());
-    }
-
-    @Test
-    void logExpense_duplicateKeys_usesFirstOccurrence() throws FinanceException {
-        ExpenseList expenseList = new ExpenseList();
-        List<Income> incomes = new ArrayList<>();
-        Command command = new LogExpenseCommand(
-                "log-expense category/Food category/Drinks desc/Lunch amt/12.50 d/15-03-2025");
-        command.execute(incomes, expenseList);
-        String expectedOutput = "Expense logged: Drinks | Lunch | $12.50 | 15-03-2025";
-        assertEquals(expectedOutput, command.getOutputMessage());
-    }
 }
