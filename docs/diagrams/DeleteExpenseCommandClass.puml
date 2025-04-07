@@ -9,7 +9,7 @@ skinparam classAttributeIconSize 0
         # CommandType commandType
         # String outputMessage
         + DeleteExpenseCommand(String input)
-        + execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundExpenseException
+        + execute(List<Income> incomes, ExpenseList expenseList)
     }
     abstract class "{abstract} \n Command" {
         + CommandType: commandType

@@ -12,7 +12,7 @@ skinparam classAttributeIconSize 0
         # CommandType commandType
         # String outputMessage
         + DeleteIncomeCommand(String input)
-        + execute(List<Income> incomes, ExpenseList expenseList) throws UnfoundIncomeException
+        + execute(List<Income> incomes, ExpenseList expenseList)
     }
     abstract class "{abstract} \n Command" {
         + Command(String input)

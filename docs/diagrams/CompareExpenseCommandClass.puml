@@ -6,9 +6,9 @@ skinparam classAttributeIconSize 0
 
         class CompareExpenseCommand {
             + CompareExpenseCommand(String input)
-            + execute(List<Income> incomes, ExpenseList expenseList) throws FinanceException
-            - String[] parseAndValidateInput(String input) throws FinanceException
-            - LocalDate[] getValidatedDateRange(String monthYear) throws FinanceException
+            + execute(List<Income> incomes, ExpenseList expenseList)
+            - String[] parseAndValidateInput(String input)
+            - LocalDate[] getValidatedDateRange(String monthYear)
             - {static} String getCompareMessage(String monthYear1, double totalMonth1, String monthYear2, double totalMonth2)
             - double calculateTotalExpenses(ExpenseList expenseList, LocalDate startDate, LocalDate endDate)
         }
