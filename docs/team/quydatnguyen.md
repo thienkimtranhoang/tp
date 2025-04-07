@@ -27,13 +27,20 @@ The filter for amount and date also allows both exact matching and filtering fro
     * Adjusted command summary.
     * Added outline for User Guide.
   * __Developer Guide:__
-    * Added documentation for `Architecture`, `Ui`, `Parser`, `Command`, `ExpenseList`, `Listing All Expenses`, `Filtering Expenses`
-    * Added manual test instructions for `list expenses` and `filter expenses`  
-    * Added introduction and prerequisites
+    * Added documentation for components: `Architecture`, `Ui`, `Parser`, `Command`, `ExpenseList`.
+    * Added documentation for features: `Listing All Expenses`, `Filtering Expenses`.
+    * Added manual test instructions for `list expenses` and `filter expenses`.  
+    * Added introduction and prerequisites.
+    * Outline and markdown configuration for Developer Guide.
+  * __AboutUs:__
+    * Added configuration for member's Project Portfolio Page.
 
+* __Project Management:__
+  * Managed releases `v1.0` and `v2.0` on GitHub
 * __Community:__
-  * Implemented and maintained general classes: UI, Parser, Command, ExpenseList, exceptions.
+  * Implemented and maintained general classes: UI, Parser, Command, ExpenseList, FinanceExceptions.
+  * Implemented exceptions for application.
   * Refactored codes for v1.0.
   * Maintained issue tracker.
   * Reviewed team's Developer Guides and fix format error. 
-  * PR reviewed (with non-trivial comments)
+  * PR reviewed 
