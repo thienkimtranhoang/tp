@@ -48,7 +48,7 @@ public class UpdateExpenseCommand extends Command {
     private static final Pattern AMT_PATTERN = Pattern.compile(
             "amt/\\s*([1-9][0-9]*(\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9])");
     private static final Pattern DESC_PATTERN = Pattern.compile("desc/([^\\s]+)\\s*(amt/|d/|$)");
-    private static final Pattern DATE_PATTERN = Pattern.compile("d/\\s*(\\d{2}-\\d{2}-\\d{4,})");
+    private static final Pattern DATE_PATTERN = Pattern.compile("d/\\s*(\\d{1,2}-\\d{1,2}-\\d{4,})");
     private static final String ERROR_MORE_THAN_7_DIGITS = "Amount exceeds 7 digits. " +
             "Please enter a number with up to 7 digits.";
     private static final String ERROR_MORE_THAN_2_DP = "Amount must have at most 2 decimal places.";
@@ -241,11 +241,10 @@ public class UpdateExpenseCommand extends Command {
             if (!DateValidator.isValidDate(extractedDate)) {
                 throw new InvalidDateException(ERROR_WRONG_DATE_FORMAT);
             }
+
             return extractedDate;
         }
-
-        // Throw an exception if the date is missing from the input
-        throw new InvalidDateException(ERROR_WRONG_DATE_FORMAT);
+        return currentDate;
     }
 
     /**
