@@ -6,12 +6,8 @@ skinparam classAttributeIconSize 0
 package "budgetflow.command" {
     class UpdateExpenseCommand {
         + UpdateExpenseCommand(String input)
-        + void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException,
-          InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException
+        + void execute(List<Income> incomes, ExpenseList expenseList) throws MissingDateException, InvalidNumberFormatException, MissingAmountException, MissingCategoryException, MissingDescriptionException
         - {static} void updateStorage(List<Income> incomes, ExpenseList expenseList)
-        - void extractUpdatedExpense(String input, Expense existingExpense) throws MissingAmountException,
-          MissingDateException, MissingCategoryException, MissingDescriptionException, InvalidDateException,
-          InvalidNumberFormatException
         - {static} String getUpdatedCategory(String input, String currentCategory) throws MissingCategoryException
         - {static} String getUpdatedDescription(String input, String currentDescription) throws MissingDescriptionException
         - {static} String getUpdatedDate(String input, String currentDate) throws InvalidDateException
@@ -19,7 +15,7 @@ package "budgetflow.command" {
     }
 }
 
-abstract class "{abstract} \n Command" {
+abstract class Command {
     + CommandType commandType
 }
 
@@ -48,7 +44,7 @@ class DateValidator {
     + static boolean isValidDate(String date)
 }
 
-UpdateExpenseCommand --|> "{abstract} \n Command" : extends
+UpdateExpenseCommand --|> Command : extends
 UpdateExpenseCommand --> Expense : updates
 UpdateExpenseCommand --> ExpenseList : modifies
 UpdateExpenseCommand --> Storage : uses
