@@ -18,10 +18,7 @@ public class SetSavingGoalCommand extends Command {
      * @param input The user input string containing the saving goal amount.
      */
     //@@author thienkimtranhoang
-    // Original implementation of SetSavingGoalCommand.java
-    //@@author IgoyAI
-    // Modified: Reverted to previous syntax so that the saving goal is parsed as
-    // "set-saving-goal <amount>" without the "amt/" prefix.
+    // Original implementation of SetSavingGoalCommand.java.
     public SetSavingGoalCommand(String input) {
         super();
         this.commandType = CommandType.UPDATE;
