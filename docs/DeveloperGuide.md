@@ -26,6 +26,7 @@ Tran Hoang Thien Kim<br>
   * [Model](#model) <br>
     * [Income](#income) <br>
     * [ExpenseList](#expenselist) <br>
+* [Acknowledgement](#acknowledgements)<br>
 * [Implementation](#Implementation) <br>
   * [Adding Income](#adding-income) <br>
   * [Logging an Expense](#logging-an-expense) <br>
@@ -101,7 +102,7 @@ The __Architecture Diagram__ above explains the high-level design of the applica
 * `UI`: managing user's communication with application and displaying messages to user.
 * `Model`: holds the data of the app relating to incomes and expenses.
 * `Parser`: parsing user's string command and convert them into commands.
-* `Command`: executable commands of the application.
+* `Command`: executable commands of the application.  
 ### Storage
 The `Storage` component can save the list of incomes and expenses data in .txt format and read it back.
 
@@ -139,8 +140,8 @@ The command component
 The `Model` component of diagram can be further divided into 2 main parts:
   * `Income`: holding data of income in memory.
   * `ExpenseList`: holding data of all expenses in memory
-### Income
-![Income Class Diagram](diagrams/income_class.png)
+#### Income
+![Income Class Diagram](diagrams/income_class.png)   
 The class has three attributes: ```category (String), amount (double), date (String)```
 It includes:
 * A constructor to initialize these attributes.
