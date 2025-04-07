@@ -40,7 +40,7 @@ even compare monthly expenses at ease.
   
 * [FAQ](#faq)
 * [Data Privacy](#data--privacy)
-* [Command Summary](#command-summary)
+* [Command Summary](#command-summary-)
 
 ---
 
