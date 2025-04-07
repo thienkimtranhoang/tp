@@ -5,15 +5,14 @@ skinparam classAttributeIconSize 0
 package budgetflow.command {
     abstract class Command {
         - input: String
-        - commandType: CommandType
         - outputMessage: String
         + Command(String input)
         + execute(List<Income>, ExpenseList): void
     }
 
     class FilterIncomeByCategoryCommand {
-        - logger: Logger
-        - COMMAND_PREFIX: String
+        - {static} logger: Logger
+        - {static} COMMAND_PREFIX: String
         + FilterIncomeByCategoryCommand(String input)
         + execute(List<Income>, ExpenseList) throws FinanceException
     }
@@ -39,11 +38,6 @@ package budgetflow.income {
 
 package java.util {
     interface List
-}
-
-enum CommandType {
-    READ
-    // Other command types...
 }
 
 package java.util.logging {

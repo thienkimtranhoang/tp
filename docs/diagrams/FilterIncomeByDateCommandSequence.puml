@@ -16,14 +16,17 @@ group Parameter Extraction
     note right: Remove command prefix and trim parameters
     Command -> Command: params = input.substring(COMMAND_PREFIX.length()).trim()
 
-    ' Adjust the regex to avoid potential parsing issues with parentheses/backslashes
     Command -> MatcherFrom: Pattern.compile("from/\\\\S+")
+    activate MatcherFrom
     note right: Create matcher for 'from' parameter
     MatcherFrom --> Command: fromMatcher (match found)
+    deactivate MatcherFrom
 
     Command -> MatcherTo: Pattern.compile("to/\\\\S+")
+    activate MatcherTo
     note right: Create matcher for 'to' parameter
     MatcherTo --> Command: toMatcher (match found)
+    deactivate MatcherTo
 
     Command -> Command: fromDateStr = fromMatcher.group(1)
     Command -> Command: toDateStr = toMatcher.group(1)
@@ -34,17 +37,27 @@ end
 '--------------------------
 group Date Validation
     Command -> DV: isValidDate(fromDateStr)
+    activate DV
     DV --> Command: true/false
+    deactivate DV
+
     Command -> DV: isValidDate(toDateStr)
+    activate DV
     DV --> Command: true/false
+    deactivate DV
 
     alt One or both dates are invalid
         Command -> User: throw FinanceException("One or both dates are invalid. Use DD-MM-YYYY format.")
         deactivate Command
     else Dates are valid
         Command -> DV: getFullDateFormatter()
+        activate DV
+        DV --> Command: formatter
+        deactivate DV
+
         Command -> Command: fromDate = LocalDate.parse(fromDateStr, formatter)
         Command -> Command: toDate = LocalDate.parse(toDateStr, formatter)
+
         alt fromDate is after toDate
             Command -> User: throw FinanceException("Start date must be before or equal to end date.")
             deactivate Command
@@ -59,13 +72,33 @@ group Income Filtering
     Command -> Command: Initialize outputMessage header
     loop For each Income in incomes
         Command -> Income: getDate()
+        activate Income
+        Income --> Command: date
+        deactivate Income
+
         alt DateValidator.isValidDate(income.getDate()) is true
             Command -> DV: getFullDateFormatter()
+            activate DV
+            DV --> Command: formatter
+            deactivate DV
+
             Command -> Command: incomeDate = LocalDate.parse(income.getDate(), formatter)
             alt incomeDate in [fromDate, toDate]
                 Command -> Income: getCategory()
+                activate Income
+                Income --> Command: category
+                deactivate Income
+
                 Command -> Income: getAmount()
+                activate Income
+                Income --> Command: amount
+                deactivate Income
+
                 Command -> Income: getDate()
+                activate Income
+                Income --> Command: date
+                deactivate Income
+
                 Command -> Command: Append income details to outputMessage
             end
         else
@@ -80,6 +113,10 @@ end
 '--------------------------
 group Logging & Return
     Command -> Logger: info("Filtered incomes by date: " + outputMessage)
+    activate Logger
+    Logger --> Command: logged
+    deactivate Logger
+
     Command -> User: Return outputMessage
     deactivate Command
 end
