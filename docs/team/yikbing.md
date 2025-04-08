@@ -38,6 +38,7 @@ filter them by category or date, and analyze their financial habits. It is writt
   * Fix bugs for `DateValidator` such that it accounts for leap years and has more accurate dates.[#189](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/189)
   * Fix bugs for `UpdateIncomeCommand` such that it no longer successfully updates when
   no valid data is entered.[#214](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/214) 
+  * Added comprehensive Junit Test Cases for `delete-income`, `delete-expense`, `update-income`, `compare` [#104](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/104)[#193](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/193)
 
 * __Code Contributed:__ [RepoSense Link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21)__
 
@@ -48,4 +49,6 @@ filter them by category or date, and analyze their financial habits. It is writt
       * Added explanation, Class diagrams, and sequence diagrams for 
       `delete-income`, `delete-expense`, `compare` and `update-income` for Implementation[#111](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/111)
 * __Community:__
-    * PRs reviewed (with non-trivial review comments): [#98](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/98)
+    * PRs reviewed (with non-trivial review comments): [#98](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/98)[#107](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/107)
+    * assisted in updating sequence diagrams and class diagrams with better formatting[#225](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/225)[#226](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/226)[#227](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/227)
+  
