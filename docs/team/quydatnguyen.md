@@ -21,17 +21,21 @@ for an expense quicker and help in managing expenses by filtering and focusing o
   * __Highlights:__ The filter for description allows partial matching, which helps user to even find expense based on description even if they don't exactly remember the description. 
 The filter for amount and date also allows both exact matching and filtering from a range value, serving 
 
+* __Enhancement to existing feature:__
+  * Added limit to total expenses, preventing users from logging new expenses/ updating expenses that will exceed the limit. [#198](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/198)
+  * Added method in `ExpenseList` to retrieve the expense based on tags and keywords. [#98](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/98)
+  * Updating command for `Listing All Expenses` and `Filtering expenses` to improve command consistency with `Listing All Incomes` and `Filtering incomes` [#198](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/198)
+
 * __Documentation:__ 
   * __User Guide:__
-    * Added documentation for `Listing expenses` and `Filtering expenses`.
-    * Adjusted command summary.
-    * Added outline for User Guide.
+    * Added documentation for `Listing expenses` and `Filtering expenses`. [#120](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/120) [#198](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/198)
+    * Adjusted and updated command summary to reflect generalized forms for commands. [#120](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/120)
   * __Developer Guide:__
-    * Added documentation for components: `Architecture`, `Ui`, `Parser`, `Command`, `ExpenseList`.
-    * Added documentation for features: `Listing All Expenses`, `Filtering Expenses`.
-    * Added manual test instructions for `list expenses` and `filter expenses`.  
-    * Added introduction and prerequisites.
-    * Outline and markdown configuration for Developer Guide.
+    * Added documentation for components: `Architecture`, `Ui`, `Parser`, `Command`, `ExpenseList`.[#114](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/114) [#120](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/120) [#198](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/198) 
+    * Added documentation for features: `Listing All Expenses`, `Filtering Expenses`. [#114](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/114) [#120](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/120) [#198](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/198)
+    * Added manual test instructions for `list expenses` and `filter expenses`.  [#114](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/114) [#120](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/120)
+    * Added introduction and prerequisites. [#120](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/120)
+    * Outline and markdown configuration for Developer Guide. [#114](https://github.com/AY2425S2-CS2113-T11a-1/tp/pull/114/files)
   * __AboutUs:__
     * Added configuration for member's Project Portfolio Page.
 

@@ -808,8 +808,8 @@ By combining ease of use, goal-driven features, and actionable insights, Budgetf
 Given below are instructions to test the app manually:
 
 1. Launching
-  * Download the jar file [here](insert git JAR file link here) and place it in an empty folder.
-  * Open the command prompt and enter the command `java -jar tP.jar`.
+  * Download the jar file [here](https://github.com/AY2425S2-CS2113-T11a-1/tp/releases/tag/v2.1) and place it in an empty folder.
+  * Open the command prompt and enter the command `java -jar BudgetFlow.jar`.
   * Expected: The application shows a welcome message.
 
 2. Adding expenses and incomes
